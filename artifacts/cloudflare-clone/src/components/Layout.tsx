@@ -7,50 +7,51 @@ import { AnimatePresence, motion } from 'framer-motion';
 const NAV_ITEMS = [
   {
     name: 'Products',
+    href: '/products',
     dropdown: {
       columns: [
         {
           title: 'Application Performance',
           items: [
-            { label: 'CDN', desc: 'Cache and serve from 320+ cities' },
-            { label: 'DNS', desc: "The world's fastest DNS resolver" },
-            { label: 'Load Balancing', desc: 'Global server load balancing' },
-            { label: 'Argo Smart Routing', desc: 'Accelerate web traffic' },
-            { label: 'Early Hints', desc: 'Speed up page loads' },
-            { label: 'Zaraz', desc: 'Fast, privacy-first third parties' },
+            { label: 'CDN', desc: 'Cache and serve from 320+ cities', href: '/products' },
+            { label: 'DNS', desc: "The world's fastest DNS resolver", href: '/products' },
+            { label: 'Load Balancing', desc: 'Global server load balancing', href: '/products' },
+            { label: 'Argo Smart Routing', desc: 'Accelerate web traffic', href: '/products' },
+            { label: 'Early Hints', desc: 'Speed up page loads', href: '/products' },
+            { label: 'Zaraz', desc: 'Fast, privacy-first third parties', href: '/products' },
           ],
         },
         {
           title: 'Application Security',
           items: [
-            { label: 'DDoS Protection', desc: 'Unmetered, always-on protection' },
-            { label: 'Web Application Firewall', desc: 'Block threats at the edge' },
-            { label: 'Bot Management', desc: 'Identify and stop bad bots' },
-            { label: 'API Shield', desc: 'Protect your API endpoints' },
-            { label: 'Page Shield', desc: 'Monitor for supply chain attacks' },
-            { label: 'SSL/TLS', desc: 'Free certificates, auto-renewal' },
+            { label: 'DDoS Protection', desc: 'Unmetered, always-on protection', href: '/products' },
+            { label: 'Web Application Firewall', desc: 'Block threats at the edge', href: '/products' },
+            { label: 'Bot Management', desc: 'Identify and stop bad bots', href: '/products' },
+            { label: 'API Shield', desc: 'Protect your API endpoints', href: '/products' },
+            { label: 'Page Shield', desc: 'Monitor for supply chain attacks', href: '/products' },
+            { label: 'SSL/TLS', desc: 'Free certificates, auto-renewal', href: '/products' },
           ],
         },
         {
           title: 'Zero Trust & SASE',
           items: [
-            { label: 'Access', desc: 'Zero Trust application access' },
-            { label: 'Gateway', desc: 'Secure DNS & web filtering' },
-            { label: 'Browser Isolation', desc: 'Remote browser technology' },
-            { label: 'CASB', desc: 'Cloud app security broker' },
-            { label: 'Data Loss Prevention', desc: 'Stop sensitive data leaks' },
-            { label: 'WARP', desc: 'Secure device connectivity' },
+            { label: 'Access', desc: 'Zero Trust application access', href: '/zero-trust' },
+            { label: 'Gateway', desc: 'Secure DNS & web filtering', href: '/zero-trust' },
+            { label: 'Browser Isolation', desc: 'Remote browser technology', href: '/zero-trust' },
+            { label: 'CASB', desc: 'Cloud app security broker', href: '/zero-trust' },
+            { label: 'Data Loss Prevention', desc: 'Stop sensitive data leaks', href: '/zero-trust' },
+            { label: 'WARP', desc: 'Secure device connectivity', href: '/zero-trust' },
           ],
         },
         {
           title: 'Developer Platform',
           items: [
-            { label: 'Workers', desc: 'Serverless at the edge' },
-            { label: 'Pages', desc: 'Deploy JAMstack sites globally' },
-            { label: 'R2 Storage', desc: 'Object storage, no egress fees' },
-            { label: 'D1 Database', desc: 'SQLite at the edge' },
-            { label: 'KV', desc: 'Global key-value store' },
-            { label: 'AI Gateway', desc: 'AI observability & caching' },
+            { label: 'Workers', desc: 'Serverless at the edge', href: '/developers' },
+            { label: 'Pages', desc: 'Deploy JAMstack sites globally', href: '/developers' },
+            { label: 'R2 Storage', desc: 'Object storage, no egress fees', href: '/developers' },
+            { label: 'D1 Database', desc: 'SQLite at the edge', href: '/developers' },
+            { label: 'KV', desc: 'Global key-value store', href: '/developers' },
+            { label: 'AI Gateway', desc: 'AI observability & caching', href: '/developers' },
           ],
         },
       ],
@@ -58,36 +59,37 @@ const NAV_ITEMS = [
   },
   {
     name: 'Solutions',
+    href: '/solutions',
     dropdown: {
       columns: [
         {
           title: 'By Business Size',
           items: [
-            { label: 'Enterprise', desc: 'For large-scale organizations' },
-            { label: 'Small & Medium Business', desc: 'Affordable, powerful security' },
-            { label: 'Startups', desc: 'Grow fast, stay secure' },
-            { label: 'Public Sector', desc: 'Government-grade compliance' },
+            { label: 'Enterprise', desc: 'For large-scale organizations', href: '/enterprise' },
+            { label: 'Small & Medium Business', desc: 'Affordable, powerful security', href: '/solutions' },
+            { label: 'Startups', desc: 'Grow fast, stay secure', href: '/solutions' },
+            { label: 'Public Sector', desc: 'Government-grade compliance', href: '/solutions' },
           ],
         },
         {
           title: 'By Industry',
           items: [
-            { label: 'Technology', desc: 'Performance for SaaS companies' },
-            { label: 'Financial Services', desc: 'Security for financial data' },
-            { label: 'Healthcare', desc: 'HIPAA-ready infrastructure' },
-            { label: 'Retail & eCommerce', desc: 'Speed and security for stores' },
-            { label: 'Gaming', desc: 'Low latency, high availability' },
-            { label: 'Media & Entertainment', desc: 'Stream content globally' },
+            { label: 'Technology', desc: 'Performance for SaaS companies', href: '/solutions' },
+            { label: 'Financial Services', desc: 'Security for financial data', href: '/solutions' },
+            { label: 'Healthcare', desc: 'HIPAA-ready infrastructure', href: '/solutions' },
+            { label: 'Retail & eCommerce', desc: 'Speed and security for stores', href: '/solutions' },
+            { label: 'Gaming', desc: 'Low latency, high availability', href: '/solutions' },
+            { label: 'Media & Entertainment', desc: 'Stream content globally', href: '/solutions' },
           ],
         },
         {
           title: 'By Use Case',
           items: [
-            { label: 'Network Security', desc: 'Protect your network perimeter' },
-            { label: 'Application Security', desc: 'Secure every app and API' },
-            { label: 'Cloud Connectivity', desc: 'Connect clouds seamlessly' },
-            { label: 'Zero Trust', desc: 'Verify every user and device' },
-            { label: 'AI Protection', desc: 'Secure your AI workloads' },
+            { label: 'Network Security', desc: 'Protect your network perimeter', href: '/solutions' },
+            { label: 'Application Security', desc: 'Secure every app and API', href: '/solutions' },
+            { label: 'Cloud Connectivity', desc: 'Connect clouds seamlessly', href: '/solutions' },
+            { label: 'Zero Trust', desc: 'Verify every user and device', href: '/zero-trust' },
+            { label: 'AI Protection', desc: 'Secure your AI workloads', href: '/products' },
           ],
         },
       ],
@@ -95,36 +97,37 @@ const NAV_ITEMS = [
   },
   {
     name: 'Resources',
+    href: '#',
     dropdown: {
       columns: [
         {
           title: 'Learn',
           items: [
-            { label: 'Blog', desc: 'Product updates and insights' },
-            { label: 'Learning Center', desc: 'Security & performance guides' },
-            { label: 'Webinars', desc: 'Live and on-demand sessions' },
-            { label: 'Cloudflare TV', desc: 'Stream our content channel' },
-            { label: 'Analysts & Awards', desc: 'See how analysts rate us' },
+            { label: 'Blog', desc: 'Product updates and insights', href: '#' },
+            { label: 'Learning Center', desc: 'Security & performance guides', href: '#' },
+            { label: 'Webinars', desc: 'Live and on-demand sessions', href: '#' },
+            { label: 'Cloudflare TV', desc: 'Stream our content channel', href: '#' },
+            { label: 'Analysts & Awards', desc: 'See how analysts rate us', href: '#' },
           ],
         },
         {
           title: 'Connect',
           items: [
-            { label: 'Community Forum', desc: 'Connect with other users' },
-            { label: 'Cloudflare Radar', desc: 'Internet traffic insights' },
-            { label: 'Speed Test', desc: 'Test your network performance' },
-            { label: 'Case Studies', desc: 'See customer success stories' },
-            { label: 'Trust & Safety', desc: 'Abuse policies and reports' },
+            { label: 'Community Forum', desc: 'Connect with other users', href: '#' },
+            { label: 'Cloudflare Radar', desc: 'Internet traffic insights', href: '#' },
+            { label: 'Speed Test', desc: 'Test your network performance', href: '#' },
+            { label: 'Case Studies', desc: 'See customer success stories', href: '#' },
+            { label: 'Trust & Safety', desc: 'Abuse policies and reports', href: '#' },
           ],
         },
         {
           title: 'Develop',
           items: [
-            { label: 'Documentation', desc: 'Guides for all Cloudflare products' },
-            { label: 'API Reference', desc: 'Manage Cloudflare via API' },
-            { label: 'Developer Discord', desc: 'Chat with our dev community' },
-            { label: 'Cloudflare Status', desc: 'Real-time system status' },
-            { label: 'Support Portal', desc: 'Get help from our team' },
+            { label: 'Documentation', desc: 'Guides for all Cloudflare products', href: '#' },
+            { label: 'API Reference', desc: 'Manage Cloudflare via API', href: '#' },
+            { label: 'Developer Discord', desc: 'Chat with our dev community', href: '#' },
+            { label: 'Cloudflare Status', desc: 'Real-time system status', href: '#' },
+            { label: 'Support Portal', desc: 'Get help from our team', href: '#' },
           ],
         },
       ],
@@ -132,23 +135,24 @@ const NAV_ITEMS = [
   },
   {
     name: 'Partners',
+    href: '#',
     dropdown: {
       columns: [
         {
           title: 'Partner Programs',
           items: [
-            { label: 'Technology Partners', desc: 'Integrate with Cloudflare' },
-            { label: 'Channel Partners', desc: 'Resell Cloudflare products' },
-            { label: 'System Integrators', desc: 'Deploy for enterprise clients' },
-            { label: 'Referral Program', desc: 'Earn referral rewards' },
+            { label: 'Technology Partners', desc: 'Integrate with Cloudflare', href: '#' },
+            { label: 'Channel Partners', desc: 'Resell Cloudflare products', href: '#' },
+            { label: 'System Integrators', desc: 'Deploy for enterprise clients', href: '#' },
+            { label: 'Referral Program', desc: 'Earn referral rewards', href: '#' },
           ],
         },
         {
           title: 'Find Help',
           items: [
-            { label: 'Partner Directory', desc: 'Find a Cloudflare partner' },
-            { label: 'Become a Partner', desc: 'Apply to join our network' },
-            { label: 'Authorized Training', desc: 'Get certified in Cloudflare' },
+            { label: 'Partner Directory', desc: 'Find a Cloudflare partner', href: '#' },
+            { label: 'Become a Partner', desc: 'Apply to join our network', href: '#' },
+            { label: 'Authorized Training', desc: 'Get certified in Cloudflare', href: '#' },
           ],
         },
       ],
@@ -156,27 +160,28 @@ const NAV_ITEMS = [
   },
   {
     name: 'About',
+    href: '/why-cloudflare',
     dropdown: {
       columns: [
         {
           title: 'Company',
           items: [
-            { label: 'About Cloudflare', desc: 'Our mission and story' },
-            { label: 'Leadership', desc: 'Meet the executive team' },
-            { label: 'Careers', desc: 'Join the Cloudflare team' },
-            { label: 'Press', desc: 'News and press releases' },
-            { label: 'Investor Relations', desc: 'For shareholders and analysts' },
-            { label: 'Analyst Reports', desc: 'Third-party evaluations' },
+            { label: 'About Cloudflare', desc: 'Our mission and story', href: '/why-cloudflare' },
+            { label: 'Leadership', desc: 'Meet the executive team', href: '/why-cloudflare' },
+            { label: 'Careers', desc: 'Join the Cloudflare team', href: '#' },
+            { label: 'Press', desc: 'News and press releases', href: '#' },
+            { label: 'Investor Relations', desc: 'For shareholders and analysts', href: '#' },
+            { label: 'Analyst Reports', desc: 'Third-party evaluations', href: '#' },
           ],
         },
         {
           title: 'Impact',
           items: [
-            { label: 'Impact Report', desc: 'Our commitment to a better Internet' },
-            { label: 'Project Galileo', desc: 'Protecting vulnerable voices' },
-            { label: 'Athenian Project', desc: 'Securing election infrastructure' },
-            { label: 'Cloudflare for Campaigns', desc: 'Protecting political speech' },
-            { label: 'Critical Infrastructure Defense', desc: 'Protecting hospitals & utilities' },
+            { label: 'Impact Report', desc: 'Our commitment to a better Internet', href: '/why-cloudflare' },
+            { label: 'Project Galileo', desc: 'Protecting vulnerable voices', href: '/why-cloudflare' },
+            { label: 'Athenian Project', desc: 'Securing election infrastructure', href: '/why-cloudflare' },
+            { label: 'Cloudflare for Campaigns', desc: 'Protecting political speech', href: '#' },
+            { label: 'Critical Infrastructure Defense', desc: 'Protecting hospitals & utilities', href: '/why-cloudflare' },
           ],
         },
       ],
@@ -324,8 +329,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                     <ul className="space-y-0.5">
                       {col.items.map((sub) => (
                         <li key={sub.label}>
-                          <a
-                            href="#"
+                          <Link
+                            href={sub.href || '#'}
                             onClick={() => setActiveDropdown(null)}
                             className="group flex flex-col py-2 px-2 rounded-md hover:bg-white/[0.05] transition-colors duration-100"
                           >
@@ -335,7 +340,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                             <span className="text-[12px] text-[#6b7280] group-hover:text-[#9ca3af] mt-0.5 leading-snug">
                               {sub.desc}
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>

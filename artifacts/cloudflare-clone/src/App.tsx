@@ -3,13 +3,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-// Layout & Pages
 import { Layout } from "@/components/Layout";
 import Home from "@/pages/Home";
 import Products from "@/pages/Products";
 import Pricing from "@/pages/Pricing";
 import Solutions from "@/pages/Solutions";
 import WhyCloudflare from "@/pages/WhyCloudflare";
+import Enterprise from "@/pages/Enterprise";
+import ZeroTrust from "@/pages/ZeroTrust";
+import Developers from "@/pages/Developers";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -21,8 +23,13 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/products" component={Products} />
         <Route path="/pricing" component={Pricing} />
+        <Route path="/plans" component={Pricing} />
         <Route path="/solutions" component={Solutions} />
         <Route path="/why-cloudflare" component={WhyCloudflare} />
+        <Route path="/enterprise" component={Enterprise} />
+        <Route path="/zero-trust" component={ZeroTrust} />
+        <Route path="/cloudflare-one" component={ZeroTrust} />
+        <Route path="/developers" component={Developers} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
