@@ -1,0 +1,10 @@
+packages:
+  "framer-motion": "For page transitions, scroll reveals, and complex layout animations matching Cloudflare's polish"
+  "react-intersection-observer": "To trigger animations when elements scroll into view"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility to merge tailwind classes safely"
+
+images:
+  - path: "artifacts/cloudflare-clone/public/images/grid-bg.png"
+    description: "Very subtle dark navy futuristic glowing grid pattern, minimal, enterprise tech style"
+    aspect_ratio: "16:9"

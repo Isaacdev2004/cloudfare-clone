@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: 'Inter', sans-serif;
+  
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-border: hsl(var(--border));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+}
+
+:root {
+  /* Cloudflare Dark Theme Colors */
+  --background: 222 47% 11%;      /* #0f172a - Very dark navy */
+  --foreground: 210 40% 98%;      /* #f8fafc - Almost white */
+  
+  --primary: 28 93% 54%;          /* #F6821F - Cloudflare Orange */
+  --primary-foreground: 0 0% 100%;
+  
+  --card: 218 33% 18%;            /* #1e293b - Medium navy */
+  --card-foreground: 210 40% 98%;
+  
+  --border: 215 25% 27%;          /* #334155 - Light navy */
+  
+  --muted: 215 25% 27%;
+  --muted-foreground: 215 20% 65%; /* #94a3b8 - Muted text */
+  
+  --accent: 218 33% 18%;
+  --accent-foreground: 210 40% 98%;
+
+  --ring: 28 93% 54%;
+  --ring-offset-background: 222 47% 11%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased selection:bg-primary/30 selection:text-primary;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight text-white;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60;
+  }
+  .bg-grid {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
+}
+
+/* Custom Marquee Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.pause-on-hover:hover .animate-marquee {
+  animation-play-state: paused;
+}

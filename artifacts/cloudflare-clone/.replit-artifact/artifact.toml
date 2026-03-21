@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Cloudflare Clone"
+version = "1.0.0"
+id = "artifacts/cloudflare-clone"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23422
+
+[services.development]
+run = "pnpm --filter @workspace/cloudflare-clone run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/cloudflare-clone", "run", "build" ]
+publicDir = "artifacts/cloudflare-clone/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23422"
+BASE_PATH = "/"
