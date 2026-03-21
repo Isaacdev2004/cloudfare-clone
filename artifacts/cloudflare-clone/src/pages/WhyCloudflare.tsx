@@ -2,6 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Zap, Globe, Lock, CheckCircle2, ArrowRight, Network, Server } from 'lucide-react';
 
+const SIGN_UP_URL = '/pricing';
+const CONTACT_SALES_URL = '/enterprise';
+
 const STATS = [
   { value: '320+', label: 'Cities worldwide', sub: 'In over 120 countries' },
   { value: '13,000+', label: 'Networks connected', sub: 'Peering with every major ISP' },
@@ -96,10 +99,10 @@ export default function WhyCloudflare() {
               Cloudflare was built with a simple mission: help build a better Internet. We believe a safe, fast, and reliable Internet is a basic human right — and we've spent 15 years building the infrastructure to make it real.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+              <a href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
                 Get started free <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+              <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
                 Contact sales
               </a>
             </div>
@@ -285,10 +288,10 @@ export default function WhyCloudflare() {
             It takes about 2 minutes to set up. No credit card required for the Free plan.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+            <a href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
               Get started for free <ArrowRight className="w-4 h-4" />
             </a>
-            <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            <a href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
               Contact sales
             </a>
           </div>

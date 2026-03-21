@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, X, Minus, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 
+const SIGN_UP_URL = '/pricing';
+const CONTACT_SALES_URL = '/enterprise';
+
 const PLANS = [
   {
     name: 'Free',
@@ -186,7 +189,7 @@ export default function Pricing() {
               </div>
 
               <a
-                href="#"
+                href={plan.name === 'Enterprise' ? CONTACT_SALES_URL : SIGN_UP_URL}
                 className={`w-full py-2.5 rounded text-sm font-semibold text-center block mb-8 transition-colors ${
                   plan.ctaStyle === 'primary'
                     ? 'text-white'
@@ -318,10 +321,10 @@ export default function Pricing() {
           <h2 className="text-4xl font-bold text-white mb-4">Start for free today</h2>
           <p className="text-[#a0aaba] mb-8 max-w-lg mx-auto">No credit card needed. Upgrade anytime. Cancel anytime.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+            <a href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
               Sign up free <ArrowRight className="w-4 h-4" />
             </a>
-            <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            <a href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
               Contact sales
             </a>
           </div>

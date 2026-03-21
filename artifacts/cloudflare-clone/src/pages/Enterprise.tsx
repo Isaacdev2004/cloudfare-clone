@@ -2,6 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, ArrowRight, Shield, Zap, Lock, Network, Globe, Building2 } from 'lucide-react';
 
+const CONTACT_SALES_URL = '/enterprise';
+const CASE_STUDIES_URL = '/why-cloudflare';
+
 const LOGOS = ['Microsoft', 'Shopify', 'DoorDash', 'Discord', 'Garmin', 'L\'Oréal', 'Zendesk', 'Thomson Reuters'];
 
 const CAPABILITIES = [
@@ -57,10 +60,10 @@ export default function Enterprise() {
               Protect and accelerate your entire enterprise — applications, networks, and workforce — from a single, unified platform. No hardware. No agents. Just results.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+              <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
                 Talk to sales <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+              <a href={CASE_STUDIES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
                 View case studies
               </a>
             </div>
@@ -159,7 +162,7 @@ export default function Enterprise() {
         <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">Ready to secure your enterprise?</h2>
           <p className="text-[#a0aaba] mb-8 max-w-lg mx-auto">Our solutions engineers will design a custom architecture for your organization.</p>
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+          <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
             Talk to our enterprise team <ArrowRight className="w-4 h-4" />
           </a>
         </div>

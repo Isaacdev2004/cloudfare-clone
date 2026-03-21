@@ -9,6 +9,10 @@ import {
   CheckCircle2, ArrowRight, Globe, Users, ChevronRight, Play
 } from 'lucide-react';
 
+const SIGN_UP_URL = '/pricing';
+const CONTACT_SALES_URL = '/enterprise';
+const CASE_STUDIES_URL = '/why-cloudflare';
+
 const fadeIn = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.55 } },
@@ -85,24 +89,21 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-24">
             <motion.div initial="hidden" animate="visible" variants={fadeIn} className="max-w-2xl">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.05] text-white">
-                The <span className="text-[#f6821f]">connectivity</span> cloud
+                Connect, <span className="text-[#f6821f]">protect</span>, and build everywhere
               </h1>
               <p className="text-lg sm:text-xl text-[#a0aaba] mb-8 leading-relaxed">
-                Cloudflare is the foundation for your infrastructure, applications, and teams. Make them secure, fast, and reliable with a single global network.
+                Make websites, apps, AI workloads, and networks faster and more secure on one unified global platform.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-10">
                 <a
-                  href="#"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded text-[15px] font-semibold text-white"
-                  style={{ backgroundColor: '#f6821f' }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d96f18')}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#f6821f')}
+                  href={SIGN_UP_URL}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded text-[15px] font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors"
                 >
-                  Get started for free
+                  Start for free
                 </a>
-                <a href="#" className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded text-[15px] font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
-                  Contact sales
+                <a href="/pricing" className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded text-[15px] font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+                  See pricing
                 </a>
               </div>
 
@@ -133,7 +134,7 @@ export default function Home() {
       {/* ── Logos ── */}
       <section className="py-10 border-y border-white/[0.08] bg-[#1d1f20]">
         <p className="text-center text-xs font-semibold text-[#6b7280] uppercase tracking-widest mb-8">
-          Trusted by forward-thinking companies
+          Leading companies rely on Cloudflare
         </p>
         <Marquee>
           {LOGOS.map((logo) => (
@@ -258,7 +259,7 @@ export default function Home() {
                 ))}
               </ul>
               <div className="flex gap-4">
-                <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+                <a href="/products" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
                   Explore security
                 </a>
                 <Link href="/why-cloudflare">
@@ -407,7 +408,7 @@ export default function Home() {
               >
                 <h3 className="text-lg font-bold text-white mb-3">{cs.company}</h3>
                 <p className="text-[13px] text-[#6b7280] leading-relaxed mb-5">{cs.desc}</p>
-                <a href="#" className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#f6821f] group-hover:gap-2.5 transition-all">
+                <a href={CASE_STUDIES_URL} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#f6821f] group-hover:gap-2.5 transition-all">
                   Read case study <ArrowRight className="w-3.5 h-3.5" />
                 </a>
               </motion.div>
@@ -415,7 +416,7 @@ export default function Home() {
           </div>
 
           <div className="text-center">
-            <a href="#" className="inline-flex items-center gap-2 text-sm text-[#a0aaba] hover:text-white transition-colors">
+            <a href={CASE_STUDIES_URL} className="inline-flex items-center gap-2 text-sm text-[#a0aaba] hover:text-white transition-colors">
               Browse all case studies <ChevronRight className="w-4 h-4" />
             </a>
           </div>
@@ -441,7 +442,7 @@ export default function Home() {
                   Start for free <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+              <a href="/zero-trust" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
                 Learn more
               </a>
             </div>
@@ -463,10 +464,10 @@ export default function Home() {
               Sign up in minutes. Free plan available. No credit card required.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+              <a href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
                 Sign up for free <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+              <a href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
                 Contact sales
               </a>
             </div>

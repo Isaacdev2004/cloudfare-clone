@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Shield, Lock, Code2, BrainCircuit, Network, Globe, Server, ArrowRight, CheckCircle2, ChevronRight } from 'lucide-react';
-import { Link } from 'wouter';
+
+const SIGN_UP_URL = '/pricing';
+const CONTACT_SALES_URL = '/enterprise';
+
+const getProductHref = (tabId: string) => {
+  if (tabId === 'developer') return '/developers';
+  if (tabId === 'zero-trust') return '/zero-trust';
+  return '/products';
+};
 
 const TABS = [
   { id: 'performance', label: 'Application Performance', icon: Zap },
@@ -162,7 +170,7 @@ export default function Products() {
             {products.map((product) => (
               <motion.a
                 key={product.name}
-                href="#"
+                href={getProductHref(activeTab)}
                 whileHover={{ y: -2 }}
                 className="group flex flex-col bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6 hover:border-[#f6821f]/40 hover:shadow-[0_0_20px_rgba(246,130,31,0.08)] transition-all duration-200"
               >
@@ -213,10 +221,10 @@ export default function Products() {
                 ))}
               </div>
               <div className="flex gap-4 mt-10">
-                <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+                <a href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
                   Get started free
                 </a>
-                <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5">
+                <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5">
                   Contact sales
                 </a>
               </div>

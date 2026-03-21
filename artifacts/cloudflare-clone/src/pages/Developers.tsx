@@ -2,6 +2,28 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Code2, Database, HardDrive, Zap, Globe, ArrowRight, CheckCircle2, ChevronRight } from 'lucide-react';
 
+const SIGN_UP_URL = '/pricing';
+const DOCS_URL = '/developers';
+
+const DEV_LINKS: Record<string, string> = {
+  Workers: '/developers',
+  Pages: '/developers',
+  'R2 Storage': '/developers',
+  'D1 Database': '/developers',
+  KV: '/developers',
+  'Durable Objects': '/developers',
+  Queues: '/developers',
+  Stream: '/developers',
+  Images: '/developers',
+  Hyperdrive: '/developers',
+  Vectorize: '/developers',
+  Calls: '/developers',
+  'Workers AI': '/products',
+  'AI Gateway': '/products',
+  AutoRAG: '/products',
+  'Pages Functions': '/developers',
+};
+
 const PRODUCTS = [
   {
     icon: Code2,
@@ -67,10 +89,10 @@ export default function Developers() {
               Cloudflare's developer platform gives you serverless compute, storage, databases, and AI inference — all in 320+ locations globally, with zero cold starts and no egress fees.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+              <a href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
                 Start building <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+              <a href={DOCS_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
                 View documentation
               </a>
             </div>
@@ -117,7 +139,7 @@ export default function Developers() {
                     </div>
                   ))}
                 </div>
-                <a href="#" className="inline-flex items-center gap-1.5 mt-5 text-[13px] font-medium text-[#f6821f] hover:gap-2.5 transition-all">
+                <a href={DEV_LINKS[product.name] ?? DOCS_URL} className="inline-flex items-center gap-1.5 mt-5 text-[13px] font-medium text-[#f6821f] hover:gap-2.5 transition-all">
                   Learn more <ChevronRight className="w-3.5 h-3.5" />
                 </a>
               </motion.div>
@@ -135,7 +157,7 @@ export default function Developers() {
             {MORE_PRODUCTS.map((p) => (
               <a
                 key={p.name}
-                href="#"
+                  href={DEV_LINKS[p.name] ?? DOCS_URL}
                 className="group flex flex-col bg-[#0f172a] border border-white/[0.08] hover:border-[#f6821f]/30 rounded-xl p-5 transition-all hover:-translate-y-0.5"
               >
                 <span className="text-[14px] font-semibold text-white group-hover:text-[#f6821f] transition-colors mb-1">{p.name}</span>
@@ -162,7 +184,7 @@ export default function Developers() {
                 </div>
               ))}
             </div>
-            <a href="#" className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+            <a href={DOCS_URL} className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
               Read the docs <ArrowRight className="w-4 h-4" />
             </a>
           </div>
@@ -221,10 +243,10 @@ export default function Developers() {
           <h2 className="text-4xl font-bold text-white mb-4">Start building for free</h2>
           <p className="text-[#a0aaba] mb-8 max-w-lg mx-auto">Workers, Pages, R2, D1, and KV all have generous free tiers. No credit card needed.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+            <a href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
               Create free account <ArrowRight className="w-4 h-4" />
             </a>
-            <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            <a href={DOCS_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
               View documentation
             </a>
           </div>

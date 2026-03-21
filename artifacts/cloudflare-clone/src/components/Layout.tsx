@@ -4,6 +4,38 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 
+const SIGN_UP_URL = '/pricing';
+const LOGIN_URL = '/pricing';
+const CONTACT_SALES_URL = '/enterprise';
+const CLOUDFLARE_HOME_URL = '/';
+const CLOUDFLARE_BLOG_URL = '/resources/blog';
+const CLOUDFLARE_DOCS_URL = '/resources/documentation';
+const CLOUDFLARE_STATUS_URL = '/support/system-status';
+const CLOUDFLARE_COMMUNITY_URL = '/resources/community';
+const CLOUDFLARE_PARTNERS_URL = '/solutions';
+const CLOUDFLARE_CAREERS_URL = '/company/careers';
+const CLOUDFLARE_PRESS_URL = '/company/press';
+const CLOUDFLARE_INVESTORS_URL = '/company/investors';
+const CLOUDFLARE_TRUST_URL = '/support/trust-hub';
+const CLOUDFLARE_PRIVACY_URL = '/privacy-policy';
+const CLOUDFLARE_TERMS_URL = '/terms-of-use';
+const CLOUDFLARE_GITHUB_URL = '/developers';
+const CLOUDFLARE_RADAR_URL = '/resources/case-studies';
+const CLOUDFLARE_SUPPORT_URL = '/support/help-center';
+
+const normalizeHref = (href: string) => {
+  if (href === '#') return '/';
+  if (href.startsWith('http')) {
+    if (href.includes('developers') || href.includes('workers') || href.includes('pages')) return '/developers';
+    if (href.includes('enterprise') || href.includes('contact')) return '/enterprise';
+    if (href.includes('plans') || href.includes('pricing') || href.includes('dash.cloudflare.com')) return '/pricing';
+    if (href.includes('zero-trust') || href.includes('sase')) return '/zero-trust';
+    if (href.includes('partners')) return '/solutions';
+    return '/why-cloudflare';
+  }
+  return href;
+};
+
 const NAV_ITEMS = [
   {
     name: 'Products',
@@ -103,31 +135,31 @@ const NAV_ITEMS = [
         {
           title: 'Learn',
           items: [
-            { label: 'Blog', desc: 'Product updates and insights', href: '#' },
-            { label: 'Learning Center', desc: 'Security & performance guides', href: '#' },
-            { label: 'Webinars', desc: 'Live and on-demand sessions', href: '#' },
-            { label: 'Cloudflare TV', desc: 'Stream our content channel', href: '#' },
-            { label: 'Analysts & Awards', desc: 'See how analysts rate us', href: '#' },
+            { label: 'Blog', desc: 'Product updates and insights', href: CLOUDFLARE_BLOG_URL },
+            { label: 'Learning Center', desc: 'Security & performance guides', href: '/resources/documentation' },
+            { label: 'Webinars', desc: 'Live and on-demand sessions', href: '/resources/webinars' },
+            { label: 'Cloudflare TV', desc: 'Stream our content channel', href: '/resources/blog' },
+            { label: 'Analysts & Awards', desc: 'See how analysts rate us', href: '/resources/case-studies' },
           ],
         },
         {
           title: 'Connect',
           items: [
-            { label: 'Community Forum', desc: 'Connect with other users', href: '#' },
-            { label: 'Cloudflare Radar', desc: 'Internet traffic insights', href: '#' },
-            { label: 'Speed Test', desc: 'Test your network performance', href: '#' },
-            { label: 'Case Studies', desc: 'See customer success stories', href: '#' },
-            { label: 'Trust & Safety', desc: 'Abuse policies and reports', href: '#' },
+            { label: 'Community Forum', desc: 'Connect with other users', href: CLOUDFLARE_COMMUNITY_URL },
+            { label: 'Cloudflare Radar', desc: 'Internet traffic insights', href: CLOUDFLARE_RADAR_URL },
+            { label: 'Speed Test', desc: 'Test your network performance', href: '/resources/case-studies' },
+            { label: 'Case Studies', desc: 'See customer success stories', href: '/resources/case-studies' },
+            { label: 'Trust & Safety', desc: 'Abuse policies and reports', href: '/report-security' },
           ],
         },
         {
           title: 'Develop',
           items: [
-            { label: 'Documentation', desc: 'Guides for all Cloudflare products', href: '#' },
-            { label: 'API Reference', desc: 'Manage Cloudflare via API', href: '#' },
-            { label: 'Developer Discord', desc: 'Chat with our dev community', href: '#' },
-            { label: 'Cloudflare Status', desc: 'Real-time system status', href: '#' },
-            { label: 'Support Portal', desc: 'Get help from our team', href: '#' },
+            { label: 'Documentation', desc: 'Guides for all Cloudflare products', href: CLOUDFLARE_DOCS_URL },
+            { label: 'API Reference', desc: 'Manage Cloudflare via API', href: '/resources/documentation' },
+            { label: 'Developer Discord', desc: 'Chat with our dev community', href: '/resources/community' },
+            { label: 'Cloudflare Status', desc: 'Real-time system status', href: CLOUDFLARE_STATUS_URL },
+            { label: 'Support Portal', desc: 'Get help from our team', href: CLOUDFLARE_SUPPORT_URL },
           ],
         },
       ],
@@ -141,18 +173,18 @@ const NAV_ITEMS = [
         {
           title: 'Partner Programs',
           items: [
-            { label: 'Technology Partners', desc: 'Integrate with Cloudflare', href: '#' },
-            { label: 'Channel Partners', desc: 'Resell Cloudflare products', href: '#' },
-            { label: 'System Integrators', desc: 'Deploy for enterprise clients', href: '#' },
-            { label: 'Referral Program', desc: 'Earn referral rewards', href: '#' },
+            { label: 'Technology Partners', desc: 'Integrate with Cloudflare', href: CLOUDFLARE_PARTNERS_URL },
+            { label: 'Channel Partners', desc: 'Resell Cloudflare products', href: CLOUDFLARE_PARTNERS_URL },
+            { label: 'System Integrators', desc: 'Deploy for enterprise clients', href: CLOUDFLARE_PARTNERS_URL },
+            { label: 'Referral Program', desc: 'Earn referral rewards', href: CLOUDFLARE_PARTNERS_URL },
           ],
         },
         {
           title: 'Find Help',
           items: [
-            { label: 'Partner Directory', desc: 'Find a Cloudflare partner', href: '#' },
-            { label: 'Become a Partner', desc: 'Apply to join our network', href: '#' },
-            { label: 'Authorized Training', desc: 'Get certified in Cloudflare', href: '#' },
+            { label: 'Partner Directory', desc: 'Find a Cloudflare partner', href: CLOUDFLARE_PARTNERS_URL },
+            { label: 'Become a Partner', desc: 'Apply to join our network', href: CLOUDFLARE_PARTNERS_URL },
+            { label: 'Authorized Training', desc: 'Get certified in Cloudflare', href: CLOUDFLARE_PARTNERS_URL },
           ],
         },
       ],
@@ -166,22 +198,22 @@ const NAV_ITEMS = [
         {
           title: 'Company',
           items: [
-            { label: 'About Cloudflare', desc: 'Our mission and story', href: '/why-cloudflare' },
-            { label: 'Leadership', desc: 'Meet the executive team', href: '/why-cloudflare' },
-            { label: 'Careers', desc: 'Join the Cloudflare team', href: '#' },
-            { label: 'Press', desc: 'News and press releases', href: '#' },
-            { label: 'Investor Relations', desc: 'For shareholders and analysts', href: '#' },
-            { label: 'Analyst Reports', desc: 'Third-party evaluations', href: '#' },
+            { label: 'About Cloudflare', desc: 'Our mission and story', href: '/company/about' },
+            { label: 'Leadership', desc: 'Meet the executive team', href: '/company/about' },
+            { label: 'Careers', desc: 'Join the Cloudflare team', href: CLOUDFLARE_CAREERS_URL },
+            { label: 'Press', desc: 'News and press releases', href: CLOUDFLARE_PRESS_URL },
+            { label: 'Investor Relations', desc: 'For shareholders and analysts', href: CLOUDFLARE_INVESTORS_URL },
+            { label: 'Analyst Reports', desc: 'Third-party evaluations', href: '/resources/case-studies' },
           ],
         },
         {
           title: 'Impact',
           items: [
-            { label: 'Impact Report', desc: 'Our commitment to a better Internet', href: '/why-cloudflare' },
-            { label: 'Project Galileo', desc: 'Protecting vulnerable voices', href: '/why-cloudflare' },
-            { label: 'Athenian Project', desc: 'Securing election infrastructure', href: '/why-cloudflare' },
-            { label: 'Cloudflare for Campaigns', desc: 'Protecting political speech', href: '#' },
-            { label: 'Critical Infrastructure Defense', desc: 'Protecting hospitals & utilities', href: '/why-cloudflare' },
+            { label: 'Impact Report', desc: 'Our commitment to a better Internet', href: '/company/impact' },
+            { label: 'Project Galileo', desc: 'Protecting vulnerable voices', href: '/company/impact' },
+            { label: 'Athenian Project', desc: 'Securing election infrastructure', href: '/company/impact' },
+            { label: 'Cloudflare for Campaigns', desc: 'Protecting political speech', href: '/company/impact' },
+            { label: 'Critical Infrastructure Defense', desc: 'Protecting hospitals & utilities', href: '/company/impact' },
           ],
         },
       ],
@@ -207,16 +239,30 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   useEffect(() => {
     window.scrollTo(0, 0);
     setMobileMenuOpen(false);
+    setMobileExpanded(null);
     setActiveDropdown(null);
   }, [location]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setActiveDropdown(null);
+      if (e.key === 'Escape') {
+        setActiveDropdown(null);
+        setMobileMenuOpen(false);
+        setMobileExpanded(null);
+      }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileMenuOpen]);
 
   const openDropdown = (name: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -255,8 +301,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   onMouseEnter={() => openDropdown(item.name)}
                   onMouseLeave={startCloseTimer}
                   onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
+                  aria-expanded={activeDropdown === item.name}
+                  aria-label={`${item.name} menu`}
                   className={cn(
-                    'flex items-center gap-1 px-3.5 py-2 text-[14px] font-medium transition-colors duration-150 select-none',
+                    'flex items-center gap-1 px-3.5 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded',
                     activeDropdown === item.name ? 'text-white' : 'text-[#a0aaba] hover:text-white'
                   )}
                 >
@@ -274,21 +322,18 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
           {/* Right: CTAs */}
           <div className="hidden lg:flex items-center gap-1">
-            <a href="#" className="px-3.5 py-2 text-[14px] font-medium text-[#a0aaba] hover:text-white transition-colors whitespace-nowrap">
+            <Link href={CONTACT_SALES_URL} className="px-3.5 py-2 text-[14px] font-medium text-[#a0aaba] hover:text-white transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded">
               Contact Sales
-            </a>
-            <a href="#" className="px-3.5 py-2 text-[14px] font-medium text-[#a0aaba] hover:text-white transition-colors">
+            </Link>
+            <Link href={LOGIN_URL} className="px-3.5 py-2 text-[14px] font-medium text-[#a0aaba] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded">
               Log in
-            </a>
-            <a
-              href="#"
-              className="ml-2 inline-flex items-center justify-center px-4 py-[7px] rounded text-[14px] font-semibold text-white transition-colors duration-150"
-              style={{ backgroundColor: '#f6821f' }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d96f18')}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#f6821f')}
+            </Link>
+            <Link
+              href={SIGN_UP_URL}
+              className="ml-2 inline-flex items-center justify-center px-4 py-[7px] rounded text-[14px] font-semibold text-white transition-colors duration-150 bg-[#f6821f] hover:bg-[#d96f18] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60"
             >
               Sign up
-            </a>
+            </Link>
           </div>
 
           {/* Mobile hamburger */}
@@ -329,8 +374,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                     <ul className="space-y-0.5">
                       {col.items.map((sub) => (
                         <li key={sub.label}>
-                          <Link
-                            href={sub.href || '#'}
+                          <a
+                            href={normalizeHref(sub.href || '#')}
                             onClick={() => setActiveDropdown(null)}
                             className="group flex flex-col py-2 px-2 rounded-md hover:bg-white/[0.05] transition-colors duration-100"
                           >
@@ -340,7 +385,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                             <span className="text-[12px] text-[#6b7280] group-hover:text-[#9ca3af] mt-0.5 leading-snug">
                               {sub.desc}
                             </span>
-                          </Link>
+                          </a>
                         </li>
                       ))}
                     </ul>
@@ -396,6 +441,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   <button
                     className="w-full flex items-center justify-between py-4 text-[15px] font-medium text-white"
                     onClick={() => setMobileExpanded(mobileExpanded === item.name ? null : item.name)}
+                    aria-expanded={mobileExpanded === item.name}
+                    aria-label={`${item.name} mobile menu`}
                   >
                     {item.name}
                     <ChevronDown
@@ -421,15 +468,18 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                                 {col.title}
                               </p>
                               {col.items.map((sub) => (
-                                <a
+                                <Link
                                   key={sub.label}
-                                  href="#"
+                                  href={normalizeHref(sub.href)}
                                   className="flex flex-col px-1 py-2 rounded hover:bg-white/5"
-                                  onClick={() => setMobileMenuOpen(false)}
+                                  onClick={() => {
+                                    setMobileMenuOpen(false);
+                                    setMobileExpanded(null);
+                                  }}
                                 >
                                   <span className="text-[14px] text-white/90">{sub.label}</span>
                                   <span className="text-[12px] text-[#6b7280]">{sub.desc}</span>
-                                </a>
+                                </Link>
                               ))}
                             </div>
                           ))}
@@ -442,17 +492,16 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </nav>
 
             <div className="px-4 pt-6 pb-8 flex flex-col gap-3">
-              <a href="#" className="block py-3 text-center text-[14px] font-medium text-white border border-white/20 rounded" onClick={() => setMobileMenuOpen(false)}>
+              <Link href={LOGIN_URL} className="block py-3 text-center text-[14px] font-medium text-white border border-white/20 rounded" onClick={() => setMobileMenuOpen(false)}>
                 Log in
-              </a>
-              <a
-                href="#"
-                className="block py-3 text-center text-[14px] font-semibold text-white rounded"
-                style={{ backgroundColor: '#f6821f' }}
+              </Link>
+              <Link
+                href={SIGN_UP_URL}
+                className="block py-3 text-center text-[14px] font-semibold text-white rounded bg-[#f6821f] hover:bg-[#d96f18] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Sign up
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}
@@ -474,18 +523,63 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </div>
 
             {[
-              { title: 'Products', links: ['Application Services', 'Network Services', 'Zero Trust', 'Developer Platform', 'AI'] },
-              { title: 'Solutions', links: ['Enterprise', 'SMB', 'Startups', 'Government', 'Gaming'] },
-              { title: 'Resources', links: ['Blog', 'Case Studies', 'Webinars', 'Documentation', 'Community'] },
-              { title: 'Company', links: ['About Us', 'Careers', 'Press', 'Investors', 'Impact'] },
-              { title: 'Support', links: ['Help Center', 'System Status', 'Compliance', 'Trust Hub', 'Cookie Preferences'] },
+              {
+                title: 'Products',
+                links: [
+                  { label: 'Application Services', href: '/products' },
+                  { label: 'Network Services', href: '/products' },
+                  { label: 'Zero Trust', href: '/zero-trust' },
+                  { label: 'Developer Platform', href: '/developers' },
+                  { label: 'AI', href: '/products' },
+                ],
+              },
+              {
+                title: 'Solutions',
+                links: [
+                  { label: 'Enterprise', href: '/enterprise' },
+                  { label: 'SMB', href: '/solutions' },
+                  { label: 'Startups', href: '/solutions' },
+                  { label: 'Government', href: '/solutions' },
+                  { label: 'Gaming', href: '/solutions' },
+                ],
+              },
+              {
+                title: 'Resources',
+                links: [
+                  { label: 'Blog', href: CLOUDFLARE_BLOG_URL },
+                  { label: 'Case Studies', href: '/resources/case-studies' },
+                  { label: 'Webinars', href: '/resources/webinars' },
+                  { label: 'Documentation', href: CLOUDFLARE_DOCS_URL },
+                  { label: 'Community', href: CLOUDFLARE_COMMUNITY_URL },
+                ],
+              },
+              {
+                title: 'Company',
+                links: [
+                  { label: 'About Us', href: '/company/about' },
+                  { label: 'Careers', href: CLOUDFLARE_CAREERS_URL },
+                  { label: 'Press', href: CLOUDFLARE_PRESS_URL },
+                  { label: 'Investors', href: CLOUDFLARE_INVESTORS_URL },
+                  { label: 'Impact', href: '/company/impact' },
+                ],
+              },
+              {
+                title: 'Support',
+                links: [
+                  { label: 'Help Center', href: CLOUDFLARE_SUPPORT_URL },
+                  { label: 'System Status', href: CLOUDFLARE_STATUS_URL },
+                  { label: 'Compliance', href: CLOUDFLARE_TRUST_URL },
+                  { label: 'Trust Hub', href: CLOUDFLARE_TRUST_URL },
+                  { label: 'Cookie Preferences', href: '/support/cookie-preferences' },
+                ],
+              },
             ].map((col) => (
               <div key={col.title}>
                 <h4 className="text-[12px] font-semibold text-white mb-4 uppercase tracking-widest">{col.title}</h4>
                 <ul className="space-y-2.5">
                   {col.links.map((link) => (
-                    <li key={link}>
-                      <a href="#" className="text-[13px] text-[#a0aaba] hover:text-white transition-colors">{link}</a>
+                    <li key={link.label}>
+                      <Link href={normalizeHref(link.href)} className="text-[13px] text-[#a0aaba] hover:text-white transition-colors">{link.label}</Link>
                     </li>
                   ))}
                 </ul>
@@ -494,10 +588,16 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           </div>
 
           <div className="pt-8 border-t border-white/[0.08] flex flex-col md:flex-row justify-between items-center gap-4 text-[13px] text-[#6b7280]">
-            <p>© {new Date().getFullYear()} Cloudflare, Inc. · Privacy Policy · Terms of Use · Report Security Issues</p>
+            <p>© {new Date().getFullYear()} Cloudflare, Inc. · <Link href={normalizeHref(CLOUDFLARE_PRIVACY_URL)} className="hover:text-[#a0aaba] transition-colors">Privacy Policy</Link> · <Link href={normalizeHref(CLOUDFLARE_TERMS_URL)} className="hover:text-[#a0aaba] transition-colors">Terms of Use</Link> · <Link href="/report-security" className="hover:text-[#a0aaba] transition-colors">Report Security Issues</Link></p>
             <div className="flex items-center gap-5">
-              {['Twitter / X', 'LinkedIn', 'Facebook', 'YouTube', 'GitHub'].map((s) => (
-                <a key={s} href="#" className="hover:text-[#a0aaba] transition-colors text-xs">{s}</a>
+              {[
+                { label: 'Twitter / X', href: '/resources/community' },
+                { label: 'LinkedIn', href: '/resources/community' },
+                { label: 'Facebook', href: '/resources/community' },
+                { label: 'YouTube', href: '/resources/community' },
+                { label: 'GitHub', href: CLOUDFLARE_GITHUB_URL },
+              ].map((s) => (
+                <Link key={s.label} href={normalizeHref(s.href)} className="hover:text-[#a0aaba] transition-colors text-xs">{s.label}</Link>
               ))}
             </div>
           </div>

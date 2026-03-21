@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Building2, Store, Rocket, Landmark, ArrowRight, CheckCircle2, Shield, Zap, Lock, Globe } from 'lucide-react';
 
+const SIGN_UP_URL = '/pricing';
+const CONTACT_SALES_URL = '/enterprise';
+
 const BY_SIZE = [
   {
     icon: Building2,
@@ -22,7 +25,7 @@ const BY_SIZE = [
     desc: 'Get the same tools large enterprises use, without an enterprise budget. Cloudflare\'s free and Pro plans give SMBs powerful DDoS protection, a CDN, and SSL — up and running in minutes.',
     features: ['Free Universal SSL certificate', 'Unmetered DDoS mitigation', 'Global CDN with 320+ PoPs', 'Web Application Firewall', 'Email routing (included)', 'Bot fight mode'],
     cta: 'Get started free',
-    link: '/plans',
+    link: '/pricing',
     tag: 'SMB',
   },
   {
@@ -33,7 +36,7 @@ const BY_SIZE = [
     desc: 'Cloudflare Workers, Pages, R2, and D1 give startups a full serverless stack with zero cold starts and no egress fees. Cloudflare for Startups provides free access for qualifying companies.',
     features: ['Workers & Pages — free tier', 'R2 storage — zero egress fees', 'D1 serverless SQL database', 'Cloudflare for Startups program', 'No credit card required to start', 'Community Discord & support'],
     cta: 'Apply for Startups program',
-    link: '#',
+    link: '/developers',
     tag: 'Startups',
   },
   {
@@ -44,7 +47,7 @@ const BY_SIZE = [
     desc: 'Government agencies trust Cloudflare to protect the most sensitive systems in the world. Project Galileo and the Athenian Project protect at-risk organizations at no cost.',
     features: ['FedRAMP High and Moderate authorization', 'IL4 and IL5 compliant options', 'Project Galileo — free for NGOs', 'Athenian Project — free for elections', 'CISA-recommended DDoS protection', 'Dedicated public sector team'],
     cta: 'Contact public sector team',
-    link: '#',
+    link: '/why-cloudflare',
     tag: 'Government',
   },
 ];
@@ -103,10 +106,10 @@ export default function Solutions() {
               Whether you're an individual developer or a Fortune 500 enterprise, Cloudflare has solutions tailored to your needs, budget, and compliance requirements.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+              <a href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
                 Get started free
               </a>
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+              <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
                 Contact sales
               </a>
             </div>
@@ -190,7 +193,7 @@ export default function Solutions() {
             {BY_INDUSTRY.map((ind) => (
               <motion.a
                 key={ind.title}
-                href="#"
+                href="/solutions"
                 whileHover={{ y: -3 }}
                 className="group block bg-[#0f172a] border border-white/[0.08] hover:border-[#f6821f]/30 rounded-xl p-6 transition-all"
               >
@@ -224,7 +227,7 @@ export default function Solutions() {
                 <p className="text-[#6b7280] text-sm leading-relaxed mb-5">{uc.desc}</p>
                 <div className="flex flex-wrap gap-2">
                   {uc.products.map((p) => (
-                    <a key={p} href="#" className="text-xs px-2.5 py-1 rounded bg-white/[0.05] text-[#a0aaba] hover:text-white hover:bg-white/10 transition-colors">
+                    <a key={p} href="/products" className="text-xs px-2.5 py-1 rounded bg-white/[0.05] text-[#a0aaba] hover:text-white hover:bg-white/10 transition-colors">
                       {p}
                     </a>
                   ))}
@@ -242,7 +245,7 @@ export default function Solutions() {
           <p className="text-[#a0aaba] text-lg mb-8 max-w-xl mx-auto">
             Our solutions engineers will help you design the right architecture for your organization.
           </p>
-          <a href="#" className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+          <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
             Talk to an expert <ArrowRight className="w-4 h-4" />
           </a>
         </div>

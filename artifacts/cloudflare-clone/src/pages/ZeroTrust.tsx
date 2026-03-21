@@ -2,13 +2,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Shield, Globe, Monitor, Eye, CheckCircle2, ArrowRight, ChevronRight } from 'lucide-react';
 
+const SIGN_UP_URL = '/pricing';
+const CONTACT_SALES_URL = '/enterprise';
+
 const PRODUCTS = [
-  { icon: Lock, name: 'Access', tag: 'Zero Trust Network Access', desc: 'Replace your VPN with identity-aware, Zero Trust access to any application. Works with any IdP.', link: '#' },
-  { icon: Shield, name: 'Gateway', tag: 'Secure Web Gateway', desc: 'Filter DNS, HTTP, and network traffic to stop threats and enforce corporate security policies everywhere.', link: '#' },
-  { icon: Globe, name: 'Browser Isolation', tag: 'Remote Browser', desc: 'Execute browser code in the cloud. Users see pixels, attackers can\'t get in. Stop malware at the browser.', link: '#' },
-  { icon: Eye, name: 'CASB', tag: 'Cloud Access Security Broker', desc: 'Scan SaaS apps for misconfigurations, shadow IT, and data exposures — automatically, continuously.', link: '#' },
-  { icon: Shield, name: 'DLP', tag: 'Data Loss Prevention', desc: 'Detect and block sensitive data from leaving your organization across web, SaaS, and email.', link: '#' },
-  { icon: Monitor, name: 'DEX', tag: 'Digital Experience Monitoring', desc: 'Understand and improve employee experience for every app — from anywhere, on any device.', link: '#' },
+  { icon: Lock, name: 'Access', tag: 'Zero Trust Network Access', desc: 'Replace your VPN with identity-aware, Zero Trust access to any application. Works with any IdP.', link: '/zero-trust' },
+  { icon: Shield, name: 'Gateway', tag: 'Secure Web Gateway', desc: 'Filter DNS, HTTP, and network traffic to stop threats and enforce corporate security policies everywhere.', link: '/zero-trust' },
+  { icon: Globe, name: 'Browser Isolation', tag: 'Remote Browser', desc: 'Execute browser code in the cloud. Users see pixels, attackers can\'t get in. Stop malware at the browser.', link: '/zero-trust' },
+  { icon: Eye, name: 'CASB', tag: 'Cloud Access Security Broker', desc: 'Scan SaaS apps for misconfigurations, shadow IT, and data exposures — automatically, continuously.', link: '/zero-trust' },
+  { icon: Shield, name: 'DLP', tag: 'Data Loss Prevention', desc: 'Detect and block sensitive data from leaving your organization across web, SaaS, and email.', link: '/zero-trust' },
+  { icon: Monitor, name: 'DEX', tag: 'Digital Experience Monitoring', desc: 'Understand and improve employee experience for every app — from anywhere, on any device.', link: '/zero-trust' },
 ];
 
 const HOW_IT_WORKS = [
@@ -42,10 +45,10 @@ export default function ZeroTrust() {
               Cloudflare One is the industry's most complete Zero Trust / SASE platform — delivered as a service on our global network. No hardware. Deploy in days, not months.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+              <a href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
                 Start for free <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="#" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+              <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
                 Talk to sales
               </a>
             </div>
@@ -142,10 +145,10 @@ export default function ZeroTrust() {
             Free for up to 50 users. No hardware. No hidden setup fees.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+            <a href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
               Start for free <ArrowRight className="w-4 h-4" />
             </a>
-            <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            <a href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
               Talk to sales
             </a>
           </div>
