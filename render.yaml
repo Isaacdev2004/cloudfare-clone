@@ -1,0 +1,13 @@
+services:
+  - type: static_site
+    name: cloudflare-clone
+    env: static
+    buildCommand: pnpm --filter @workspace/cloudflare-clone run build
+    staticPublishPath: artifacts/cloudflare-clone/dist/public
+    envVars:
+      - key: BASE_PATH
+        value: /
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

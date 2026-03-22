@@ -374,7 +374,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                     <ul className="space-y-0.5">
                       {col.items.map((sub) => (
                         <li key={sub.label}>
-                          <a
+                          <Link
                             href={normalizeHref(sub.href || '#')}
                             onClick={() => setActiveDropdown(null)}
                             className="group flex flex-col py-2 px-2 rounded-md hover:bg-white/[0.05] transition-colors duration-100"
@@ -385,7 +385,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                             <span className="text-[12px] text-[#6b7280] group-hover:text-[#9ca3af] mt-0.5 leading-snug">
                               {sub.desc}
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
