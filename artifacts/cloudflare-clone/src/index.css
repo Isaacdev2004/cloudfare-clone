@@ -38,6 +38,14 @@
 
   --ring: 28 93% 54%;
   --ring-offset-background: 222 47% 11%;
+
+  --cf-bg: #0f172a;
+  --cf-surface: #1d1f20;
+  --cf-primary: #f6821f;
+  --cf-primary-hover: #d96f18;
+  --cf-muted: #a0aaba;
+  --cf-muted-2: #6b7280;
+  --cf-border: rgba(255, 255, 255, 0.08);
 }
 
 @layer base {
@@ -53,6 +61,24 @@
 }
 
 @layer utilities {
+  .cf-page-bg {
+    background-color: var(--cf-bg);
+  }
+  .cf-surface {
+    background-color: var(--cf-surface);
+  }
+  .cf-muted-text {
+    color: var(--cf-muted);
+  }
+  .cf-muted-text-2 {
+    color: var(--cf-muted-2);
+  }
+  .cf-border {
+    border-color: var(--cf-border);
+  }
+  .cf-primary {
+    color: var(--cf-primary);
+  }
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60;
   }

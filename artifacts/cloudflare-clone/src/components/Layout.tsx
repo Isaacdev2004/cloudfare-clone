@@ -7,12 +7,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 const SIGN_UP_URL = '/pricing';
 const LOGIN_URL = '/pricing';
 const CONTACT_SALES_URL = '/enterprise';
-const CLOUDFLARE_HOME_URL = '/';
 const CLOUDFLARE_BLOG_URL = '/resources/blog';
 const CLOUDFLARE_DOCS_URL = '/resources/documentation';
 const CLOUDFLARE_STATUS_URL = '/support/system-status';
 const CLOUDFLARE_COMMUNITY_URL = '/resources/community';
-const CLOUDFLARE_PARTNERS_URL = '/solutions';
 const CLOUDFLARE_CAREERS_URL = '/company/careers';
 const CLOUDFLARE_PRESS_URL = '/company/press';
 const CLOUDFLARE_INVESTORS_URL = '/company/investors';
@@ -166,32 +164,7 @@ const NAV_ITEMS = [
     },
   },
   {
-    name: 'Partners',
-    href: '#',
-    dropdown: {
-      columns: [
-        {
-          title: 'Partner Programs',
-          items: [
-            { label: 'Technology Partners', desc: 'Integrate with Cloudflare', href: CLOUDFLARE_PARTNERS_URL },
-            { label: 'Channel Partners', desc: 'Resell Cloudflare products', href: CLOUDFLARE_PARTNERS_URL },
-            { label: 'System Integrators', desc: 'Deploy for enterprise clients', href: CLOUDFLARE_PARTNERS_URL },
-            { label: 'Referral Program', desc: 'Earn referral rewards', href: CLOUDFLARE_PARTNERS_URL },
-          ],
-        },
-        {
-          title: 'Find Help',
-          items: [
-            { label: 'Partner Directory', desc: 'Find a Cloudflare partner', href: CLOUDFLARE_PARTNERS_URL },
-            { label: 'Become a Partner', desc: 'Apply to join our network', href: CLOUDFLARE_PARTNERS_URL },
-            { label: 'Authorized Training', desc: 'Get certified in Cloudflare', href: CLOUDFLARE_PARTNERS_URL },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    name: 'About',
+    name: 'Company',
     href: '/why-cloudflare',
     dropdown: {
       columns: [
@@ -219,6 +192,13 @@ const NAV_ITEMS = [
       ],
     },
   },
+];
+
+const PRIMARY_LINKS = [
+  { name: 'Developers', href: '/developers' },
+  { name: 'Zero Trust', href: '/zero-trust' },
+  { name: 'Enterprise', href: '/enterprise' },
+  { name: 'Pricing', href: '/pricing' },
 ];
 
 const CloudflareLogo = ({ size = 28 }: { size?: number }) => (
@@ -295,6 +275,19 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center">
+              {PRIMARY_LINKS.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setActiveDropdown(null)}
+                  className={cn(
+                    'px-3.5 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded',
+                    location === item.href ? 'text-white' : 'text-[#a0aaba] hover:text-white'
+                  )}
+                >
+                  {item.name}
+                </Link>
+              ))}
               {NAV_ITEMS.map((item) => (
                 <button
                   key={item.name}
@@ -436,6 +429,21 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </div>
 
             <nav className="px-4 py-2">
+              <div className="border-b border-white/[0.08] pb-2 mb-1">
+                {PRIMARY_LINKS.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="block py-3 text-[15px] font-medium text-white/90 hover:text-white"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setMobileExpanded(null);
+                    }}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
               {NAV_ITEMS.map((item) => (
                 <div key={item.name} className="border-b border-white/[0.08]">
                   <button

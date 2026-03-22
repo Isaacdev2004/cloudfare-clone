@@ -3,25 +3,19 @@ import { motion } from 'framer-motion';
 import { NetworkGlobe } from '@/components/NetworkGlobe';
 import { AnimatedCounter } from '@/components/AnimatedCounter';
 import { Marquee } from '@/components/Marquee';
+import { PageHero } from '@/components/layout/PageHero';
+import { SectionHeading } from '@/components/layout/SectionHeading';
 import { Link } from 'wouter';
+import { brandLogos } from '@/lib/assets';
+import { fadeInUp, subtleLiftHover } from '@/lib/motion';
 import {
   ShieldCheck, Network, LockKeyhole, Code2, BrainCircuit, Zap,
-  CheckCircle2, ArrowRight, Globe, Users, ChevronRight, Play
+  CheckCircle2, ArrowRight, Globe, Users, ChevronRight
 } from 'lucide-react';
 
 const SIGN_UP_URL = '/pricing';
 const CONTACT_SALES_URL = '/enterprise';
 const CASE_STUDIES_URL = '/why-cloudflare';
-
-const fadeIn = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55 } },
-};
-
-const LOGOS = [
-  'Shopify', 'Discord', 'L\'Oréal', 'IBM', 'Garmin', 'Canva', 'Notion',
-  'Zendesk', 'DoorDash', 'Panasonic', 'Thomson Reuters', 'Cloudinary',
-];
 
 const PRODUCTS = [
   {
@@ -82,54 +76,41 @@ const CASE_STUDIES = [
 
 export default function Home() {
   return (
-    <div className="flex flex-col bg-[#0f172a]">
+    <div className="flex flex-col cf-page-bg">
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-[radial-gradient(ellipse_at_70%_50%,rgba(180,80,20,0.12),#0f172a_65%)]">
-        <div className="max-w-[1280px] mx-auto px-6 relative z-10 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-24">
-            <motion.div initial="hidden" animate="visible" variants={fadeIn} className="max-w-2xl">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.05] text-white">
-                Connect, <span className="text-[#f6821f]">protect</span>, and build everywhere
-              </h1>
-              <p className="text-lg sm:text-xl text-[#a0aaba] mb-8 leading-relaxed">
-                Make websites, apps, AI workloads, and networks faster and more secure on one unified global platform.
-              </p>
+      <PageHero
+        title={<>Connect, <span className="text-[#f6821f]">protect</span>, and build everywhere</>}
+        description="Make websites, apps, AI workloads, and networks faster and more secure on one unified global platform."
+        actions={[
+          { label: "Start for free", href: SIGN_UP_URL, variant: "primary" },
+          { label: "See pricing", href: "/pricing", variant: "outline" },
+        ]}
+        className="min-h-screen flex items-center"
+        contentClassName="relative z-10 w-full"
+        aside={(
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="relative h-[500px] lg:h-[620px] flex items-center justify-center"
+          >
+            <NetworkGlobe />
+          </motion.div>
+        )}
+      />
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-10">
-                <a
-                  href={SIGN_UP_URL}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded text-[15px] font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors"
-                >
-                  Start for free
-                </a>
-                <a href="/pricing" className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded text-[15px] font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
-                  See pricing
-                </a>
+      <div className="max-w-[1280px] mx-auto px-6 -mt-12 mb-12 relative z-20">
+        <div className="flex items-center gap-3 text-sm text-[#6b7280]">
+          <div className="flex -space-x-2">
+            {['#3b82f6','#8b5cf6','#ec4899','#f59e0b'].map((c, i) => (
+              <div key={i} className="w-8 h-8 rounded-full border-2 border-[#0f172a] flex items-center justify-center" style={{ backgroundColor: c + '30' }}>
+                <Users className="w-3.5 h-3.5" style={{ color: c }} />
               </div>
-
-              <div className="flex items-center gap-3 text-sm text-[#6b7280]">
-                <div className="flex -space-x-2">
-                  {['#3b82f6','#8b5cf6','#ec4899','#f59e0b'].map((c, i) => (
-                    <div key={i} className="w-8 h-8 rounded-full border-2 border-[#0f172a] flex items-center justify-center" style={{ backgroundColor: c + '30' }}>
-                      <Users className="w-3.5 h-3.5" style={{ color: c }} />
-                    </div>
-                  ))}
-                </div>
-                <p>Trusted by millions of Internet properties</p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="relative h-[500px] lg:h-[620px] flex items-center justify-center"
-            >
-              <NetworkGlobe />
-            </motion.div>
+            ))}
           </div>
+          <p>Trusted by millions of Internet properties</p>
         </div>
-      </section>
+      </div>
 
       {/* ── Logos ── */}
       <section className="py-10 border-y border-white/[0.08] bg-[#1d1f20]">
@@ -137,10 +118,10 @@ export default function Home() {
           Leading companies rely on Cloudflare
         </p>
         <Marquee>
-          {LOGOS.map((logo) => (
-            <h3 key={logo} className="text-xl font-black text-white/30 tracking-tight hover:text-white/70 transition-colors cursor-default px-2 whitespace-nowrap">
-              {logo}
-            </h3>
+          {brandLogos.map((logo) => (
+            <div key={logo.name} className="h-11 w-[180px] flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity">
+              <img src={logo.src} alt={logo.name} className="max-h-11 w-auto object-contain" loading="lazy" />
+            </div>
           ))}
         </Marquee>
       </section>
@@ -152,15 +133,15 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            variants={fadeIn}
+            variants={fadeInUp}
             className="max-w-2xl mb-14"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              One platform to secure and<br />accelerate your business
-            </h2>
-            <p className="text-[#a0aaba] text-lg">
-              Every product runs on the same global network — no integrations, no tradeoffs.
-            </p>
+            <SectionHeading
+              title={<>One platform to secure and<br />accelerate your business</>}
+              description="Every product runs on the same global network — no integrations, no tradeoffs."
+              className="mb-0"
+              descriptionClassName="text-[#a0aaba] text-lg"
+            />
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -172,7 +153,8 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.07 }}
+                transition={{ delay: i * 0.08 }}
+                whileHover={subtleLiftHover}
                   className="group bg-[#1d1f20] border border-white/[0.08] rounded-xl p-7 hover:border-white/20 transition-all duration-200 hover:shadow-[0_0_30px_rgba(0,0,0,0.3)] cursor-pointer"
                 >
                   <div className="flex items-center gap-3 mb-4">
@@ -236,15 +218,16 @@ export default function Home() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              variants={fadeIn}
+              variants={fadeInUp}
             >
               <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest mb-4">Security</p>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                The world's most connected<br />security platform
-              </h2>
-              <p className="text-[#a0aaba] text-lg mb-8 leading-relaxed">
-                Cloudflare blocks an average of 209 billion cyber threats per day. Our network intelligence improves protection for every customer — automatically.
-              </p>
+              <SectionHeading
+                title={<>The world's most connected<br />security platform</>}
+                description="Cloudflare blocks an average of 209 billion cyber threats per day. Our network intelligence improves protection for every customer — automatically."
+                className="mb-8"
+                titleClassName="text-4xl md:text-5xl leading-tight"
+                descriptionClassName="text-[#a0aaba] text-lg leading-relaxed"
+              />
               <ul className="space-y-3 mb-10">
                 {[
                   'Stopped the largest DDoS attack ever recorded — 5.6 Tbps',
@@ -259,9 +242,9 @@ export default function Home() {
                 ))}
               </ul>
               <div className="flex gap-4">
-                <a href="/products" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+                <Link href="/products" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
                   Explore security
-                </a>
+                </Link>
                 <Link href="/why-cloudflare">
                   <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors cursor-pointer">
                     Learn why Cloudflare
@@ -349,16 +332,17 @@ export default function Home() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              variants={fadeIn}
+              variants={fadeInUp}
               className="order-1 lg:order-2"
             >
               <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest mb-4">Developer Platform</p>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                Build globally.<br />Deploy in seconds.
-              </h2>
-              <p className="text-[#a0aaba] text-lg mb-8 leading-relaxed">
-                Workers runs at the edge in 320+ locations with zero cold starts. R2 stores data with no egress fees. D1 runs SQLite globally. Build full-stack apps without managing infrastructure.
-              </p>
+              <SectionHeading
+                title={<>Build globally.<br />Deploy in seconds.</>}
+                description="Workers runs at the edge in 320+ locations with zero cold starts. R2 stores data with no egress fees. D1 runs SQLite globally. Build full-stack apps without managing infrastructure."
+                className="mb-8"
+                titleClassName="text-4xl md:text-5xl leading-tight"
+                descriptionClassName="text-[#a0aaba] text-lg leading-relaxed"
+              />
               <div className="grid grid-cols-2 gap-5 mb-8">
                 {[
                   { metric: '0ms', label: 'Cold starts' },
@@ -389,7 +373,7 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            variants={fadeIn}
+            variants={fadeInUp}
             className="text-center mb-14"
           >
             <h2 className="text-4xl font-bold text-white mb-3">Trusted by the world's<br />most innovative companies</h2>
@@ -403,22 +387,23 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.08 }}
+                whileHover={subtleLiftHover}
                 className="group bg-[#1d1f20] border border-white/[0.08] rounded-xl p-7 hover:border-[#f6821f]/30 transition-colors"
               >
                 <h3 className="text-lg font-bold text-white mb-3">{cs.company}</h3>
                 <p className="text-[13px] text-[#6b7280] leading-relaxed mb-5">{cs.desc}</p>
-                <a href={CASE_STUDIES_URL} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#f6821f] group-hover:gap-2.5 transition-all">
+                <Link href={CASE_STUDIES_URL} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#f6821f] group-hover:gap-2.5 transition-all">
                   Read case study <ArrowRight className="w-3.5 h-3.5" />
-                </a>
+                </Link>
               </motion.div>
             ))}
           </div>
 
           <div className="text-center">
-            <a href={CASE_STUDIES_URL} className="inline-flex items-center gap-2 text-sm text-[#a0aaba] hover:text-white transition-colors">
+            <Link href={CASE_STUDIES_URL} className="inline-flex items-center gap-2 text-sm text-[#a0aaba] hover:text-white transition-colors">
               Browse all case studies <ChevronRight className="w-4 h-4" />
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -442,9 +427,9 @@ export default function Home() {
                   Start for free <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-              <a href="/zero-trust" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+              <Link href="/zero-trust" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
                 Learn more
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -456,7 +441,7 @@ export default function Home() {
         <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[600px] h-[300px] bg-[#f6821f]/10 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
               Start building<br />a better Internet
             </h2>
@@ -464,12 +449,12 @@ export default function Home() {
               Sign up in minutes. Free plan available. No credit card required.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+              <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
                 Sign up for free <ArrowRight className="w-4 h-4" />
-              </a>
-              <a href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+              </Link>
+              <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
                 Contact sales
-              </a>
+              </Link>
             </div>
           </motion.div>
         </div>

@@ -1,6 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Shield, Globe, Monitor, Eye, CheckCircle2, ArrowRight, ChevronRight } from 'lucide-react';
+import { Link } from 'wouter';
+import { PageHero } from '@/components/layout/PageHero';
+import { SectionHeading } from '@/components/layout/SectionHeading';
+import { subtleLiftHover } from '@/lib/motion';
 
 const SIGN_UP_URL = '/pricing';
 const CONTACT_SALES_URL = '/enterprise';
@@ -32,48 +36,42 @@ const VS_VPN = [
 
 export default function ZeroTrust() {
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-screen cf-page-bg">
       {/* Hero */}
       <section className="bg-[#1d1f20] border-b border-white/[0.08]">
-        <div className="max-w-[1280px] mx-auto px-6 py-24">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest mb-4">Zero Trust & SASE</p>
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight max-w-3xl">
-              Replace your VPN.<br />Secure every user,<br />app, and device.
-            </h1>
-            <p className="text-[#a0aaba] text-xl leading-relaxed max-w-2xl mb-10">
-              Cloudflare One is the industry's most complete Zero Trust / SASE platform — delivered as a service on our global network. No hardware. Deploy in days, not months.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
-                Start for free <ArrowRight className="w-4 h-4" />
-              </a>
-              <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
-                Talk to sales
-              </a>
-            </div>
-          </motion.div>
-        </div>
+        <PageHero
+          eyebrow="Zero Trust & SASE"
+          title={<>Replace your VPN.<br />Secure every user,<br />app, and device.</>}
+          description="Cloudflare One is the industry's most complete Zero Trust / SASE platform — delivered as a service on our global network. No hardware. Deploy in days, not months."
+          actions={[
+            { label: 'Start for free', href: SIGN_UP_URL, variant: 'primary' },
+            { label: 'Talk to sales', href: CONTACT_SALES_URL, variant: 'outline' },
+          ]}
+          className="bg-transparent"
+          contentClassName="py-24"
+        />
       </section>
 
       {/* Products */}
       <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold text-white mb-2">The complete Zero Trust platform</h2>
-        <p className="text-[#6b7280] mb-12">Every product shares our global network — no stitching together third-party tools.</p>
+        <SectionHeading
+          title="The complete Zero Trust platform"
+          description="Every product shares our global network — no stitching together third-party tools."
+        />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {PRODUCTS.map((product, i) => {
             const Icon = product.icon;
             return (
-              <motion.a
+              <motion.div
                 key={product.name}
-                href={product.link}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                whileHover={{ y: -2 }}
-                className="group flex flex-col bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6 hover:border-[#f6821f]/40 transition-all"
+                whileHover={subtleLiftHover}
+                className="group"
               >
+                <Link href={product.link} className="flex flex-col bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6 hover:border-[#f6821f]/40 transition-all h-full">
                 <div className="w-9 h-9 rounded-lg bg-[#f6821f]/10 flex items-center justify-center mb-4">
                   <Icon className="w-4 h-4 text-[#f6821f]" />
                 </div>
@@ -85,7 +83,8 @@ export default function ZeroTrust() {
                 <div className="flex items-center gap-1 mt-4 text-[13px] text-[#f6821f] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                   Learn more <ChevronRight className="w-3.5 h-3.5" />
                 </div>
-              </motion.a>
+                </Link>
+              </motion.div>
             );
           })}
         </div>
@@ -94,8 +93,10 @@ export default function ZeroTrust() {
       {/* How it works */}
       <section className="border-t border-white/[0.08] bg-[#1d1f20]">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
-          <h2 className="text-3xl font-bold text-white mb-2">How Cloudflare One works</h2>
-          <p className="text-[#6b7280] mb-12">From pilot to full deployment in days.</p>
+          <SectionHeading
+            title="How Cloudflare One works"
+            description="From pilot to full deployment in days."
+          />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {HOW_IT_WORKS.map((step, i) => (
               <motion.div
@@ -103,7 +104,7 @@ export default function ZeroTrust() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.08 }}
               >
                 <div className="text-5xl font-black text-[#f6821f]/20 mb-3">{step.step}</div>
                 <h3 className="text-[15px] font-semibold text-white mb-2">{step.title}</h3>
@@ -116,8 +117,11 @@ export default function ZeroTrust() {
 
       {/* VPN comparison */}
       <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold text-white mb-2">Zero Trust vs. traditional VPN</h2>
-        <p className="text-[#6b7280] mb-10">Why thousands of organizations are replacing their VPNs with Cloudflare.</p>
+        <SectionHeading
+          title="Zero Trust vs. traditional VPN"
+          description="Why thousands of organizations are replacing their VPNs with Cloudflare."
+          className="mb-10"
+        />
         <div className="border border-white/[0.08] rounded-xl overflow-hidden">
           <div className="grid grid-cols-[2fr_1fr_1fr] bg-[#1d1f20] border-b border-white/[0.08]">
             <div className="px-6 py-4 text-[12px] font-semibold text-[#6b7280] uppercase tracking-widest">Feature</div>
@@ -145,12 +149,12 @@ export default function ZeroTrust() {
             Free for up to 50 users. No hardware. No hidden setup fees.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
               Start for free <ArrowRight className="w-4 h-4" />
-            </a>
-            <a href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            </Link>
+            <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
               Talk to sales
-            </a>
+            </Link>
           </div>
         </div>
       </section>

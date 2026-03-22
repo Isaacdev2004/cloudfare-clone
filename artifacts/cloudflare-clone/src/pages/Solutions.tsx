@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Building2, Store, Rocket, Landmark, ArrowRight, CheckCircle2, Shield, Zap, Lock, Globe } from 'lucide-react';
+import { PageHero } from '@/components/layout/PageHero';
+import { SectionHeading } from '@/components/layout/SectionHeading';
+import { Link } from 'wouter';
+import { subtleLiftHover } from '@/lib/motion';
 
 const SIGN_UP_URL = '/pricing';
 const CONTACT_SALES_URL = '/enterprise';
@@ -53,12 +57,12 @@ const BY_SIZE = [
 ];
 
 const BY_INDUSTRY = [
-  { icon: '💳', title: 'Financial Services', desc: 'Protect banking applications and comply with PCI DSS, SOC 2, and GDPR with a single, auditable platform.' },
-  { icon: '🏥', title: 'Healthcare', desc: 'HIPAA-ready infrastructure to protect patient data and ensure availability for telehealth platforms.' },
-  { icon: '🛒', title: 'Retail & eCommerce', desc: 'Fast, secure shopping experiences with DDoS protection, bot mitigation, and global CDN performance.' },
-  { icon: '🎮', title: 'Gaming', desc: 'Ultra-low latency, DDoS protection for game servers, and global anycast for players everywhere.' },
-  { icon: '📺', title: 'Media & Entertainment', desc: 'Stream live and on-demand video globally with Cloudflare Stream, CDN caching, and DDoS resilience.' },
-  { icon: '🏗️', title: 'Technology & SaaS', desc: 'Scale SaaS applications globally with Workers, protect APIs, and ship faster with CI/CD via Pages.' },
+  { icon: Landmark, title: 'Financial Services', desc: 'Protect banking applications and comply with PCI DSS, SOC 2, and GDPR with a single, auditable platform.' },
+  { icon: Shield, title: 'Healthcare', desc: 'HIPAA-ready infrastructure to protect patient data and ensure availability for telehealth platforms.' },
+  { icon: Store, title: 'Retail & eCommerce', desc: 'Fast, secure shopping experiences with DDoS protection, bot mitigation, and global CDN performance.' },
+  { icon: Rocket, title: 'Gaming', desc: 'Ultra-low latency, DDoS protection for game servers, and global anycast for players everywhere.' },
+  { icon: Globe, title: 'Media & Entertainment', desc: 'Stream live and on-demand video globally with Cloudflare Stream, CDN caching, and DDoS resilience.' },
+  { icon: Building2, title: 'Technology & SaaS', desc: 'Scale SaaS applications globally with Workers, protect APIs, and ship faster with CI/CD via Pages.' },
 ];
 
 const BY_USECASE = [
@@ -93,36 +97,29 @@ export default function Solutions() {
   const selected = BY_SIZE.find(s => s.id === activeSize) || BY_SIZE[0];
 
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-screen cf-page-bg">
       {/* Hero */}
       <section className="bg-[#1d1f20] border-b border-white/[0.08]">
-        <div className="max-w-[1280px] mx-auto px-6 py-24">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest mb-4">Solutions</p>
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight max-w-3xl">
-              Cloudflare for every<br />organization
-            </h1>
-            <p className="text-[#a0aaba] text-xl max-w-2xl leading-relaxed mb-10">
-              Whether you're an individual developer or a Fortune 500 enterprise, Cloudflare has solutions tailored to your needs, budget, and compliance requirements.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
-                Get started free
-              </a>
-              <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
-                Contact sales
-              </a>
-            </div>
-          </motion.div>
-        </div>
+        <PageHero
+          eyebrow="Solutions"
+          title={<>Cloudflare for every<br />organization</>}
+          description="Whether you're an individual developer or a Fortune 500 enterprise, Cloudflare has solutions tailored to your needs, budget, and compliance requirements."
+          actions={[
+            { label: 'Get started free', href: SIGN_UP_URL, variant: 'primary' },
+            { label: 'Contact sales', href: CONTACT_SALES_URL, variant: 'outline' },
+          ]}
+          contentClassName="py-24"
+          className="bg-transparent"
+        />
       </section>
 
       {/* By Business Size */}
       <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <div className="mb-10">
-          <h2 className="text-3xl font-bold text-white mb-2">By business size</h2>
-          <p className="text-[#6b7280]">Solutions designed for where you are today and where you're going.</p>
-        </div>
+        <SectionHeading
+          title="By business size"
+          description="Solutions designed for where you are today and where you're going."
+          className="mb-10"
+        />
 
         <div className="grid lg:grid-cols-[280px_1fr] gap-8">
           {/* Sidebar */}
@@ -169,15 +166,12 @@ export default function Solutions() {
               ))}
             </div>
 
-            <a
+            <Link
               href={selected.link}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white transition-colors"
-              style={{ backgroundColor: '#f6821f' }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d96f18')}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#f6821f')}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors"
             >
               {selected.cta} <ArrowRight className="w-4 h-4" />
-            </a>
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -185,41 +179,49 @@ export default function Solutions() {
       {/* By Industry */}
       <section className="border-t border-white/[0.08] bg-[#1d1f20]">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
-          <div className="mb-10">
-            <h2 className="text-3xl font-bold text-white mb-2">By industry</h2>
-            <p className="text-[#6b7280]">Industry-specific guidance and compliance frameworks built in.</p>
-          </div>
+          <SectionHeading
+            title="By industry"
+            description="Industry-specific guidance and compliance frameworks built in."
+            className="mb-10"
+          />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {BY_INDUSTRY.map((ind) => (
-              <motion.a
-                key={ind.title}
-                href="/solutions"
-                whileHover={{ y: -3 }}
-                className="group block bg-[#0f172a] border border-white/[0.08] hover:border-[#f6821f]/30 rounded-xl p-6 transition-all"
-              >
-                <span className="text-3xl mb-4 block">{ind.icon}</span>
-                <h3 className="text-[15px] font-semibold text-white mb-2 group-hover:text-[#f6821f] transition-colors">{ind.title}</h3>
-                <p className="text-[13px] text-[#6b7280] leading-relaxed">{ind.desc}</p>
-                <div className="flex items-center gap-1 mt-4 text-[13px] text-[#f6821f] opacity-0 group-hover:opacity-100 transition-opacity font-medium">
-                  Learn more <ArrowRight className="w-3.5 h-3.5" />
-                </div>
-              </motion.a>
-            ))}
+            {BY_INDUSTRY.map((ind) => {
+              const Icon = ind.icon;
+              return (
+                <motion.div
+                  key={ind.title}
+                  whileHover={subtleLiftHover}
+                  className="group"
+                >
+                  <Link href="/solutions" className="block bg-[#0f172a] border border-white/[0.08] hover:border-[#f6821f]/30 rounded-xl p-6 transition-all h-full">
+                    <div className="w-10 h-10 rounded-lg bg-[#f6821f]/10 flex items-center justify-center mb-4">
+                      <Icon className="w-5 h-5 text-[#f6821f]" />
+                    </div>
+                    <h3 className="text-[15px] font-semibold text-white mb-2 group-hover:text-[#f6821f] transition-colors">{ind.title}</h3>
+                    <p className="text-[13px] text-[#6b7280] leading-relaxed">{ind.desc}</p>
+                    <div className="flex items-center gap-1 mt-4 text-[13px] text-[#f6821f] opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+                      Learn more <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* By Use Case */}
       <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <div className="mb-10">
-          <h2 className="text-3xl font-bold text-white mb-2">By use case</h2>
-          <p className="text-[#6b7280]">Solve specific problems with the right combination of Cloudflare products.</p>
-        </div>
+        <SectionHeading
+          title="By use case"
+          description="Solve specific problems with the right combination of Cloudflare products."
+          className="mb-10"
+        />
         <div className="grid sm:grid-cols-2 gap-6">
           {BY_USECASE.map((uc) => {
             const Icon = uc.icon;
             return (
-              <div key={uc.title} className="bg-[#1d1f20] border border-white/[0.08] rounded-xl p-8 hover:border-[#f6821f]/30 transition-colors">
+              <motion.div key={uc.title} whileHover={subtleLiftHover} className="bg-[#1d1f20] border border-white/[0.08] rounded-xl p-8 hover:border-[#f6821f]/30 transition-colors">
                 <div className="w-10 h-10 rounded-lg bg-[#f6821f]/10 flex items-center justify-center mb-5">
                   <Icon className="w-5 h-5 text-[#f6821f]" />
                 </div>
@@ -227,12 +229,12 @@ export default function Solutions() {
                 <p className="text-[#6b7280] text-sm leading-relaxed mb-5">{uc.desc}</p>
                 <div className="flex flex-wrap gap-2">
                   {uc.products.map((p) => (
-                    <a key={p} href="/products" className="text-xs px-2.5 py-1 rounded bg-white/[0.05] text-[#a0aaba] hover:text-white hover:bg-white/10 transition-colors">
+                    <Link key={p} href="/products" className="text-xs px-2.5 py-1 rounded bg-white/[0.05] text-[#a0aaba] hover:text-white hover:bg-white/10 transition-colors">
                       {p}
-                    </a>
+                    </Link>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -245,9 +247,9 @@ export default function Solutions() {
           <p className="text-[#a0aaba] text-lg mb-8 max-w-xl mx-auto">
             Our solutions engineers will help you design the right architecture for your organization.
           </p>
-          <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+          <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
             Talk to an expert <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
       </section>
     </div>

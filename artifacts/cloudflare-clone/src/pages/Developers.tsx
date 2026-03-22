@@ -1,6 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Code2, Database, HardDrive, Zap, Globe, ArrowRight, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Link } from 'wouter';
+import { PageHero } from '@/components/layout/PageHero';
+import { SectionHeading } from '@/components/layout/SectionHeading';
+import { subtleLiftHover } from '@/lib/motion';
 
 const SIGN_UP_URL = '/pricing';
 const DOCS_URL = '/developers';
@@ -76,34 +80,28 @@ const MORE_PRODUCTS = [
 
 export default function Developers() {
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-screen cf-page-bg">
       {/* Hero */}
       <section className="bg-[#1d1f20] border-b border-white/[0.08]">
-        <div className="max-w-[1280px] mx-auto px-6 py-24">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest mb-4">Developer Platform</p>
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight max-w-3xl">
-              Build globally.<br />Deploy instantly.<br />Scale infinitely.
-            </h1>
-            <p className="text-[#a0aaba] text-xl max-w-2xl leading-relaxed mb-10">
-              Cloudflare's developer platform gives you serverless compute, storage, databases, and AI inference — all in 320+ locations globally, with zero cold starts and no egress fees.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
-                Start building <ArrowRight className="w-4 h-4" />
-              </a>
-              <a href={DOCS_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
-                View documentation
-              </a>
-            </div>
-          </motion.div>
-        </div>
+        <PageHero
+          eyebrow="Developer Platform"
+          title={<>Build globally.<br />Deploy instantly.<br />Scale infinitely.</>}
+          description="Cloudflare's developer platform gives you serverless compute, storage, databases, and AI inference — all in 320+ locations globally, with zero cold starts and no egress fees."
+          actions={[
+            { label: 'Start building', href: SIGN_UP_URL, variant: 'primary' },
+            { label: 'View documentation', href: DOCS_URL, variant: 'outline' },
+          ]}
+          className="bg-transparent"
+          contentClassName="py-24"
+        />
       </section>
 
       {/* Core products */}
       <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold text-white mb-2">Core platform</h2>
-        <p className="text-[#6b7280] mb-12">The building blocks of every Cloudflare application.</p>
+        <SectionHeading
+          title="Core platform"
+          description="The building blocks of every Cloudflare application."
+        />
         <div className="grid md:grid-cols-2 gap-6">
           {PRODUCTS.map((product, i) => {
             const Icon = product.icon;
@@ -113,7 +111,8 @@ export default function Developers() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.08 }}
+                whileHover={subtleLiftHover}
                 className="bg-[#1d1f20] border border-white/[0.08] rounded-xl p-8 hover:border-[#f6821f]/30 transition-colors"
               >
                 <div className="flex items-start justify-between mb-5">
@@ -139,9 +138,9 @@ export default function Developers() {
                     </div>
                   ))}
                 </div>
-                <a href={DEV_LINKS[product.name] ?? DOCS_URL} className="inline-flex items-center gap-1.5 mt-5 text-[13px] font-medium text-[#f6821f] hover:gap-2.5 transition-all">
+                <Link href={DEV_LINKS[product.name] ?? DOCS_URL} className="inline-flex items-center gap-1.5 mt-5 text-[13px] font-medium text-[#f6821f] hover:gap-2.5 transition-all">
                   Learn more <ChevronRight className="w-3.5 h-3.5" />
-                </a>
+                </Link>
               </motion.div>
             );
           })}
@@ -151,18 +150,24 @@ export default function Developers() {
       {/* More products */}
       <section className="border-t border-white/[0.08] bg-[#1d1f20]">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
-          <h2 className="text-3xl font-bold text-white mb-2">More developer tools</h2>
-          <p className="text-[#6b7280] mb-12">Storage, messaging, media, AI — everything you need in one platform.</p>
+          <SectionHeading
+            title="More developer tools"
+            description="Storage, messaging, media, AI — everything you need in one platform."
+          />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             {MORE_PRODUCTS.map((p) => (
-              <a
+              <motion.div
                 key={p.name}
-                  href={DEV_LINKS[p.name] ?? DOCS_URL}
-                className="group flex flex-col bg-[#0f172a] border border-white/[0.08] hover:border-[#f6821f]/30 rounded-xl p-5 transition-all hover:-translate-y-0.5"
+                whileHover={subtleLiftHover}
               >
-                <span className="text-[14px] font-semibold text-white group-hover:text-[#f6821f] transition-colors mb-1">{p.name}</span>
-                <span className="text-[12px] text-[#6b7280]">{p.desc}</span>
-              </a>
+                <Link
+                  href={DEV_LINKS[p.name] ?? DOCS_URL}
+                  className="group flex flex-col bg-[#0f172a] border border-white/[0.08] hover:border-[#f6821f]/30 rounded-xl p-5 transition-all"
+                >
+                  <span className="text-[14px] font-semibold text-white group-hover:text-[#f6821f] transition-colors mb-1">{p.name}</span>
+                  <span className="text-[12px] text-[#6b7280]">{p.desc}</span>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -184,9 +189,9 @@ export default function Developers() {
                 </div>
               ))}
             </div>
-            <a href={DOCS_URL} className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+            <Link href={DOCS_URL} className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
               Read the docs <ArrowRight className="w-4 h-4" />
-            </a>
+            </Link>
           </div>
           <div className="bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6 font-mono text-sm">
             <div className="flex items-center gap-2 mb-5 pb-3 border-b border-white/[0.08]">
@@ -243,12 +248,12 @@ export default function Developers() {
           <h2 className="text-4xl font-bold text-white mb-4">Start building for free</h2>
           <p className="text-[#a0aaba] mb-8 max-w-lg mx-auto">Workers, Pages, R2, D1, and KV all have generous free tiers. No credit card needed.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
               Create free account <ArrowRight className="w-4 h-4" />
-            </a>
-            <a href={DOCS_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            </Link>
+            <Link href={DOCS_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
               View documentation
-            </a>
+            </Link>
           </div>
         </div>
       </section>

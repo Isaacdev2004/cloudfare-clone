@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, X, Minus, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
+import { Link } from 'wouter';
+import { PageHero } from '@/components/layout/PageHero';
+import { SectionHeading } from '@/components/layout/SectionHeading';
+import { subtleLiftHover } from '@/lib/motion';
 
 const SIGN_UP_URL = '/pricing';
 const CONTACT_SALES_URL = '/enterprise';
@@ -141,18 +145,16 @@ export default function Pricing() {
   const [openCategory, setOpenCategory] = useState<string | null>('Performance');
 
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-screen cf-page-bg">
       {/* Hero */}
       <section className="bg-[#1d1f20] border-b border-white/[0.08]">
-        <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest mb-4">Plans & Pricing</p>
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-4">Simple, transparent pricing</h1>
-            <p className="text-[#a0aaba] text-xl max-w-2xl mx-auto">
-              From personal projects to global enterprises — a plan that grows with you. No hidden fees.
-            </p>
-          </motion.div>
-        </div>
+        <PageHero
+          eyebrow="Plans & Pricing"
+          title="Simple, transparent pricing"
+          description="From personal projects to global enterprises — a plan that grows with you. No hidden fees."
+          className="bg-transparent"
+          contentClassName="py-20 text-center"
+        />
       </section>
 
       {/* Plan cards */}
@@ -164,6 +166,7 @@ export default function Pricing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08 }}
+              whileHover={subtleLiftHover}
               className={`relative flex flex-col rounded-2xl border p-7 ${
                 plan.highlight
                   ? 'border-[#f6821f] bg-[#1d1f20] shadow-[0_0_40px_rgba(246,130,31,0.12)]'
@@ -188,19 +191,16 @@ export default function Pricing() {
                 </div>
               </div>
 
-              <a
+              <Link
                 href={plan.name === 'Enterprise' ? CONTACT_SALES_URL : SIGN_UP_URL}
                 className={`w-full py-2.5 rounded text-sm font-semibold text-center block mb-8 transition-colors ${
                   plan.ctaStyle === 'primary'
-                    ? 'text-white'
+                    ? 'text-white bg-[#f6821f] hover:bg-[#d96f18]'
                     : 'border border-white/20 text-white hover:bg-white/5'
                 }`}
-                style={plan.ctaStyle === 'primary' ? { backgroundColor: '#f6821f' } : {}}
-                onMouseEnter={e => { if (plan.ctaStyle === 'primary') (e.currentTarget as HTMLElement).style.backgroundColor = '#d96f18'; }}
-                onMouseLeave={e => { if (plan.ctaStyle === 'primary') (e.currentTarget as HTMLElement).style.backgroundColor = '#f6821f'; }}
               >
                 {plan.cta}
-              </a>
+              </Link>
 
               <div className="space-y-3 text-sm text-[#a0aaba] flex-grow">
                 <p className="text-[11px] font-semibold text-white uppercase tracking-widest mb-3">Highlights</p>
@@ -227,8 +227,12 @@ export default function Pricing() {
       {/* Add-ons section */}
       <section className="border-t border-white/[0.08] bg-[#1d1f20]">
         <div className="max-w-[1280px] mx-auto px-6 py-16">
-          <h2 className="text-2xl font-bold text-white mb-2">Available add-ons</h2>
-          <p className="text-[#6b7280] mb-10">Extend any plan with additional capabilities.</p>
+          <SectionHeading
+            title="Available add-ons"
+            description="Extend any plan with additional capabilities."
+            className="mb-10"
+            titleClassName="text-2xl"
+          />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { name: 'Argo Smart Routing', price: 'Usage-based', desc: 'Route traffic via the fastest Cloudflare paths.' },
@@ -236,11 +240,11 @@ export default function Pricing() {
               { name: 'Load Balancing', price: 'From $5/mo', desc: 'Health-aware traffic distribution across origins.' },
               { name: 'Rate Limiting', price: '$0.05 / 10k req', desc: 'Configurable request rate controls.' },
             ].map((addon) => (
-              <div key={addon.name} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-5 hover:border-[#f6821f]/30 transition-colors">
+              <motion.div key={addon.name} whileHover={subtleLiftHover} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-5 hover:border-[#f6821f]/30 transition-colors">
                 <h3 className="text-sm font-semibold text-white mb-1">{addon.name}</h3>
                 <p className="text-[#f6821f] text-sm font-medium mb-2">{addon.price}</p>
                 <p className="text-[12px] text-[#6b7280]">{addon.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -248,8 +252,12 @@ export default function Pricing() {
 
       {/* Comparison table */}
       <section className="max-w-[1280px] mx-auto px-6 py-16">
-        <h2 className="text-2xl font-bold text-white mb-2">Full feature comparison</h2>
-        <p className="text-[#6b7280] mb-10">See exactly what's included in each plan.</p>
+        <SectionHeading
+          title="Full feature comparison"
+          description="See exactly what's included in each plan."
+          className="mb-10"
+          titleClassName="text-2xl"
+        />
 
         {/* Header row */}
         <div className="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-0 mb-2 bg-[#1d1f20] rounded-t-xl border border-b-0 border-white/[0.08] p-4">
@@ -296,7 +304,7 @@ export default function Pricing() {
       {/* FAQ */}
       <section className="border-t border-white/[0.08] bg-[#1d1f20]">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
-          <h2 className="text-2xl font-bold text-white mb-10">Frequently asked questions</h2>
+          <SectionHeading title="Frequently asked questions" className="mb-10" titleClassName="text-2xl" />
           <div className="grid md:grid-cols-2 gap-x-16 gap-y-8 max-w-4xl">
             {[
               { q: 'Is the free plan really free forever?', a: 'Yes. Our Free plan has no time limit and no credit card required. You can use it indefinitely for personal projects.' },
@@ -321,12 +329,12 @@ export default function Pricing() {
           <h2 className="text-4xl font-bold text-white mb-4">Start for free today</h2>
           <p className="text-[#a0aaba] mb-8 max-w-lg mx-auto">No credit card needed. Upgrade anytime. Cancel anytime.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
               Sign up free <ArrowRight className="w-4 h-4" />
-            </a>
-            <a href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            </Link>
+            <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
               Contact sales
-            </a>
+            </Link>
           </div>
         </div>
       </section>

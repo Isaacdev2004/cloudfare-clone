@@ -1,6 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Zap, Globe, Lock, CheckCircle2, ArrowRight, Network, Server } from 'lucide-react';
+import { Link } from 'wouter';
+import { PageHero } from '@/components/layout/PageHero';
+import { SectionHeading } from '@/components/layout/SectionHeading';
+import { subtleLiftHover } from '@/lib/motion';
 
 const SIGN_UP_URL = '/pricing';
 const CONTACT_SALES_URL = '/enterprise';
@@ -78,36 +82,23 @@ const NETWORK_CITIES = [
   'Toronto', 'Paris', 'Amsterdam', 'Dubai', 'Mumbai', 'Seoul', 'Chicago', 'Los Angeles',
 ];
 
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 export default function WhyCloudflare() {
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-screen cf-page-bg">
       {/* Hero */}
       <section className="relative bg-[#1d1f20] border-b border-white/[0.08] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#f6821f]/5 via-transparent to-transparent pointer-events-none" />
-        <div className="max-w-[1280px] mx-auto px-6 py-24 relative z-10">
-          <motion.div initial="hidden" animate="visible" variants={fadeIn} className="max-w-3xl">
-            <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest mb-4">Why Cloudflare</p>
-            <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              A better Internet<br />is possible.
-            </h1>
-            <p className="text-[#a0aaba] text-xl leading-relaxed mb-10">
-              Cloudflare was built with a simple mission: help build a better Internet. We believe a safe, fast, and reliable Internet is a basic human right — and we've spent 15 years building the infrastructure to make it real.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
-                Get started free <ArrowRight className="w-4 h-4" />
-              </a>
-              <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
-                Contact sales
-              </a>
-            </div>
-          </motion.div>
-        </div>
+        <PageHero
+          eyebrow="Why Cloudflare"
+          title={<>A better Internet<br />is possible.</>}
+          description="Cloudflare was built with a simple mission: help build a better Internet. We believe a safe, fast, and reliable Internet is a basic human right — and we've spent 15 years building the infrastructure to make it real."
+          actions={[
+            { label: 'Get started free', href: SIGN_UP_URL, variant: 'primary' },
+            { label: 'Contact sales', href: CONTACT_SALES_URL, variant: 'outline' },
+          ]}
+          className="bg-transparent"
+          contentClassName="relative z-10 py-24"
+        />
       </section>
 
       {/* Stats grid */}
@@ -133,10 +124,10 @@ export default function WhyCloudflare() {
 
       {/* 4 Reasons */}
       <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold text-white mb-2">Why choose Cloudflare?</h2>
-          <p className="text-[#6b7280]">Four fundamental reasons organizations pick Cloudflare over alternatives.</p>
-        </div>
+        <SectionHeading
+          title="Why choose Cloudflare?"
+          description="Four fundamental reasons organizations pick Cloudflare over alternatives."
+        />
 
         <div className="space-y-6">
           {REASONS.map((reason, i) => {
@@ -147,7 +138,8 @@ export default function WhyCloudflare() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.08 }}
+                whileHover={subtleLiftHover}
                 className="grid lg:grid-cols-2 gap-10 items-start bg-[#1d1f20] border border-white/[0.08] rounded-2xl p-8 lg:p-10 hover:border-[#f6821f]/20 transition-colors"
               >
                 <div>
@@ -176,12 +168,12 @@ export default function WhyCloudflare() {
       {/* Network map visual */}
       <section className="border-t border-white/[0.08] bg-[#1d1f20]">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-3">320+ cities. One network.</h2>
-            <p className="text-[#6b7280] max-w-xl mx-auto">
-              Our anycast network automatically directs users to the nearest data center. No configuration needed.
-            </p>
-          </div>
+          <SectionHeading
+            title="320+ cities. One network."
+            description="Our anycast network automatically directs users to the nearest data center. No configuration needed."
+            className="text-center mb-12"
+            descriptionClassName="max-w-xl mx-auto"
+          />
 
           {/* City pills */}
           <div className="flex flex-wrap gap-2 justify-center mb-12">
@@ -217,7 +209,7 @@ export default function WhyCloudflare() {
 
       {/* Company timeline */}
       <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold text-white mb-12">Our story</h2>
+        <SectionHeading title="Our story" />
         <div className="relative">
           <div className="absolute left-[90px] top-0 bottom-0 w-px bg-white/[0.08] hidden md:block" />
           <div className="space-y-8">
@@ -227,7 +219,7 @@ export default function WhyCloudflare() {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
+                transition={{ delay: i * 0.08 }}
                 className="flex gap-6 items-start"
               >
                 <div className="text-sm font-bold text-[#f6821f] w-16 shrink-0 pt-0.5">{item.year}</div>
@@ -244,10 +236,12 @@ export default function WhyCloudflare() {
       {/* Impact section */}
       <section className="border-t border-white/[0.08] bg-[#1d1f20]">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
-          <h2 className="text-3xl font-bold text-white mb-4">Impact beyond business</h2>
-          <p className="text-[#6b7280] max-w-2xl mb-12">
-            We believe in giving back. Cloudflare provides free protection to organizations that need it most.
-          </p>
+          <SectionHeading
+            title="Impact beyond business"
+            description="We believe in giving back. Cloudflare provides free protection to organizations that need it most."
+            className="mb-12"
+            descriptionClassName="max-w-2xl"
+          />
           <div className="grid sm:grid-cols-3 gap-6">
             {[
               {
@@ -269,12 +263,12 @@ export default function WhyCloudflare() {
                 stat: 'Launched 2022 after Ukraine conflict',
               },
             ].map((proj) => (
-              <div key={proj.title} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-6 hover:border-white/20 transition-colors">
+              <motion.div key={proj.title} whileHover={subtleLiftHover} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-6 hover:border-white/20 transition-colors">
                 <div className="w-2 h-6 rounded mb-4" style={{ backgroundColor: proj.color }} />
                 <h3 className="text-base font-semibold text-white mb-2">{proj.title}</h3>
                 <p className="text-[13px] text-[#6b7280] leading-relaxed mb-4">{proj.desc}</p>
                 <p className="text-[12px] font-medium" style={{ color: proj.color }}>{proj.stat}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -288,12 +282,12 @@ export default function WhyCloudflare() {
             It takes about 2 minutes to set up. No credit card required for the Free plan.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
               Get started for free <ArrowRight className="w-4 h-4" />
-            </a>
-            <a href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            </Link>
+            <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
               Contact sales
-            </a>
+            </Link>
           </div>
         </div>
       </section>

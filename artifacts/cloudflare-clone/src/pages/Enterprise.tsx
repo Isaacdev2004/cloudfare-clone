@@ -1,11 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, ArrowRight, Shield, Zap, Lock, Network, Globe, Building2 } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Shield, Zap, Lock, Network, Globe } from 'lucide-react';
+import { Link } from 'wouter';
+import { PageHero } from '@/components/layout/PageHero';
+import { SectionHeading } from '@/components/layout/SectionHeading';
+import { brandLogos } from '@/lib/assets';
+import { subtleLiftHover } from '@/lib/motion';
 
 const CONTACT_SALES_URL = '/enterprise';
 const CASE_STUDIES_URL = '/why-cloudflare';
-
-const LOGOS = ['Microsoft', 'Shopify', 'DoorDash', 'Discord', 'Garmin', 'L\'Oréal', 'Zendesk', 'Thomson Reuters'];
 
 const CAPABILITIES = [
   {
@@ -43,41 +46,32 @@ const COMPLIANCE = [
 
 export default function Enterprise() {
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-screen cf-page-bg">
       {/* Hero */}
       <section className="relative bg-[#1d1f20] border-b border-white/[0.08] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#f6821f]/5 to-transparent pointer-events-none" />
-        <div className="max-w-[1280px] mx-auto px-6 py-24 relative z-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
-            <div className="flex items-center gap-2 mb-5">
-              <Building2 className="w-4 h-4 text-[#f6821f]" />
-              <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest">Enterprise</p>
-            </div>
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              Security and performance<br />at enterprise scale
-            </h1>
-            <p className="text-[#a0aaba] text-xl leading-relaxed mb-10">
-              Protect and accelerate your entire enterprise — applications, networks, and workforce — from a single, unified platform. No hardware. No agents. Just results.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
-                Talk to sales <ArrowRight className="w-4 h-4" />
-              </a>
-              <a href={CASE_STUDIES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
-                View case studies
-              </a>
-            </div>
-          </motion.div>
-        </div>
+        <PageHero
+          eyebrow="Enterprise"
+          title={<>Security and performance<br />at enterprise scale</>}
+          description="Protect and accelerate your entire enterprise — applications, networks, and workforce — from a single, unified platform. No hardware. No agents. Just results."
+          actions={[
+            { label: 'Talk to sales', href: CONTACT_SALES_URL, variant: 'primary' },
+            { label: 'View case studies', href: CASE_STUDIES_URL, variant: 'outline' },
+          ]}
+          className="bg-transparent"
+          contentClassName="relative z-10 py-24"
+        />
       </section>
 
       {/* Customer logos */}
       <section className="border-b border-white/[0.08]">
         <div className="max-w-[1280px] mx-auto px-6 py-10">
           <p className="text-[#6b7280] text-sm text-center mb-8">Trusted by the world's leading organizations</p>
-          <div className="flex flex-wrap gap-8 justify-center">
-            {LOGOS.map((logo) => (
-              <span key={logo} className="text-[#6b7280] font-semibold text-sm hover:text-[#a0aaba] transition-colors">{logo}</span>
+          <div className="flex flex-wrap gap-5 justify-center">
+            {brandLogos.map((logo) => (
+              <div key={logo.name} className="h-11 w-[180px] flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity">
+                <img src={logo.src} alt={logo.name} className="max-h-11 w-auto object-contain" loading="lazy" />
+              </div>
             ))}
           </div>
         </div>
@@ -85,8 +79,10 @@ export default function Enterprise() {
 
       {/* Capabilities */}
       <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold text-white mb-2">Full-stack enterprise platform</h2>
-        <p className="text-[#6b7280] mb-12">Every product, on one network, from one vendor.</p>
+        <SectionHeading
+          title="Full-stack enterprise platform"
+          description="Every product, on one network, from one vendor."
+        />
         <div className="grid md:grid-cols-2 gap-6">
           {CAPABILITIES.map((cap, i) => {
             const Icon = cap.icon;
@@ -96,7 +92,8 @@ export default function Enterprise() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.08 }}
+                whileHover={subtleLiftHover}
                 className="bg-[#1d1f20] border border-white/[0.08] rounded-xl p-8 hover:border-[#f6821f]/20 transition-colors"
               >
                 <div className="flex items-center gap-3 mb-5">
@@ -122,15 +119,17 @@ export default function Enterprise() {
       {/* Compliance */}
       <section className="border-t border-white/[0.08] bg-[#1d1f20]">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
-          <h2 className="text-3xl font-bold text-white mb-2">Compliance, built in</h2>
-          <p className="text-[#6b7280] mb-12">Cloudflare is audited and certified across the major compliance frameworks.</p>
+          <SectionHeading
+            title="Compliance, built in"
+            description="Cloudflare is audited and certified across the major compliance frameworks."
+          />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {COMPLIANCE.map((c) => (
-              <div key={c.label} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-5 hover:border-[#f6821f]/20 transition-colors">
+              <motion.div key={c.label} whileHover={subtleLiftHover} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-5 hover:border-[#f6821f]/20 transition-colors">
                 <div className="w-2 h-2 rounded-full bg-[#f6821f] mb-3" />
                 <p className="text-sm font-semibold text-white">{c.label}</p>
                 <p className="text-xs text-[#6b7280] mt-1">{c.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -138,7 +137,7 @@ export default function Enterprise() {
 
       {/* What's included */}
       <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold text-white mb-12">Enterprise includes</h2>
+        <SectionHeading title="Enterprise includes" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
             { title: 'Dedicated customer success manager', desc: 'A named CSM who understands your architecture and is your advocate inside Cloudflare.' },
@@ -148,11 +147,11 @@ export default function Enterprise() {
             { title: 'Advanced analytics', desc: '90-day retention, SIEM integration, GraphQL API, and custom dashboards.' },
             { title: 'Priority support queue', desc: '24/7 access to enterprise support engineers with guaranteed response SLAs.' },
           ].map((item) => (
-            <div key={item.title} className="bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6">
+            <motion.div key={item.title} whileHover={subtleLiftHover} className="bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6">
               <div className="w-1 h-6 rounded bg-[#f6821f] mb-4" />
               <h3 className="text-sm font-semibold text-white mb-2">{item.title}</h3>
               <p className="text-[13px] text-[#6b7280] leading-relaxed">{item.desc}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -162,9 +161,9 @@ export default function Enterprise() {
         <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">Ready to secure your enterprise?</h2>
           <p className="text-[#a0aaba] mb-8 max-w-lg mx-auto">Our solutions engineers will design a custom architecture for your organization.</p>
-          <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+          <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
             Talk to our enterprise team <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
       </section>
     </div>

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Shield, Lock, Code2, BrainCircuit, Network, Globe, Server, ArrowRight, CheckCircle2, ChevronRight } from 'lucide-react';
+import { PageHero } from '@/components/layout/PageHero';
+import { SectionHeading } from '@/components/layout/SectionHeading';
+import { Link } from 'wouter';
+import { subtleLiftHover } from '@/lib/motion';
 
 const SIGN_UP_URL = '/pricing';
 const CONTACT_SALES_URL = '/enterprise';
@@ -105,22 +109,18 @@ export default function Products() {
   const products = PRODUCTS[activeTab] || [];
 
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-screen cf-page-bg">
       {/* Hero */}
-      <section className="border-b border-white/[0.08] bg-[#1d1f20]">
-        <div className="max-w-[1280px] mx-auto px-6 py-20">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest mb-4">Products</p>
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              One platform.<br />Every Internet property.
-            </h1>
-            <p className="text-[#a0aaba] text-xl max-w-2xl leading-relaxed">
-              A comprehensive suite of cloud services to protect and accelerate any Internet application — no hardware required.
-            </p>
-          </motion.div>
-
-          {/* Stats bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-10 border-t border-white/[0.08]">
+      <section className="border-b border-white/[0.08]">
+        <PageHero
+          eyebrow="Products"
+          title={<>One platform.<br />Every Internet property.</>}
+          description="A comprehensive suite of cloud services to protect and accelerate any Internet application — no hardware required."
+          className="bg-[#1d1f20]"
+          contentClassName="py-20"
+        />
+        <div className="max-w-[1280px] mx-auto px-6 pb-12 -mt-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-10 border-t border-white/[0.08]">
             {STATS.map((s) => (
               <div key={s.label}>
                 <p className="text-3xl font-bold text-white">{s.value}</p>
@@ -168,12 +168,15 @@ export default function Products() {
             className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
           >
             {products.map((product) => (
-              <motion.a
+              <motion.div
                 key={product.name}
-                href={getProductHref(activeTab)}
-                whileHover={{ y: -2 }}
-                className="group flex flex-col bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6 hover:border-[#f6821f]/40 hover:shadow-[0_0_20px_rgba(246,130,31,0.08)] transition-all duration-200"
+                whileHover={subtleLiftHover}
+                className="group"
               >
+                <Link
+                  href={getProductHref(activeTab)}
+                  className="flex flex-col bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6 hover:border-[#f6821f]/40 hover:shadow-[0_0_20px_rgba(246,130,31,0.08)] transition-all duration-200 h-full"
+                >
                 <div className="flex items-start justify-between mb-4">
                   <h3 className="text-[15px] font-semibold text-white group-hover:text-[#f6821f] transition-colors">
                     {product.name}
@@ -195,7 +198,8 @@ export default function Products() {
                 <div className="flex items-center gap-1 mt-4 text-[13px] font-medium text-[#f6821f] opacity-0 group-hover:opacity-100 transition-opacity">
                   Learn more <ArrowRight className="w-3.5 h-3.5" />
                 </div>
-              </motion.a>
+                </Link>
+              </motion.div>
             ))}
           </motion.div>
         </AnimatePresence>
@@ -206,12 +210,13 @@ export default function Products() {
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-white mb-4">
-                All products. One platform.
-              </h2>
-              <p className="text-[#a0aaba] text-lg mb-8">
-                Unlike point solutions, Cloudflare products share intelligence and work together — security products learn from DDoS attacks, performance products benefit from Zero Trust insights.
-              </p>
+              <SectionHeading
+                title="All products. One platform."
+                description="Unlike point solutions, Cloudflare products share intelligence and work together — security products learn from DDoS attacks, performance products benefit from Zero Trust insights."
+                className="mb-8"
+                titleClassName="text-4xl"
+                descriptionClassName="text-[#a0aaba] text-lg"
+              />
               <div className="space-y-3">
                 {['No hardware to manage', 'Instant global deployment', 'Unified dashboard and analytics', 'Usage-based pricing for most products'].map((item) => (
                   <div key={item} className="flex items-center gap-3">
@@ -221,12 +226,12 @@ export default function Products() {
                 ))}
               </div>
               <div className="flex gap-4 mt-10">
-                <a href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white" style={{ backgroundColor: '#f6821f' }}>
+                <Link href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
                   Get started free
-                </a>
-                <a href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5">
+                </Link>
+                <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
                   Contact sales
-                </a>
+                </Link>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -236,10 +241,10 @@ export default function Products() {
                 { label: 'Workers', sub: 'Edge compute' },
                 { label: 'DDoS', sub: 'Always-on protection' },
               ].map((item) => (
-                <div key={item.label} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-6 hover:border-[#f6821f]/30 transition-colors">
+                <motion.div key={item.label} whileHover={subtleLiftHover} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-6 hover:border-[#f6821f]/30 transition-colors">
                   <p className="text-white font-semibold mb-1">{item.label}</p>
                   <p className="text-[#6b7280] text-sm">{item.sub}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
