@@ -111,20 +111,20 @@ export default function Products() {
   return (
     <div className="min-h-screen cf-page-bg">
       {/* Hero */}
-      <section className="border-b border-white/[0.08]">
+      <section className="border-b border-slate-200">
         <PageHero
           eyebrow="Products"
           title={<>One platform.<br />Every Internet property.</>}
           description="A comprehensive suite of cloud services to protect and accelerate any Internet application — no hardware required."
-          className="bg-[#1d1f20]"
+          className="bg-white"
           contentClassName="py-20"
         />
         <div className="max-w-[1280px] mx-auto px-6 pb-12 -mt-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-10 border-t border-white/[0.08]">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-10 border-t border-slate-200">
             {STATS.map((s) => (
               <div key={s.label}>
-                <p className="text-3xl font-bold text-white">{s.value}</p>
-                <p className="text-sm text-[#6b7280] mt-1">{s.label}</p>
+                <p className="text-3xl font-bold text-slate-900">{s.value}</p>
+                <p className="text-sm text-slate-500 mt-1">{s.label}</p>
               </div>
             ))}
           </div>
@@ -132,7 +132,7 @@ export default function Products() {
       </section>
 
       {/* Tab navigation */}
-      <div className="sticky top-16 z-30 bg-[#1d1f20] border-b border-white/[0.08]">
+      <div className="sticky top-[72px] z-30 bg-white border-b border-slate-200">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="flex gap-0 overflow-x-auto scrollbar-none">
             {TABS.map((tab) => {
@@ -143,8 +143,8 @@ export default function Products() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-5 py-4 text-sm font-medium whitespace-nowrap border-b-2 transition-colors duration-150 ${
                     activeTab === tab.id
-                      ? 'border-[#f6821f] text-white'
-                      : 'border-transparent text-[#6b7280] hover:text-[#a0aaba]'
+                      ? 'border-[#f6821f] text-slate-900'
+                      : 'border-transparent text-slate-500 hover:text-slate-900'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -175,10 +175,10 @@ export default function Products() {
               >
                 <Link
                   href={getProductHref(activeTab)}
-                  className="flex flex-col bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6 hover:border-[#f6821f]/40 hover:shadow-[0_0_20px_rgba(246,130,31,0.08)] transition-all duration-200 h-full"
+                  className="flex flex-col bg-white border border-slate-200 rounded-xl p-6 hover:border-[#f6821f]/40 hover:shadow-[0_12px_30px_-18px_rgba(246,130,31,0.25)] transition-all duration-200 h-full"
                 >
                 <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-[15px] font-semibold text-white group-hover:text-[#f6821f] transition-colors">
+                  <h3 className="text-[15px] font-semibold text-slate-900 group-hover:text-[#f6821f] transition-colors">
                     {product.name}
                   </h3>
                   {product.badge && (
@@ -187,10 +187,10 @@ export default function Products() {
                     </span>
                   )}
                 </div>
-                <p className="text-[13px] text-[#6b7280] leading-relaxed flex-grow">{product.desc}</p>
+                <p className="text-[13px] text-slate-500 leading-relaxed flex-grow">{product.desc}</p>
                 <div className="flex flex-wrap gap-1.5 mt-4">
                   {product.tags.slice(0, 2).map((tag) => (
-                    <span key={tag} className="text-[11px] px-2 py-0.5 rounded bg-white/[0.05] text-[#6b7280]">
+                    <span key={tag} className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-500">
                       {tag}
                     </span>
                   ))}
@@ -206,7 +206,7 @@ export default function Products() {
       </div>
 
       {/* Platform CTA section */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20] mt-8">
+      <section className="border-t border-slate-200 bg-white mt-8">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -215,13 +215,13 @@ export default function Products() {
                 description="Unlike point solutions, Cloudflare products share intelligence and work together — security products learn from DDoS attacks, performance products benefit from Zero Trust insights."
                 className="mb-8"
                 titleClassName="text-4xl"
-                descriptionClassName="text-[#a0aaba] text-lg"
+                descriptionClassName="text-slate-600 text-lg"
               />
               <div className="space-y-3">
                 {['No hardware to manage', 'Instant global deployment', 'Unified dashboard and analytics', 'Usage-based pricing for most products'].map((item) => (
                   <div key={item} className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-[#f6821f] shrink-0" />
-                    <span className="text-[#a0aaba] text-sm">{item}</span>
+                    <span className="text-slate-600 text-sm">{item}</span>
                   </div>
                 ))}
               </div>
@@ -229,7 +229,7 @@ export default function Products() {
                 <Link href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
                   Get started free
                 </Link>
-                <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+                <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">
                   Contact sales
                 </Link>
               </div>
@@ -241,9 +241,9 @@ export default function Products() {
                 { label: 'Workers', sub: 'Edge compute' },
                 { label: 'DDoS', sub: 'Always-on protection' },
               ].map((item) => (
-                <motion.div key={item.label} whileHover={subtleLiftHover} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-6 hover:border-[#f6821f]/30 transition-colors">
-                  <p className="text-white font-semibold mb-1">{item.label}</p>
-                  <p className="text-[#6b7280] text-sm">{item.sub}</p>
+                <motion.div key={item.label} whileHover={subtleLiftHover} className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:border-[#f6821f]/30 transition-colors">
+                  <p className="text-slate-900 font-semibold mb-1">{item.label}</p>
+                  <p className="text-slate-500 text-sm">{item.sub}</p>
                 </motion.div>
               ))}
             </div>

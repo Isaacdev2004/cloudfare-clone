@@ -127,7 +127,7 @@ const NAV_ITEMS = [
   },
   {
     name: 'Resources',
-    href: '#',
+    href: '/resources',
     dropdown: {
       columns: [
         {
@@ -165,7 +165,7 @@ const NAV_ITEMS = [
   },
   {
     name: 'Company',
-    href: '/why-cloudflare',
+    href: '/company',
     dropdown: {
       columns: [
         {
@@ -263,14 +263,14 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     <div className="min-h-screen flex flex-col bg-background">
 
       {/* ── Header ── */}
-      <header ref={headerRef} className="fixed top-0 w-full z-50 bg-[#1d1f20] border-b border-white/[0.08]" style={{ height: 64 }}>
+      <header ref={headerRef} className="fixed top-0 w-full z-50 border-b border-[#e5e7eb] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90" style={{ height: 72 }}>
         <div className="max-w-[1280px] mx-auto px-6 h-full flex items-center justify-between">
 
           {/* Left: Logo + Nav */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-2.5 mr-8 shrink-0" onClick={() => setActiveDropdown(null)}>
               <CloudflareLogo size={28} />
-              <span className="text-[17px] font-semibold text-white tracking-[-0.01em]">Cloudflare</span>
+              <span className="text-[17px] font-semibold text-[#111827] tracking-[-0.01em]">Cloudflare</span>
             </Link>
 
             {/* Desktop Nav */}
@@ -281,8 +281,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   href={item.href}
                   onClick={() => setActiveDropdown(null)}
                   className={cn(
-                    'px-3.5 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded',
-                    location === item.href ? 'text-white' : 'text-[#a0aaba] hover:text-white'
+                    'px-3 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded',
+                    location === item.href ? 'text-[#111827]' : 'text-[#374151] hover:text-[#111827]'
                   )}
                 >
                   {item.name}
@@ -297,8 +297,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   aria-expanded={activeDropdown === item.name}
                   aria-label={`${item.name} menu`}
                   className={cn(
-                    'flex items-center gap-1 px-3.5 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded',
-                    activeDropdown === item.name ? 'text-white' : 'text-[#a0aaba] hover:text-white'
+                    'flex items-center gap-1 px-3 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded',
+                    activeDropdown === item.name ? 'text-[#111827]' : 'text-[#374151] hover:text-[#111827]'
                   )}
                 >
                   {item.name}
@@ -315,15 +315,15 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
           {/* Right: CTAs */}
           <div className="hidden lg:flex items-center gap-1">
-            <Link href={CONTACT_SALES_URL} className="px-3.5 py-2 text-[14px] font-medium text-[#a0aaba] hover:text-white transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded">
+            <Link href={CONTACT_SALES_URL} className="px-3 py-2 text-[14px] font-medium text-[#374151] hover:text-[#111827] transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded">
               Contact Sales
             </Link>
-            <Link href={LOGIN_URL} className="px-3.5 py-2 text-[14px] font-medium text-[#a0aaba] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded">
+            <Link href={LOGIN_URL} className="px-3 py-2 text-[14px] font-medium text-[#374151] hover:text-[#111827] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded">
               Log in
             </Link>
             <Link
               href={SIGN_UP_URL}
-              className="ml-2 inline-flex items-center justify-center px-4 py-[7px] rounded text-[14px] font-semibold text-white transition-colors duration-150 bg-[#f6821f] hover:bg-[#d96f18] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60"
+              className="ml-2 inline-flex items-center justify-center px-4 py-[8px] rounded text-[14px] font-semibold text-white transition-colors duration-150 bg-[#f6821f] hover:bg-[#d96f18] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60"
             >
               Sign up
             </Link>
@@ -331,7 +331,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden p-2 text-white"
+            className="lg:hidden p-2 text-[#111827]"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -348,8 +348,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.14, ease: 'easeOut' }}
-            className="fixed left-0 right-0 z-40 bg-[#1d1f20] border-b border-white/[0.08] shadow-2xl"
-            style={{ top: 64 }}
+            className="fixed left-0 right-0 z-40 bg-white border-b border-[#e5e7eb] shadow-[0_16px_30px_-18px_rgba(0,0,0,0.25)]"
+            style={{ top: 72 }}
             onMouseEnter={cancelCloseTimer}
             onMouseLeave={startCloseTimer}
           >
@@ -370,12 +370,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                           <Link
                             href={normalizeHref(sub.href || '#')}
                             onClick={() => setActiveDropdown(null)}
-                            className="group flex flex-col py-2 px-2 rounded-md hover:bg-white/[0.05] transition-colors duration-100"
+                            className="group flex flex-col py-2 px-2 rounded-md hover:bg-[#f3f4f6] transition-colors duration-100"
                           >
-                            <span className="text-[14px] font-medium text-white/90 group-hover:text-white">
+                            <span className="text-[14px] font-medium text-[#111827] group-hover:text-black">
                               {sub.label}
                             </span>
-                            <span className="text-[12px] text-[#6b7280] group-hover:text-[#9ca3af] mt-0.5 leading-snug">
+                            <span className="text-[12px] text-[#6b7280] group-hover:text-[#4b5563] mt-0.5 leading-snug">
                               {sub.desc}
                             </span>
                           </Link>
@@ -388,7 +388,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </div>
 
             {/* Bottom accent bar */}
-            <div className="h-[2px] bg-gradient-to-r from-[#f6821f]/0 via-[#f6821f]/40 to-[#f6821f]/0" />
+            <div className="h-[2px] bg-gradient-to-r from-[#f6821f]/0 via-[#f6821f]/35 to-[#f6821f]/0" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -401,8 +401,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-30 bg-black/60 backdrop-blur-[2px]"
-            style={{ top: 64 }}
+            className="fixed inset-0 z-30 bg-black/30 backdrop-blur-[1px]"
+            style={{ top: 72 }}
             onClick={() => setActiveDropdown(null)}
           />
         )}
@@ -416,25 +416,25 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="fixed inset-0 z-40 bg-[#1d1f20] pt-16 overflow-y-auto lg:hidden"
+            className="fixed inset-0 z-40 bg-white pt-[72px] overflow-y-auto lg:hidden"
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[#e5e7eb]">
               <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                 <CloudflareLogo size={22} />
-                <span className="text-base font-semibold text-white">Cloudflare</span>
+                <span className="text-base font-semibold text-[#111827]">Cloudflare</span>
               </Link>
-              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-white">
+              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-[#111827]">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <nav className="px-4 py-2">
-              <div className="border-b border-white/[0.08] pb-2 mb-1">
+              <div className="border-b border-[#e5e7eb] pb-2 mb-1">
                 {PRIMARY_LINKS.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="block py-3 text-[15px] font-medium text-white/90 hover:text-white"
+                    className="block py-3 text-[15px] font-medium text-[#111827] hover:text-[#000]"
                     onClick={() => {
                       setMobileMenuOpen(false);
                       setMobileExpanded(null);
@@ -445,9 +445,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 ))}
               </div>
               {NAV_ITEMS.map((item) => (
-                <div key={item.name} className="border-b border-white/[0.08]">
+                <div key={item.name} className="border-b border-[#e5e7eb]">
                   <button
-                    className="w-full flex items-center justify-between py-4 text-[15px] font-medium text-white"
+                    className="w-full flex items-center justify-between py-4 text-[15px] font-medium text-[#111827]"
                     onClick={() => setMobileExpanded(mobileExpanded === item.name ? null : item.name)}
                     aria-expanded={mobileExpanded === item.name}
                     aria-label={`${item.name} mobile menu`}
@@ -479,13 +479,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                                 <Link
                                   key={sub.label}
                                   href={normalizeHref(sub.href)}
-                                  className="flex flex-col px-1 py-2 rounded hover:bg-white/5"
+                                  className="flex flex-col px-1 py-2 rounded hover:bg-[#f3f4f6]"
                                   onClick={() => {
                                     setMobileMenuOpen(false);
                                     setMobileExpanded(null);
                                   }}
                                 >
-                                  <span className="text-[14px] text-white/90">{sub.label}</span>
+                                  <span className="text-[14px] text-[#111827]">{sub.label}</span>
                                   <span className="text-[12px] text-[#6b7280]">{sub.desc}</span>
                                 </Link>
                               ))}
@@ -500,7 +500,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </nav>
 
             <div className="px-4 pt-6 pb-8 flex flex-col gap-3">
-              <Link href={LOGIN_URL} className="block py-3 text-center text-[14px] font-medium text-white border border-white/20 rounded" onClick={() => setMobileMenuOpen(false)}>
+              <Link href={LOGIN_URL} className="block py-3 text-center text-[14px] font-medium text-[#111827] border border-[#d1d5db] rounded" onClick={() => setMobileMenuOpen(false)}>
                 Log in
               </Link>
               <Link
@@ -516,7 +516,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </AnimatePresence>
 
       {/* ── Main Content ── */}
-      <main className="flex-grow pt-16">{children}</main>
+      <main className="flex-grow pt-[72px]">{children}</main>
 
       {/* ── Footer ── */}
       <footer className="bg-[#1d1f20] border-t border-white/[0.08] pt-16 pb-8">

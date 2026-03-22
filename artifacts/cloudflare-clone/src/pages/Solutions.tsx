@@ -99,7 +99,7 @@ export default function Solutions() {
   return (
     <div className="min-h-screen cf-page-bg">
       {/* Hero */}
-      <section className="bg-[#1d1f20] border-b border-white/[0.08]">
+      <section className="bg-white border-b border-slate-200">
         <PageHero
           eyebrow="Solutions"
           title={<>Cloudflare for every<br />organization</>}
@@ -132,8 +132,8 @@ export default function Solutions() {
                   onClick={() => setActiveSize(s.id)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg text-left w-full transition-all ${
                     activeSize === s.id
-                      ? 'bg-[#f6821f]/10 border border-[#f6821f]/30 text-white'
-                      : 'text-[#6b7280] hover:text-white hover:bg-white/[0.04] border border-transparent'
+                      ? 'bg-[#f6821f]/10 border border-[#f6821f]/30 text-slate-900'
+                      : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50 border border-transparent'
                   }`}
                 >
                   <Icon className={`w-5 h-5 shrink-0 ${activeSize === s.id ? 'text-[#f6821f]' : ''}`} />
@@ -149,19 +149,19 @@ export default function Solutions() {
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.2 }}
-            className="bg-[#1d1f20] border border-white/[0.08] rounded-2xl p-8"
+            className="bg-white border border-slate-200 rounded-2xl p-8"
           >
             <span className="inline-block text-[11px] font-semibold text-[#f6821f] uppercase tracking-widest border border-[#f6821f]/30 rounded-full px-3 py-1 mb-5">
               {selected.tag}
             </span>
-            <h3 className="text-2xl font-bold text-white mb-3">{selected.headline}</h3>
-            <p className="text-[#a0aaba] mb-8 leading-relaxed">{selected.desc}</p>
+            <h3 className="text-2xl font-bold text-slate-900 mb-3">{selected.headline}</h3>
+            <p className="text-slate-600 mb-8 leading-relaxed">{selected.desc}</p>
 
             <div className="grid sm:grid-cols-2 gap-3 mb-8">
               {selected.features.map((f) => (
                 <div key={f} className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-[#f6821f] shrink-0 mt-0.5" />
-                  <span className="text-sm text-[#a0aaba]">{f}</span>
+                  <span className="text-sm text-slate-600">{f}</span>
                 </div>
               ))}
             </div>
@@ -177,7 +177,7 @@ export default function Solutions() {
       </section>
 
       {/* By Industry */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20]">
+      <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <SectionHeading
             title="By industry"
@@ -193,12 +193,12 @@ export default function Solutions() {
                   whileHover={subtleLiftHover}
                   className="group"
                 >
-                  <Link href="/solutions" className="block bg-[#0f172a] border border-white/[0.08] hover:border-[#f6821f]/30 rounded-xl p-6 transition-all h-full">
+                  <Link href="/solutions" className="block bg-white border border-slate-200 hover:border-[#f6821f]/30 rounded-xl p-6 transition-all h-full">
                     <div className="w-10 h-10 rounded-lg bg-[#f6821f]/10 flex items-center justify-center mb-4">
                       <Icon className="w-5 h-5 text-[#f6821f]" />
                     </div>
-                    <h3 className="text-[15px] font-semibold text-white mb-2 group-hover:text-[#f6821f] transition-colors">{ind.title}</h3>
-                    <p className="text-[13px] text-[#6b7280] leading-relaxed">{ind.desc}</p>
+                    <h3 className="text-[15px] font-semibold text-slate-900 mb-2 group-hover:text-[#f6821f] transition-colors">{ind.title}</h3>
+                    <p className="text-[13px] text-slate-500 leading-relaxed">{ind.desc}</p>
                     <div className="flex items-center gap-1 mt-4 text-[13px] text-[#f6821f] opacity-0 group-hover:opacity-100 transition-opacity font-medium">
                       Learn more <ArrowRight className="w-3.5 h-3.5" />
                     </div>
@@ -221,15 +221,15 @@ export default function Solutions() {
           {BY_USECASE.map((uc) => {
             const Icon = uc.icon;
             return (
-              <motion.div key={uc.title} whileHover={subtleLiftHover} className="bg-[#1d1f20] border border-white/[0.08] rounded-xl p-8 hover:border-[#f6821f]/30 transition-colors">
+              <motion.div key={uc.title} whileHover={subtleLiftHover} className="bg-white border border-slate-200 rounded-xl p-8 hover:border-[#f6821f]/30 transition-colors">
                 <div className="w-10 h-10 rounded-lg bg-[#f6821f]/10 flex items-center justify-center mb-5">
                   <Icon className="w-5 h-5 text-[#f6821f]" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-3">{uc.title}</h3>
-                <p className="text-[#6b7280] text-sm leading-relaxed mb-5">{uc.desc}</p>
+                <h3 className="text-lg font-semibold text-slate-900 mb-3">{uc.title}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed mb-5">{uc.desc}</p>
                 <div className="flex flex-wrap gap-2">
                   {uc.products.map((p) => (
-                    <Link key={p} href="/products" className="text-xs px-2.5 py-1 rounded bg-white/[0.05] text-[#a0aaba] hover:text-white hover:bg-white/10 transition-colors">
+                    <Link key={p} href="/products" className="text-xs px-2.5 py-1 rounded bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-colors">
                       {p}
                     </Link>
                   ))}
@@ -241,10 +241,10 @@ export default function Solutions() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20]">
+      <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Not sure where to start?</h2>
-          <p className="text-[#a0aaba] text-lg mb-8 max-w-xl mx-auto">
+          <h2 className="text-4xl font-bold text-slate-900 mb-4">Not sure where to start?</h2>
+          <p className="text-slate-600 text-lg mb-8 max-w-xl mx-auto">
             Our solutions engineers will help you design the right architecture for your organization.
           </p>
           <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">

@@ -18,9 +18,9 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
 }) => {
   return (
     <div className={cn("mb-12", className)}>
-      <h2 className={cn("text-3xl font-bold text-white mb-2", titleClassName)}>{title}</h2>
+      <h2 className={cn("text-3xl font-bold text-slate-900 mb-2", titleClassName)}>{title}</h2>
       {description && (
-        <p className={cn("text-[#6b7280]", descriptionClassName)}>{description}</p>
+        <p className={cn("text-slate-600", descriptionClassName)}>{description}</p>
       )}
     </div>
   );

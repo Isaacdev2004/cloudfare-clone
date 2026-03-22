@@ -38,7 +38,7 @@ export default function ZeroTrust() {
   return (
     <div className="min-h-screen cf-page-bg">
       {/* Hero */}
-      <section className="bg-[#1d1f20] border-b border-white/[0.08]">
+      <section className="bg-white border-b border-slate-200">
         <PageHero
           eyebrow="Zero Trust & SASE"
           title={<>Replace your VPN.<br />Secure every user,<br />app, and device.</>}
@@ -71,15 +71,15 @@ export default function ZeroTrust() {
                 whileHover={subtleLiftHover}
                 className="group"
               >
-                <Link href={product.link} className="flex flex-col bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6 hover:border-[#f6821f]/40 transition-all h-full">
+                <Link href={product.link} className="flex flex-col bg-white border border-slate-200 rounded-xl p-6 hover:border-[#f6821f]/40 transition-all h-full">
                 <div className="w-9 h-9 rounded-lg bg-[#f6821f]/10 flex items-center justify-center mb-4">
                   <Icon className="w-4 h-4 text-[#f6821f]" />
                 </div>
                 <div className="mb-3">
-                  <h3 className="text-[15px] font-semibold text-white group-hover:text-[#f6821f] transition-colors">{product.name}</h3>
-                  <p className="text-[11px] text-[#6b7280] uppercase tracking-wider mt-0.5">{product.tag}</p>
+                  <h3 className="text-[15px] font-semibold text-slate-900 group-hover:text-[#f6821f] transition-colors">{product.name}</h3>
+                  <p className="text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">{product.tag}</p>
                 </div>
-                <p className="text-[13px] text-[#6b7280] leading-relaxed flex-grow">{product.desc}</p>
+                <p className="text-[13px] text-slate-500 leading-relaxed flex-grow">{product.desc}</p>
                 <div className="flex items-center gap-1 mt-4 text-[13px] text-[#f6821f] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                   Learn more <ChevronRight className="w-3.5 h-3.5" />
                 </div>
@@ -91,7 +91,7 @@ export default function ZeroTrust() {
       </section>
 
       {/* How it works */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20]">
+      <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <SectionHeading
             title="How Cloudflare One works"
@@ -107,8 +107,8 @@ export default function ZeroTrust() {
                 transition={{ delay: i * 0.08 }}
               >
                 <div className="text-5xl font-black text-[#f6821f]/20 mb-3">{step.step}</div>
-                <h3 className="text-[15px] font-semibold text-white mb-2">{step.title}</h3>
-                <p className="text-[13px] text-[#6b7280] leading-relaxed">{step.desc}</p>
+                <h3 className="text-[15px] font-semibold text-slate-900 mb-2">{step.title}</h3>
+                <p className="text-[13px] text-slate-500 leading-relaxed">{step.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -122,16 +122,16 @@ export default function ZeroTrust() {
           description="Why thousands of organizations are replacing their VPNs with Cloudflare."
           className="mb-10"
         />
-        <div className="border border-white/[0.08] rounded-xl overflow-hidden">
-          <div className="grid grid-cols-[2fr_1fr_1fr] bg-[#1d1f20] border-b border-white/[0.08]">
-            <div className="px-6 py-4 text-[12px] font-semibold text-[#6b7280] uppercase tracking-widest">Feature</div>
-            <div className="px-4 py-4 text-[12px] font-semibold text-[#6b7280] uppercase tracking-widest text-center">Legacy VPN</div>
+        <div className="border border-slate-200 rounded-xl overflow-hidden">
+          <div className="grid grid-cols-[2fr_1fr_1fr] bg-slate-50 border-b border-slate-200">
+            <div className="px-6 py-4 text-[12px] font-semibold text-slate-500 uppercase tracking-widest">Feature</div>
+            <div className="px-4 py-4 text-[12px] font-semibold text-slate-500 uppercase tracking-widest text-center">Legacy VPN</div>
             <div className="px-4 py-4 text-[12px] font-semibold text-[#f6821f] uppercase tracking-widest text-center">Cloudflare Zero Trust</div>
           </div>
           {VS_VPN.map((row, i) => (
-            <div key={row.feature} className={`grid grid-cols-[2fr_1fr_1fr] border-b border-white/[0.04] last:border-b-0 ${i % 2 === 0 ? 'bg-[#0f172a]' : 'bg-[#1d1f20]'}`}>
-              <div className="px-6 py-4 text-sm text-[#a0aaba]">{row.feature}</div>
-              <div className="px-4 py-4 text-[13px] text-[#6b7280] text-center">{row.vpn}</div>
+            <div key={row.feature} className={`grid grid-cols-[2fr_1fr_1fr] border-b border-slate-100 last:border-b-0 ${i % 2 === 0 ? 'bg-slate-50' : 'bg-white'}`}>
+              <div className="px-6 py-4 text-sm text-slate-600">{row.feature}</div>
+              <div className="px-4 py-4 text-[13px] text-slate-500 text-center">{row.vpn}</div>
               <div className="px-4 py-4 text-[13px] text-[#4ade80] text-center flex items-center justify-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                 {row.zt}
@@ -142,17 +142,17 @@ export default function ZeroTrust() {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20]">
+      <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Start your Zero Trust journey</h2>
-          <p className="text-[#a0aaba] mb-8 max-w-lg mx-auto">
+          <h2 className="text-4xl font-bold text-slate-900 mb-4">Start your Zero Trust journey</h2>
+          <p className="text-slate-600 mb-8 max-w-lg mx-auto">
             Free for up to 50 users. No hardware. No hidden setup fees.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
               Start for free <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">
               Talk to sales
             </Link>
           </div>

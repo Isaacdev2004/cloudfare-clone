@@ -10,7 +10,11 @@ interface Point3D {
   isBeacon: boolean;
 }
 
-export const NetworkGlobe: React.FC = () => {
+type NetworkGlobeProps = {
+  compact?: boolean;
+};
+
+export const NetworkGlobe: React.FC<NetworkGlobeProps> = ({ compact = false }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -27,7 +31,7 @@ export const NetworkGlobe: React.FC = () => {
     const dpr = window.devicePixelRatio || 1;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
-    ctx.scale(dpr, dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const radius = Math.min(width, height) * 0.48;
     const points: Point3D[] = [];
@@ -54,30 +58,68 @@ export const NetworkGlobe: React.FC = () => {
     }
 
     let rotationY = 0;
-    const rotationSpeed = 0.002;
+    const rotationSpeed = compact ? 0.0038 : 0.0026;
+
+    const drawRoundedRect = (x: number, y: number, w: number, h: number, r: number) => {
+      ctx.beginPath();
+      if (typeof ctx.roundRect === 'function') {
+        ctx.roundRect(x, y, w, h, r);
+        return;
+      }
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    };
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
       const centerX = width / 2;
       const centerY = height / 2;
 
-      // Subtle dark radial gradient behind the globe
+      // Warm gradient background to better match Cloudflare's visual language
       const bgGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius * 1.5);
-      bgGradient.addColorStop(0, 'rgba(246, 130, 31, 0.1)');
-      bgGradient.addColorStop(0.5, 'rgba(15, 23, 42, 0.05)');
+      bgGradient.addColorStop(0, 'rgba(246, 130, 31, 0.18)');
+      bgGradient.addColorStop(0.55, 'rgba(255, 199, 128, 0.06)');
       bgGradient.addColorStop(1, 'rgba(15, 23, 42, 0)');
       ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, width, height);
 
+      // Soft globe body fill
+      const globeFill = ctx.createRadialGradient(centerX - radius * 0.25, centerY - radius * 0.25, radius * 0.1, centerX, centerY, radius);
+      globeFill.addColorStop(0, 'rgba(255, 244, 228, 0.20)');
+      globeFill.addColorStop(1, 'rgba(255, 200, 140, 0.08)');
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.fillStyle = globeFill;
+      ctx.fill();
+
       // Draw sphere outline
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(246, 130, 31, 0.35)';
+      ctx.lineWidth = 1.2;
       ctx.stroke();
 
+      // Outer ring with animated dash for clear motion
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius * 1.08, 0, Math.PI * 2);
+      ctx.setLineDash([4, 8]);
+      ctx.lineDashOffset = -rotationY * 140;
+      ctx.strokeStyle = 'rgba(246, 130, 31, 0.25)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.lineDashOffset = 0;
+
       // Draw Latitude/Longitude Grid Lines
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.strokeStyle = 'rgba(246, 130, 31, 0.12)';
       ctx.lineWidth = 1;
       
       rotationY += rotationSpeed;
@@ -126,7 +168,7 @@ export const NetworkGlobe: React.FC = () => {
           const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
 
           if (dist < radius * 0.45) {
-            const opacity = Math.max(0, 1 - (dist / (radius * 0.45))) * 0.4;
+            const opacity = Math.max(0, 1 - (dist / (radius * 0.45))) * 0.45;
             ctx.strokeStyle = `rgba(246, 130, 31, ${opacity})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
@@ -156,11 +198,55 @@ export const NetworkGlobe: React.FC = () => {
           ctx.arc(p.x, p.y, (8 + pulse * 6) * p.scale, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+          ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.85})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, 2 * p.scale, 0, Math.PI * 2);
           ctx.fill();
         }
+      });
+
+      // Decorative endpoint badges around globe for Cloudflare-like feel
+      const badges = [
+        { angle: -0.7, icon: 'user' },
+        { angle: 0.25, icon: 'net' },
+        { angle: 1.05, icon: 'box' },
+        { angle: 2.15, icon: 'home' },
+      ];
+
+      badges.forEach((badge) => {
+        const r = radius * 1.18;
+        const x = centerX + Math.cos(rotationY + badge.angle) * r;
+        const y = centerY + Math.sin(rotationY + badge.angle) * r;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
+        ctx.strokeStyle = 'rgba(246, 130, 31, 0.55)';
+        ctx.lineWidth = 2;
+        drawRoundedRect(x - 14, y - 14, 28, 28, 7);
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = 'rgba(246, 130, 31, 0.9)';
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        if (badge.icon === 'user') {
+          ctx.arc(x, y - 4, 4, 0, Math.PI * 2);
+          ctx.moveTo(x - 6, y + 7);
+          ctx.quadraticCurveTo(x, y + 2, x + 6, y + 7);
+        } else if (badge.icon === 'net') {
+          ctx.arc(x, y, 6, 0, Math.PI * 2);
+          ctx.moveTo(x - 6, y);
+          ctx.lineTo(x + 6, y);
+          ctx.moveTo(x, y - 6);
+          ctx.lineTo(x, y + 6);
+        } else if (badge.icon === 'box') {
+          ctx.rect(x - 5, y - 5, 10, 10);
+        } else {
+          ctx.moveTo(x - 6, y + 3);
+          ctx.lineTo(x, y - 4);
+          ctx.lineTo(x + 6, y + 3);
+          ctx.lineTo(x + 6, y + 8);
+          ctx.lineTo(x - 6, y + 8);
+          ctx.closePath();
+        }
+        ctx.stroke();
       });
 
       animationFrameId = requestAnimationFrame(render);
@@ -174,7 +260,7 @@ export const NetworkGlobe: React.FC = () => {
       height = canvasRef.current.clientHeight;
       canvas.width = width * dpr;
       canvas.height = height * dpr;
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     window.addEventListener('resize', handleResize);
@@ -187,7 +273,7 @@ export const NetworkGlobe: React.FC = () => {
   return (
     <canvas 
       ref={canvasRef} 
-      className="w-full h-full min-h-[500px] md:min-h-[600px] lg:min-h-[700px]"
+      className={compact ? "w-full h-full min-h-[280px] md:min-h-[320px]" : "w-full h-full min-h-[500px] md:min-h-[600px] lg:min-h-[700px]"}
     />
   );
 };

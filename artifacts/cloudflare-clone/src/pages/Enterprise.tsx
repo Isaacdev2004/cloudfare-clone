@@ -48,7 +48,7 @@ export default function Enterprise() {
   return (
     <div className="min-h-screen cf-page-bg">
       {/* Hero */}
-      <section className="relative bg-[#1d1f20] border-b border-white/[0.08] overflow-hidden">
+      <section className="relative bg-white border-b border-slate-200 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#f6821f]/5 to-transparent pointer-events-none" />
         <PageHero
           eyebrow="Enterprise"
@@ -64,9 +64,9 @@ export default function Enterprise() {
       </section>
 
       {/* Customer logos */}
-      <section className="border-b border-white/[0.08]">
+      <section className="border-b border-slate-200">
         <div className="max-w-[1280px] mx-auto px-6 py-10">
-          <p className="text-[#6b7280] text-sm text-center mb-8">Trusted by the world's leading organizations</p>
+          <p className="text-slate-500 text-sm text-center mb-8">Trusted by the world's leading organizations</p>
           <div className="flex flex-wrap gap-5 justify-center">
             {brandLogos.map((logo) => (
               <div key={logo.name} className="h-11 w-[180px] flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity">
@@ -94,19 +94,19 @@ export default function Enterprise() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 whileHover={subtleLiftHover}
-                className="bg-[#1d1f20] border border-white/[0.08] rounded-xl p-8 hover:border-[#f6821f]/20 transition-colors"
+                className="bg-white border border-slate-200 rounded-xl p-8 hover:border-[#f6821f]/20 transition-colors"
               >
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-9 h-9 rounded-lg bg-[#f6821f]/10 flex items-center justify-center">
                     <Icon className="w-4 h-4 text-[#f6821f]" />
                   </div>
-                  <h3 className="text-base font-semibold text-white">{cap.title}</h3>
+                  <h3 className="text-base font-semibold text-slate-900">{cap.title}</h3>
                 </div>
                 <ul className="space-y-2.5">
                   {cap.items.map((item) => (
                     <li key={item} className="flex items-start gap-2.5">
                       <CheckCircle2 className="w-4 h-4 text-[#f6821f] shrink-0 mt-0.5" />
-                      <span className="text-sm text-[#a0aaba]">{item}</span>
+                      <span className="text-sm text-slate-600">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -117,7 +117,7 @@ export default function Enterprise() {
       </section>
 
       {/* Compliance */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20]">
+      <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <SectionHeading
             title="Compliance, built in"
@@ -125,10 +125,10 @@ export default function Enterprise() {
           />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {COMPLIANCE.map((c) => (
-              <motion.div key={c.label} whileHover={subtleLiftHover} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-5 hover:border-[#f6821f]/20 transition-colors">
+              <motion.div key={c.label} whileHover={subtleLiftHover} className="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-[#f6821f]/20 transition-colors">
                 <div className="w-2 h-2 rounded-full bg-[#f6821f] mb-3" />
-                <p className="text-sm font-semibold text-white">{c.label}</p>
-                <p className="text-xs text-[#6b7280] mt-1">{c.desc}</p>
+                <p className="text-sm font-semibold text-slate-900">{c.label}</p>
+                <p className="text-xs text-slate-500 mt-1">{c.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -147,20 +147,20 @@ export default function Enterprise() {
             { title: 'Advanced analytics', desc: '90-day retention, SIEM integration, GraphQL API, and custom dashboards.' },
             { title: 'Priority support queue', desc: '24/7 access to enterprise support engineers with guaranteed response SLAs.' },
           ].map((item) => (
-            <motion.div key={item.title} whileHover={subtleLiftHover} className="bg-[#1d1f20] border border-white/[0.08] rounded-xl p-6">
+            <motion.div key={item.title} whileHover={subtleLiftHover} className="bg-white border border-slate-200 rounded-xl p-6">
               <div className="w-1 h-6 rounded bg-[#f6821f] mb-4" />
-              <h3 className="text-sm font-semibold text-white mb-2">{item.title}</h3>
-              <p className="text-[13px] text-[#6b7280] leading-relaxed">{item.desc}</p>
+              <h3 className="text-sm font-semibold text-slate-900 mb-2">{item.title}</h3>
+              <p className="text-[13px] text-slate-500 leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* CTA */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20]">
+      <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Ready to secure your enterprise?</h2>
-          <p className="text-[#a0aaba] mb-8 max-w-lg mx-auto">Our solutions engineers will design a custom architecture for your organization.</p>
+          <h2 className="text-4xl font-bold text-slate-900 mb-4">Ready to secure your enterprise?</h2>
+          <p className="text-slate-600 mb-8 max-w-lg mx-auto">Our solutions engineers will design a custom architecture for your organization.</p>
           <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
             Talk to our enterprise team <ArrowRight className="w-4 h-4" />
           </Link>

@@ -32,7 +32,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
   return (
     <section
       className={cn(
-        "relative overflow-hidden bg-[radial-gradient(ellipse_at_70%_50%,rgba(180,80,20,0.12),#0f172a_65%)]",
+        "relative overflow-hidden bg-[radial-gradient(ellipse_at_70%_40%,rgba(246,130,31,0.12),rgba(248,250,252,0.95)_62%)]",
         className,
       )}
     >
@@ -42,10 +42,10 @@ export const PageHero: React.FC<PageHeroProps> = ({
             {eyebrow && (
               <p className="text-sm font-semibold uppercase tracking-widest text-[#f6821f] mb-4">{eyebrow}</p>
             )}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] text-white mb-6">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] text-slate-900 mb-6">
               {title}
             </h1>
-            <p className="text-lg sm:text-xl text-[#a0aaba] leading-relaxed mb-8">{description}</p>
+            <p className="text-lg sm:text-xl text-slate-600 leading-relaxed mb-8">{description}</p>
             {!!actions.length && (
               <div className="flex flex-col sm:flex-row gap-4">
                 {actions.map((action) => (
@@ -55,7 +55,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
                     className={cn(
                       "inline-flex items-center justify-center gap-2 px-5 py-3 rounded text-[15px] font-semibold transition-colors",
                       action.variant === "outline"
-                        ? "text-white border border-white/20 hover:bg-white/5"
+                        ? "text-slate-800 border border-slate-300 hover:bg-slate-50"
                         : "text-white bg-[#f6821f] hover:bg-[#d96f18]",
                     )}
                   >

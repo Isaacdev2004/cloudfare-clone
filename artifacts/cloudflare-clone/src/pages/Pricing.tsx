@@ -138,7 +138,7 @@ const COMPARISON_ROWS = [
 function CellValue({ val }: { val: string | boolean }) {
   if (val === true) return <Check className="w-5 h-5 text-[#f6821f] mx-auto" />;
   if (val === false) return <Minus className="w-4 h-4 text-[#374151] mx-auto" />;
-  return <span className="text-[13px] text-[#a0aaba] text-center block">{val}</span>;
+  return <span className="text-[13px] text-slate-600 text-center block">{val}</span>;
 }
 
 export default function Pricing() {
@@ -147,7 +147,7 @@ export default function Pricing() {
   return (
     <div className="min-h-screen cf-page-bg">
       {/* Hero */}
-      <section className="bg-[#1d1f20] border-b border-white/[0.08]">
+      <section className="bg-white border-b border-slate-200">
         <PageHero
           eyebrow="Plans & Pricing"
           title="Simple, transparent pricing"
@@ -169,8 +169,8 @@ export default function Pricing() {
               whileHover={subtleLiftHover}
               className={`relative flex flex-col rounded-2xl border p-7 ${
                 plan.highlight
-                  ? 'border-[#f6821f] bg-[#1d1f20] shadow-[0_0_40px_rgba(246,130,31,0.12)]'
-                  : 'border-white/[0.08] bg-[#1d1f20]'
+                  ? 'border-[#f6821f] bg-white shadow-[0_10px_35px_-20px_rgba(246,130,31,0.35)]'
+                  : 'border-slate-200 bg-white'
               }`}
             >
               {plan.badge && (
@@ -180,14 +180,14 @@ export default function Pricing() {
               )}
 
               <div className="mb-6">
-                <h2 className="text-lg font-bold text-white mb-1">{plan.name}</h2>
-                <p className="text-[13px] text-[#6b7280] leading-snug h-10">{plan.desc}</p>
+                <h2 className="text-lg font-bold text-slate-900 mb-1">{plan.name}</h2>
+                <p className="text-[13px] text-slate-500 leading-snug h-10">{plan.desc}</p>
               </div>
 
               <div className="mb-6">
                 <div className="flex items-end gap-1">
-                  <span className="text-4xl font-black text-white">{plan.price}</span>
-                  {plan.period && <span className="text-[#6b7280] text-sm mb-1">{plan.period}</span>}
+                  <span className="text-4xl font-black text-slate-900">{plan.price}</span>
+                  {plan.period && <span className="text-slate-500 text-sm mb-1">{plan.period}</span>}
                 </div>
               </div>
 
@@ -196,14 +196,14 @@ export default function Pricing() {
                 className={`w-full py-2.5 rounded text-sm font-semibold text-center block mb-8 transition-colors ${
                   plan.ctaStyle === 'primary'
                     ? 'text-white bg-[#f6821f] hover:bg-[#d96f18]'
-                    : 'border border-white/20 text-white hover:bg-white/5'
+                    : 'border border-slate-300 text-slate-800 hover:bg-slate-50'
                 }`}
               >
                 {plan.cta}
               </Link>
 
-              <div className="space-y-3 text-sm text-[#a0aaba] flex-grow">
-                <p className="text-[11px] font-semibold text-white uppercase tracking-widest mb-3">Highlights</p>
+              <div className="space-y-3 text-sm text-slate-600 flex-grow">
+                <p className="text-[11px] font-semibold text-slate-900 uppercase tracking-widest mb-3">Highlights</p>
                 {[
                   `CDN: ${plan.features.cdn}`,
                   `DDoS: ${plan.features.ddos}`,
@@ -225,7 +225,7 @@ export default function Pricing() {
       </section>
 
       {/* Add-ons section */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20]">
+      <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-16">
           <SectionHeading
             title="Available add-ons"
@@ -240,10 +240,10 @@ export default function Pricing() {
               { name: 'Load Balancing', price: 'From $5/mo', desc: 'Health-aware traffic distribution across origins.' },
               { name: 'Rate Limiting', price: '$0.05 / 10k req', desc: 'Configurable request rate controls.' },
             ].map((addon) => (
-              <motion.div key={addon.name} whileHover={subtleLiftHover} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-5 hover:border-[#f6821f]/30 transition-colors">
-                <h3 className="text-sm font-semibold text-white mb-1">{addon.name}</h3>
+              <motion.div key={addon.name} whileHover={subtleLiftHover} className="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-[#f6821f]/30 transition-colors">
+                <h3 className="text-sm font-semibold text-slate-900 mb-1">{addon.name}</h3>
                 <p className="text-[#f6821f] text-sm font-medium mb-2">{addon.price}</p>
-                <p className="text-[12px] text-[#6b7280]">{addon.desc}</p>
+                <p className="text-[12px] text-slate-500">{addon.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -260,34 +260,34 @@ export default function Pricing() {
         />
 
         {/* Header row */}
-        <div className="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-0 mb-2 bg-[#1d1f20] rounded-t-xl border border-b-0 border-white/[0.08] p-4">
+        <div className="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-0 mb-2 bg-slate-50 rounded-t-xl border border-b-0 border-slate-200 p-4">
           <div />
           {['Free', 'Pro', 'Business', 'Enterprise'].map(p => (
             <div key={p} className="text-center">
-              <p className="text-sm font-semibold text-white">{p}</p>
+              <p className="text-sm font-semibold text-slate-900">{p}</p>
             </div>
           ))}
         </div>
 
-        <div className="border border-white/[0.08] rounded-b-xl overflow-hidden">
+        <div className="border border-slate-200 rounded-b-xl overflow-hidden">
           {COMPARISON_ROWS.map((cat) => (
-            <div key={cat.category} className="border-b border-white/[0.08] last:border-b-0">
+            <div key={cat.category} className="border-b border-slate-200 last:border-b-0">
               {/* Category header */}
               <button
-                className="w-full flex items-center justify-between px-5 py-3.5 bg-[#1d1f20] hover:bg-white/[0.02] transition-colors"
+                className="w-full flex items-center justify-between px-5 py-3.5 bg-white hover:bg-slate-50 transition-colors"
                 onClick={() => setOpenCategory(openCategory === cat.category ? null : cat.category)}
               >
                 <span className="text-[13px] font-semibold text-[#f6821f] uppercase tracking-widest">{cat.category}</span>
                 {openCategory === cat.category
-                  ? <ChevronUp className="w-4 h-4 text-[#6b7280]" />
-                  : <ChevronDown className="w-4 h-4 text-[#6b7280]" />}
+                  ? <ChevronUp className="w-4 h-4 text-slate-500" />
+                  : <ChevronDown className="w-4 h-4 text-slate-500" />}
               </button>
 
               {openCategory === cat.category && (
                 <div>
                   {cat.rows.map((row, ri) => (
-                    <div key={ri} className={`grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-0 px-5 py-3 border-t border-white/[0.04] ${ri % 2 === 0 ? 'bg-[#0f172a]' : 'bg-[#1d1f20]'}`}>
-                      <div className="text-[13px] text-[#a0aaba] flex items-center">{row.label}</div>
+                    <div key={ri} className={`grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-0 px-5 py-3 border-t border-slate-100 ${ri % 2 === 0 ? 'bg-slate-50' : 'bg-white'}`}>
+                      <div className="text-[13px] text-slate-600 flex items-center">{row.label}</div>
                       <div className="flex items-center justify-center"><CellValue val={row.free} /></div>
                       <div className="flex items-center justify-center"><CellValue val={row.pro} /></div>
                       <div className="flex items-center justify-center"><CellValue val={row.business} /></div>
@@ -302,7 +302,7 @@ export default function Pricing() {
       </section>
 
       {/* FAQ */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20]">
+      <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <SectionHeading title="Frequently asked questions" className="mb-10" titleClassName="text-2xl" />
           <div className="grid md:grid-cols-2 gap-x-16 gap-y-8 max-w-4xl">
@@ -315,8 +315,8 @@ export default function Pricing() {
               { q: 'Is there a trial period?', a: 'The Free plan itself is a permanent trial. You can test Pro or Business features by upgrading and downgrading within 30 days for a full refund.' },
             ].map((faq) => (
               <div key={faq.q}>
-                <h3 className="text-sm font-semibold text-white mb-2">{faq.q}</h3>
-                <p className="text-[13px] text-[#6b7280] leading-relaxed">{faq.a}</p>
+                <h3 className="text-sm font-semibold text-slate-900 mb-2">{faq.q}</h3>
+                <p className="text-[13px] text-slate-500 leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>
@@ -324,15 +324,15 @@ export default function Pricing() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="bg-[#0f172a] border-t border-white/[0.08]">
+      <section className="bg-white border-t border-slate-200">
         <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Start for free today</h2>
-          <p className="text-[#a0aaba] mb-8 max-w-lg mx-auto">No credit card needed. Upgrade anytime. Cancel anytime.</p>
+          <h2 className="text-4xl font-bold text-slate-900 mb-4">Start for free today</h2>
+          <p className="text-slate-600 mb-8 max-w-lg mx-auto">No credit card needed. Upgrade anytime. Cancel anytime.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
               Sign up free <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">
               Contact sales
             </Link>
           </div>

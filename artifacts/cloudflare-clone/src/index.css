@@ -18,34 +18,34 @@
 }
 
 :root {
-  /* Cloudflare Dark Theme Colors */
-  --background: 222 47% 11%;      /* #0f172a - Very dark navy */
-  --foreground: 210 40% 98%;      /* #f8fafc - Almost white */
+  /* Cloudflare-style Light Theme Colors */
+  --background: 210 40% 99%;      /* #f8fafc */
+  --foreground: 222 47% 11%;      /* #0f172a */
   
   --primary: 28 93% 54%;          /* #F6821F - Cloudflare Orange */
   --primary-foreground: 0 0% 100%;
   
-  --card: 218 33% 18%;            /* #1e293b - Medium navy */
-  --card-foreground: 210 40% 98%;
+  --card: 0 0% 100%;              /* #ffffff */
+  --card-foreground: 222 47% 11%;
   
-  --border: 215 25% 27%;          /* #334155 - Light navy */
+  --border: 214 32% 91%;          /* #e2e8f0 */
   
-  --muted: 215 25% 27%;
-  --muted-foreground: 215 20% 65%; /* #94a3b8 - Muted text */
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%; /* #64748b */
   
-  --accent: 218 33% 18%;
-  --accent-foreground: 210 40% 98%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222 47% 11%;
 
   --ring: 28 93% 54%;
-  --ring-offset-background: 222 47% 11%;
+  --ring-offset-background: 210 40% 99%;
 
-  --cf-bg: #0f172a;
-  --cf-surface: #1d1f20;
+  --cf-bg: #f8fafc;
+  --cf-surface: #ffffff;
   --cf-primary: #f6821f;
   --cf-primary-hover: #d96f18;
-  --cf-muted: #a0aaba;
-  --cf-muted-2: #6b7280;
-  --cf-border: rgba(255, 255, 255, 0.08);
+  --cf-muted: #475569;
+  --cf-muted-2: #64748b;
+  --cf-border: rgba(15, 23, 42, 0.12);
 }
 
 @layer base {
@@ -56,7 +56,7 @@
     @apply bg-background text-foreground font-sans antialiased selection:bg-primary/30 selection:text-primary;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight text-white;
+    @apply font-bold tracking-tight text-slate-900;
   }
 }
 
@@ -80,13 +80,13 @@
     color: var(--cf-primary);
   }
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700;
   }
   .bg-grid {
     background-size: 40px 40px;
     background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
   }
 }
 

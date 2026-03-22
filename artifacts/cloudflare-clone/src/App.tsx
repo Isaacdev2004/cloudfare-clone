@@ -16,16 +16,19 @@ import {
   PrivacyPolicyPage,
   TermsOfUsePage,
   ReportSecurityPage,
+  ResourcesIndexPage,
   ResourcesBlogPage,
   ResourcesCaseStudiesPage,
   ResourcesWebinarsPage,
   ResourcesDocumentationPage,
   ResourcesCommunityPage,
+  CompanyIndexPage,
   CompanyAboutPage,
   CompanyCareersPage,
   CompanyPressPage,
   CompanyInvestorsPage,
   CompanyImpactPage,
+  SupportIndexPage,
   SupportHelpCenterPage,
   SupportSystemStatusPage,
   SupportCompliancePage,
@@ -53,16 +56,19 @@ function Router() {
         <Route path="/privacy-policy" component={PrivacyPolicyPage} />
         <Route path="/terms-of-use" component={TermsOfUsePage} />
         <Route path="/report-security" component={ReportSecurityPage} />
+        <Route path="/resources" component={ResourcesIndexPage} />
         <Route path="/resources/blog" component={ResourcesBlogPage} />
         <Route path="/resources/case-studies" component={ResourcesCaseStudiesPage} />
         <Route path="/resources/webinars" component={ResourcesWebinarsPage} />
         <Route path="/resources/documentation" component={ResourcesDocumentationPage} />
         <Route path="/resources/community" component={ResourcesCommunityPage} />
+        <Route path="/company" component={CompanyIndexPage} />
         <Route path="/company/about" component={CompanyAboutPage} />
         <Route path="/company/careers" component={CompanyCareersPage} />
         <Route path="/company/press" component={CompanyPressPage} />
         <Route path="/company/investors" component={CompanyInvestorsPage} />
         <Route path="/company/impact" component={CompanyImpactPage} />
+        <Route path="/support" component={SupportIndexPage} />
         <Route path="/support/help-center" component={SupportHelpCenterPage} />
         <Route path="/support/system-status" component={SupportSystemStatusPage} />
         <Route path="/support/compliance" component={SupportCompliancePage} />

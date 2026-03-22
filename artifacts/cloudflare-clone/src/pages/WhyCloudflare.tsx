@@ -86,7 +86,7 @@ export default function WhyCloudflare() {
   return (
     <div className="min-h-screen cf-page-bg">
       {/* Hero */}
-      <section className="relative bg-[#1d1f20] border-b border-white/[0.08] overflow-hidden">
+      <section className="relative bg-white border-b border-slate-200 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#f6821f]/5 via-transparent to-transparent pointer-events-none" />
         <PageHero
           eyebrow="Why Cloudflare"
@@ -102,7 +102,7 @@ export default function WhyCloudflare() {
       </section>
 
       {/* Stats grid */}
-      <section className="border-b border-white/[0.08]">
+      <section className="border-b border-slate-200">
         <div className="max-w-[1280px] mx-auto px-6 py-16">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             {STATS.map((stat, i) => (
@@ -113,9 +113,9 @@ export default function WhyCloudflare() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
               >
-                <p className="text-3xl font-black text-white mb-1">{stat.value}</p>
+                <p className="text-3xl font-black text-slate-900 mb-1">{stat.value}</p>
                 <p className="text-[13px] font-medium text-[#f6821f]">{stat.label}</p>
-                <p className="text-[12px] text-[#6b7280] mt-0.5">{stat.sub}</p>
+                <p className="text-[12px] text-slate-500 mt-0.5">{stat.sub}</p>
               </motion.div>
             ))}
           </div>
@@ -140,22 +140,22 @@ export default function WhyCloudflare() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 whileHover={subtleLiftHover}
-                className="grid lg:grid-cols-2 gap-10 items-start bg-[#1d1f20] border border-white/[0.08] rounded-2xl p-8 lg:p-10 hover:border-[#f6821f]/20 transition-colors"
+                className="grid lg:grid-cols-2 gap-10 items-start bg-white border border-slate-200 rounded-2xl p-8 lg:p-10 hover:border-[#f6821f]/20 transition-colors"
               >
                 <div>
                   <div className="flex items-center gap-4 mb-5">
                     <div className="w-10 h-10 rounded-lg bg-[#f6821f]/10 flex items-center justify-center shrink-0">
                       <Icon className="w-5 h-5 text-[#f6821f]" />
                     </div>
-                    <h3 className="text-xl font-bold text-white">{reason.title}</h3>
+                    <h3 className="text-xl font-bold text-slate-900">{reason.title}</h3>
                   </div>
-                  <p className="text-[#a0aaba] leading-relaxed">{reason.desc}</p>
+                  <p className="text-slate-600 leading-relaxed">{reason.desc}</p>
                 </div>
                 <div className="space-y-3">
                   {reason.points.map((point) => (
                     <div key={point} className="flex items-start gap-3">
                       <CheckCircle2 className="w-4 h-4 text-[#f6821f] shrink-0 mt-0.5" />
-                      <span className="text-sm text-[#a0aaba]">{point}</span>
+                      <span className="text-sm text-slate-600">{point}</span>
                     </div>
                   ))}
                 </div>
@@ -166,7 +166,7 @@ export default function WhyCloudflare() {
       </section>
 
       {/* Network map visual */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20]">
+      <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <SectionHeading
             title="320+ cities. One network."
@@ -178,7 +178,7 @@ export default function WhyCloudflare() {
           {/* City pills */}
           <div className="flex flex-wrap gap-2 justify-center mb-12">
             {NETWORK_CITIES.map((city) => (
-              <span key={city} className="text-xs px-3 py-1.5 rounded-full bg-[#0f172a] border border-white/[0.08] text-[#a0aaba] hover:border-[#f6821f]/40 hover:text-white transition-colors cursor-default">
+              <span key={city} className="text-xs px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600 hover:border-[#f6821f]/40 hover:text-slate-900 transition-colors cursor-default">
                 {city}
               </span>
             ))}
@@ -196,10 +196,10 @@ export default function WhyCloudflare() {
             ].map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.label} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-6">
+                <div key={item.label} className="bg-slate-50 border border-slate-200 rounded-xl p-6">
                   <Icon className="w-6 h-6 text-[#f6821f] mb-3" />
-                  <p className="text-sm font-semibold text-white mb-1">{item.label}</p>
-                  <p className="text-xs text-[#6b7280]">{item.desc}</p>
+                  <p className="text-sm font-semibold text-slate-900 mb-1">{item.label}</p>
+                  <p className="text-xs text-slate-500">{item.desc}</p>
                 </div>
               );
             })}
@@ -211,7 +211,7 @@ export default function WhyCloudflare() {
       <section className="max-w-[1280px] mx-auto px-6 py-20">
         <SectionHeading title="Our story" />
         <div className="relative">
-          <div className="absolute left-[90px] top-0 bottom-0 w-px bg-white/[0.08] hidden md:block" />
+          <div className="absolute left-[90px] top-0 bottom-0 w-px bg-slate-200 hidden md:block" />
           <div className="space-y-8">
             {TIMELINE.map((item, i) => (
               <motion.div
@@ -226,7 +226,7 @@ export default function WhyCloudflare() {
                 <div className="hidden md:flex w-4 shrink-0 items-center justify-center pt-1.5">
                   <div className="w-2 h-2 rounded-full bg-[#f6821f] relative z-10" />
                 </div>
-                <p className="text-[#a0aaba] text-sm leading-relaxed">{item.event}</p>
+                <p className="text-slate-600 text-sm leading-relaxed">{item.event}</p>
               </motion.div>
             ))}
           </div>
@@ -234,7 +234,7 @@ export default function WhyCloudflare() {
       </section>
 
       {/* Impact section */}
-      <section className="border-t border-white/[0.08] bg-[#1d1f20]">
+      <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <SectionHeading
             title="Impact beyond business"
@@ -263,10 +263,10 @@ export default function WhyCloudflare() {
                 stat: 'Launched 2022 after Ukraine conflict',
               },
             ].map((proj) => (
-              <motion.div key={proj.title} whileHover={subtleLiftHover} className="bg-[#0f172a] border border-white/[0.08] rounded-xl p-6 hover:border-white/20 transition-colors">
+              <motion.div key={proj.title} whileHover={subtleLiftHover} className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:border-slate-300 transition-colors">
                 <div className="w-2 h-6 rounded mb-4" style={{ backgroundColor: proj.color }} />
-                <h3 className="text-base font-semibold text-white mb-2">{proj.title}</h3>
-                <p className="text-[13px] text-[#6b7280] leading-relaxed mb-4">{proj.desc}</p>
+                <h3 className="text-base font-semibold text-slate-900 mb-2">{proj.title}</h3>
+                <p className="text-[13px] text-slate-500 leading-relaxed mb-4">{proj.desc}</p>
                 <p className="text-[12px] font-medium" style={{ color: proj.color }}>{proj.stat}</p>
               </motion.div>
             ))}
@@ -275,17 +275,17 @@ export default function WhyCloudflare() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-[#0f172a] border-t border-white/[0.08]">
+      <section className="bg-white border-t border-slate-200">
         <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Join millions of Internet properties</h2>
-          <p className="text-[#a0aaba] text-lg mb-8 max-w-xl mx-auto">
+          <h2 className="text-4xl font-bold text-slate-900 mb-4">Join millions of Internet properties</h2>
+          <p className="text-slate-600 text-lg mb-8 max-w-xl mx-auto">
             It takes about 2 minutes to set up. No credit card required for the Free plan.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
               Get started for free <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors">
+            <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">
               Contact sales
             </Link>
           </div>
