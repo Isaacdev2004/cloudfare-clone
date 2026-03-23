@@ -60,6 +60,10 @@
   body {
     @apply bg-background text-foreground font-sans antialiased selection:bg-[#1E3A8A]/20 selection:text-[#0B1320];
   }
+  /* Ensure anchors never fall back to browser serif (client parity) */
+  a {
+    font-family: inherit;
+  }
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight text-slate-900;
   }

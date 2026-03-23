@@ -132,7 +132,7 @@ export default function Products() {
       </section>
 
       {/* Tab navigation */}
-      <div className="sticky top-[96px] z-30 bg-white border-b border-slate-200">
+      <div className="sticky top-[72px] z-30 bg-white border-b border-slate-200">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="flex gap-0 overflow-x-auto scrollbar-none">
             {TABS.map((tab) => {

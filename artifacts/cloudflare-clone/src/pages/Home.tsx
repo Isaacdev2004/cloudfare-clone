@@ -96,6 +96,9 @@ const CONNECTIVITY_ROWS = [
   },
 ];
 
+const connectivityLinkClass =
+  'font-sans text-[15px] font-medium text-[#1E3A8A] underline underline-offset-[5px] decoration-slate-300 hover:text-[#172554] hover:decoration-[#1E3A8A] antialiased transition-colors';
+
 const SpeedGauge = () => (
   <svg viewBox="0 0 420 250" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -104,35 +107,32 @@ const SpeedGauge = () => (
         <stop offset="100%" stopColor="#1E90FF" />
       </linearGradient>
     </defs>
-    {/* Outer gray ring */}
-    <path d="M30 200 A180 180 0 0 1 390 200" fill="none" stroke="rgba(15,23,42,0.10)" strokeWidth="20" />
-    {/* Orange ring, perfectly concentric and slightly inset */}
-    <path d="M48 200 A162 162 0 0 1 342 106" fill="none" stroke="url(#arcGlow)" strokeWidth="22" strokeLinecap="round" />
-    {/* Inner dashed helper arc */}
-    <path d="M70 200 A140 140 0 0 1 350 200" fill="none" stroke="rgba(15,23,42,0.14)" strokeWidth="2.5" strokeDasharray="6 8">
-      <animate attributeName="stroke-dashoffset" values="0;24" dur="2.2s" repeatCount="indefinite" />
+    {/* Single concentric gray track + blue arc (no duplicate misaligned rings) */}
+    <path d="M30 200 A180 180 0 0 1 390 200" fill="none" stroke="rgba(148,163,184,0.45)" strokeWidth="22" />
+    <path d="M48 200 A162 162 0 0 1 342 106" fill="none" stroke="url(#arcGlow)" strokeWidth="20" strokeLinecap="round" />
+    <path d="M70 200 A140 140 0 0 1 350 200" fill="none" stroke="rgba(15,23,42,0.12)" strokeWidth="2.5" strokeDasharray="6 8">
+      <animate attributeName="stroke-dashoffset" values="0;24" dur="3s" repeatCount="indefinite" />
     </path>
-    {/* Center hub */}
-    <circle cx="210" cy="200" r="18" fill="#ffffff" stroke="#1E3A8A" strokeWidth="5" />
+    <circle cx="210" cy="200" r="18" fill="#ffffff" stroke="#1E3A8A" strokeWidth="4" />
     <circle cx="210" cy="200" r="5" fill="#1E3A8A" />
     <g>
-      <line x1="210" y1="200" x2="330" y2="124" stroke="#1E3A8A" strokeWidth="9" strokeLinecap="round">
+      <line x1="210" y1="200" x2="318" y2="128" stroke="#1E3A8A" strokeWidth="8" strokeLinecap="round">
         <animateTransform
           attributeName="transform"
           attributeType="XML"
           type="rotate"
-          values="-10 210 200; 11 210 200; -6 210 200; -10 210 200"
-          dur="2.6s"
+          values="-6 210 200; 8 210 200; -4 210 200; -6 210 200"
+          dur="4s"
           repeatCount="indefinite"
         />
       </line>
-      <circle cx="330" cy="124" r="7.5" fill="#1E90FF">
+      <circle cx="318" cy="128" r="6.5" fill="#1E90FF">
         <animateTransform
           attributeName="transform"
           attributeType="XML"
           type="rotate"
-          values="-10 210 200; 11 210 200; -6 210 200; -10 210 200"
-          dur="2.6s"
+          values="-6 210 200; 8 210 200; -4 210 200; -6 210 200"
+          dur="4s"
           repeatCount="indefinite"
         />
       </circle>
@@ -152,10 +152,10 @@ export default function Home() {
           { label: "Start for free", href: SIGN_UP_URL, variant: "primary" },
           { label: "See pricing", href: "/pricing", variant: "outline" },
         ]}
-        className="min-h-screen flex items-center"
+        className="min-h-[100dvh] lg:min-h-screen flex items-center"
         contentClassName="relative z-10 w-full"
         aside={(
-          <div className="relative h-[500px] lg:h-[620px] flex items-center justify-center">
+          <div className="relative h-[min(52vh,440px)] sm:h-[480px] lg:h-[620px] flex items-center justify-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -184,8 +184,8 @@ export default function Home() {
         )}
       />
 
-      <div className="max-w-[1280px] mx-auto px-6 -mt-12 mb-12 relative z-20">
-        <div className="flex items-center gap-3 text-sm text-slate-500">
+      <div className="max-w-[1280px] mx-auto px-6 -mt-6 sm:-mt-10 lg:-mt-12 mb-10 lg:mb-12 relative z-20">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400">
           <div className="flex -space-x-2">
             {['#3b82f6','#8b5cf6','#ec4899','#f59e0b'].map((c, i) => (
               <div key={i} className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center" style={{ backgroundColor: c + '25' }}>
@@ -211,56 +211,81 @@ export default function Home() {
         </Marquee>
       </section>
 
-      {/* ── Connectivity rows (platform-style homepage block) ── */}
-      <section className="py-24 bg-[#F7F9FC] bg-[linear-gradient(to_right,rgba(11,19,32,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(11,19,32,0.05)_1px,transparent_1px)] bg-[size:28px_28px]">
-        <div className="max-w-[1280px] mx-auto px-6 space-y-20">
+      {/* ── Connectivity rows (Cloudflare-style: mobile subnav strip → card → copy) ── */}
+      <section className="py-16 md:py-24 bg-[#F7F9FC] bg-[linear-gradient(to_right,rgba(11,19,32,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(11,19,32,0.06)_1px,transparent_1px)] bg-[size:24px_24px]">
+        <div className="max-w-[1280px] mx-auto px-6 space-y-16 md:space-y-24">
           {CONNECTIVITY_ROWS.map((row, idx) => (
-            <div key={row.title} className="grid lg:grid-cols-2 gap-12 items-center">
+            <div
+              key={row.title}
+              className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-0 gap-0 items-center"
+            >
+              {/* Mobile / tablet: thin link bar (matches Cloudflare homepage) */}
+              <div className="lg:hidden -mx-6 px-6 bg-white border-y border-slate-200 py-3.5 flex flex-wrap items-center justify-center gap-x-8 gap-y-2.5 mb-6 shadow-[0_1px_0_rgba(15,23,42,0.04)]">
+                {row.related.map((item) => (
+                  <Link key={item.label} href={item.href} className={connectivityLinkClass}>
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Visual: above copy on small screens; explicit column on lg */}
               <motion.div
-                className={idx % 2 === 1 ? 'lg:order-2' : ''}
-                initial={{ opacity: 0, y: 20 }}
+                className={idx % 2 === 0 ? 'lg:col-start-2 lg:row-start-1' : 'lg:col-start-1 lg:row-start-1'}
+                initial={{ opacity: 0, scale: 0.98 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="relative rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-6 h-[300px] sm:h-[340px] md:h-[380px] flex items-center justify-center overflow-hidden shadow-[0_12px_40px_-24px_rgba(15,23,42,0.25)]">
+                  {row.visual === 'globe' ? (
+                    <div className="relative w-full h-full min-h-[260px]">
+                      <NetworkGlobe compact />
+                    </div>
+                  ) : (
+                    <div className="relative w-full h-full min-h-[240px]">
+                      <SpeedGauge />
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+
+              <motion.div
+                className={idx % 2 === 0 ? 'lg:col-start-1 lg:row-start-1' : 'lg:col-start-2 lg:row-start-1'}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.55 }}
               >
-                <h2 className="text-[44px] md:text-[52px] font-bold text-slate-900 mb-5 leading-[1.05] tracking-[-0.02em]">{row.title}</h2>
-                <p className="text-slate-600 text-[18px] leading-relaxed mb-7">{row.body}</p>
-                <div className="flex flex-wrap gap-4 mb-8">
-                  <Link href={row.primary.href} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
+                <h2 className="text-[1.65rem] sm:text-4xl md:text-[44px] lg:text-[52px] font-bold text-slate-900 mb-4 sm:mb-5 leading-[1.08] tracking-[-0.02em] font-sans">
+                  {row.title}
+                </h2>
+                <p className="text-slate-600 text-[17px] sm:text-[18px] leading-relaxed mb-6 sm:mb-7 font-sans">
+                  {row.body}
+                </p>
+                <div className="flex flex-wrap gap-3 sm:gap-4 mb-6 sm:mb-8">
+                  <Link
+                    href={row.primary.href}
+                    className="font-sans inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
+                  >
                     {row.primary.label}
                   </Link>
-                  <Link href={row.secondary.href} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">
+                  <Link
+                    href={row.secondary.href}
+                    className="font-sans inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors"
+                  >
                     {row.secondary.label} <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-900 mb-3">Related</p>
+                {/* Desktop: related links under copy (Cloudflare pattern) */}
+                <div className="hidden lg:block">
+                  <p className="text-sm font-semibold text-slate-900 mb-3 font-sans">Related</p>
                   <div className="flex flex-wrap gap-6">
                     {row.related.map((item) => (
-                      <Link key={item.label} href={item.href} className="text-sm underline text-slate-600 hover:text-slate-900 transition-colors">
+                      <Link key={item.label} href={item.href} className={connectivityLinkClass}>
                         {item.label}
                       </Link>
                     ))}
                   </div>
-                </div>
-              </motion.div>
-              <motion.div
-                className={idx % 2 === 1 ? 'lg:order-1' : ''}
-                initial={{ opacity: 0, scale: 0.96 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.55 }}
-              >
-                <div className="relative border border-slate-200 rounded-2xl p-6 h-[320px] md:h-[360px] flex items-center justify-center overflow-hidden bg-white">
-                  {row.visual === 'globe' ? (
-                    <div className="relative w-full h-full">
-                      <NetworkGlobe compact />
-                    </div>
-                  ) : (
-                    <div className="relative w-full h-full">
-                      <SpeedGauge />
-                    </div>
-                  )}
                 </div>
               </motion.div>
             </div>
@@ -282,7 +307,8 @@ export default function Home() {
               title={<>One platform to secure and<br />accelerate your business</>}
               description="Every product runs on the same global network — no integrations, no tradeoffs."
               className="mb-0"
-              descriptionClassName="text-slate-600 text-lg"
+              titleClassName="text-[1.65rem] sm:text-4xl md:text-[44px] lg:text-[52px] leading-[1.08] tracking-[-0.02em]"
+              descriptionClassName="text-slate-600 text-base sm:text-lg"
             />
           </motion.div>
 

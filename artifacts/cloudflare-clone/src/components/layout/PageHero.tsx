@@ -43,8 +43,18 @@ export const PageHero: React.FC<PageHeroProps> = ({
         className,
       )}
     >
-      <div className={cn("max-w-[1280px] mx-auto px-6 py-24 lg:py-28", contentClassName)}>
-        <div className={cn("grid gap-12 items-center", aside ? "lg:grid-cols-2" : "lg:grid-cols-1")}>
+      <div
+        className={cn(
+          "max-w-[1280px] mx-auto px-6 py-14 sm:py-20 lg:py-28",
+          contentClassName,
+        )}
+      >
+        <div
+          className={cn(
+            "grid gap-8 sm:gap-10 lg:gap-12 items-center",
+            aside ? "lg:grid-cols-2" : "lg:grid-cols-1",
+          )}
+        >
           <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="max-w-3xl">
             {eyebrow && (
               <p
