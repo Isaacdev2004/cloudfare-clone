@@ -30,7 +30,7 @@ function InfoPageTemplate({
   ctaHref,
 }: InfoPageProps) {
   return (
-    <div className="min-h-screen cf-page-bg">
+    <div className="min-h-screen apex-page-bg">
       <section className="bg-white border-b border-slate-200">
         <PageHero
           eyebrow={eyebrow}
@@ -86,7 +86,7 @@ function InfoPageTemplate({
                     >
                       <h3 className="text-[16px] font-semibold text-slate-900 mb-2">{card.title}</h3>
                       <p className="text-[13px] text-slate-600 leading-relaxed mb-4">{card.body}</p>
-                      <Link href={card.href} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#f6821f] hover:text-[#ff9a48] transition-colors">
+                      <Link href={card.href} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#1E3A8A] hover:text-[#2563eb] transition-colors">
                         {card.cta} <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </motion.div>
@@ -97,18 +97,18 @@ function InfoPageTemplate({
           </div>
 
           <aside className="h-fit bg-white border border-slate-200 rounded-xl p-6 sticky top-24">
-            <p className="text-[11px] font-semibold text-[#f6821f] uppercase tracking-widest mb-4">Highlights</p>
+            <p className="text-[11px] font-semibold text-[#1E3A8A] uppercase tracking-widest mb-4">Highlights</p>
             <div className="space-y-3 mb-6">
               {highlights.map((item) => (
                 <div key={item} className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#f6821f] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#1E3A8A] shrink-0 mt-0.5" />
                   <span className="text-[13px] text-slate-600">{item}</span>
                 </div>
               ))}
             </div>
             <Link
               href={ctaHref}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
             >
               {ctaLabel} <ArrowRight className="w-4 h-4" />
             </Link>
@@ -123,7 +123,7 @@ export function PrivacyPolicyPage() {
   return (
     <InfoPageTemplate
       title="Privacy Policy"
-      subtitle="How data is collected, used, and protected in this Cloudflare-style clone."
+      subtitle="How data is collected, used, and protected on the Apexlyn platform."
       sections={[
         {
           heading: 'Data collection and use',
@@ -555,7 +555,7 @@ export function CompanyImpactPage() {
       featureCards={[
         { title: 'Trust Hub', body: 'Review transparency resources tied to security and privacy posture.', href: '/support/trust-hub', cta: 'Open trust hub' },
       ]}
-      ctaLabel="Visit Why Cloudflare"
+      ctaLabel="Visit Why Apexlyn"
       ctaHref="/why-cloudflare"
     />
   );

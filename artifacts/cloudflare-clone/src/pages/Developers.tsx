@@ -80,13 +80,13 @@ const MORE_PRODUCTS = [
 
 export default function Developers() {
   return (
-    <div className="min-h-screen cf-page-bg">
+    <div className="min-h-screen apex-page-bg">
       {/* Hero */}
       <section className="bg-white border-b border-slate-200">
         <PageHero
           eyebrow="Developer Platform"
           title={<>Build globally.<br />Deploy instantly.<br />Scale infinitely.</>}
-          description="Cloudflare's developer platform gives you serverless compute, storage, databases, and AI inference — all in 320+ locations globally, with zero cold starts and no egress fees."
+          description="Apexlyn's developer platform gives you serverless compute, storage, databases, and AI inference — all in 320+ locations globally, with zero cold starts and no egress fees."
           actions={[
             { label: 'Start building', href: SIGN_UP_URL, variant: 'primary' },
             { label: 'View documentation', href: DOCS_URL, variant: 'outline' },
@@ -100,7 +100,7 @@ export default function Developers() {
       <section className="max-w-[1280px] mx-auto px-6 py-20">
         <SectionHeading
           title="Core platform"
-          description="The building blocks of every Cloudflare application."
+          description="The building blocks of every Apexlyn application."
         />
         <div className="grid md:grid-cols-2 gap-6">
           {PRODUCTS.map((product, i) => {
@@ -113,19 +113,19 @@ export default function Developers() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 whileHover={subtleLiftHover}
-                className="bg-white border border-slate-200 rounded-xl p-8 hover:border-[#f6821f]/30 transition-colors"
+                className="bg-white border border-slate-200 rounded-xl p-8 hover:border-[#1E3A8A]/30 transition-colors"
               >
                 <div className="flex items-start justify-between mb-5">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-[#f6821f]/10 flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-[#f6821f]" />
+                    <div className="w-10 h-10 rounded-lg bg-[#1E3A8A]/10 flex items-center justify-center">
+                      <Icon className="w-5 h-5 text-[#1E3A8A]" />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-slate-900">{product.name}</h3>
                       <p className="text-[11px] text-slate-500 uppercase tracking-wider">{product.tag}</p>
                     </div>
                   </div>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#f6821f]/10 text-[#f6821f] border border-[#f6821f]/20 whitespace-nowrap">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#1E3A8A]/10 text-[#1E3A8A] border border-[#1E3A8A]/20 whitespace-nowrap">
                     {product.badge}
                   </span>
                 </div>
@@ -133,12 +133,12 @@ export default function Developers() {
                 <div className="grid grid-cols-2 gap-2">
                   {product.highlight.map((h) => (
                     <div key={h} className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#f6821f] shrink-0" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#1E3A8A] shrink-0" />
                       <span className="text-[12px] text-slate-500">{h}</span>
                     </div>
                   ))}
                 </div>
-                <Link href={DEV_LINKS[product.name] ?? DOCS_URL} className="inline-flex items-center gap-1.5 mt-5 text-[13px] font-medium text-[#f6821f] hover:gap-2.5 transition-all">
+                <Link href={DEV_LINKS[product.name] ?? DOCS_URL} className="inline-flex items-center gap-1.5 mt-5 text-[13px] font-medium text-[#1E3A8A] hover:gap-2.5 transition-all">
                   Learn more <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </motion.div>
@@ -162,9 +162,9 @@ export default function Developers() {
               >
                 <Link
                   href={DEV_LINKS[p.name] ?? DOCS_URL}
-                  className="group flex flex-col bg-slate-50 border border-slate-200 hover:border-[#f6821f]/30 rounded-xl p-5 transition-all"
+                  className="group flex flex-col bg-slate-50 border border-slate-200 hover:border-[#1E3A8A]/30 rounded-xl p-5 transition-all"
                 >
-                  <span className="text-[14px] font-semibold text-slate-900 group-hover:text-[#f6821f] transition-colors mb-1">{p.name}</span>
+                  <span className="text-[14px] font-semibold text-slate-900 group-hover:text-[#1E3A8A] transition-colors mb-1">{p.name}</span>
                   <span className="text-[12px] text-slate-500">{p.desc}</span>
                 </Link>
               </motion.div>
@@ -184,12 +184,12 @@ export default function Developers() {
             <div className="space-y-3">
               {['No servers to manage', 'Automatic global distribution', 'Bindings for R2, D1, KV, Queues', 'wrangler CLI for local dev'].map((f) => (
                 <div key={f} className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#f6821f] shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#1E3A8A] shrink-0" />
                   <span className="text-sm text-slate-600">{f}</span>
                 </div>
               ))}
             </div>
-            <Link href={DOCS_URL} className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+            <Link href={DOCS_URL} className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
               Read the docs <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -248,7 +248,7 @@ export default function Developers() {
           <h2 className="text-4xl font-bold text-slate-900 mb-4">Start building for free</h2>
           <p className="text-slate-600 mb-8 max-w-lg mx-auto">Workers, Pages, R2, D1, and KV all have generous free tiers. No credit card needed.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
               Create free account <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href={DOCS_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">

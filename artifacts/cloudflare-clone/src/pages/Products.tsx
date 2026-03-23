@@ -32,7 +32,7 @@ const PRODUCTS: Record<string, { name: string; desc: string; tags: string[]; bad
     { name: 'Argo Smart Routing', desc: 'Speed up your traffic by routing it through the least congested and most reliable paths on our network.', tags: ['Performance', 'Routing'] },
     { name: 'Early Hints', desc: 'Dramatically speed up page loads by sending early hints to browsers so they can prefetch critical resources.', tags: ['Performance'] },
     { name: 'Zaraz', desc: 'Load third-party tools in the cloud instead of the browser — faster pages, better privacy, more control.', tags: ['Performance', 'Privacy'] },
-    { name: 'Tiered Cache', desc: 'Reduce requests to your origin servers by using Cloudflare data centers as additional cache tiers.', tags: ['Performance', 'Caching'] },
+    { name: 'Tiered Cache', desc: 'Reduce requests to your origin servers by using Apexlyn data centers as additional cache tiers.', tags: ['Performance', 'Caching'] },
     { name: 'Cache Rules', desc: 'Fine-grained control over how, where, and for how long resources are cached at the edge.', tags: ['Performance', 'Caching'] },
     { name: 'Image Resizing', desc: 'Transform, resize, and optimize images on the fly — serve exactly the right format and size.', tags: ['Performance', 'Images'] },
     { name: 'Polish', desc: 'Losslessly compress JPEG, PNG, and GIF images to reduce their size and speed up page loads.', tags: ['Performance', 'Images'] },
@@ -41,7 +41,7 @@ const PRODUCTS: Record<string, { name: string; desc: string; tags: string[]; bad
   ],
   security: [
     { name: 'DDoS Protection', desc: 'Unmetered, always-on protection against the largest DDoS attacks ever recorded — at no extra cost.', tags: ['Security', 'DDoS'], badge: 'Always On' },
-    { name: 'Web Application Firewall', desc: 'Block common vulnerabilities and zero-day exploits with Cloudflare-managed and custom rulesets.', tags: ['Security', 'WAF'] },
+    { name: 'Web Application Firewall', desc: 'Block common vulnerabilities and zero-day exploits with Apexlyn-managed and custom rulesets.', tags: ['Security', 'WAF'] },
     { name: 'Bot Management', desc: 'Detect and stop sophisticated bots without impacting legitimate users — powered by machine learning.', tags: ['Security', 'Bots'] },
     { name: 'API Shield', desc: 'Protect your APIs from abuse with schema validation, mutual TLS, and anomaly detection.', tags: ['Security', 'API'] },
     { name: 'Page Shield', desc: 'Monitor scripts and third-party dependencies on your site to detect supply chain attacks.', tags: ['Security', 'SCA'] },
@@ -49,7 +49,7 @@ const PRODUCTS: Record<string, { name: string; desc: string; tags: string[]; bad
     { name: 'Turnstile', desc: 'A privacy-first CAPTCHA alternative that is frictionless for users and easy to deploy.', tags: ['Security', 'CAPTCHA'], badge: 'Free' },
     { name: 'Rate Limiting', desc: 'Protect against denial-of-service attacks and brute-force login attempts with configurable rate limits.', tags: ['Security'] },
     { name: 'Fraud Detection', desc: 'Stop account takeovers and payment fraud with behavioral and risk-based detection.', tags: ['Security', 'Fraud'] },
-    { name: 'Security Center', desc: 'Unified security dashboard to investigate, triage, and remediate threats across all Cloudflare products.', tags: ['Security', 'Visibility'] },
+    { name: 'Security Center', desc: 'Unified security dashboard to investigate, triage, and remediate threats across all Apexlyn products.', tags: ['Security', 'Visibility'] },
     { name: 'Magic Firewall', desc: 'Network-level firewall delivered as a service — filter traffic across all ports and protocols.', tags: ['Security', 'Network'] },
     { name: 'Email Security', desc: 'Stop phishing and malicious emails before they reach your inbox with AI-driven filtering.', tags: ['Security', 'Email'] },
   ],
@@ -65,12 +65,12 @@ const PRODUCTS: Record<string, { name: string; desc: string; tags: string[]; bad
     { name: 'Risk Score', desc: 'Dynamically adjust access policies based on real-time user and device risk posture signals.', tags: ['Zero Trust', 'Risk'] },
   ],
   network: [
-    { name: 'Magic Transit', desc: 'Replace on-premises network appliances with Cloudflare\'s network — protect entire IP ranges.', tags: ['Network', 'Transit'], badge: 'Enterprise' },
+    { name: 'Magic Transit', desc: 'Replace on-premises network appliances with Apexlyn\'s network — protect entire IP ranges.', tags: ['Network', 'Transit'], badge: 'Enterprise' },
     { name: 'Magic WAN', desc: 'Connect locations, offices, and data centers with a cloud-native WAN — no hardware required.', tags: ['Network', 'WAN'], badge: 'Enterprise' },
-    { name: 'Network Interconnect', desc: 'Privately connect your network to Cloudflare with dedicated, low-latency interconnections.', tags: ['Network', 'Interconnect'] },
+    { name: 'Network Interconnect', desc: 'Privately connect your network to Apexlyn with dedicated, low-latency interconnections.', tags: ['Network', 'Interconnect'] },
     { name: 'Spectrum', desc: 'Protect TCP/UDP applications with DDoS mitigation and firewall — not just HTTP.', tags: ['Network', 'Protocol'] },
-    { name: 'Cloudflare Tunnel', desc: 'Expose servers to the Internet securely without opening firewall ports — no public IP needed.', tags: ['Network', 'Tunnel'], badge: 'Free' },
-    { name: 'BYOIP', desc: 'Bring your own IP addresses to Cloudflare and benefit from our network while keeping your IPs.', tags: ['Network', 'IP'] },
+    { name: 'Apexlyn Tunnel', desc: 'Expose servers to the Internet securely without opening firewall ports — no public IP needed.', tags: ['Network', 'Tunnel'], badge: 'Free' },
+    { name: 'BYOIP', desc: 'Bring your own IP addresses to Apexlyn and benefit from our network while keeping your IPs.', tags: ['Network', 'IP'] },
     { name: 'Anycast Network', desc: 'Automatic anycast routing to the nearest data center reduces latency and improves resilience.', tags: ['Network', 'Infrastructure'] },
   ],
   developer: [
@@ -109,7 +109,7 @@ export default function Products() {
   const products = PRODUCTS[activeTab] || [];
 
   return (
-    <div className="min-h-screen cf-page-bg">
+    <div className="min-h-screen apex-page-bg">
       {/* Hero */}
       <section className="border-b border-slate-200">
         <PageHero
@@ -132,7 +132,7 @@ export default function Products() {
       </section>
 
       {/* Tab navigation */}
-      <div className="sticky top-[72px] z-30 bg-white border-b border-slate-200">
+      <div className="sticky top-[96px] z-30 bg-white border-b border-slate-200">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="flex gap-0 overflow-x-auto scrollbar-none">
             {TABS.map((tab) => {
@@ -143,7 +143,9 @@ export default function Products() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-5 py-4 text-sm font-medium whitespace-nowrap border-b-2 transition-colors duration-150 ${
                     activeTab === tab.id
-                      ? 'border-[#f6821f] text-slate-900'
+                      ? tab.id === 'ai'
+                        ? 'border-[#1E90FF] text-[#0B1320]'
+                        : 'border-[#1E3A8A] text-slate-900'
                       : 'border-transparent text-slate-500 hover:text-slate-900'
                   }`}
                 >
@@ -175,14 +177,14 @@ export default function Products() {
               >
                 <Link
                   href={getProductHref(activeTab)}
-                  className="flex flex-col bg-white border border-slate-200 rounded-xl p-6 hover:border-[#f6821f]/40 hover:shadow-[0_12px_30px_-18px_rgba(246,130,31,0.25)] transition-all duration-200 h-full"
+                  className="flex flex-col bg-white border border-slate-200 rounded-xl p-6 hover:border-[#1E3A8A]/40 hover:shadow-[0_12px_30px_-18px_rgba(30,58,138,0.25)] transition-all duration-200 h-full"
                 >
                 <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-[15px] font-semibold text-slate-900 group-hover:text-[#f6821f] transition-colors">
+                  <h3 className="text-[15px] font-semibold text-slate-900 group-hover:text-[#1E3A8A] transition-colors">
                     {product.name}
                   </h3>
                   {product.badge && (
-                    <span className="ml-2 shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#f6821f]/10 text-[#f6821f] border border-[#f6821f]/20">
+                    <span className="ml-2 shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#1E3A8A]/10 text-[#1E3A8A] border border-[#1E3A8A]/20">
                       {product.badge}
                     </span>
                   )}
@@ -195,7 +197,7 @@ export default function Products() {
                     </span>
                   ))}
                 </div>
-                <div className="flex items-center gap-1 mt-4 text-[13px] font-medium text-[#f6821f] opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex items-center gap-1 mt-4 text-[13px] font-medium text-[#1E3A8A] opacity-0 group-hover:opacity-100 transition-opacity">
                   Learn more <ArrowRight className="w-3.5 h-3.5" />
                 </div>
                 </Link>
@@ -212,7 +214,7 @@ export default function Products() {
             <div>
               <SectionHeading
                 title="All products. One platform."
-                description="Unlike point solutions, Cloudflare products share intelligence and work together — security products learn from DDoS attacks, performance products benefit from Zero Trust insights."
+                description="Unlike point solutions, Apexlyn products share intelligence and work together — security products learn from DDoS attacks, performance products benefit from Zero Trust insights."
                 className="mb-8"
                 titleClassName="text-4xl"
                 descriptionClassName="text-slate-600 text-lg"
@@ -220,13 +222,13 @@ export default function Products() {
               <div className="space-y-3">
                 {['No hardware to manage', 'Instant global deployment', 'Unified dashboard and analytics', 'Usage-based pricing for most products'].map((item) => (
                   <div key={item} className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-[#f6821f] shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-[#1E3A8A] shrink-0" />
                     <span className="text-slate-600 text-sm">{item}</span>
                   </div>
                 ))}
               </div>
               <div className="flex gap-4 mt-10">
-                <Link href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+                <Link href={SIGN_UP_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
                   Get started free
                 </Link>
                 <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">
@@ -241,7 +243,7 @@ export default function Products() {
                 { label: 'Workers', sub: 'Edge compute' },
                 { label: 'DDoS', sub: 'Always-on protection' },
               ].map((item) => (
-                <motion.div key={item.label} whileHover={subtleLiftHover} className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:border-[#f6821f]/30 transition-colors">
+                <motion.div key={item.label} whileHover={subtleLiftHover} className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:border-[#1E3A8A]/30 transition-colors">
                   <p className="text-slate-900 font-semibold mb-1">{item.label}</p>
                   <p className="text-slate-500 text-sm">{item.sub}</p>
                 </motion.div>

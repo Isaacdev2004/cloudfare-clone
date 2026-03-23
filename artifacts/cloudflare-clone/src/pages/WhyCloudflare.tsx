@@ -14,7 +14,7 @@ const STATS = [
   { value: '13,000+', label: 'Networks connected', sub: 'Peering with every major ISP' },
   { value: '248 Tbps', label: 'Network capacity', sub: 'Largest in the world' },
   { value: '50ms', label: 'To 95% of Internet users', sub: 'Average global latency' },
-  { value: '~20%', label: 'Of the web', sub: 'Served through Cloudflare' },
+  { value: '~20%', label: 'Of the web', sub: 'Served through Apexlyn' },
   { value: '3.5B+', label: 'DNS queries per day', sub: '1.1.1.1 resolver' },
 ];
 
@@ -22,7 +22,7 @@ const REASONS = [
   {
     icon: Globe,
     title: 'The most performant global network',
-    desc: 'Cloudflare runs one of the largest, most interconnected networks on earth. With 320+ data centers and 13,000+ network interconnections, we can route your traffic through the fastest possible path — every time.',
+    desc: 'Apexlyn runs one of the largest, most interconnected networks on earth. With 320+ data centers and 13,000+ network interconnections, we can route your traffic through the fastest possible path — every time.',
     points: [
       'Within 50ms of 95% of the Internet-connected population',
       '248 Tbps of network capacity — the most of any CDN',
@@ -33,7 +33,7 @@ const REASONS = [
   {
     icon: Shield,
     title: 'Security built into every layer',
-    desc: 'Unlike point security products that add latency, Cloudflare\'s security runs on the same infrastructure as our CDN. DDoS mitigation, WAF, bot management, and Zero Trust — all in one platform with no performance trade-off.',
+    desc: 'Unlike point security products that add latency, Apexlyn\'s security runs on the same infrastructure as our CDN. DDoS mitigation, WAF, bot management, and Zero Trust — all in one platform with no performance trade-off.',
     points: [
       'Stopped the largest DDoS attacks ever recorded — 5.6 Tbps',
       'Block threats 5+ ms before they hit your origin',
@@ -44,18 +44,18 @@ const REASONS = [
   {
     icon: Lock,
     title: 'One platform, not a patchwork',
-    desc: 'Every Cloudflare product shares the same global network, the same control plane, and the same intelligence. Security products get smarter because of traffic from performance products. Everything works together.',
+    desc: 'Every Apexlyn product shares the same global network, the same control plane, and the same intelligence. Security products get smarter because of traffic from performance products. Everything works together.',
     points: [
       'Single dashboard for security, performance, networking, and dev tools',
       'Shared threat intelligence across all customers improves everyone\'s security',
-      'No integrations needed between Cloudflare products — they just work',
+      'No integrations needed between Apexlyn products — they just work',
       'Usage-based pricing — no per-seat fees for most products',
     ],
   },
   {
     icon: Zap,
     title: 'A developer platform without limits',
-    desc: 'Cloudflare Workers runs code in 320+ locations globally with zero cold starts. R2 stores data with no egress fees. D1 runs SQLite at the edge. Build full-stack applications without managing infrastructure.',
+    desc: 'Apexlyn Workers runs code in 320+ locations globally with zero cold starts. R2 stores data with no egress fees. D1 runs SQLite at the edge. Build full-stack applications without managing infrastructure.',
     points: [
       'Workers: sub-millisecond startup, truly serverless',
       'R2: S3-compatible storage with $0 egress fees',
@@ -66,13 +66,13 @@ const REASONS = [
 ];
 
 const TIMELINE = [
-  { year: '2009', event: 'Cloudflare founded by Matthew Prince, Lee Holloway, and Michelle Zatlyn' },
+  { year: '2009', event: 'Apexlyn founded by Matthew Prince, Lee Holloway, and Michelle Zatlyn' },
   { year: '2010', event: 'Launched publicly at TechCrunch Disrupt, 10,000 customers on day one' },
   { year: '2014', event: 'Project Galileo launched — free protection for at-risk public interest organizations' },
   { year: '2017', event: 'Athenian Project — free protection for state and local election infrastructure' },
-  { year: '2019', event: 'IPO on the NYSE. Cloudflare goes public (NET)' },
-  { year: '2020', event: 'Cloudflare One launched — SASE platform combining network and Zero Trust' },
-  { year: '2022', event: 'Cloudflare Area 1 acquired — industry-leading email security' },
+  { year: '2019', event: 'IPO on the NYSE. Apexlyn goes public (NET)' },
+  { year: '2020', event: 'Apexlyn One launched — SASE platform combining network and Zero Trust' },
+  { year: '2022', event: 'Apexlyn Area 1 acquired — industry-leading email security' },
   { year: '2023', event: 'AI week — Workers AI, AI Gateway, Vectorize launched' },
   { year: '2024', event: 'Celebrating 14 years building a better Internet — 20% of the web' },
 ];
@@ -82,16 +82,16 @@ const NETWORK_CITIES = [
   'Toronto', 'Paris', 'Amsterdam', 'Dubai', 'Mumbai', 'Seoul', 'Chicago', 'Los Angeles',
 ];
 
-export default function WhyCloudflare() {
+export default function WhyApexlyn() {
   return (
-    <div className="min-h-screen cf-page-bg">
+    <div className="min-h-screen apex-page-bg">
       {/* Hero */}
       <section className="relative bg-white border-b border-slate-200 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#f6821f]/5 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A]/5 via-transparent to-transparent pointer-events-none" />
         <PageHero
-          eyebrow="Why Cloudflare"
+          eyebrow="Why Apexlyn"
           title={<>A better Internet<br />is possible.</>}
-          description="Cloudflare was built with a simple mission: help build a better Internet. We believe a safe, fast, and reliable Internet is a basic human right — and we've spent 15 years building the infrastructure to make it real."
+          description="Apexlyn was built with a simple mission: help build a better Internet. We believe a safe, fast, and reliable Internet is a basic human right — and we've spent 15 years building the infrastructure to make it real."
           actions={[
             { label: 'Get started free', href: SIGN_UP_URL, variant: 'primary' },
             { label: 'Contact sales', href: CONTACT_SALES_URL, variant: 'outline' },
@@ -114,7 +114,7 @@ export default function WhyCloudflare() {
                 transition={{ delay: i * 0.08 }}
               >
                 <p className="text-3xl font-black text-slate-900 mb-1">{stat.value}</p>
-                <p className="text-[13px] font-medium text-[#f6821f]">{stat.label}</p>
+                <p className="text-[13px] font-medium text-[#1E3A8A]">{stat.label}</p>
                 <p className="text-[12px] text-slate-500 mt-0.5">{stat.sub}</p>
               </motion.div>
             ))}
@@ -125,8 +125,8 @@ export default function WhyCloudflare() {
       {/* 4 Reasons */}
       <section className="max-w-[1280px] mx-auto px-6 py-20">
         <SectionHeading
-          title="Why choose Cloudflare?"
-          description="Four fundamental reasons organizations pick Cloudflare over alternatives."
+          title="Why choose Apexlyn?"
+          description="Four fundamental reasons organizations pick Apexlyn over alternatives."
         />
 
         <div className="space-y-6">
@@ -140,12 +140,12 @@ export default function WhyCloudflare() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 whileHover={subtleLiftHover}
-                className="grid lg:grid-cols-2 gap-10 items-start bg-white border border-slate-200 rounded-2xl p-8 lg:p-10 hover:border-[#f6821f]/20 transition-colors"
+                className="grid lg:grid-cols-2 gap-10 items-start bg-white border border-slate-200 rounded-2xl p-8 lg:p-10 hover:border-[#1E3A8A]/20 transition-colors"
               >
                 <div>
                   <div className="flex items-center gap-4 mb-5">
-                    <div className="w-10 h-10 rounded-lg bg-[#f6821f]/10 flex items-center justify-center shrink-0">
-                      <Icon className="w-5 h-5 text-[#f6821f]" />
+                    <div className="w-10 h-10 rounded-lg bg-[#1E3A8A]/10 flex items-center justify-center shrink-0">
+                      <Icon className="w-5 h-5 text-[#1E3A8A]" />
                     </div>
                     <h3 className="text-xl font-bold text-slate-900">{reason.title}</h3>
                   </div>
@@ -154,7 +154,7 @@ export default function WhyCloudflare() {
                 <div className="space-y-3">
                   {reason.points.map((point) => (
                     <div key={point} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#f6821f] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#1E3A8A] shrink-0 mt-0.5" />
                       <span className="text-sm text-slate-600">{point}</span>
                     </div>
                   ))}
@@ -178,11 +178,11 @@ export default function WhyCloudflare() {
           {/* City pills */}
           <div className="flex flex-wrap gap-2 justify-center mb-12">
             {NETWORK_CITIES.map((city) => (
-              <span key={city} className="text-xs px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600 hover:border-[#f6821f]/40 hover:text-slate-900 transition-colors cursor-default">
+              <span key={city} className="text-xs px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600 hover:border-[#1E3A8A]/40 hover:text-slate-900 transition-colors cursor-default">
                 {city}
               </span>
             ))}
-            <span className="text-xs px-3 py-1.5 rounded-full bg-[#f6821f]/10 border border-[#f6821f]/30 text-[#f6821f]">
+            <span className="text-xs px-3 py-1.5 rounded-full bg-[#1E3A8A]/10 border border-[#1E3A8A]/30 text-[#1E3A8A]">
               +305 more
             </span>
           </div>
@@ -197,7 +197,7 @@ export default function WhyCloudflare() {
               const Icon = item.icon;
               return (
                 <div key={item.label} className="bg-slate-50 border border-slate-200 rounded-xl p-6">
-                  <Icon className="w-6 h-6 text-[#f6821f] mb-3" />
+                  <Icon className="w-6 h-6 text-[#1E3A8A] mb-3" />
                   <p className="text-sm font-semibold text-slate-900 mb-1">{item.label}</p>
                   <p className="text-xs text-slate-500">{item.desc}</p>
                 </div>
@@ -222,9 +222,9 @@ export default function WhyCloudflare() {
                 transition={{ delay: i * 0.08 }}
                 className="flex gap-6 items-start"
               >
-                <div className="text-sm font-bold text-[#f6821f] w-16 shrink-0 pt-0.5">{item.year}</div>
+                <div className="text-sm font-bold text-[#1E3A8A] w-16 shrink-0 pt-0.5">{item.year}</div>
                 <div className="hidden md:flex w-4 shrink-0 items-center justify-center pt-1.5">
-                  <div className="w-2 h-2 rounded-full bg-[#f6821f] relative z-10" />
+                  <div className="w-2 h-2 rounded-full bg-[#1E3A8A] relative z-10" />
                 </div>
                 <p className="text-slate-600 text-sm leading-relaxed">{item.event}</p>
               </motion.div>
@@ -238,7 +238,7 @@ export default function WhyCloudflare() {
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <SectionHeading
             title="Impact beyond business"
-            description="We believe in giving back. Cloudflare provides free protection to organizations that need it most."
+            description="We believe in giving back. Apexlyn provides free protection to organizations that need it most."
             className="mb-12"
             descriptionClassName="max-w-2xl"
           />
@@ -282,7 +282,7 @@ export default function WhyCloudflare() {
             It takes about 2 minutes to set up. No credit card required for the Free plan.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
               Get started for free <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">

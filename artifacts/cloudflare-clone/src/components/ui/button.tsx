@@ -14,7 +14,7 @@ type ButtonVariantProps = {
 };
 
 const variantClasses = {
-  default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_15px_rgba(246,130,31,0.3)] hover:shadow-[0_0_25px_rgba(246,130,31,0.5)]",
+  default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_15px_rgba(30,58,138,0.25)] hover:shadow-[0_0_22px_rgba(30,58,138,0.35)]",
   outline: "border-2 border-border bg-transparent hover:bg-card hover:border-primary/50 text-foreground",
   ghost: "hover:bg-card hover:text-primary text-foreground",
   link: "text-primary underline-offset-4 hover:underline",

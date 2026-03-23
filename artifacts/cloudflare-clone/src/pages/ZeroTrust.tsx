@@ -19,9 +19,9 @@ const PRODUCTS = [
 ];
 
 const HOW_IT_WORKS = [
-  { step: '01', title: 'Connect your identity provider', desc: 'Cloudflare integrates with Okta, Azure AD, Google Workspace, and 30+ other IdPs. Get SSO for all apps instantly.' },
+  { step: '01', title: 'Connect your identity provider', desc: 'Apexlyn integrates with Okta, Azure AD, Google Workspace, and 30+ other IdPs. Get SSO for all apps instantly.' },
   { step: '02', title: 'Define your policies', desc: 'Set access policies based on identity, device posture, location, and risk score. Apply them to every app in minutes.' },
-  { step: '03', title: 'Deploy WARP to devices', desc: 'The lightweight WARP client routes all device traffic through Cloudflare Gateway for inspection and filtering.' },
+  { step: '03', title: 'Deploy WARP to devices', desc: 'The lightweight WARP client routes all device traffic through Apexlyn Gateway for inspection and filtering.' },
   { step: '04', title: 'Monitor and remediate', desc: 'Unified logs, SIEM integration, and digital experience monitoring give you full visibility into every user and device.' },
 ];
 
@@ -36,13 +36,13 @@ const VS_VPN = [
 
 export default function ZeroTrust() {
   return (
-    <div className="min-h-screen cf-page-bg">
+    <div className="min-h-screen apex-page-bg">
       {/* Hero */}
       <section className="bg-white border-b border-slate-200">
         <PageHero
           eyebrow="Zero Trust & SASE"
           title={<>Replace your VPN.<br />Secure every user,<br />app, and device.</>}
-          description="Cloudflare One is the industry's most complete Zero Trust / SASE platform — delivered as a service on our global network. No hardware. Deploy in days, not months."
+          description="Apexlyn One is the industry's most complete Zero Trust / SASE platform — delivered as a service on our global network. No hardware. Deploy in days, not months."
           actions={[
             { label: 'Start for free', href: SIGN_UP_URL, variant: 'primary' },
             { label: 'Talk to sales', href: CONTACT_SALES_URL, variant: 'outline' },
@@ -71,16 +71,16 @@ export default function ZeroTrust() {
                 whileHover={subtleLiftHover}
                 className="group"
               >
-                <Link href={product.link} className="flex flex-col bg-white border border-slate-200 rounded-xl p-6 hover:border-[#f6821f]/40 transition-all h-full">
-                <div className="w-9 h-9 rounded-lg bg-[#f6821f]/10 flex items-center justify-center mb-4">
-                  <Icon className="w-4 h-4 text-[#f6821f]" />
+                <Link href={product.link} className="flex flex-col bg-white border border-slate-200 rounded-xl p-6 hover:border-[#1E3A8A]/40 transition-all h-full">
+                <div className="w-9 h-9 rounded-lg bg-[#1E3A8A]/10 flex items-center justify-center mb-4">
+                  <Icon className="w-4 h-4 text-[#1E3A8A]" />
                 </div>
                 <div className="mb-3">
-                  <h3 className="text-[15px] font-semibold text-slate-900 group-hover:text-[#f6821f] transition-colors">{product.name}</h3>
+                  <h3 className="text-[15px] font-semibold text-slate-900 group-hover:text-[#1E3A8A] transition-colors">{product.name}</h3>
                   <p className="text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">{product.tag}</p>
                 </div>
                 <p className="text-[13px] text-slate-500 leading-relaxed flex-grow">{product.desc}</p>
-                <div className="flex items-center gap-1 mt-4 text-[13px] text-[#f6821f] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex items-center gap-1 mt-4 text-[13px] text-[#1E3A8A] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                   Learn more <ChevronRight className="w-3.5 h-3.5" />
                 </div>
                 </Link>
@@ -94,7 +94,7 @@ export default function ZeroTrust() {
       <section className="border-t border-slate-200 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <SectionHeading
-            title="How Cloudflare One works"
+            title="How Apexlyn One works"
             description="From pilot to full deployment in days."
           />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -106,7 +106,7 @@ export default function ZeroTrust() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
               >
-                <div className="text-5xl font-black text-[#f6821f]/20 mb-3">{step.step}</div>
+                <div className="text-5xl font-black text-[#1E3A8A]/20 mb-3">{step.step}</div>
                 <h3 className="text-[15px] font-semibold text-slate-900 mb-2">{step.title}</h3>
                 <p className="text-[13px] text-slate-500 leading-relaxed">{step.desc}</p>
               </motion.div>
@@ -119,14 +119,14 @@ export default function ZeroTrust() {
       <section className="max-w-[1280px] mx-auto px-6 py-20">
         <SectionHeading
           title="Zero Trust vs. traditional VPN"
-          description="Why thousands of organizations are replacing their VPNs with Cloudflare."
+          description="Why thousands of organizations are replacing their VPNs with Apexlyn."
           className="mb-10"
         />
         <div className="border border-slate-200 rounded-xl overflow-hidden">
           <div className="grid grid-cols-[2fr_1fr_1fr] bg-slate-50 border-b border-slate-200">
             <div className="px-6 py-4 text-[12px] font-semibold text-slate-500 uppercase tracking-widest">Feature</div>
             <div className="px-4 py-4 text-[12px] font-semibold text-slate-500 uppercase tracking-widest text-center">Legacy VPN</div>
-            <div className="px-4 py-4 text-[12px] font-semibold text-[#f6821f] uppercase tracking-widest text-center">Cloudflare Zero Trust</div>
+            <div className="px-4 py-4 text-[12px] font-semibold text-[#1E3A8A] uppercase tracking-widest text-center">Apexlyn Zero Trust</div>
           </div>
           {VS_VPN.map((row, i) => (
             <div key={row.feature} className={`grid grid-cols-[2fr_1fr_1fr] border-b border-slate-100 last:border-b-0 ${i % 2 === 0 ? 'bg-slate-50' : 'bg-white'}`}>
@@ -149,7 +149,7 @@ export default function ZeroTrust() {
             Free for up to 50 users. No hardware. No hidden setup fees.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
               Start for free <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">

@@ -8,7 +8,7 @@ export default function NotFound() {
       <Card className="w-full max-w-md border-slate-200 bg-white">
         <CardContent className="pt-6">
           <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-[#f6821f]" />
+            <AlertCircle className="h-8 w-8 text-[#1E3A8A]" />
             <h1 className="text-2xl font-bold text-slate-900">404 Page Not Found</h1>
           </div>
 
@@ -16,7 +16,7 @@ export default function NotFound() {
           <Link
             href="/"
             className="mt-6 inline-flex items-center justify-center rounded px-4 py-2 text-sm font-semibold text-white"
-            style={{ backgroundColor: "#f6821f" }}
+            style={{ backgroundColor: "#1E3A8A" }}
           >
             Back to homepage
           </Link>

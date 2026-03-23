@@ -3,6 +3,7 @@ import { Link, useLocation } from 'wouter';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ApexlynLogo } from '@/components/ApexlynLogo';
 
 const SIGN_UP_URL = '/pricing';
 const LOGIN_URL = '/pricing';
@@ -136,7 +137,7 @@ const NAV_ITEMS = [
             { label: 'Blog', desc: 'Product updates and insights', href: CLOUDFLARE_BLOG_URL },
             { label: 'Learning Center', desc: 'Security & performance guides', href: '/resources/documentation' },
             { label: 'Webinars', desc: 'Live and on-demand sessions', href: '/resources/webinars' },
-            { label: 'Cloudflare TV', desc: 'Stream our content channel', href: '/resources/blog' },
+            { label: 'Apexlyn TV', desc: 'Stream our content channel', href: '/resources/blog' },
             { label: 'Analysts & Awards', desc: 'See how analysts rate us', href: '/resources/case-studies' },
           ],
         },
@@ -144,7 +145,7 @@ const NAV_ITEMS = [
           title: 'Connect',
           items: [
             { label: 'Community Forum', desc: 'Connect with other users', href: CLOUDFLARE_COMMUNITY_URL },
-            { label: 'Cloudflare Radar', desc: 'Internet traffic insights', href: CLOUDFLARE_RADAR_URL },
+            { label: 'Apexlyn Radar', desc: 'Internet traffic insights', href: CLOUDFLARE_RADAR_URL },
             { label: 'Speed Test', desc: 'Test your network performance', href: '/resources/case-studies' },
             { label: 'Case Studies', desc: 'See customer success stories', href: '/resources/case-studies' },
             { label: 'Trust & Safety', desc: 'Abuse policies and reports', href: '/report-security' },
@@ -153,10 +154,10 @@ const NAV_ITEMS = [
         {
           title: 'Develop',
           items: [
-            { label: 'Documentation', desc: 'Guides for all Cloudflare products', href: CLOUDFLARE_DOCS_URL },
-            { label: 'API Reference', desc: 'Manage Cloudflare via API', href: '/resources/documentation' },
+            { label: 'Documentation', desc: 'Guides for all Apexlyn products', href: CLOUDFLARE_DOCS_URL },
+            { label: 'API Reference', desc: 'Manage Apexlyn via API', href: '/resources/documentation' },
             { label: 'Developer Discord', desc: 'Chat with our dev community', href: '/resources/community' },
-            { label: 'Cloudflare Status', desc: 'Real-time system status', href: CLOUDFLARE_STATUS_URL },
+            { label: 'Apexlyn Status', desc: 'Real-time system status', href: CLOUDFLARE_STATUS_URL },
             { label: 'Support Portal', desc: 'Get help from our team', href: CLOUDFLARE_SUPPORT_URL },
           ],
         },
@@ -171,9 +172,9 @@ const NAV_ITEMS = [
         {
           title: 'Company',
           items: [
-            { label: 'About Cloudflare', desc: 'Our mission and story', href: '/company/about' },
+            { label: 'About Apexlyn', desc: 'Our mission and story', href: '/company/about' },
             { label: 'Leadership', desc: 'Meet the executive team', href: '/company/about' },
-            { label: 'Careers', desc: 'Join the Cloudflare team', href: CLOUDFLARE_CAREERS_URL },
+            { label: 'Careers', desc: 'Join the Apexlyn team', href: CLOUDFLARE_CAREERS_URL },
             { label: 'Press', desc: 'News and press releases', href: CLOUDFLARE_PRESS_URL },
             { label: 'Investor Relations', desc: 'For shareholders and analysts', href: CLOUDFLARE_INVESTORS_URL },
             { label: 'Analyst Reports', desc: 'Third-party evaluations', href: '/resources/case-studies' },
@@ -185,7 +186,7 @@ const NAV_ITEMS = [
             { label: 'Impact Report', desc: 'Our commitment to a better Internet', href: '/company/impact' },
             { label: 'Project Galileo', desc: 'Protecting vulnerable voices', href: '/company/impact' },
             { label: 'Athenian Project', desc: 'Securing election infrastructure', href: '/company/impact' },
-            { label: 'Cloudflare for Campaigns', desc: 'Protecting political speech', href: '/company/impact' },
+            { label: 'Apexlyn for Campaigns', desc: 'Protecting political speech', href: '/company/impact' },
             { label: 'Critical Infrastructure Defense', desc: 'Protecting hospitals & utilities', href: '/company/impact' },
           ],
         },
@@ -200,13 +201,6 @@ const PRIMARY_LINKS = [
   { name: 'Enterprise', href: '/enterprise' },
   { name: 'Pricing', href: '/pricing' },
 ];
-
-const CloudflareLogo = ({ size = 28 }: { size?: number }) => (
-  <svg width={size} height={Math.round(size * 1.29)} viewBox="0 0 109 141" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M74.5 50.4c-2.6-9.4-11.2-16.3-21.4-16.3-1.8 0-3.6.2-5.3.7-3.6-7.6-11.4-12.9-20.4-12.9C12.9 21.9 3.5 31.3 3.5 42.8c0 2 .3 4 .8 5.8C1.7 50.8 0 53.9 0 57.4c0 6.9 5.6 12.5 12.5 12.5h62c6.9 0 12.5-5.6 12.5-12.5 0-3.8-1.7-7.2-4.4-9.5l-8.1 2.5z" fill="#FBAD41"/>
-    <path d="M109 88.5c0-11.9-9.6-21.5-21.5-21.5-2.4 0-4.7.4-6.9 1.1C77 60.3 69 55 59.6 55c-13.5 0-24.4 10.9-24.4 24.4 0 .8 0 1.6.1 2.4-7 1.8-12.2 8.2-12.2 15.8 0 9 7.3 16.3 16.3 16.3H97c6.6 0 12-5.4 12-12z" fill="#F6821F"/>
-  </svg>
-);
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -260,17 +254,27 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const activeItem = NAV_ITEMS.find((i) => i.name === activeDropdown);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-[#F7F9FC]">
 
-      {/* ── Header ── */}
-      <header ref={headerRef} className="fixed top-0 w-full z-50 border-b border-[#e5e7eb] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90" style={{ height: 72 }}>
+      {/* ── Header — infrastructure navy ── */}
+      <header ref={headerRef} className="fixed top-0 w-full z-50 border-b border-white/10 bg-[#0B1320]" style={{ height: 96 }}>
         <div className="max-w-[1280px] mx-auto px-6 h-full flex items-center justify-between">
 
           {/* Left: Logo + Nav */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-2.5 mr-8 shrink-0" onClick={() => setActiveDropdown(null)}>
-              <CloudflareLogo size={28} />
-              <span className="text-[17px] font-semibold text-[#111827] tracking-[-0.01em]">Cloudflare</span>
+            <Link
+              href="/"
+              className="flex items-center mr-8 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded"
+              onClick={() => setActiveDropdown(null)}
+              aria-label="Apexlyn home"
+            >
+              <ApexlynLogo
+                variant="wordmark"
+                forDarkBackground
+                height={68}
+                minWidth={280}
+                className="max-h-[68px] w-auto min-w-[280px]"
+              />
             </Link>
 
             {/* Desktop Nav */}
@@ -281,8 +285,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   href={item.href}
                   onClick={() => setActiveDropdown(null)}
                   className={cn(
-                    'px-3 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded',
-                    location === item.href ? 'text-[#111827]' : 'text-[#374151] hover:text-[#111827]'
+                    'px-3 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded',
+                    location === item.href ? 'text-white' : 'text-slate-300 hover:text-white'
                   )}
                 >
                   {item.name}
@@ -297,15 +301,15 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   aria-expanded={activeDropdown === item.name}
                   aria-label={`${item.name} menu`}
                   className={cn(
-                    'flex items-center gap-1 px-3 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded',
-                    activeDropdown === item.name ? 'text-[#111827]' : 'text-[#374151] hover:text-[#111827]'
+                    'flex items-center gap-1 px-3 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded',
+                    activeDropdown === item.name ? 'text-white' : 'text-slate-300 hover:text-white'
                   )}
                 >
                   {item.name}
                   <ChevronDown
                     className={cn(
                       'w-3.5 h-3.5 transition-transform duration-200 mt-px',
-                      activeDropdown === item.name ? 'rotate-180 text-[#f6821f]' : ''
+                      activeDropdown === item.name ? 'rotate-180 text-[#1E90FF]' : ''
                     )}
                   />
                 </button>
@@ -315,15 +319,15 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
           {/* Right: CTAs */}
           <div className="hidden lg:flex items-center gap-1">
-            <Link href={CONTACT_SALES_URL} className="px-3 py-2 text-[14px] font-medium text-[#374151] hover:text-[#111827] transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded">
+            <Link href={CONTACT_SALES_URL} className="px-3 py-2 text-[14px] font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded">
               Contact Sales
             </Link>
-            <Link href={LOGIN_URL} className="px-3 py-2 text-[14px] font-medium text-[#374151] hover:text-[#111827] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60 rounded">
+            <Link href={LOGIN_URL} className="px-3 py-2 text-[14px] font-medium text-slate-300 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded">
               Log in
             </Link>
             <Link
               href={SIGN_UP_URL}
-              className="ml-2 inline-flex items-center justify-center px-4 py-[8px] rounded text-[14px] font-semibold text-white transition-colors duration-150 bg-[#f6821f] hover:bg-[#d96f18] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f6821f]/60"
+              className="ml-2 inline-flex items-center justify-center px-4 py-[8px] rounded text-[14px] font-semibold text-white transition-colors duration-150 bg-[#1E3A8A] hover:bg-[#172554] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/60"
             >
               Sign up
             </Link>
@@ -331,7 +335,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden p-2 text-[#111827]"
+            className="lg:hidden p-2 text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -348,8 +352,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.14, ease: 'easeOut' }}
-            className="fixed left-0 right-0 z-40 bg-white border-b border-[#e5e7eb] shadow-[0_16px_30px_-18px_rgba(0,0,0,0.25)]"
-            style={{ top: 72 }}
+            className="fixed left-0 right-0 z-40 bg-[#111827] border-b border-white/10 shadow-[0_16px_30px_-18px_rgba(0,0,0,0.45)]"
+            style={{ top: 96 }}
             onMouseEnter={cancelCloseTimer}
             onMouseLeave={startCloseTimer}
           >
@@ -361,7 +365,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               >
                 {activeItem.dropdown.columns.map((col) => (
                   <div key={col.title}>
-                    <p className="text-[11px] font-semibold text-[#f6821f] uppercase tracking-widest mb-4">
+                    <p className="text-[11px] font-semibold text-[#1E90FF] uppercase tracking-widest mb-4">
                       {col.title}
                     </p>
                     <ul className="space-y-0.5">
@@ -370,12 +374,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                           <Link
                             href={normalizeHref(sub.href || '#')}
                             onClick={() => setActiveDropdown(null)}
-                            className="group flex flex-col py-2 px-2 rounded-md hover:bg-[#f3f4f6] transition-colors duration-100"
+                            className="group flex flex-col py-2 px-2 rounded-md hover:bg-white/5 transition-colors duration-100"
                           >
-                            <span className="text-[14px] font-medium text-[#111827] group-hover:text-black">
+                            <span className="text-[14px] font-medium text-white group-hover:text-white">
                               {sub.label}
                             </span>
-                            <span className="text-[12px] text-[#6b7280] group-hover:text-[#4b5563] mt-0.5 leading-snug">
+                            <span className="text-[12px] text-slate-400 group-hover:text-slate-300 mt-0.5 leading-snug">
                               {sub.desc}
                             </span>
                           </Link>
@@ -388,7 +392,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </div>
 
             {/* Bottom accent bar */}
-            <div className="h-[2px] bg-gradient-to-r from-[#f6821f]/0 via-[#f6821f]/35 to-[#f6821f]/0" />
+            <div className="h-[2px] bg-gradient-to-r from-[#1E3A8A]/0 via-[#1E3A8A]/50 to-[#1E3A8A]/0" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -402,7 +406,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-30 bg-black/30 backdrop-blur-[1px]"
-            style={{ top: 72 }}
+            style={{ top: 96 }}
             onClick={() => setActiveDropdown(null)}
           />
         )}
@@ -416,25 +420,29 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="fixed inset-0 z-40 bg-white pt-[72px] overflow-y-auto lg:hidden"
+            className="fixed inset-0 z-40 bg-[#0B1320] pt-[96px] overflow-y-auto lg:hidden"
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-[#e5e7eb]">
-              <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-                <CloudflareLogo size={22} />
-                <span className="text-base font-semibold text-[#111827]">Cloudflare</span>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+              <Link
+                href="/"
+                className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Apexlyn home"
+              >
+                <ApexlynLogo variant="wordmark" forDarkBackground height={56} minWidth={240} className="max-h-14 w-auto min-w-[240px]" />
               </Link>
-              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-[#111827]">
+              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-white">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <nav className="px-4 py-2">
-              <div className="border-b border-[#e5e7eb] pb-2 mb-1">
+              <div className="border-b border-white/10 pb-2 mb-1">
                 {PRIMARY_LINKS.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="block py-3 text-[15px] font-medium text-[#111827] hover:text-[#000]"
+                    className="block py-3 text-[15px] font-medium text-white hover:text-slate-200"
                     onClick={() => {
                       setMobileMenuOpen(false);
                       setMobileExpanded(null);
@@ -445,16 +453,16 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 ))}
               </div>
               {NAV_ITEMS.map((item) => (
-                <div key={item.name} className="border-b border-[#e5e7eb]">
+                <div key={item.name} className="border-b border-white/10">
                   <button
-                    className="w-full flex items-center justify-between py-4 text-[15px] font-medium text-[#111827]"
+                    className="w-full flex items-center justify-between py-4 text-[15px] font-medium text-white"
                     onClick={() => setMobileExpanded(mobileExpanded === item.name ? null : item.name)}
                     aria-expanded={mobileExpanded === item.name}
                     aria-label={`${item.name} mobile menu`}
                   >
                     {item.name}
                     <ChevronDown
-                      className={cn('w-4 h-4 text-[#6b7280] transition-transform duration-200',
+                      className={cn('w-4 h-4 text-slate-400 transition-transform duration-200',
                         mobileExpanded === item.name ? 'rotate-180' : ''
                       )}
                     />
@@ -472,21 +480,21 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                         <div className="pb-6 space-y-5">
                           {item.dropdown.columns.map((col) => (
                             <div key={col.title}>
-                              <p className="text-[10px] font-semibold text-[#f6821f] uppercase tracking-widest mb-2 px-1">
+                              <p className="text-[10px] font-semibold text-[#1E90FF] uppercase tracking-widest mb-2 px-1">
                                 {col.title}
                               </p>
                               {col.items.map((sub) => (
                                 <Link
                                   key={sub.label}
                                   href={normalizeHref(sub.href)}
-                                  className="flex flex-col px-1 py-2 rounded hover:bg-[#f3f4f6]"
+                                  className="flex flex-col px-1 py-2 rounded hover:bg-white/5"
                                   onClick={() => {
                                     setMobileMenuOpen(false);
                                     setMobileExpanded(null);
                                   }}
                                 >
-                                  <span className="text-[14px] text-[#111827]">{sub.label}</span>
-                                  <span className="text-[12px] text-[#6b7280]">{sub.desc}</span>
+                                  <span className="text-[14px] text-white">{sub.label}</span>
+                                  <span className="text-[12px] text-slate-400">{sub.desc}</span>
                                 </Link>
                               ))}
                             </div>
@@ -500,12 +508,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </nav>
 
             <div className="px-4 pt-6 pb-8 flex flex-col gap-3">
-              <Link href={LOGIN_URL} className="block py-3 text-center text-[14px] font-medium text-[#111827] border border-[#d1d5db] rounded" onClick={() => setMobileMenuOpen(false)}>
+              <Link href={LOGIN_URL} className="block py-3 text-center text-[14px] font-medium text-white border border-white/20 rounded hover:bg-white/5" onClick={() => setMobileMenuOpen(false)}>
                 Log in
               </Link>
               <Link
                 href={SIGN_UP_URL}
-                className="block py-3 text-center text-[14px] font-semibold text-white rounded bg-[#f6821f] hover:bg-[#d96f18] transition-colors"
+                className="block py-3 text-center text-[14px] font-semibold text-white rounded bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Sign up
@@ -516,18 +524,17 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </AnimatePresence>
 
       {/* ── Main Content ── */}
-      <main className="flex-grow pt-[72px]">{children}</main>
+      <main className="flex-grow pt-[96px]">{children}</main>
 
       {/* ── Footer ── */}
-      <footer className="bg-[#1d1f20] border-t border-white/[0.08] pt-16 pb-8">
+      <footer className="bg-[#111827] border-t border-white/10 pt-16 pb-8">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-12">
             <div className="col-span-2 md:col-span-3 lg:col-span-1">
-              <Link href="/" className="flex items-center gap-2.5 mb-5">
-                <CloudflareLogo size={22} />
-                <span className="text-base font-semibold text-white">Cloudflare</span>
+              <Link href="/" className="inline-flex items-center mb-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded" aria-label="Apexlyn home">
+                <ApexlynLogo variant="wordmark" forDarkBackground height={64} minWidth={260} className="max-h-16 w-auto min-w-[260px]" />
               </Link>
-              <p className="text-[#a0aaba] text-sm leading-relaxed">Building a better Internet.</p>
+              <p className="text-slate-400 text-sm leading-relaxed">Infrastructure you can trust.</p>
             </div>
 
             {[
@@ -587,7 +594,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 <ul className="space-y-2.5">
                   {col.links.map((link) => (
                     <li key={link.label}>
-                      <Link href={normalizeHref(link.href)} className="text-[13px] text-[#a0aaba] hover:text-white transition-colors">{link.label}</Link>
+                      <Link href={normalizeHref(link.href)} className="text-[13px] text-slate-400 hover:text-white transition-colors">{link.label}</Link>
                     </li>
                   ))}
                 </ul>
@@ -595,8 +602,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             ))}
           </div>
 
-          <div className="pt-8 border-t border-white/[0.08] flex flex-col md:flex-row justify-between items-center gap-4 text-[13px] text-[#6b7280]">
-            <p>© {new Date().getFullYear()} Cloudflare, Inc. · <Link href={normalizeHref(CLOUDFLARE_PRIVACY_URL)} className="hover:text-[#a0aaba] transition-colors">Privacy Policy</Link> · <Link href={normalizeHref(CLOUDFLARE_TERMS_URL)} className="hover:text-[#a0aaba] transition-colors">Terms of Use</Link> · <Link href="/report-security" className="hover:text-[#a0aaba] transition-colors">Report Security Issues</Link></p>
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[13px] text-slate-500">
+            <p>© {new Date().getFullYear()} Apexlyn · <Link href={normalizeHref(CLOUDFLARE_PRIVACY_URL)} className="hover:text-slate-300 transition-colors">Privacy Policy</Link> · <Link href={normalizeHref(CLOUDFLARE_TERMS_URL)} className="hover:text-slate-300 transition-colors">Terms of Use</Link> · <Link href="/report-security" className="hover:text-slate-300 transition-colors">Report Security Issues</Link></p>
             <div className="flex items-center gap-5">
               {[
                 { label: 'Twitter / X', href: '/resources/community' },
@@ -605,7 +612,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 { label: 'YouTube', href: '/resources/community' },
                 { label: 'GitHub', href: CLOUDFLARE_GITHUB_URL },
               ].map((s) => (
-                <Link key={s.label} href={normalizeHref(s.href)} className="hover:text-[#a0aaba] transition-colors text-xs">{s.label}</Link>
+                <Link key={s.label} href={normalizeHref(s.href)} className="hover:text-slate-300 transition-colors text-xs">{s.label}</Link>
               ))}
             </div>
           </div>
