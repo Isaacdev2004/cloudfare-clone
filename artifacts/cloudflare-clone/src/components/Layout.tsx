@@ -257,28 +257,27 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     <div className="min-h-screen flex flex-col bg-[#F7F9FC]">
 
       {/* ── Header — infrastructure navy ── */}
-      <header ref={headerRef} className="fixed top-0 w-full z-50 border-b border-white/10 bg-[#0B1320]" style={{ height: 96 }}>
-        <div className="max-w-[1280px] mx-auto px-6 h-full flex items-center justify-between">
-
-          {/* Left: Logo + Nav */}
-          <div className="flex items-center">
+      <header ref={headerRef} className="fixed top-0 w-full z-50 border-b border-white/10 bg-[#0B1320]" style={{ height: 72 }}>
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-3">
+          {/* Left: Logo + Nav (min-w-0 prevents huge wordmark from breaking flex row) */}
+          <div className="flex items-center gap-4 lg:gap-6 min-w-0 flex-1">
             <Link
               href="/"
-              className="flex items-center mr-8 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded"
+              className="flex items-center shrink-0 min-w-0 max-w-[min(72vw,280px)] sm:max-w-[320px] lg:max-w-none mr-2 lg:mr-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded"
               onClick={() => setActiveDropdown(null)}
               aria-label="Apexlyn home"
             >
               <ApexlynLogo
                 variant="wordmark"
                 forDarkBackground
-                height={68}
-                minWidth={280}
-                className="max-h-[68px] w-auto min-w-[280px]"
+                align="start"
+                height={46}
+                className="w-auto [&_img]:max-w-full"
               />
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center">
+            <nav className="hidden lg:flex items-center shrink-0">
               {PRIMARY_LINKS.map((item) => (
                 <Link
                   key={item.name}
@@ -318,7 +317,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           </div>
 
           {/* Right: CTAs */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1 shrink-0">
             <Link href={CONTACT_SALES_URL} className="px-3 py-2 text-[14px] font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded">
               Contact Sales
             </Link>
@@ -335,8 +334,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden p-2 text-white"
+            type="button"
+            className="lg:hidden p-2 text-white shrink-0 -mr-1"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -353,7 +354,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.14, ease: 'easeOut' }}
             className="fixed left-0 right-0 z-40 bg-[#111827] border-b border-white/10 shadow-[0_16px_30px_-18px_rgba(0,0,0,0.45)]"
-            style={{ top: 96 }}
+            style={{ top: 72 }}
             onMouseEnter={cancelCloseTimer}
             onMouseLeave={startCloseTimer}
           >
@@ -406,7 +407,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-30 bg-black/30 backdrop-blur-[1px]"
-            style={{ top: 96 }}
+            style={{ top: 72 }}
             onClick={() => setActiveDropdown(null)}
           />
         )}
@@ -420,7 +421,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="fixed inset-0 z-40 bg-[#0B1320] pt-[96px] overflow-y-auto lg:hidden"
+            className="fixed inset-0 z-40 bg-[#0B1320] pt-[72px] overflow-y-auto lg:hidden"
           >
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
               <Link
@@ -429,7 +430,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Apexlyn home"
               >
-                <ApexlynLogo variant="wordmark" forDarkBackground height={56} minWidth={240} className="max-h-14 w-auto min-w-[240px]" />
+                <ApexlynLogo variant="wordmark" forDarkBackground align="start" height={40} className="h-10 w-auto max-w-[85vw] [&_img]:max-w-full" />
               </Link>
               <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-white">
                 <X className="w-5 h-5" />
@@ -524,15 +525,15 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </AnimatePresence>
 
       {/* ── Main Content ── */}
-      <main className="flex-grow pt-[96px]">{children}</main>
+      <main className="flex-grow pt-[72px]">{children}</main>
 
       {/* ── Footer ── */}
       <footer className="bg-[#111827] border-t border-white/10 pt-16 pb-8">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-12">
-            <div className="col-span-2 md:col-span-3 lg:col-span-1">
-              <Link href="/" className="inline-flex items-center mb-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded" aria-label="Apexlyn home">
-                <ApexlynLogo variant="wordmark" forDarkBackground height={64} minWidth={260} className="max-h-16 w-auto min-w-[260px]" />
+            <div className="col-span-2 md:col-span-3 lg:col-span-1 flex flex-col items-start text-left">
+              <Link href="/" className="inline-flex items-center justify-start mb-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded w-full" aria-label="Apexlyn home">
+                <ApexlynLogo variant="wordmark" forDarkBackground align="start" height={44} className="h-11 w-auto max-w-full [&_img]:max-w-[min(100%,280px)]" />
               </Link>
               <p className="text-slate-400 text-sm leading-relaxed">Infrastructure you can trust.</p>
             </div>

@@ -14,6 +14,8 @@ type ApexlynLogoProps = {
    * On navy / footer bars: subtle shadow so transparent PNG stays crisp and readable.
    */
   forDarkBackground?: boolean;
+  /** `start` = left-align mark (footer, header). `center` = centered in container. */
+  align?: "start" | "center";
 };
 
 /**
@@ -26,6 +28,7 @@ export const ApexlynLogo: React.FC<ApexlynLogoProps> = ({
   className,
   variant = "wordmark",
   forDarkBackground = false,
+  align = "start",
 }) => {
   const candidates = variant === "icon" ? LOGO_ICON_CANDIDATES : LOGO_WORDMARK_CANDIDATES;
   const [index, setIndex] = useState(0);
@@ -57,16 +60,24 @@ export const ApexlynLogo: React.FC<ApexlynLogoProps> = ({
       height={height}
       width="auto"
       className={cn(forDarkBackground && "max-h-full w-auto")}
-      style={{ height, width: "auto", maxWidth: "min(100%, 560px)", objectFit: "contain" }}
+      style={{
+        height,
+        width: "auto",
+        maxWidth: "min(100%, 560px)",
+        objectFit: "contain",
+        objectPosition: align === "start" ? "left center" : "center center",
+      }}
       loading="eager"
       decoding="async"
       onError={() => setIndex((i) => i + 1)}
     />
   );
 
+  const alignCls = align === "start" ? "justify-start" : "justify-center";
+
   if (!forDarkBackground) {
     return (
-      <span className={cn("inline-flex items-center justify-center", className)} style={wrapperStyle}>
+      <span className={cn("inline-flex items-center", alignCls, className)} style={wrapperStyle}>
         {img}
       </span>
     );
@@ -74,7 +85,7 @@ export const ApexlynLogo: React.FC<ApexlynLogoProps> = ({
 
   return (
     <span
-      className={cn("apexlyn-logo-on-dark inline-flex items-center justify-center", className)}
+      className={cn("apexlyn-logo-on-dark inline-flex items-center", alignCls, className)}
       style={wrapperStyle}
     >
       {img}
