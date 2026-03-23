@@ -18,6 +18,8 @@ type PageHeroProps = {
   className?: string;
   contentClassName?: string;
   aside?: React.ReactNode;
+  /** `navy` = primary infrastructure hero (#0B1320). `light` = content-style hero. */
+  variant?: "light" | "navy";
 };
 
 export const PageHero: React.FC<PageHeroProps> = ({
@@ -28,11 +30,16 @@ export const PageHero: React.FC<PageHeroProps> = ({
   className,
   contentClassName,
   aside,
+  variant = "light",
 }) => {
+  const isNavy = variant === "navy";
+
   return (
     <section
       className={cn(
-        "relative overflow-hidden bg-[radial-gradient(ellipse_at_70%_40%,rgba(246,130,31,0.12),rgba(248,250,252,0.95)_62%)]",
+        isNavy
+          ? "relative overflow-hidden bg-[#0B1320] text-white"
+          : "relative overflow-hidden bg-[radial-gradient(ellipse_at_70%_40%,rgba(30,144,255,0.06),#F7F9FC_62%)]",
         className,
       )}
     >
@@ -40,12 +47,31 @@ export const PageHero: React.FC<PageHeroProps> = ({
         <div className={cn("grid gap-12 items-center", aside ? "lg:grid-cols-2" : "lg:grid-cols-1")}>
           <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="max-w-3xl">
             {eyebrow && (
-              <p className="text-sm font-semibold uppercase tracking-widest text-[#f6821f] mb-4">{eyebrow}</p>
+              <p
+                className={cn(
+                  "text-sm font-semibold uppercase tracking-widest mb-4",
+                  isNavy ? "text-slate-400" : "text-[#1E3A8A]",
+                )}
+              >
+                {eyebrow}
+              </p>
             )}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] text-slate-900 mb-6">
+            <h1
+              className={cn(
+                "text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-6",
+                isNavy ? "text-white" : "text-slate-900",
+              )}
+            >
               {title}
             </h1>
-            <p className="text-lg sm:text-xl text-slate-600 leading-relaxed mb-8">{description}</p>
+            <p
+              className={cn(
+                "text-lg sm:text-xl leading-relaxed mb-8",
+                isNavy ? "text-slate-300" : "text-slate-600",
+              )}
+            >
+              {description}
+            </p>
             {!!actions.length && (
               <div className="flex flex-col sm:flex-row gap-4">
                 {actions.map((action) => (
@@ -55,8 +81,10 @@ export const PageHero: React.FC<PageHeroProps> = ({
                     className={cn(
                       "inline-flex items-center justify-center gap-2 px-5 py-3 rounded text-[15px] font-semibold transition-colors",
                       action.variant === "outline"
-                        ? "text-slate-800 border border-slate-300 hover:bg-slate-50"
-                        : "text-white bg-[#f6821f] hover:bg-[#d96f18]",
+                        ? isNavy
+                          ? "text-white border border-white/25 hover:bg-white/10"
+                          : "text-slate-800 border border-slate-300 hover:bg-slate-50"
+                        : "text-white bg-[#1E3A8A] hover:bg-[#172554]",
                     )}
                   >
                     {action.label}

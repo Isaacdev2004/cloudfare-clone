@@ -83,18 +83,18 @@ export const NetworkGlobe: React.FC<NetworkGlobeProps> = ({ compact = false }) =
       const centerX = width / 2;
       const centerY = height / 2;
 
-      // Warm gradient background to better match Cloudflare's visual language
+      // Cool infrastructure gradient (navy + subtle cyan accent)
       const bgGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius * 1.5);
-      bgGradient.addColorStop(0, 'rgba(246, 130, 31, 0.18)');
-      bgGradient.addColorStop(0.55, 'rgba(255, 199, 128, 0.06)');
-      bgGradient.addColorStop(1, 'rgba(15, 23, 42, 0)');
+      bgGradient.addColorStop(0, 'rgba(30, 144, 255, 0.12)');
+      bgGradient.addColorStop(0.55, 'rgba(30, 58, 138, 0.08)');
+      bgGradient.addColorStop(1, 'rgba(11, 19, 32, 0)');
       ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, width, height);
 
       // Soft globe body fill
       const globeFill = ctx.createRadialGradient(centerX - radius * 0.25, centerY - radius * 0.25, radius * 0.1, centerX, centerY, radius);
-      globeFill.addColorStop(0, 'rgba(255, 244, 228, 0.20)');
-      globeFill.addColorStop(1, 'rgba(255, 200, 140, 0.08)');
+      globeFill.addColorStop(0, 'rgba(200, 220, 255, 0.14)');
+      globeFill.addColorStop(1, 'rgba(30, 58, 138, 0.10)');
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
       ctx.fillStyle = globeFill;
@@ -103,7 +103,7 @@ export const NetworkGlobe: React.FC<NetworkGlobeProps> = ({ compact = false }) =
       // Draw sphere outline
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(246, 130, 31, 0.35)';
+      ctx.strokeStyle = 'rgba(30, 144, 255, 0.32)';
       ctx.lineWidth = 1.2;
       ctx.stroke();
 
@@ -112,14 +112,14 @@ export const NetworkGlobe: React.FC<NetworkGlobeProps> = ({ compact = false }) =
       ctx.arc(centerX, centerY, radius * 1.08, 0, Math.PI * 2);
       ctx.setLineDash([4, 8]);
       ctx.lineDashOffset = -rotationY * 140;
-      ctx.strokeStyle = 'rgba(246, 130, 31, 0.25)';
+      ctx.strokeStyle = 'rgba(30, 144, 255, 0.22)';
       ctx.lineWidth = 1;
       ctx.stroke();
       ctx.setLineDash([]);
       ctx.lineDashOffset = 0;
 
       // Draw Latitude/Longitude Grid Lines
-      ctx.strokeStyle = 'rgba(246, 130, 31, 0.12)';
+      ctx.strokeStyle = 'rgba(30, 58, 138, 0.14)';
       ctx.lineWidth = 1;
       
       rotationY += rotationSpeed;
@@ -169,7 +169,7 @@ export const NetworkGlobe: React.FC<NetworkGlobeProps> = ({ compact = false }) =
 
           if (dist < radius * 0.45) {
             const opacity = Math.max(0, 1 - (dist / (radius * 0.45))) * 0.45;
-            ctx.strokeStyle = `rgba(246, 130, 31, ${opacity})`;
+            ctx.strokeStyle = `rgba(30, 144, 255, ${opacity * 0.85})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             
@@ -188,12 +188,12 @@ export const NetworkGlobe: React.FC<NetworkGlobeProps> = ({ compact = false }) =
         const pulse = Math.sin(time * 2 + p.orig.pulseOffset) * 0.5 + 0.5;
         
         if (p.orig.isBeacon && !isBack) {
-          ctx.fillStyle = `rgba(246, 130, 31, ${alpha + 0.2})`;
+          ctx.fillStyle = `rgba(30, 144, 255, ${alpha + 0.2})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, 4 * p.scale, 0, Math.PI * 2);
           ctx.fill();
 
-          ctx.fillStyle = `rgba(246, 130, 31, ${pulse * 0.5})`;
+          ctx.fillStyle = `rgba(30, 144, 255, ${pulse * 0.45})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, (8 + pulse * 6) * p.scale, 0, Math.PI * 2);
           ctx.fill();
@@ -205,7 +205,7 @@ export const NetworkGlobe: React.FC<NetworkGlobeProps> = ({ compact = false }) =
         }
       });
 
-      // Decorative endpoint badges around globe for Cloudflare-like feel
+      // Decorative endpoint badges around globe
       const badges = [
         { angle: -0.7, icon: 'user' },
         { angle: 0.25, icon: 'net' },
@@ -218,12 +218,12 @@ export const NetworkGlobe: React.FC<NetworkGlobeProps> = ({ compact = false }) =
         const x = centerX + Math.cos(rotationY + badge.angle) * r;
         const y = centerY + Math.sin(rotationY + badge.angle) * r;
         ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
-        ctx.strokeStyle = 'rgba(246, 130, 31, 0.55)';
+        ctx.strokeStyle = 'rgba(30, 58, 138, 0.55)';
         ctx.lineWidth = 2;
         drawRoundedRect(x - 14, y - 14, 28, 28, 7);
         ctx.fill();
         ctx.stroke();
-        ctx.strokeStyle = 'rgba(246, 130, 31, 0.9)';
+        ctx.strokeStyle = 'rgba(30, 58, 138, 0.85)';
         ctx.lineWidth = 1.4;
         ctx.beginPath();
         if (badge.icon === 'user') {

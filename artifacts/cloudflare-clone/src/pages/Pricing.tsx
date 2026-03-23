@@ -122,7 +122,7 @@ const COMPARISON_ROWS = [
     { label: 'Page Shield (CSP)', free: false, pro: false, business: true, enterprise: true },
   ]},
   { category: 'Network', rows: [
-    { label: 'Cloudflare Tunnel', free: true, pro: true, business: true, enterprise: true },
+    { label: 'Apexlyn Tunnel', free: true, pro: true, business: true, enterprise: true },
     { label: 'Email routing', free: true, pro: true, business: true, enterprise: true },
     { label: 'Load balancing', free: false, pro: false, business: 'Optional', enterprise: 'Optional' },
     { label: 'Magic Transit', free: false, pro: false, business: false, enterprise: true },
@@ -136,7 +136,7 @@ const COMPARISON_ROWS = [
 ];
 
 function CellValue({ val }: { val: string | boolean }) {
-  if (val === true) return <Check className="w-5 h-5 text-[#f6821f] mx-auto" />;
+  if (val === true) return <Check className="w-5 h-5 text-[#1E3A8A] mx-auto" />;
   if (val === false) return <Minus className="w-4 h-4 text-[#374151] mx-auto" />;
   return <span className="text-[13px] text-slate-600 text-center block">{val}</span>;
 }
@@ -145,7 +145,7 @@ export default function Pricing() {
   const [openCategory, setOpenCategory] = useState<string | null>('Performance');
 
   return (
-    <div className="min-h-screen cf-page-bg">
+    <div className="min-h-screen apex-page-bg">
       {/* Hero */}
       <section className="bg-white border-b border-slate-200">
         <PageHero
@@ -169,12 +169,12 @@ export default function Pricing() {
               whileHover={subtleLiftHover}
               className={`relative flex flex-col rounded-2xl border p-7 ${
                 plan.highlight
-                  ? 'border-[#f6821f] bg-white shadow-[0_10px_35px_-20px_rgba(246,130,31,0.35)]'
+                  ? 'border-[#1E3A8A] bg-white shadow-[0_10px_35px_-20px_rgba(30,58,138,0.35)]'
                   : 'border-slate-200 bg-white'
               }`}
             >
               {plan.badge && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#f6821f] text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider whitespace-nowrap">
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#1E3A8A] text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider whitespace-nowrap">
                   {plan.badge}
                 </div>
               )}
@@ -195,7 +195,7 @@ export default function Pricing() {
                 href={plan.name === 'Enterprise' ? CONTACT_SALES_URL : SIGN_UP_URL}
                 className={`w-full py-2.5 rounded text-sm font-semibold text-center block mb-8 transition-colors ${
                   plan.ctaStyle === 'primary'
-                    ? 'text-white bg-[#f6821f] hover:bg-[#d96f18]'
+                    ? 'text-white bg-[#1E3A8A] hover:bg-[#172554]'
                     : 'border border-slate-300 text-slate-800 hover:bg-slate-50'
                 }`}
               >
@@ -214,7 +214,7 @@ export default function Pricing() {
                   `Support: ${plan.features.support}`,
                 ].filter(Boolean).map((f) => (
                   <div key={f} className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-[#f6821f] shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-[#1E3A8A] shrink-0 mt-0.5" />
                     <span className="text-[13px]">{f}</span>
                   </div>
                 ))}
@@ -235,14 +235,14 @@ export default function Pricing() {
           />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { name: 'Argo Smart Routing', price: 'Usage-based', desc: 'Route traffic via the fastest Cloudflare paths.' },
+              { name: 'Argo Smart Routing', price: 'Usage-based', desc: 'Route traffic via the fastest Apexlyn paths.' },
               { name: 'Image Resizing', price: '$0.006/resize', desc: 'On-the-fly image resizing and optimization.' },
               { name: 'Load Balancing', price: 'From $5/mo', desc: 'Health-aware traffic distribution across origins.' },
               { name: 'Rate Limiting', price: '$0.05 / 10k req', desc: 'Configurable request rate controls.' },
             ].map((addon) => (
-              <motion.div key={addon.name} whileHover={subtleLiftHover} className="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-[#f6821f]/30 transition-colors">
+              <motion.div key={addon.name} whileHover={subtleLiftHover} className="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-[#1E3A8A]/30 transition-colors">
                 <h3 className="text-sm font-semibold text-slate-900 mb-1">{addon.name}</h3>
-                <p className="text-[#f6821f] text-sm font-medium mb-2">{addon.price}</p>
+                <p className="text-[#1E3A8A] text-sm font-medium mb-2">{addon.price}</p>
                 <p className="text-[12px] text-slate-500">{addon.desc}</p>
               </motion.div>
             ))}
@@ -277,7 +277,7 @@ export default function Pricing() {
                 className="w-full flex items-center justify-between px-5 py-3.5 bg-white hover:bg-slate-50 transition-colors"
                 onClick={() => setOpenCategory(openCategory === cat.category ? null : cat.category)}
               >
-                <span className="text-[13px] font-semibold text-[#f6821f] uppercase tracking-widest">{cat.category}</span>
+                <span className="text-[13px] font-semibold text-[#1E3A8A] uppercase tracking-widest">{cat.category}</span>
                 {openCategory === cat.category
                   ? <ChevronUp className="w-4 h-4 text-slate-500" />
                   : <ChevronDown className="w-4 h-4 text-slate-500" />}
@@ -308,7 +308,7 @@ export default function Pricing() {
           <div className="grid md:grid-cols-2 gap-x-16 gap-y-8 max-w-4xl">
             {[
               { q: 'Is the free plan really free forever?', a: 'Yes. Our Free plan has no time limit and no credit card required. You can use it indefinitely for personal projects.' },
-              { q: 'What counts as a "website" on my plan?', a: 'Each Cloudflare zone (domain) requires its own plan. If you have multiple domains, each needs its own subscription.' },
+              { q: 'What counts as a "website" on my plan?', a: 'Each Apexlyn zone (domain) requires its own plan. If you have multiple domains, each needs its own subscription.' },
               { q: 'Can I change plans at any time?', a: 'Yes. You can upgrade or downgrade at any time from your dashboard. Changes take effect immediately.' },
               { q: 'Do you offer nonprofit or educational discounts?', a: 'Yes. Through Project Galileo and the Athenian Project, we provide free service to at-risk organizations.' },
               { q: 'How does Enterprise pricing work?', a: 'Enterprise pricing is custom, based on your traffic volume, product mix, and support requirements. Contact our sales team.' },
@@ -329,7 +329,7 @@ export default function Pricing() {
           <h2 className="text-4xl font-bold text-slate-900 mb-4">Start for free today</h2>
           <p className="text-slate-600 mb-8 max-w-lg mx-auto">No credit card needed. Upgrade anytime. Cancel anytime.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
               Sign up free <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">

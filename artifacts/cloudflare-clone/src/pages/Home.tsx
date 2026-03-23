@@ -21,7 +21,7 @@ const PRODUCTS = [
   {
     icon: ShieldCheck,
     title: 'Application Services',
-    color: '#f6821f',
+    color: '#1E3A8A',
     desc: 'Speed up and protect websites, APIs, and SaaS apps with CDN, WAF, DDoS, and SSL — all from one platform.',
     link: '/products',
     items: ['CDN', 'Web Application Firewall', 'DDoS Protection', 'Bot Management'],
@@ -52,16 +52,16 @@ const PRODUCTS = [
   },
   {
     icon: BrainCircuit,
-    title: 'AI',
-    color: '#f472b6',
+    title: 'AI / Lens',
+    color: '#1E90FF',
     desc: 'Run inference on serverless GPUs, observe and cache AI requests, build RAG pipelines at the edge.',
     link: '/products',
     items: ['Workers AI', 'AI Gateway', 'Vectorize', 'AutoRAG'],
   },
   {
     icon: Zap,
-    title: 'Cloudflare One',
-    color: '#fb923c',
+    title: 'Apexlyn One',
+    color: '#1E3A8A',
     desc: 'The industry\'s most complete SASE platform — Zero Trust + network services from a single control plane.',
     link: '/cloudflare-one',
     items: ['SASE', 'Zero Trust Network Access', 'SWG', 'DEM'],
@@ -69,15 +69,15 @@ const PRODUCTS = [
 ];
 
 const CASE_STUDIES = [
-  { company: 'Shopify', desc: 'Protected millions of eCommerce stores during peak sales periods with Cloudflare\'s DDoS mitigation.' },
-  { company: 'Discord', desc: 'Handles billions of messages daily — Cloudflare Workers power real-time features at global scale.' },
+  { company: 'Shopify', desc: 'Protected millions of eCommerce stores during peak sales periods with Apexlyn\'s DDoS mitigation.' },
+  { company: 'Discord', desc: 'Handles billions of messages daily — Apexlyn Workers power real-time features at global scale.' },
   { company: 'DoorDash', desc: 'Reduced latency by 60% and improved API security across all delivery markets worldwide.' },
 ];
 
 const CONNECTIVITY_ROWS = [
   {
     title: 'Connect your workforce, AI agents, apps, and infrastructure',
-    body: 'Cloudflare One is agile SASE. Take the fast path to safe AI adoption and zero trust access with our composable, programmable platform.',
+    body: 'Apexlyn One is agile SASE. Take the fast path to safe AI adoption and zero trust access with our composable, programmable platform.',
     primary: { label: 'Contact sales', href: '/enterprise' },
     secondary: { label: 'Learn more', href: '/zero-trust' },
     related: [
@@ -91,7 +91,7 @@ const CONNECTIVITY_ROWS = [
     body: 'Use our industry-leading WAF, DDoS, and bot protection to secure websites, APIs, and AI workloads while accelerating performance with our global CDN.',
     primary: { label: 'Start for free', href: SIGN_UP_URL },
     secondary: { label: 'Compare plans', href: '/pricing' },
-    related: [{ label: 'Cloudflare named a Leader in WAF', href: '/resources/case-studies' }],
+    related: [{ label: 'Apexlyn named a Leader in WAF', href: '/resources/case-studies' }],
     visual: 'gauge',
   },
 ];
@@ -100,8 +100,8 @@ const SpeedGauge = () => (
   <svg viewBox="0 0 420 250" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="arcGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#f6821f" />
-        <stop offset="100%" stopColor="#f9a54c" />
+        <stop offset="0%" stopColor="#1E3A8A" />
+        <stop offset="100%" stopColor="#1E90FF" />
       </linearGradient>
     </defs>
     {/* Outer gray ring */}
@@ -113,10 +113,10 @@ const SpeedGauge = () => (
       <animate attributeName="stroke-dashoffset" values="0;24" dur="2.2s" repeatCount="indefinite" />
     </path>
     {/* Center hub */}
-    <circle cx="210" cy="200" r="18" fill="#ffffff" stroke="#f6821f" strokeWidth="5" />
-    <circle cx="210" cy="200" r="5" fill="#f6821f" />
+    <circle cx="210" cy="200" r="18" fill="#ffffff" stroke="#1E3A8A" strokeWidth="5" />
+    <circle cx="210" cy="200" r="5" fill="#1E3A8A" />
     <g>
-      <line x1="210" y1="200" x2="330" y2="124" stroke="#f6821f" strokeWidth="9" strokeLinecap="round">
+      <line x1="210" y1="200" x2="330" y2="124" stroke="#1E3A8A" strokeWidth="9" strokeLinecap="round">
         <animateTransform
           attributeName="transform"
           attributeType="XML"
@@ -126,7 +126,7 @@ const SpeedGauge = () => (
           repeatCount="indefinite"
         />
       </line>
-      <circle cx="330" cy="124" r="7.5" fill="#f6821f">
+      <circle cx="330" cy="124" r="7.5" fill="#1E90FF">
         <animateTransform
           attributeName="transform"
           attributeType="XML"
@@ -142,10 +142,11 @@ const SpeedGauge = () => (
 
 export default function Home() {
   return (
-    <div className="flex flex-col cf-page-bg">
-      {/* ── Hero ── */}
+    <div className="flex flex-col apex-page-bg">
+      {/* ── Hero — deep navy infrastructure ── */}
       <PageHero
-        title={<>Connect, <span className="text-[#f6821f]">protect</span>, and build everywhere</>}
+        variant="navy"
+        title={<>Connect, <span className="text-[#1E90FF]">protect</span>, and build everywhere</>}
         description="Make websites, apps, AI workloads, and networks faster and more secure on one unified global platform."
         actions={[
           { label: "Start for free", href: SIGN_UP_URL, variant: "primary" },
@@ -167,17 +168,17 @@ export default function Home() {
               initial={{ opacity: 0, y: -16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="absolute top-12 right-6 bg-[#1d1f20]/90 border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-[#a0aaba] backdrop-blur-sm"
+              className="absolute top-12 right-6 bg-[#111827]/95 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 backdrop-blur-sm"
             >
-              <span className="text-[#f6821f] font-semibold">330+</span> cities online
+              <span className="text-[#1E90FF] font-semibold">330+</span> cities online
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: -18 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
-              className="absolute bottom-20 left-4 bg-[#1d1f20]/90 border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-[#a0aaba] backdrop-blur-sm"
+              className="absolute bottom-20 left-4 bg-[#111827]/95 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 backdrop-blur-sm"
             >
-              <span className="text-[#f6821f] font-semibold">215B</span> threats blocked/day
+              <span className="text-[#1E90FF] font-semibold">215B</span> threats blocked/day
             </motion.div>
           </div>
         )}
@@ -199,7 +200,7 @@ export default function Home() {
       {/* ── Logos ── */}
       <section className="py-10 border-y border-slate-200 bg-white">
         <p className="text-center text-xs font-semibold text-slate-500 uppercase tracking-widest mb-8">
-          Leading companies rely on Cloudflare
+          Leading companies rely on Apexlyn
         </p>
         <Marquee>
           {brandLogos.map((logo) => (
@@ -210,8 +211,8 @@ export default function Home() {
         </Marquee>
       </section>
 
-      {/* ── Connectivity rows (Cloudflare-style homepage block) ── */}
-      <section className="py-24 bg-[#f8fafc] bg-[linear-gradient(to_right,rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.04)_1px,transparent_1px)] bg-[size:28px_28px]">
+      {/* ── Connectivity rows (platform-style homepage block) ── */}
+      <section className="py-24 bg-[#F7F9FC] bg-[linear-gradient(to_right,rgba(11,19,32,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(11,19,32,0.05)_1px,transparent_1px)] bg-[size:28px_28px]">
         <div className="max-w-[1280px] mx-auto px-6 space-y-20">
           {CONNECTIVITY_ROWS.map((row, idx) => (
             <div key={row.title} className="grid lg:grid-cols-2 gap-12 items-center">
@@ -225,7 +226,7 @@ export default function Home() {
                 <h2 className="text-[44px] md:text-[52px] font-bold text-slate-900 mb-5 leading-[1.05] tracking-[-0.02em]">{row.title}</h2>
                 <p className="text-slate-600 text-[18px] leading-relaxed mb-7">{row.body}</p>
                 <div className="flex flex-wrap gap-4 mb-8">
-                  <Link href={row.primary.href} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+                  <Link href={row.primary.href} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
                     {row.primary.label}
                   </Link>
                   <Link href={row.secondary.href} className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">
@@ -268,7 +269,7 @@ export default function Home() {
       </section>
 
       {/* ── Product pillars ── */}
-      <section className="py-24 bg-[#f8fafc]">
+      <section className="py-24 bg-[#F7F9FC]">
         <div className="max-w-[1280px] mx-auto px-6">
           <motion.div
             initial="hidden"
@@ -302,7 +303,7 @@ export default function Home() {
                     <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: product.color + '18' }}>
                       <Icon className="w-4 h-4" style={{ color: product.color }} />
                     </div>
-                    <h3 className="text-[15px] font-semibold text-slate-900 group-hover:text-[#f6821f] transition-colors">{product.title}</h3>
+                    <h3 className="text-[15px] font-semibold text-slate-900 group-hover:text-[#1E3A8A] transition-colors">{product.title}</h3>
                   </div>
                   <p className="text-[13px] text-slate-500 leading-relaxed mb-5">{product.desc}</p>
                   <div className="flex flex-wrap gap-1.5 mb-5">
@@ -311,7 +312,7 @@ export default function Home() {
                     ))}
                   </div>
                   <Link href={product.link}>
-                    <span className="inline-flex items-center gap-1 text-[13px] font-medium text-[#f6821f] group-hover:gap-2 transition-all">
+                    <span className="inline-flex items-center gap-1 text-[13px] font-medium text-[#1E3A8A] group-hover:gap-2 transition-all">
                       Learn more <ChevronRight className="w-3.5 h-3.5" />
                     </span>
                   </Link>
@@ -343,7 +344,7 @@ export default function Home() {
                 <div className="text-4xl md:text-5xl font-black text-slate-900 mb-1">
                   <AnimatedCounter end={stat.end} suffix={stat.suffix} duration={2000} />
                 </div>
-                <p className="text-[#f6821f] text-sm font-semibold mt-1">{stat.label}</p>
+                <p className="text-[#1E3A8A] text-sm font-semibold mt-1">{stat.label}</p>
                 <p className="text-slate-500 text-xs mt-0.5">{stat.sub}</p>
               </motion.div>
             ))}
@@ -352,7 +353,7 @@ export default function Home() {
       </section>
 
       {/* ── Security section ── */}
-      <section className="py-24 bg-[#f8fafc]">
+      <section className="py-24 bg-[#F7F9FC]">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -361,13 +362,13 @@ export default function Home() {
               viewport={{ once: true }}
               variants={fadeInUp}
             >
-              <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest mb-4">Security</p>
+              <p className="text-[#1E3A8A] text-sm font-semibold uppercase tracking-widest mb-4">Security</p>
               <SectionHeading
                 title={<>The world's most connected<br />security platform</>}
-                description="Cloudflare blocks an average of 209 billion cyber threats per day. Our network intelligence improves protection for every customer — automatically."
+                description="Apexlyn blocks an average of 209 billion cyber threats per day. Our network intelligence improves protection for every customer — automatically."
                 className="mb-8"
                 titleClassName="text-4xl md:text-5xl leading-tight"
-                descriptionClassName="text-[#a0aaba] text-lg leading-relaxed"
+                descriptionClassName="text-slate-600 text-lg leading-relaxed"
               />
               <ul className="space-y-3 mb-10">
                 {[
@@ -377,18 +378,18 @@ export default function Home() {
                   'Zero Trust replaces legacy VPNs across your workforce',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-[#f6821f] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-[#1E3A8A] shrink-0 mt-0.5" />
                     <span className="text-slate-600 text-sm">{item}</span>
                   </li>
                 ))}
               </ul>
               <div className="flex gap-4">
-                <Link href="/products" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+                <Link href="/products" className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
                   Explore security
                 </Link>
                 <Link href="/why-cloudflare">
                   <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer">
-                    Learn why Cloudflare
+                    Learn why Apexlyn
                   </span>
                 </Link>
               </div>
@@ -405,7 +406,7 @@ export default function Home() {
                 <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-6">Threats blocked — last 24 hours</p>
                 <div className="space-y-4">
                   {[
-                    { label: 'DDoS mitigated', value: '12.4B', bar: 88, color: '#f6821f' },
+                    { label: 'DDoS mitigated', value: '12.4B', bar: 88, color: '#1E3A8A' },
                     { label: 'WAF rules triggered', value: '3.7B', bar: 62, color: '#60a5fa' },
                     { label: 'Bot requests filtered', value: '28.9B', bar: 97, color: '#a78bfa' },
                     { label: 'Malicious IPs blocked', value: '892M', bar: 44, color: '#34d399' },
@@ -447,7 +448,7 @@ export default function Home() {
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="order-2 lg:order-1 rounded-xl overflow-hidden border border-slate-200 bg-[#f8fafc]"
+              className="order-2 lg:order-1 rounded-xl overflow-hidden border border-slate-200 bg-[#F7F9FC]"
             >
               <div className="flex items-center gap-2 px-4 py-3 bg-slate-100 border-b border-slate-200">
                 <div className="w-3 h-3 rounded-full bg-red-500/70" />
@@ -476,7 +477,7 @@ export default function Home() {
               variants={fadeInUp}
               className="order-1 lg:order-2"
             >
-              <p className="text-[#f6821f] text-sm font-semibold uppercase tracking-widest mb-4">Developer Platform</p>
+              <p className="text-[#1E3A8A] text-sm font-semibold uppercase tracking-widest mb-4">Developer Platform</p>
               <SectionHeading
                 title={<>Build globally.<br />Deploy in seconds.</>}
                 description="Workers runs at the edge in 320+ locations with zero cold starts. R2 stores data with no egress fees. D1 runs SQLite globally. Build full-stack apps without managing infrastructure."
@@ -508,7 +509,7 @@ export default function Home() {
       </section>
 
       {/* ── Case studies / customer section ── */}
-      <section className="py-24 bg-[#f8fafc]">
+      <section className="py-24 bg-[#F7F9FC]">
         <div className="max-w-[1280px] mx-auto px-6">
           <motion.div
             initial="hidden"
@@ -518,7 +519,7 @@ export default function Home() {
             className="text-center mb-14"
           >
             <h2 className="text-4xl font-bold text-slate-900 mb-3">Trusted by the world's<br />most innovative companies</h2>
-            <p className="text-slate-500">See how organizations of all sizes use Cloudflare to build and protect their businesses.</p>
+            <p className="text-slate-500">See how organizations of all sizes use Apexlyn to build and protect their businesses.</p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-5 mb-12">
@@ -530,11 +531,11 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 whileHover={subtleLiftHover}
-                className="group bg-white border border-slate-200 rounded-xl p-7 hover:border-[#f6821f]/40 transition-colors"
+                className="group bg-white border border-slate-200 rounded-xl p-7 hover:border-[#1E3A8A]/40 transition-colors"
               >
                 <h3 className="text-lg font-bold text-slate-900 mb-3">{cs.company}</h3>
                 <p className="text-[13px] text-slate-500 leading-relaxed mb-5">{cs.desc}</p>
-                <Link href={CASE_STUDIES_URL} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#f6821f] group-hover:gap-2.5 transition-all">
+                <Link href={CASE_STUDIES_URL} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#1E3A8A] group-hover:gap-2.5 transition-all">
                   Read case study <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </motion.div>
@@ -554,17 +555,17 @@ export default function Home() {
         <div className="max-w-[1280px] mx-auto px-6 py-16">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="flex items-center gap-5">
-              <div className="w-12 h-12 rounded-xl bg-[#f6821f]/10 flex items-center justify-center shrink-0">
-                <LockKeyhole className="w-6 h-6 text-[#f6821f]" />
+              <div className="w-12 h-12 rounded-xl bg-[#1E3A8A]/10 flex items-center justify-center shrink-0">
+                <LockKeyhole className="w-6 h-6 text-[#1E3A8A]" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-900">Cloudflare One — Zero Trust for free</h3>
+                <h3 className="text-xl font-bold text-slate-900">Apexlyn One — Zero Trust for free</h3>
                 <p className="text-slate-500 text-sm mt-1">Up to 50 users free. Replace your VPN in minutes — no hardware, no appliances.</p>
               </div>
             </div>
             <div className="flex gap-4 shrink-0">
               <Link href="/zero-trust">
-                <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white cursor-pointer" style={{ backgroundColor: '#f6821f' }}>
+                <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white cursor-pointer" style={{ backgroundColor: '#1E3A8A' }}>
                   Start for free <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
@@ -578,8 +579,8 @@ export default function Home() {
 
       {/* ── Final CTA ── */}
       <section className="relative py-32 overflow-hidden bg-white">
-        <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-[#f6821f]/10 to-transparent pointer-events-none" />
-        <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[600px] h-[300px] bg-[#f6821f]/12 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-[#1E3A8A]/10 to-transparent pointer-events-none" />
+        <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[600px] h-[300px] bg-[#1E3A8A]/12 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
@@ -590,7 +591,7 @@ export default function Home() {
               Sign up in minutes. Free plan available. No credit card required.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+              <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
                 Sign up for free <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">

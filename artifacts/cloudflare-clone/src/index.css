@@ -18,34 +18,39 @@
 }
 
 :root {
-  /* Cloudflare-style Light Theme Colors */
-  --background: 210 40% 99%;      /* #f8fafc */
-  --foreground: 222 47% 11%;      /* #0f172a */
-  
-  --primary: 28 93% 54%;          /* #F6821F - Cloudflare Orange */
+  /* Apexlyn — infrastructure UI (light page shell) */
+  --background: 220 33% 97%;       /* ~#F7F9FC */
+  --foreground: 217 33% 12%;       /* readable on light */
+
+  /* Primary actions: deep structured blue #1E3A8A */
+  --primary: 221 64% 33%;
   --primary-foreground: 0 0% 100%;
-  
-  --card: 0 0% 100%;              /* #ffffff */
-  --card-foreground: 222 47% 11%;
-  
-  --border: 214 32% 91%;          /* #e2e8f0 */
-  
-  --muted: 210 40% 96%;
-  --muted-foreground: 215 16% 47%; /* #64748b */
-  
-  --accent: 210 40% 96%;
-  --accent-foreground: 222 47% 11%;
 
-  --ring: 28 93% 54%;
-  --ring-offset-background: 210 40% 99%;
+  --card: 0 0% 100%;
+  --card-foreground: 217 33% 12%;
 
-  --cf-bg: #f8fafc;
-  --cf-surface: #ffffff;
-  --cf-primary: #f6821f;
-  --cf-primary-hover: #d96f18;
-  --cf-muted: #475569;
-  --cf-muted-2: #64748b;
-  --cf-border: rgba(15, 23, 42, 0.12);
+  --border: 214 24% 88%;
+  --muted: 220 20% 96%;
+  --muted-foreground: 215 16% 40%;
+
+  --accent: 220 33% 96%;
+  --accent-foreground: 217 33% 12%;
+
+  --ring: 221 64% 33%;
+  --ring-offset-background: 220 33% 97%;
+
+  /* Apexlyn raw tokens */
+  --apex-navy: #0B1320;
+  --apex-secondary-dark: #111827;
+  --apex-light: #F7F9FC;
+  --apex-primary-btn: #1E3A8A;
+  --apex-primary-btn-hover: #172554;
+  --apex-ai: #1E90FF;
+  --apex-success: #1F8A70;
+  --apex-warning: #F5B700;
+  --apex-critical: #D64545;
+  --apex-muted: #64748b;
+  --apex-border: rgba(17, 24, 39, 0.12);
 }
 
 @layer base {
@@ -53,7 +58,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased selection:bg-primary/30 selection:text-primary;
+    @apply bg-background text-foreground font-sans antialiased selection:bg-[#1E3A8A]/20 selection:text-[#0B1320];
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight text-slate-900;
@@ -61,36 +66,65 @@
 }
 
 @layer utilities {
-  .cf-page-bg {
-    background-color: var(--cf-bg);
+  .apex-page-bg {
+    background-color: var(--apex-light);
   }
-  .cf-surface {
-    background-color: var(--cf-surface);
+  .apex-hero-bg {
+    background-color: var(--apex-navy);
   }
-  .cf-muted-text {
-    color: var(--cf-muted);
+  .apex-platform-bg {
+    background-color: var(--apex-navy);
   }
-  .cf-muted-text-2 {
-    color: var(--cf-muted-2);
+  .apex-trust-bg {
+    background-color: var(--apex-navy);
   }
-  .cf-border {
-    border-color: var(--cf-border);
+  .apex-footer-bg {
+    background-color: var(--apex-secondary-dark);
   }
-  .cf-primary {
-    color: var(--cf-primary);
+  .apex-section-light {
+    background-color: var(--apex-light);
+  }
+  .apex-surface {
+    background-color: #ffffff;
+  }
+  .apex-btn-primary {
+    @apply bg-[#1E3A8A] text-white hover:bg-[#172554] transition-colors;
+  }
+  .apex-text-ai {
+    color: var(--apex-ai);
+  }
+  .apex-border {
+    border-color: var(--apex-border);
   }
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600;
   }
   .bg-grid {
     background-size: 40px 40px;
     background-image: 
-      linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+      linear-gradient(to right, rgba(11, 19, 32, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(11, 19, 32, 0.06) 1px, transparent 1px);
+  }
+  /* Lens / AI product highlights only */
+  .lens-highlight {
+    @apply text-[#1E90FF] border-[#1E90FF]/30;
+  }
+
+  /**
+   * Wordmark on navy / footer (#0B1320 / #111827): transparent PNG reads clearly
+   * with a soft edge + depth (no screen-blend — works for alpha backgrounds).
+   */
+  .apexlyn-logo-on-dark {
+    isolation: isolate;
+  }
+  .apexlyn-logo-on-dark img {
+    mix-blend-mode: normal;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.65))
+      drop-shadow(0 0 18px rgba(255, 255, 255, 0.12));
   }
 }
 
-/* Custom Marquee Animation */
+/* Marquee */
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-100%); }

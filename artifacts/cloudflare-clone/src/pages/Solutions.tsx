@@ -15,7 +15,7 @@ const BY_SIZE = [
     id: 'enterprise',
     title: 'Enterprise',
     headline: 'Enterprise-grade security, performance, and reliability',
-    desc: 'Cloudflare gives enterprises a single platform to protect and accelerate every internet-facing application. From zero trust access to global network services — all without the complexity of point solutions.',
+    desc: 'Apexlyn gives enterprises a single platform to protect and accelerate every internet-facing application. From zero trust access to global network services — all without the complexity of point solutions.',
     features: ['Dedicated customer success & solutions engineering', 'SLA-backed 100% uptime guarantee', 'Custom contracts and pricing', 'Advanced analytics & SIEM integration', 'FedRAMP High authorized (US Govt)', 'Magic Transit network-layer DDoS protection'],
     cta: 'Talk to sales',
     link: '/enterprise',
@@ -26,7 +26,7 @@ const BY_SIZE = [
     id: 'smb',
     title: 'Small & Medium Business',
     headline: 'Enterprise security and performance — at SMB pricing',
-    desc: 'Get the same tools large enterprises use, without an enterprise budget. Cloudflare\'s free and Pro plans give SMBs powerful DDoS protection, a CDN, and SSL — up and running in minutes.',
+    desc: 'Get the same tools large enterprises use, without an enterprise budget. Apexlyn\'s free and Pro plans give SMBs powerful DDoS protection, a CDN, and SSL — up and running in minutes.',
     features: ['Free Universal SSL certificate', 'Unmetered DDoS mitigation', 'Global CDN with 320+ PoPs', 'Web Application Firewall', 'Email routing (included)', 'Bot fight mode'],
     cta: 'Get started free',
     link: '/pricing',
@@ -37,8 +37,8 @@ const BY_SIZE = [
     id: 'startups',
     title: 'Startups',
     headline: 'Build fast, ship globally, stay secure from day one',
-    desc: 'Cloudflare Workers, Pages, R2, and D1 give startups a full serverless stack with zero cold starts and no egress fees. Cloudflare for Startups provides free access for qualifying companies.',
-    features: ['Workers & Pages — free tier', 'R2 storage — zero egress fees', 'D1 serverless SQL database', 'Cloudflare for Startups program', 'No credit card required to start', 'Community Discord & support'],
+    desc: 'Apexlyn Workers, Pages, R2, and D1 give startups a full serverless stack with zero cold starts and no egress fees. Apexlyn for Startups provides free access for qualifying companies.',
+    features: ['Workers & Pages — free tier', 'R2 storage — zero egress fees', 'D1 serverless SQL database', 'Apexlyn for Startups program', 'No credit card required to start', 'Community Discord & support'],
     cta: 'Apply for Startups program',
     link: '/developers',
     tag: 'Startups',
@@ -48,7 +48,7 @@ const BY_SIZE = [
     id: 'public-sector',
     title: 'Public Sector',
     headline: 'FedRAMP-authorized security for critical infrastructure',
-    desc: 'Government agencies trust Cloudflare to protect the most sensitive systems in the world. Project Galileo and the Athenian Project protect at-risk organizations at no cost.',
+    desc: 'Government agencies trust Apexlyn to protect the most sensitive systems in the world. Project Galileo and the Athenian Project protect at-risk organizations at no cost.',
     features: ['FedRAMP High and Moderate authorization', 'IL4 and IL5 compliant options', 'Project Galileo — free for NGOs', 'Athenian Project — free for elections', 'CISA-recommended DDoS protection', 'Dedicated public sector team'],
     cta: 'Contact public sector team',
     link: '/why-cloudflare',
@@ -61,7 +61,7 @@ const BY_INDUSTRY = [
   { icon: Shield, title: 'Healthcare', desc: 'HIPAA-ready infrastructure to protect patient data and ensure availability for telehealth platforms.' },
   { icon: Store, title: 'Retail & eCommerce', desc: 'Fast, secure shopping experiences with DDoS protection, bot mitigation, and global CDN performance.' },
   { icon: Rocket, title: 'Gaming', desc: 'Ultra-low latency, DDoS protection for game servers, and global anycast for players everywhere.' },
-  { icon: Globe, title: 'Media & Entertainment', desc: 'Stream live and on-demand video globally with Cloudflare Stream, CDN caching, and DDoS resilience.' },
+  { icon: Globe, title: 'Media & Entertainment', desc: 'Stream live and on-demand video globally with Apexlyn Stream, CDN caching, and DDoS resilience.' },
   { icon: Building2, title: 'Technology & SaaS', desc: 'Scale SaaS applications globally with Workers, protect APIs, and ship faster with CI/CD via Pages.' },
 ];
 
@@ -75,7 +75,7 @@ const BY_USECASE = [
   {
     icon: Lock,
     title: 'Zero Trust / SASE',
-    desc: 'Replace your VPN with Cloudflare Access, filter web traffic with Gateway, and secure devices with WARP — all from one dashboard.',
+    desc: 'Replace your VPN with Apexlyn Access, filter web traffic with Gateway, and secure devices with WARP — all from one dashboard.',
     products: ['Access', 'Gateway', 'Browser Isolation', 'WARP'],
   },
   {
@@ -87,8 +87,8 @@ const BY_USECASE = [
   {
     icon: Globe,
     title: 'Multi-Cloud Connectivity',
-    desc: 'Cloudflare Network Interconnect and Magic WAN connect your clouds, offices, and data centers with a software-defined WAN.',
-    products: ['Magic WAN', 'Network Interconnect', 'Cloudflare Tunnel', 'BYOIP'],
+    desc: 'Apexlyn Network Interconnect and Magic WAN connect your clouds, offices, and data centers with a software-defined WAN.',
+    products: ['Magic WAN', 'Network Interconnect', 'Apexlyn Tunnel', 'BYOIP'],
   },
 ];
 
@@ -97,13 +97,13 @@ export default function Solutions() {
   const selected = BY_SIZE.find(s => s.id === activeSize) || BY_SIZE[0];
 
   return (
-    <div className="min-h-screen cf-page-bg">
+    <div className="min-h-screen apex-page-bg">
       {/* Hero */}
       <section className="bg-white border-b border-slate-200">
         <PageHero
           eyebrow="Solutions"
-          title={<>Cloudflare for every<br />organization</>}
-          description="Whether you're an individual developer or a Fortune 500 enterprise, Cloudflare has solutions tailored to your needs, budget, and compliance requirements."
+          title={<>Apexlyn for every<br />organization</>}
+          description="Whether you're an individual developer or a Fortune 500 enterprise, Apexlyn has solutions tailored to your needs, budget, and compliance requirements."
           actions={[
             { label: 'Get started free', href: SIGN_UP_URL, variant: 'primary' },
             { label: 'Contact sales', href: CONTACT_SALES_URL, variant: 'outline' },
@@ -132,11 +132,11 @@ export default function Solutions() {
                   onClick={() => setActiveSize(s.id)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg text-left w-full transition-all ${
                     activeSize === s.id
-                      ? 'bg-[#f6821f]/10 border border-[#f6821f]/30 text-slate-900'
+                      ? 'bg-[#1E3A8A]/10 border border-[#1E3A8A]/30 text-slate-900'
                       : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50 border border-transparent'
                   }`}
                 >
-                  <Icon className={`w-5 h-5 shrink-0 ${activeSize === s.id ? 'text-[#f6821f]' : ''}`} />
+                  <Icon className={`w-5 h-5 shrink-0 ${activeSize === s.id ? 'text-[#1E3A8A]' : ''}`} />
                   <span className="text-sm font-medium">{s.title}</span>
                 </button>
               );
@@ -151,7 +151,7 @@ export default function Solutions() {
             transition={{ duration: 0.2 }}
             className="bg-white border border-slate-200 rounded-2xl p-8"
           >
-            <span className="inline-block text-[11px] font-semibold text-[#f6821f] uppercase tracking-widest border border-[#f6821f]/30 rounded-full px-3 py-1 mb-5">
+            <span className="inline-block text-[11px] font-semibold text-[#1E3A8A] uppercase tracking-widest border border-[#1E3A8A]/30 rounded-full px-3 py-1 mb-5">
               {selected.tag}
             </span>
             <h3 className="text-2xl font-bold text-slate-900 mb-3">{selected.headline}</h3>
@@ -160,7 +160,7 @@ export default function Solutions() {
             <div className="grid sm:grid-cols-2 gap-3 mb-8">
               {selected.features.map((f) => (
                 <div key={f} className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#f6821f] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#1E3A8A] shrink-0 mt-0.5" />
                   <span className="text-sm text-slate-600">{f}</span>
                 </div>
               ))}
@@ -168,7 +168,7 @@ export default function Solutions() {
 
             <Link
               href={selected.link}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
             >
               {selected.cta} <ArrowRight className="w-4 h-4" />
             </Link>
@@ -193,13 +193,13 @@ export default function Solutions() {
                   whileHover={subtleLiftHover}
                   className="group"
                 >
-                  <Link href="/solutions" className="block bg-white border border-slate-200 hover:border-[#f6821f]/30 rounded-xl p-6 transition-all h-full">
-                    <div className="w-10 h-10 rounded-lg bg-[#f6821f]/10 flex items-center justify-center mb-4">
-                      <Icon className="w-5 h-5 text-[#f6821f]" />
+                  <Link href="/solutions" className="block bg-white border border-slate-200 hover:border-[#1E3A8A]/30 rounded-xl p-6 transition-all h-full">
+                    <div className="w-10 h-10 rounded-lg bg-[#1E3A8A]/10 flex items-center justify-center mb-4">
+                      <Icon className="w-5 h-5 text-[#1E3A8A]" />
                     </div>
-                    <h3 className="text-[15px] font-semibold text-slate-900 mb-2 group-hover:text-[#f6821f] transition-colors">{ind.title}</h3>
+                    <h3 className="text-[15px] font-semibold text-slate-900 mb-2 group-hover:text-[#1E3A8A] transition-colors">{ind.title}</h3>
                     <p className="text-[13px] text-slate-500 leading-relaxed">{ind.desc}</p>
-                    <div className="flex items-center gap-1 mt-4 text-[13px] text-[#f6821f] opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+                    <div className="flex items-center gap-1 mt-4 text-[13px] text-[#1E3A8A] opacity-0 group-hover:opacity-100 transition-opacity font-medium">
                       Learn more <ArrowRight className="w-3.5 h-3.5" />
                     </div>
                   </Link>
@@ -214,16 +214,16 @@ export default function Solutions() {
       <section className="max-w-[1280px] mx-auto px-6 py-20">
         <SectionHeading
           title="By use case"
-          description="Solve specific problems with the right combination of Cloudflare products."
+          description="Solve specific problems with the right combination of Apexlyn products."
           className="mb-10"
         />
         <div className="grid sm:grid-cols-2 gap-6">
           {BY_USECASE.map((uc) => {
             const Icon = uc.icon;
             return (
-              <motion.div key={uc.title} whileHover={subtleLiftHover} className="bg-white border border-slate-200 rounded-xl p-8 hover:border-[#f6821f]/30 transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-[#f6821f]/10 flex items-center justify-center mb-5">
-                  <Icon className="w-5 h-5 text-[#f6821f]" />
+              <motion.div key={uc.title} whileHover={subtleLiftHover} className="bg-white border border-slate-200 rounded-xl p-8 hover:border-[#1E3A8A]/30 transition-colors">
+                <div className="w-10 h-10 rounded-lg bg-[#1E3A8A]/10 flex items-center justify-center mb-5">
+                  <Icon className="w-5 h-5 text-[#1E3A8A]" />
                 </div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-3">{uc.title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed mb-5">{uc.desc}</p>
@@ -247,7 +247,7 @@ export default function Solutions() {
           <p className="text-slate-600 text-lg mb-8 max-w-xl mx-auto">
             Our solutions engineers will help you design the right architecture for your organization.
           </p>
-          <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+          <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
             Talk to an expert <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

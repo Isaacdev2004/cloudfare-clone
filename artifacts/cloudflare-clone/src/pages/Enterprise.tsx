@@ -19,12 +19,12 @@ const CAPABILITIES = [
   {
     icon: Lock,
     title: 'Zero Trust / SASE',
-    items: ['Cloudflare Access — replace VPN across all apps', 'Gateway — SWG + DNS filtering at scale', 'Cloud Access Security Broker (CASB)', 'Browser Isolation for third-party access', 'Digital Experience Monitoring'],
+    items: ['Apexlyn Access — replace VPN across all apps', 'Gateway — SWG + DNS filtering at scale', 'Cloud Access Security Broker (CASB)', 'Browser Isolation for third-party access', 'Digital Experience Monitoring'],
   },
   {
     icon: Network,
     title: 'Network services',
-    items: ['Magic Transit — DDoS for entire IP ranges', 'Magic WAN — software-defined enterprise WAN', 'Network Interconnect — private peering', 'Cloudflare Tunnel — no public IPs needed', 'Magic Firewall — network-level rules'],
+    items: ['Magic Transit — DDoS for entire IP ranges', 'Magic WAN — software-defined enterprise WAN', 'Network Interconnect — private peering', 'Apexlyn Tunnel — no public IPs needed', 'Magic Firewall — network-level rules'],
   },
   {
     icon: Zap,
@@ -46,10 +46,10 @@ const COMPLIANCE = [
 
 export default function Enterprise() {
   return (
-    <div className="min-h-screen cf-page-bg">
+    <div className="min-h-screen apex-page-bg">
       {/* Hero */}
       <section className="relative bg-white border-b border-slate-200 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#f6821f]/5 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A]/5 to-transparent pointer-events-none" />
         <PageHero
           eyebrow="Enterprise"
           title={<>Security and performance<br />at enterprise scale</>}
@@ -94,18 +94,18 @@ export default function Enterprise() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 whileHover={subtleLiftHover}
-                className="bg-white border border-slate-200 rounded-xl p-8 hover:border-[#f6821f]/20 transition-colors"
+                className="bg-white border border-slate-200 rounded-xl p-8 hover:border-[#1E3A8A]/20 transition-colors"
               >
                 <div className="flex items-center gap-3 mb-5">
-                  <div className="w-9 h-9 rounded-lg bg-[#f6821f]/10 flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-[#f6821f]" />
+                  <div className="w-9 h-9 rounded-lg bg-[#1E3A8A]/10 flex items-center justify-center">
+                    <Icon className="w-4 h-4 text-[#1E3A8A]" />
                   </div>
                   <h3 className="text-base font-semibold text-slate-900">{cap.title}</h3>
                 </div>
                 <ul className="space-y-2.5">
                   {cap.items.map((item) => (
                     <li key={item} className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-[#f6821f] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#1E3A8A] shrink-0 mt-0.5" />
                       <span className="text-sm text-slate-600">{item}</span>
                     </li>
                   ))}
@@ -121,12 +121,12 @@ export default function Enterprise() {
         <div className="max-w-[1280px] mx-auto px-6 py-20">
           <SectionHeading
             title="Compliance, built in"
-            description="Cloudflare is audited and certified across the major compliance frameworks."
+            description="Apexlyn is audited and certified across the major compliance frameworks."
           />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {COMPLIANCE.map((c) => (
-              <motion.div key={c.label} whileHover={subtleLiftHover} className="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-[#f6821f]/20 transition-colors">
-                <div className="w-2 h-2 rounded-full bg-[#f6821f] mb-3" />
+              <motion.div key={c.label} whileHover={subtleLiftHover} className="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-[#1E3A8A]/20 transition-colors">
+                <div className="w-2 h-2 rounded-full bg-[#1E3A8A] mb-3" />
                 <p className="text-sm font-semibold text-slate-900">{c.label}</p>
                 <p className="text-xs text-slate-500 mt-1">{c.desc}</p>
               </motion.div>
@@ -140,7 +140,7 @@ export default function Enterprise() {
         <SectionHeading title="Enterprise includes" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { title: 'Dedicated customer success manager', desc: 'A named CSM who understands your architecture and is your advocate inside Cloudflare.' },
+            { title: 'Dedicated customer success manager', desc: 'A named CSM who understands your architecture and is your advocate inside Apexlyn.' },
             { title: 'Technical account manager (TAM)', desc: 'A senior engineer embedded with your team for architecture reviews and escalations.' },
             { title: '100% uptime SLA', desc: 'Financially-backed uptime guarantee. If we miss it, you receive service credits.' },
             { title: 'Custom contracts', desc: 'Tailored pricing, committed use discounts, and multi-year agreements available.' },
@@ -148,7 +148,7 @@ export default function Enterprise() {
             { title: 'Priority support queue', desc: '24/7 access to enterprise support engineers with guaranteed response SLAs.' },
           ].map((item) => (
             <motion.div key={item.title} whileHover={subtleLiftHover} className="bg-white border border-slate-200 rounded-xl p-6">
-              <div className="w-1 h-6 rounded bg-[#f6821f] mb-4" />
+              <div className="w-1 h-6 rounded bg-[#1E3A8A] mb-4" />
               <h3 className="text-sm font-semibold text-slate-900 mb-2">{item.title}</h3>
               <p className="text-[13px] text-slate-500 leading-relaxed">{item.desc}</p>
             </motion.div>
@@ -161,7 +161,7 @@ export default function Enterprise() {
         <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
           <h2 className="text-4xl font-bold text-slate-900 mb-4">Ready to secure your enterprise?</h2>
           <p className="text-slate-600 mb-8 max-w-lg mx-auto">Our solutions engineers will design a custom architecture for your organization.</p>
-          <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#f6821f] hover:bg-[#d96f18] transition-colors">
+          <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
             Talk to our enterprise team <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
