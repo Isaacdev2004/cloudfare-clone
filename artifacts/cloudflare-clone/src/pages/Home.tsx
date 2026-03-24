@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { NetworkGlobe } from '@/components/NetworkGlobe';
+import { HeroCloudNetworkVisual } from '@/components/hero/HeroCloudNetworkVisual';
+import { HeroGaugeVisual } from '@/components/hero/HeroGaugeVisual';
 import { AnimatedCounter } from '@/components/AnimatedCounter';
 import { Marquee } from '@/components/Marquee';
 import { PageHero } from '@/components/layout/PageHero';
@@ -99,47 +100,6 @@ const CONNECTIVITY_ROWS = [
 const connectivityLinkClass =
   'font-sans text-[15px] font-medium text-[#1E3A8A] underline underline-offset-[5px] decoration-slate-300 hover:text-[#172554] hover:decoration-[#1E3A8A] antialiased transition-colors';
 
-const SpeedGauge = () => (
-  <svg viewBox="0 0 420 250" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="arcGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#1E3A8A" />
-        <stop offset="100%" stopColor="#1E90FF" />
-      </linearGradient>
-    </defs>
-    {/* Single concentric gray track + blue arc (no duplicate misaligned rings) */}
-    <path d="M30 200 A180 180 0 0 1 390 200" fill="none" stroke="rgba(148,163,184,0.45)" strokeWidth="22" />
-    <path d="M48 200 A162 162 0 0 1 342 106" fill="none" stroke="url(#arcGlow)" strokeWidth="20" strokeLinecap="round" />
-    <path d="M70 200 A140 140 0 0 1 350 200" fill="none" stroke="rgba(15,23,42,0.12)" strokeWidth="2.5" strokeDasharray="6 8">
-      <animate attributeName="stroke-dashoffset" values="0;24" dur="3s" repeatCount="indefinite" />
-    </path>
-    <circle cx="210" cy="200" r="18" fill="#ffffff" stroke="#1E3A8A" strokeWidth="4" />
-    <circle cx="210" cy="200" r="5" fill="#1E3A8A" />
-    <g>
-      <line x1="210" y1="200" x2="318" y2="128" stroke="#1E3A8A" strokeWidth="8" strokeLinecap="round">
-        <animateTransform
-          attributeName="transform"
-          attributeType="XML"
-          type="rotate"
-          values="-6 210 200; 8 210 200; -4 210 200; -6 210 200"
-          dur="4s"
-          repeatCount="indefinite"
-        />
-      </line>
-      <circle cx="318" cy="128" r="6.5" fill="#1E90FF">
-        <animateTransform
-          attributeName="transform"
-          attributeType="XML"
-          type="rotate"
-          values="-6 210 200; 8 210 200; -4 210 200; -6 210 200"
-          dur="4s"
-          repeatCount="indefinite"
-        />
-      </circle>
-    </g>
-  </svg>
-);
-
 export default function Home() {
   return (
     <div className="flex flex-col apex-page-bg">
@@ -155,14 +115,14 @@ export default function Home() {
         className="min-h-[100dvh] lg:min-h-screen flex items-center"
         contentClassName="relative z-10 w-full"
         aside={(
-          <div className="relative h-[min(52vh,440px)] sm:h-[480px] lg:h-[620px] flex items-center justify-center">
+          <div className="relative h-[min(54vh,460px)] sm:h-[500px] lg:h-[640px] flex items-center justify-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.2 }}
               className="absolute inset-0 flex items-center justify-center"
             >
-              <NetworkGlobe />
+              <HeroCloudNetworkVisual />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: -16 }}
@@ -238,12 +198,12 @@ export default function Home() {
               >
                 <div className="relative rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-6 h-[300px] sm:h-[340px] md:h-[380px] flex items-center justify-center overflow-hidden shadow-[0_12px_40px_-24px_rgba(15,23,42,0.25)]">
                   {row.visual === 'globe' ? (
-                    <div className="relative w-full h-full min-h-[260px]">
-                      <NetworkGlobe compact />
+                    <div className="relative flex w-full h-full min-h-[260px] items-center justify-center">
+                      <HeroCloudNetworkVisual compact />
                     </div>
                   ) : (
-                    <div className="relative w-full h-full min-h-[240px]">
-                      <SpeedGauge />
+                    <div className="relative flex w-full h-full min-h-[240px] items-center justify-center">
+                      <HeroGaugeVisual compact />
                     </div>
                   )}
                 </div>
