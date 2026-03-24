@@ -1,4 +1,4 @@
-// Cloudflare-style circular mesh globe — colors match Apexlyn tokens (index.css)
+// Cloud network hero — plain central globe; perimeter icons + spokes; Apexlyn colors
 import React, { useId } from "react";
 import { cn } from "@/lib/utils";
 
@@ -7,16 +7,9 @@ const CSS = `
     0%,100% { transform: translateY(0px); }
     50%      { transform: translateY(-6px); }
   }
-  @keyframes cf-spinDash {
-    to { transform: rotate(360deg); }
-  }
   @keyframes cf-cloudPulse {
     0%,100% { transform: scale(1);    opacity: 1;   }
     50%      { transform: scale(1.05); opacity: 0.9; }
-  }
-  @keyframes cf-ripple {
-    0%   { r: 52;  opacity: 0.65; stroke-width: 1.5; }
-    100% { r: 135; opacity: 0;    stroke-width: 0.5; }
   }
   @keyframes cf-lineDraw {
     0%   { stroke-dashoffset: 180; opacity: 0;   }
@@ -25,17 +18,9 @@ const CSS = `
     90%  { stroke-dashoffset: 0;   opacity: 0.3; }
     100% { stroke-dashoffset: 0;   opacity: 0;   }
   }
-  @keyframes cf-nodePop {
-    0%,100% { transform: scale(1);   opacity: 0.7; }
-    50%      { transform: scale(1.5); opacity: 1;   }
-  }
   @keyframes cf-colorDotBlink {
     0%,100% { r: 2.5; opacity: 0.3; }
     50%      { r: 4.5; opacity: 1;   }
-  }
-  .cf-dash-ring {
-    transform-origin: 160px 160px;
-    animation: cf-spinDash 30s linear infinite;
   }
   .cf-cloud-center {
     transform-origin: 160px 158px;
@@ -50,7 +35,10 @@ const CX = 160,
   CY = 160,
   MESH_R = 118;
 
-/** Light cards (compact) vs navy hero */
+/** Extra left padding in viewBox so the building icon (≈265°) is not clipped */
+const VB_X = -34;
+const VB_WIDTH = 320 - VB_X;
+
 type NetworkTheme = {
   iconStroke: string;
   packageCloudStroke: string;
@@ -58,14 +46,10 @@ type NetworkTheme = {
   diamondBorder: string;
   meshGrad: { off: string; color: string; opacity: string }[];
   dropShadow: string;
-  dashRing: string;
-  meshEdge: string;
-  meshEdgeOpacity: number;
   motionStroke: string;
   cloudOutline: string;
   cloudInnerStroke: string;
   iconCloudFill: string;
-  nodeFills: string[];
   accentFills: string[];
 };
 
@@ -80,14 +64,10 @@ const THEME_LIGHT: NetworkTheme = {
     { off: "100%", color: "#60a5fa", opacity: "0.52" },
   ],
   dropShadow: "rgba(30, 144, 255, 0.32)",
-  dashRing: "#cbd5e1",
-  meshEdge: "#1E3A8A",
-  meshEdgeOpacity: 0.26,
   motionStroke: "#1E90FF",
   cloudOutline: "#1E3A8A",
   cloudInnerStroke: "#93c5fd",
   iconCloudFill: "#ffffff",
-  nodeFills: ["#1E90FF", "#F5B700", "#1F8A70", "#60a5fa", "#D64545"],
   accentFills: ["#1E90FF", "#1F8A70", "#60a5fa", "#F5B700", "#a78bfa"],
 };
 
@@ -102,14 +82,10 @@ const THEME_DARK: NetworkTheme = {
     { off: "100%", color: "#0B1320", opacity: "0.88" },
   ],
   dropShadow: "rgba(30, 144, 255, 0.5)",
-  dashRing: "rgba(148, 163, 184, 0.48)",
-  meshEdge: "#7dd3fc",
-  meshEdgeOpacity: 0.38,
   motionStroke: "#60a5fa",
   cloudOutline: "#1E90FF",
   cloudInnerStroke: "rgba(147, 197, 253, 0.55)",
   iconCloudFill: "#ffffff",
-  nodeFills: ["#1E90FF", "#F5B700", "#34d399", "#60a5fa", "#a78bfa"],
   accentFills: ["#1E90FF", "#34d399", "#60a5fa", "#F5B700", "#a78bfa"],
 };
 
@@ -117,42 +93,6 @@ function polarPt(cx: number, cy: number, r: number, angleDeg: number): [number, 
   const a = ((angleDeg - 90) * Math.PI) / 180;
   return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
 }
-
-function ringPoints(cx: number, cy: number, r: number, count: number, startAngle = 0): [number, number][] {
-  return Array.from({ length: count }, (_, i) => polarPt(cx, cy, r, startAngle + (360 / count) * i));
-}
-
-function ringEdges(pts: [number, number][]): [[number, number], [number, number]][] {
-  return pts.map((p, i) => [p, pts[(i + 1) % pts.length]]);
-}
-
-function crossEdges(
-  ring1: [number, number][],
-  ring2: [number, number][],
-): [[number, number], [number, number]][] {
-  const edges: [[number, number], [number, number]][] = [];
-  const ratio = ring2.length / ring1.length;
-  ring1.forEach((p, i) => {
-    const j = Math.round(i * ratio) % ring2.length;
-    edges.push([p, ring2[j]]);
-    edges.push([p, ring2[(j + 1) % ring2.length]]);
-  });
-  return edges;
-}
-
-const outerPts = ringPoints(CX, CY, MESH_R, 12, 0);
-const midPts = ringPoints(CX, CY, MESH_R * 0.62, 10, 18);
-const innerPts = ringPoints(CX, CY, MESH_R * 0.32, 7, 10);
-const CENTER: [number, number] = [CX, CY];
-
-const ALL_EDGES: [[number, number], [number, number]][] = [
-  ...ringEdges(outerPts),
-  ...ringEdges(midPts),
-  ...ringEdges(innerPts),
-  ...crossEdges(outerPts, midPts),
-  ...crossEdges(midPts, innerPts),
-  ...innerPts.map((p) => [p, CENTER] as [[number, number], [number, number]]),
-];
 
 const ICON_POSITIONS = [
   { angle: 340, label: "cloud2" as const },
@@ -193,16 +133,13 @@ function CloudIcon({
   );
 }
 
+/** Plain globe: outer + inner ring only (no graticule) */
 function GlobeIcon({ x, y, stroke, fill }: { x: number; y: number; stroke: string; fill: string }) {
   const r = 18;
   return (
     <g>
       <circle cx={x} cy={y} r={r + 3} fill={fill} stroke={stroke} strokeWidth="2" />
       <circle cx={x} cy={y} r={r} fill="none" stroke={stroke} strokeWidth="2" />
-      <ellipse cx={x} cy={y} rx={r * 0.5} ry={r} fill="none" stroke={stroke} strokeWidth="1.5" />
-      <line x1={x - r} y1={y} x2={x + r} y2={y} stroke={stroke} strokeWidth="1.5" />
-      <line x1={x - r + 3} y1={y - r * 0.5} x2={x + r - 3} y2={y - r * 0.5} stroke={stroke} strokeWidth="1" />
-      <line x1={x - r + 3} y1={y + r * 0.5} x2={x + r - 3} y2={y + r * 0.5} stroke={stroke} strokeWidth="1" />
     </g>
   );
 }
@@ -305,16 +242,6 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
     { cx: CX + MESH_R + 5, cy: CY + 45, fill: t.accentFills[4], d: "1.2s" },
   ];
 
-  const nodeDots = [
-    { cx: CX, cy: CY - MESH_R * 0.62, fill: t.nodeFills[0], delay: "0s" },
-    ...midPts.slice(0, 4).map((p, i) => ({
-      cx: p[0],
-      cy: p[1],
-      fill: t.nodeFills[i + 1],
-      delay: `${i * 0.4}s`,
-    })),
-  ];
-
   return (
     <>
       <style>{CSS}</style>
@@ -350,31 +277,21 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
           }}
         />
 
-        <svg className="cf-network-svg h-full w-full" viewBox="0 0 320 320" aria-hidden>
+        <svg
+          className="cf-network-svg h-full w-full"
+          viewBox={`${VB_X} 0 ${VB_WIDTH} 320`}
+          aria-hidden
+        >
           <defs>
             <radialGradient id={`${rid}-meshBg`} cx="50%" cy="50%" r="50%">
               {t.meshGrad.map((s, i) => (
                 <stop key={i} offset={s.off} stopColor={s.color} stopOpacity={s.opacity} />
               ))}
             </radialGradient>
-            <clipPath id={`${rid}-circleClip`}>
-              <circle cx={CX} cy={CY} r={MESH_R} />
-            </clipPath>
             <filter id={`${rid}-cloudDrop`}>
               <feDropShadow dx="0" dy="3" stdDeviation="5" floodColor={t.dropShadow} />
             </filter>
           </defs>
-
-          <circle
-            className="cf-dash-ring"
-            cx={CX}
-            cy={CY}
-            r={MESH_R + 16}
-            fill="none"
-            stroke={t.dashRing}
-            strokeWidth="1.4"
-            strokeDasharray="5 5"
-          />
 
           {accentDots.map((d, i) => (
             <circle
@@ -390,32 +307,8 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
             />
           ))}
 
+          {/* Plain globe: smooth fill only (no mesh, ripples, or inner nodes) */}
           <circle cx={CX} cy={CY} r={MESH_R} fill={`url(#${rid}-meshBg)`} />
-
-          <g clipPath={`url(#${rid}-circleClip)`} stroke={t.meshEdge} strokeWidth="0.55" opacity={t.meshEdgeOpacity}>
-            {ALL_EDGES.map(([a, b], i) => (
-              <line key={i} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} />
-            ))}
-          </g>
-
-          <circle
-            cx={CX}
-            cy={CY}
-            r={52}
-            fill="none"
-            stroke={t.motionStroke}
-            strokeWidth="1.2"
-            style={{ animation: "cf-ripple 3s ease-out infinite" }}
-          />
-          <circle
-            cx={CX}
-            cy={CY}
-            r={52}
-            fill="none"
-            stroke={t.motionStroke}
-            strokeWidth="0.8"
-            style={{ animation: "cf-ripple 3s ease-out infinite", animationDelay: "1.1s" }}
-          />
 
           {SPOKES.map((s, i) => (
             <line
@@ -434,52 +327,6 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
               }}
             />
           ))}
-
-          {nodeDots.map((n, i) => (
-            <g
-              key={i}
-              style={{
-                transformOrigin: `${n.cx}px ${n.cy}px`,
-                animation: "cf-nodePop 2s ease-in-out infinite",
-                animationDelay: n.delay,
-              }}
-            >
-              <circle cx={n.cx} cy={n.cy} r={5} fill={n.fill} />
-            </g>
-          ))}
-
-          {[0, 0.3, 0.6].map((delay, i) => {
-            const [ex, ey] = polarPt(CX, CY, MESH_R - 12, 60);
-            return (
-              <circle
-                key={`a-${i}`}
-                cx={CX + (ex - CX) * 0.35 * (i + 1)}
-                cy={CY + (ey - CY) * 0.35 * (i + 1)}
-                r={3.5}
-                fill={t.motionStroke}
-                style={{
-                  animation: "cf-colorDotBlink 1.6s ease-in-out infinite",
-                  animationDelay: `${delay}s`,
-                }}
-              />
-            );
-          })}
-          {[0, 0.3, 0.6].map((delay, i) => {
-            const [ex, ey] = polarPt(CX, CY, MESH_R - 12, 265);
-            return (
-              <circle
-                key={`b-${i}`}
-                cx={CX + (ex - CX) * 0.35 * (i + 1)}
-                cy={CY + (ey - CY) * 0.35 * (i + 1)}
-                r={3.5}
-                fill={t.motionStroke}
-                style={{
-                  animation: "cf-colorDotBlink 1.6s ease-in-out infinite",
-                  animationDelay: `${delay + 0.5}s`,
-                }}
-              />
-            );
-          })}
 
           {ICON_POSITIONS.map((ip, i) => {
             const [ix, iy] = polarPt(CX, CY, ICON_R, ip.angle);
