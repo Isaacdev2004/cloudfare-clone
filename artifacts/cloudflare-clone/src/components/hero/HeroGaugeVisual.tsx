@@ -1,4 +1,4 @@
-// Animated speedometer — Apexlyn palette (#1E3A8A, #1E90FF, success / critical ticks)
+// Speed gauge — Apexlyn palette; no dashed orbit ring or expanding pulse rings
 import React, { useId } from "react";
 import { cn } from "@/lib/utils";
 
@@ -11,13 +11,6 @@ const styles = `
     85%  { transform: rotate(20deg); }
     100% { transform: rotate(52deg); }
   }
-  @keyframes hg-orbitRing {
-    to { transform: rotate(360deg); }
-  }
-  @keyframes hg-pulseRingOut {
-    0%   { r: 16; opacity: 0.9; }
-    100% { r: 55; opacity: 0; }
-  }
   @keyframes hg-outerGaugePulse {
     0%,100% { opacity:0.4; }
     50%      { opacity:0.9; }
@@ -25,22 +18,6 @@ const styles = `
   .hg-needle-group {
     transform-origin: 120px 138px;
     animation: hg-needleSwing 4s ease-in-out infinite alternate;
-  }
-  .hg-orbit-ring-svg {
-    position: absolute;
-    top: -20px;
-    left: 9px;
-    width: 324px;
-    height: 324px;
-    overflow: visible;
-    animation: hg-orbitRing 18s linear infinite;
-  }
-  .hg-pulse-ring-1 {
-    animation: hg-pulseRingOut 2s ease-out infinite;
-  }
-  .hg-pulse-ring-2 {
-    animation: hg-pulseRingOut 2s ease-out infinite;
-    animation-delay: 0.7s;
   }
   .hg-outer-gauge-pulse {
     animation: hg-outerGaugePulse 2.5s ease-in-out infinite;
@@ -62,7 +39,7 @@ export const HeroGaugeVisual: React.FC<{ className?: string; compact?: boolean }
       <div
         className={cn(
           "relative flex items-center justify-center",
-          compact ? "h-[248px] w-full min-w-0 max-w-[308px] sm:h-[268px]" : "h-[288px] w-[336px] max-w-full",
+          compact ? "h-[220px] w-full min-w-0 max-w-[300px] sm:h-[240px]" : "h-[260px] w-[320px] max-w-full",
           className,
         )}
       >
@@ -71,26 +48,21 @@ export const HeroGaugeVisual: React.FC<{ className?: string; compact?: boolean }
             "relative flex shrink-0 items-center justify-center",
             compact && "origin-center scale-[0.92]",
           )}
-          style={{ width: 336, height: 292 }}
+          style={{ width: 300, height: 260 }}
         >
-          <svg className="hg-orbit-ring-svg" viewBox="0 0 290 290" aria-hidden>
-            <circle cx="145" cy="145" r="140" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="6 5" />
-            <circle cx="145" cy="5" r="4.5" fill="#1E90FF" />
-          </svg>
-
           <div
             className="pointer-events-none absolute h-2.5 w-2.5 rotate-45 border opacity-50"
-            style={{ top: 8, left: 20, borderColor: "#1E90FF" }}
+            style={{ top: 8, left: 18, borderColor: "#1E90FF" }}
           />
           <div
             className="pointer-events-none absolute h-2.5 w-2.5 rotate-45 border opacity-50"
-            style={{ bottom: 8, right: 20, borderColor: "#1E90FF" }}
+            style={{ bottom: 8, right: 18, borderColor: "#1E90FF" }}
           />
 
           <svg
             viewBox="0 0 240 180"
-            width={308}
-            height={232}
+            width={280}
+            height={210}
             className="relative z-[2] overflow-visible"
             aria-hidden
           >
@@ -165,17 +137,6 @@ export const HeroGaugeVisual: React.FC<{ className?: string; compact?: boolean }
             <circle cx="120" cy="138" r="11" fill="#d1d5db" />
             <circle cx="120" cy="138" r="6.5" fill="#64748b" />
             <circle cx="120" cy="138" r="2.5" fill="white" />
-
-            <circle
-              cx="120"
-              cy="138"
-              r="16"
-              fill="none"
-              stroke="#1E90FF"
-              strokeWidth="1.5"
-              className="hg-pulse-ring-1"
-            />
-            <circle cx="120" cy="138" r="16" fill="none" stroke="#60a5fa" strokeWidth="1" className="hg-pulse-ring-2" />
 
             <rect x="15" y="136" width="210" height="5" rx="2.5" fill={`url(#${rid}-gOuter)`} opacity={0.3} />
 
