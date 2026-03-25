@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Framework Icons — Brand Kit</title>
+<style>
+  :root {
+    --white: #FFFFFF;
+    --bg-2: #F7F9FC;
+    --bg-3: #E5E7EB;
+    --bg-4: #EEF2F7;
+    --text-1: #0B1320;
+    --text-2: #334155;
+    --text-3: #64748B;
+    --text-4: #9CA3AF;
+    --primary: #1D4ED8;
+    --primary-dark: #1E3A8A;
+    --primary-tint: #E4EAFA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg-2); color: var(--text-1); padding: 48px 32px; }
+  .header { max-width: 880px; margin: 0 auto 40px; }
+  h1 { font-size: 28px; font-weight: 700; color: var(--text-1); margin-bottom: 8px; }
+  .subtitle { font-size: 15px; color: var(--text-3); line-height: 1.5; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 880px; margin: 0 auto 48px; }
+  @media (max-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  .card {
+    background: var(--white);
+    border: 1px solid var(--bg-3);
+    border-radius: 16px;
+    padding: 28px 16px 20px;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover { box-shadow: 0 6px 24px rgba(29,78,216,.12); transform: translateY(-2px); }
+  .icon-bg {
+    width: 80px; height: 80px;
+    background: var(--primary-tint);
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .icon-bg svg { width: 48px; height: 48px; }
+  .card-name { font-size: 13px; font-weight: 600; color: var(--text-1); text-align: center; line-height: 1.4; }
+  .card-tag { font-size: 11px; color: var(--text-3); text-align: center; background: var(--bg-2); border-radius: 20px; padding: 3px 10px; }
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 600; color: var(--primary);
+    border: 1.5px solid var(--primary-tint);
+    border-radius: 8px; padding: 5px 12px;
+    text-decoration: none; background: var(--white);
+    transition: background .15s, border-color .15s;
+    cursor: pointer;
+  }
+  .dl-btn:hover { background: var(--primary-tint); border-color: var(--primary); }
+  .palette-section { max-width: 880px; margin: 0 auto 48px; }
+  .palette-section h2 { font-size: 18px; font-weight: 600; color: var(--text-2); margin-bottom: 16px; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 12px; }
+  .swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .swatch-dot { width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(0,0,0,.08); }
+  .swatch-label { font-size: 10px; color: var(--text-3); font-family: monospace; }
+  .usage-note { max-width: 880px; margin: 0 auto; padding: 16px 20px; background: var(--primary-tint); border-radius: 12px; border-left: 4px solid var(--primary); font-size: 13px; color: var(--text-2); line-height: 1.6; }
+  .usage-note strong { color: var(--primary); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Framework Icons — Brand Kit</h1>
+  <p class="subtitle">8 original SVG icons aligned to your locked colour tokens. Each icon is trademark-safe, scalable to any size, and uses only your approved brand palette.</p>
+</div>
+
+<div class="grid">
+
+  <!-- Essential Eight -->
+  <div class="card">
+    <div class="icon-bg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><polygon points="32,3 52,12 61,32 52,52 32,61 12,52 3,32 12,12" fill="#1D4ED8"/><polygon points="32,11 48,18.5 55,32 48,45.5 32,53 16,45.5 9,32 16,18.5" fill="none" stroke="#E4EAFA" stroke-width="1.2" opacity="0.6"/><text x="32" y="39" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="22" font-weight="700" fill="#FFFFFF">8</text><circle cx="32" cy="7" r="2" fill="#E4EAFA" opacity="0.8"/></svg>
+    </div>
+    <div class="card-name">Essential Eight</div>
+    <div class="card-tag">ASD / ACSC</div>
+    <a class="dl-btn" href="essential-eight.svg" download>↓ SVG</a>
+  </div>
+
+  <!-- CIS Benchmarks -->
+  <div class="card">
+    <div class="icon-bg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="#1E3A8A"/><circle cx="32" cy="32" r="22" fill="none" stroke="#1D4ED8" stroke-width="2"/><circle cx="32" cy="32" r="13" fill="#1D4ED8"/><circle cx="32" cy="32" r="5.5" fill="#E4EAFA"/><line x1="32" y1="3" x2="32" y2="10" stroke="#E4EAFA" stroke-width="2" stroke-linecap="round"/><line x1="32" y1="54" x2="32" y2="61" stroke="#E4EAFA" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="32" x2="10" y2="32" stroke="#E4EAFA" stroke-width="2" stroke-linecap="round"/><line x1="54" y1="32" x2="61" y2="32" stroke="#E4EAFA" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="card-name">CIS Benchmarks</div>
+    <div class="card-tag">Center for Internet Security</div>
+    <a class="dl-btn" href="cis-benchmarks.svg" download>↓ SVG</a>
+  </div>
+
+  <!-- ISO 27001 -->
+  <div class="card">
+    <div class="icon-bg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="7" y="5" width="40" height="50" rx="5" fill="#1E3A8A"/><polygon points="37,5 47,15 37,15" fill="#1D4ED8"/><rect x="13" y="20" width="22" height="3" rx="1.5" fill="#E4EAFA" opacity="0.7"/><rect x="13" y="27" width="28" height="2.5" rx="1.25" fill="#E4EAFA" opacity="0.45"/><rect x="13" y="33" width="24" height="2.5" rx="1.25" fill="#E4EAFA" opacity="0.45"/><rect x="13" y="39" width="18" height="2.5" rx="1.25" fill="#E4EAFA" opacity="0.45"/><path d="M43 37 L57 43 L57 52 C57 57 50.5 60.5 43 63 C35.5 60.5 29 57 29 52 L29 43 Z" fill="#1D4ED8" stroke="#E4EAFA" stroke-width="1.2"/><polyline points="36,52 41,58 51,45" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="card-name">ISO 27001</div>
+    <div class="card-tag">Information Security</div>
+    <a class="dl-btn" href="iso-27001.svg" download>↓ SVG</a>
+  </div>
+
+  <!-- NIST CSF 2.0 -->
+  <div class="card">
+    <div class="icon-bg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><polygon points="32,3 56,17 56,47 32,61 8,47 8,17" fill="#1D4ED8"/><polygon points="32,12 49,22 49,42 32,52 15,42 15,22" fill="none" stroke="#E4EAFA" stroke-width="1" opacity="0.5"/><circle cx="32" cy="15" r="2.5" fill="#FFFFFF"/><circle cx="47" cy="23.5" r="2.5" fill="#FFFFFF"/><circle cx="47" cy="40.5" r="2.5" fill="#FFFFFF"/><circle cx="32" cy="49" r="2.5" fill="#FFFFFF"/><circle cx="17" cy="40.5" r="2.5" fill="#FFFFFF"/><circle cx="17" cy="23.5" r="2.5" fill="#FFFFFF"/><line x1="32" y1="17.5" x2="32" y2="29" stroke="#E4EAFA" stroke-width="1" opacity="0.6"/><line x1="44.8" y1="25" x2="37" y2="29.5" stroke="#E4EAFA" stroke-width="1" opacity="0.6"/><line x1="44.8" y1="39" x2="37" y2="34.5" stroke="#E4EAFA" stroke-width="1" opacity="0.6"/><line x1="32" y1="46.5" x2="32" y2="35" stroke="#E4EAFA" stroke-width="1" opacity="0.6"/><line x1="19.2" y1="39" x2="27" y2="34.5" stroke="#E4EAFA" stroke-width="1" opacity="0.6"/><line x1="19.2" y1="25" x2="27" y2="29.5" stroke="#E4EAFA" stroke-width="1" opacity="0.6"/><circle cx="32" cy="32" r="4" fill="#E4EAFA"/></svg>
+    </div>
+    <div class="card-name">NIST CSF 2.0</div>
+    <div class="card-tag">Cybersecurity Framework</div>
+    <a class="dl-btn" href="nist-csf.svg" download>↓ SVG</a>
+  </div>
+
+  <!-- APRA CPS 234 -->
+  <div class="card">
+    <div class="icon-bg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="5" y="54" width="54" height="5" rx="2.5" fill="#1E3A8A"/><rect x="10" y="22" width="8" height="32" rx="2" fill="#1D4ED8"/><rect x="23" y="22" width="8" height="32" rx="2" fill="#1D4ED8"/><rect x="33" y="22" width="8" height="32" rx="2" fill="#1D4ED8"/><rect x="46" y="22" width="8" height="32" rx="2" fill="#1D4ED8"/><rect x="7" y="17" width="50" height="6" rx="2" fill="#1E3A8A"/><polygon points="4,18 32,5 60,18" fill="#1D4ED8"/><circle cx="32" cy="37" r="10" fill="#1E3A8A" stroke="#E4EAFA" stroke-width="1.5"/><rect x="27.5" y="37" width="9" height="7" rx="1.5" fill="#E4EAFA"/><path d="M29 37 L29 34 C29 31 35 31 35 34 L35 37" fill="none" stroke="#E4EAFA" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <div class="card-name">APRA CPS 234</div>
+    <div class="card-tag">Info Security Standard</div>
+    <a class="dl-btn" href="apra-cps234.svg" download>↓ SVG</a>
+  </div>
+
+  <!-- Healthcare -->
+  <div class="card">
+    <div class="icon-bg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 4 L58 14 L58 36 C58 50 46 59 32 63 C18 59 6 50 6 36 L6 14 Z" fill="#1D4ED8"/><path d="M32 12 L52 20 L52 36 C52 47 43 54 32 57 C21 54 12 47 12 36 L12 20 Z" fill="#1E3A8A"/><rect x="26" y="22" width="12" height="22" rx="3" fill="#E4EAFA"/><rect x="21" y="27" width="22" height="12" rx="3" fill="#E4EAFA"/><circle cx="32" cy="33" r="3" fill="#1D4ED8"/></svg>
+    </div>
+    <div class="card-name">Healthcare</div>
+    <div class="card-tag">MHRA + RACGP</div>
+    <a class="dl-btn" href="healthcare.svg" download>↓ SVG</a>
+  </div>
+
+  <!-- Privacy APP -->
+  <div class="card">
+    <div class="icon-bg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="#1E3A8A"/><circle cx="32" cy="32" r="24" fill="none" stroke="#1D4ED8" stroke-width="4" stroke-dasharray="10 5"/><circle cx="32" cy="32" r="18" fill="#1D4ED8"/><circle cx="32" cy="25" r="6.5" fill="#E4EAFA"/><path d="M18 46 C18 38 24 35 32 35 C40 35 46 38 46 46" fill="#E4EAFA"/></svg>
+    </div>
+    <div class="card-name">Privacy (APP)</div>
+    <div class="card-tag">Australian Privacy Principles</div>
+    <a class="dl-btn" href="privacy-app.svg" download>↓ SVG</a>
+  </div>
+
+  <!-- ISM Essentials -->
+  <div class="card">
+    <div class="icon-bg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 4 L58 14 L58 36 C58 50 46 59 32 63 C18 59 6 50 6 36 L6 14 Z" fill="#1E3A8A"/><path d="M32 11 L53 19.5 L53 36 C53 47.5 43.5 55.5 32 58.5 C20.5 55.5 11 47.5 11 36 L11 19.5 Z" fill="#1D4ED8"/><line x1="22" y1="26" x2="42" y2="26" stroke="#E4EAFA" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/><line x1="22" y1="33" x2="42" y2="33" stroke="#E4EAFA" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/><line x1="22" y1="40" x2="36" y2="40" stroke="#E4EAFA" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/><circle cx="18" cy="26" r="3.5" fill="#E4EAFA"/><circle cx="18" cy="33" r="3.5" fill="#E4EAFA"/><circle cx="18" cy="40" r="3.5" fill="#E4EAFA"/><polyline points="15.8,26 17.5,27.8 20.2,24.5" fill="none" stroke="#1D4ED8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15.8,33 17.5,34.8 20.2,31.5" fill="none" stroke="#1D4ED8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15.8,40 17.5,41.8 20.2,38.5" fill="none" stroke="#1D4ED8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="card-name">ISM Essentials</div>
+    <div class="card-tag">Info Security Manual</div>
+    <a class="dl-btn" href="ism-essentials.svg" download>↓ SVG</a>
+  </div>
+
+</div>
+
+<div class="palette-section">
+  <h2>Colour tokens applied</h2>
+  <div class="swatches">
+    <div class="swatch"><div class="swatch-dot" style="background:#1D4ED8"></div><div class="swatch-label">#1D4ED8</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#1E3A8A"></div><div class="swatch-label">#1E3A8A</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#E4EAFA"></div><div class="swatch-label">#E4EAFA</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#FFFFFF; border:1px solid #E5E7EB;"></div><div class="swatch-label">#FFFFFF</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#F7F9FC"></div><div class="swatch-label">#F7F9FC</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#E5E7EB"></div><div class="swatch-label">#E5E7EB</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#0B1320"></div><div class="swatch-label">#0B1320</div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#334155"></div><div class="swatch-label">#334155</div></div>
+  </div>
+</div>
+
+<div class="usage-note">
+  <strong>Usage guide:</strong> All icons are pure SVG — scale freely to any size without quality loss. Place on <code>#F7F9FC</code> or <code>#EEF2F7</code> backgrounds for the tinted card style shown above, or on <code>#FFFFFF</code> for a clean white card. No status colours (green/yellow/red) have been used — all icons stay within your locked primary + neutral palette.
+</div>
+
+</body>
+</html>

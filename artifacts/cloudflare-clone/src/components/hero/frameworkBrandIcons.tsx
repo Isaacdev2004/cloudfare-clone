@@ -8,7 +8,7 @@ const iconBox = { width: 40, height: 40 };
 
 export function IconEssentialEight(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 64 64" fill="none" aria-hidden {...iconBox} {...props}>
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden shapeRendering="geometricPrecision" {...iconBox} {...props}>
       <polygon points="32,3 52,12 61,32 52,52 32,61 12,52 3,32 12,12" fill="#1D4ED8" />
       <polygon
         points="32,11 48,18.5 55,32 48,45.5 32,53 16,45.5 9,32 16,18.5"
@@ -25,6 +25,7 @@ export function IconEssentialEight(props: React.SVGProps<SVGSVGElement>) {
         fontSize="22"
         fontWeight="700"
         fill="#FFFFFF"
+        textRendering="geometricPrecision"
       >
         8
       </text>
@@ -35,7 +36,7 @@ export function IconEssentialEight(props: React.SVGProps<SVGSVGElement>) {
 
 export function IconCisBenchmarks(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 64 64" fill="none" aria-hidden {...iconBox} {...props}>
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden shapeRendering="geometricPrecision" {...iconBox} {...props}>
       <circle cx="32" cy="32" r="29" fill="#1E3A8A" />
       <circle cx="32" cy="32" r="22" fill="none" stroke="#1D4ED8" strokeWidth="2" />
       <circle cx="32" cy="32" r="13" fill="#1D4ED8" />
@@ -50,7 +51,7 @@ export function IconCisBenchmarks(props: React.SVGProps<SVGSVGElement>) {
 
 export function IconIso27001(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 64 64" fill="none" aria-hidden {...iconBox} {...props}>
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden shapeRendering="geometricPrecision" {...iconBox} {...props}>
       <rect x="7" y="5" width="40" height="50" rx="5" fill="#1E3A8A" />
       <polygon points="37,5 47,15 37,15" fill="#1D4ED8" />
       <rect x="13" y="20" width="22" height="3" rx="1.5" fill="#E4EAFA" opacity="0.7" />
@@ -77,7 +78,7 @@ export function IconIso27001(props: React.SVGProps<SVGSVGElement>) {
 
 export function IconNistCsf(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 64 64" fill="none" aria-hidden {...iconBox} {...props}>
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden shapeRendering="geometricPrecision" {...iconBox} {...props}>
       <polygon points="32,3 56,17 56,47 32,61 8,47 8,17" fill="#1D4ED8" />
       <polygon
         points="32,12 49,22 49,42 32,52 15,42 15,22"
@@ -105,7 +106,7 @@ export function IconNistCsf(props: React.SVGProps<SVGSVGElement>) {
 
 export function IconApraCps234(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 64 64" fill="none" aria-hidden {...iconBox} {...props}>
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden shapeRendering="geometricPrecision" {...iconBox} {...props}>
       <rect x="5" y="54" width="54" height="5" rx="2.5" fill="#1E3A8A" />
       <rect x="10" y="22" width="8" height="32" rx="2" fill="#1D4ED8" />
       <rect x="23" y="22" width="8" height="32" rx="2" fill="#1D4ED8" />
@@ -129,7 +130,7 @@ export function IconApraCps234(props: React.SVGProps<SVGSVGElement>) {
 /** Healthcare cross — center dot removed (client: no overlapping mark) */
 export function IconHealthcare(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 64 64" fill="none" aria-hidden {...iconBox} {...props}>
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden shapeRendering="geometricPrecision" {...iconBox} {...props}>
       <path
         d="M32 4 L58 14 L58 36 C58 50 46 59 32 63 C18 59 6 50 6 36 L6 14 Z"
         fill="#1D4ED8"
@@ -146,7 +147,7 @@ export function IconHealthcare(props: React.SVGProps<SVGSVGElement>) {
 
 export function IconPrivacyApp(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 64 64" fill="none" aria-hidden {...iconBox} {...props}>
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden shapeRendering="geometricPrecision" {...iconBox} {...props}>
       <circle cx="32" cy="32" r="29" fill="#1E3A8A" />
       <circle
         cx="32"
@@ -166,7 +167,7 @@ export function IconPrivacyApp(props: React.SVGProps<SVGSVGElement>) {
 
 export function IconIsmEssentials(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 64 64" fill="none" aria-hidden {...iconBox} {...props}>
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden shapeRendering="geometricPrecision" {...iconBox} {...props}>
       <path
         d="M32 4 L58 14 L58 36 C58 50 46 59 32 63 C18 59 6 50 6 36 L6 14 Z"
         fill="#1E3A8A"
