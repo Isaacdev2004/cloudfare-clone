@@ -104,16 +104,16 @@ const connectivityLinkClass =
 export default function Home() {
   return (
     <div className="flex flex-col apex-page-bg">
-      {/* ── Hero — deep navy infrastructure ── */}
+      {/* ── Hero — white section so orbit/cloud reads clearly ── */}
       <PageHero
-        variant="navy"
+        variant="light"
         title={<>Connect, <span className="text-[#1E90FF]">protect</span>, and build everywhere</>}
         description="Make websites, apps, AI workloads, and networks faster and more secure on one unified global platform."
         actions={[
           { label: "Start for free", href: SIGN_UP_URL, variant: "primary" },
           { label: "See pricing", href: "/pricing", variant: "outline" },
         ]}
-        className="min-h-[100dvh] lg:min-h-screen flex items-center"
+        className="min-h-[100dvh] lg:min-h-screen flex items-center bg-white"
         contentClassName="relative z-10 w-full"
         aside={(
           <div className="relative h-[min(54vh,460px)] sm:h-[500px] lg:h-[640px] flex items-center justify-center">
@@ -124,22 +124,6 @@ export default function Home() {
               className="absolute inset-0 flex items-center justify-center"
             >
               <HeroFrameworkOrbitVisual />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: -16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="absolute top-12 right-6 bg-[#111827]/95 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 backdrop-blur-sm"
-            >
-              <span className="text-[#1E90FF] font-semibold">330+</span> cities online
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: -18 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              className="absolute bottom-20 left-4 bg-[#111827]/95 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-300 backdrop-blur-sm"
-            >
-              <span className="text-[#1E90FF] font-semibold">215B</span> threats blocked/day
             </motion.div>
           </div>
         )}

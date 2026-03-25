@@ -50,15 +50,6 @@ export const HeroGaugeVisual: React.FC<{ className?: string; compact?: boolean }
           )}
           style={{ width: 300, height: 260 }}
         >
-          <div
-            className="pointer-events-none absolute h-2.5 w-2.5 rotate-45 border opacity-50"
-            style={{ top: 8, left: 18, borderColor: "#1E90FF" }}
-          />
-          <div
-            className="pointer-events-none absolute h-2.5 w-2.5 rotate-45 border opacity-50"
-            style={{ bottom: 8, right: 18, borderColor: "#1E90FF" }}
-          />
-
           <svg
             viewBox="0 0 240 180"
             width={280}

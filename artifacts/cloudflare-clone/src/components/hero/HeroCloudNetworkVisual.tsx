@@ -23,7 +23,7 @@ const CSS = `
     50%      { r: 4.5; opacity: 1;   }
   }
   .cf-cloud-center {
-    transform-origin: 160px 158px;
+    transform-origin: 160px 160px;
     animation: cf-cloudPulse 3s ease-in-out infinite;
   }
   .cf-network-svg {
@@ -34,16 +34,13 @@ const CSS = `
 const CX = 160,
   CY = 160,
   MESH_R = 118;
-
-/** Extra left padding in viewBox so the building icon (≈265°) is not clipped */
-const VB_X = -34;
-const VB_WIDTH = 320 - VB_X;
+/** Orbit radius: even spacing from mesh edge; fits tallest/widest icons in 320×320 viewBox */
+const ICON_R = MESH_R + 10;
 
 type NetworkTheme = {
   iconStroke: string;
   packageCloudStroke: string;
   buildingFill: string;
-  diamondBorder: string;
   meshGrad: { off: string; color: string; opacity: string }[];
   dropShadow: string;
   motionStroke: string;
@@ -57,7 +54,6 @@ const THEME_LIGHT: NetworkTheme = {
   iconStroke: "#1E3A8A",
   packageCloudStroke: "#60a5fa",
   buildingFill: "#bfdbfe",
-  diamondBorder: "#1E90FF",
   meshGrad: [
     { off: "0%", color: "#e0f2fe", opacity: "0.98" },
     { off: "55%", color: "#93c5fd", opacity: "0.78" },
@@ -75,7 +71,6 @@ const THEME_DARK: NetworkTheme = {
   iconStroke: "#1E90FF",
   packageCloudStroke: "#7dd3fc",
   buildingFill: "rgba(30, 144, 255, 0.28)",
-  diamondBorder: "#1E90FF",
   meshGrad: [
     { off: "0%", color: "#38bdf8", opacity: "0.42" },
     { off: "58%", color: "#1E3A8A", opacity: "0.62" },
@@ -94,15 +89,15 @@ function polarPt(cx: number, cy: number, r: number, angleDeg: number): [number, 
   return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
 }
 
+/** Six icons at equal 60° steps (polarPt: 0° = top of circle) */
 const ICON_POSITIONS = [
-  { angle: 340, label: "cloud2" as const },
+  { angle: 0, label: "cloud2" as const },
   { angle: 60, label: "globe" as const },
-  { angle: 130, label: "package" as const },
-  { angle: 210, label: "home" as const },
-  { angle: 265, label: "building" as const },
+  { angle: 120, label: "package" as const },
+  { angle: 180, label: "home" as const },
+  { angle: 240, label: "building" as const },
   { angle: 300, label: "user" as const },
 ];
-const ICON_R = MESH_R + 28;
 
 const SPOKES = ICON_POSITIONS.map((ip, i) => {
   const [x2, y2] = polarPt(CX, CY, MESH_R - 10, ip.angle);
@@ -145,23 +140,21 @@ function GlobeIcon({ x, y, stroke, fill }: { x: number; y: number; stroke: strin
 }
 
 function BuildingIcon({ x, y, stroke, windowFill }: { x: number; y: number; stroke: string; windowFill: string }) {
-  const bx = x - 20,
-    by = y - 26;
   return (
-    <g transform={`translate(${bx},${by})`}>
-      <rect x="4" y="0" width="32" height="40" rx="2" fill="none" stroke={stroke} strokeWidth="2" />
+    <g transform={`translate(${x}, ${y})`}>
+      <rect x="-16" y="-20" width="32" height="40" rx="2" fill="none" stroke={stroke} strokeWidth="2" />
       {[
-        [8, 4],
-        [20, 4],
-        [8, 14],
-        [20, 14],
+        [-8, -16],
+        [4, -16],
+        [-8, -6],
+        [4, -6],
       ].map(([px, py], i) => (
         <rect key={i} x={px} y={py} width="8" height="7" rx="1" fill={windowFill} stroke={stroke} strokeWidth="1" />
       ))}
       {[
-        [-2, 40, 7, 18],
-        [8, 34, 7, 24],
-        [17, 28, 7, 30],
+        [-10, 22, 7, 16],
+        [-1, 16, 7, 22],
+        [8, 10, 7, 28],
       ].map(([px, py, w, h], i) => (
         <rect key={i} x={px} y={py} width={w} height={h} fill="none" stroke={stroke} strokeWidth="1.5" />
       ))}
@@ -198,11 +191,11 @@ function HomeIcon({ x, y, stroke, fill }: { x: number; y: number; stroke: string
 
 function PackageIcon({ x, y, t }: { x: number; y: number; t: NetworkTheme }) {
   return (
-    <g>
-      <rect x={x - 22} y={y - 16} width="44" height="34" rx="3" fill={t.iconCloudFill} stroke={t.iconStroke} strokeWidth="2" />
-      <rect x={x - 12} y={y - 8} width="12" height="12" rx="2" fill="none" stroke={t.iconStroke} strokeWidth="1.8" />
-      <line x1={x - 22} y1={y - 3} x2={x + 22} y2={y - 3} stroke={t.iconStroke} strokeWidth="1.4" />
-      <CloudIcon x={x} y={y - 22} size={30} stroke={t.packageCloudStroke} fill={t.iconCloudFill} />
+    <g transform={`translate(${x}, ${y})`}>
+      <rect x="-22" y="-8" width="44" height="34" rx="3" fill={t.iconCloudFill} stroke={t.iconStroke} strokeWidth="2" />
+      <rect x="-12" y={0} width="12" height="12" rx="2" fill="none" stroke={t.iconStroke} strokeWidth="1.8" />
+      <line x1="-22" y1={5} x2="22" y2={5} stroke={t.iconStroke} strokeWidth="1.4" />
+      <CloudIcon x={0} y={-30} size={30} stroke={t.packageCloudStroke} fill={t.iconCloudFill} />
     </g>
   );
 }
@@ -234,13 +227,12 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
   const t = compact ? THEME_LIGHT : THEME_DARK;
   const maxSize = compact ? 352 : 412;
 
-  const accentDots = [
-    { cx: CX + MESH_R + 14, cy: CY - 30, fill: t.accentFills[0], d: "0s" },
-    { cx: CX - MESH_R - 10, cy: CY + 20, fill: t.accentFills[1], d: "0.3s" },
-    { cx: CX + 20, cy: CY - MESH_R - 16, fill: t.accentFills[2], d: "0.6s" },
-    { cx: CX - 25, cy: CY + MESH_R + 12, fill: t.accentFills[3], d: "0.9s" },
-    { cx: CX + MESH_R + 5, cy: CY + 45, fill: t.accentFills[4], d: "1.2s" },
-  ];
+  const dotR = MESH_R + 20;
+  const accentDotAngles = [30, 90, 150, 210, 270];
+  const accentDots = accentDotAngles.map((deg, i) => {
+    const [cx, cy] = polarPt(CX, CY, dotR, deg);
+    return { cx, cy, fill: t.accentFills[i % t.accentFills.length], d: `${i * 0.25}s` };
+  });
 
   return (
     <>
@@ -252,34 +244,9 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
         )}
         style={{ maxWidth: maxSize, maxHeight: maxSize }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: 6,
-            left: 10,
-            width: 11,
-            height: 11,
-            border: `1.5px solid ${t.diamondBorder}`,
-            transform: "rotate(45deg)",
-            opacity: 0.45,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: 6,
-            right: 10,
-            width: 11,
-            height: 11,
-            border: `1.5px solid ${t.diamondBorder}`,
-            transform: "rotate(45deg)",
-            opacity: 0.45,
-          }}
-        />
-
         <svg
           className="cf-network-svg h-full w-full"
-          viewBox={`${VB_X} 0 ${VB_WIDTH} 320`}
+          viewBox="0 0 320 320"
           aria-hidden
         >
           <defs>
