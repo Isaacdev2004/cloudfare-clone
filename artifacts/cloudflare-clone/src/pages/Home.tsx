@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { HeroCloudNetworkVisual } from '@/components/hero/HeroCloudNetworkVisual';
+import { HeroFrameworkOrbitVisual } from '@/components/hero/HeroFrameworkOrbitVisual';
 import { HeroGaugeVisual } from '@/components/hero/HeroGaugeVisual';
 import { AnimatedCounter } from '@/components/AnimatedCounter';
 import { Marquee } from '@/components/Marquee';
@@ -122,7 +123,7 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.2 }}
               className="absolute inset-0 flex items-center justify-center"
             >
-              <HeroCloudNetworkVisual />
+              <HeroFrameworkOrbitVisual />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: -16 }}
