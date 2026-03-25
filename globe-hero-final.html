@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Framework Globe Hero</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #F7F9FC;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 40px 20px;
+  }
+
+  .hero-wrap {
+    position: relative;
+    width: 680px;
+    height: 680px;
+    flex-shrink: 0;
+  }
+
+  /* ── Globe ── */
+  .globe-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+
+  /* ── Framework node ── */
+  .fw-node {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 20;
+  }
+
+  .fw-badge {
+    width: 62px;
+    height: 62px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1.5px solid #E5E7EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 4px 20px rgba(29, 78, 216, 0.15),
+      0 1px 4px rgba(0,0,0,0.08);
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .fw-node:hover .fw-badge {
+    border-color: #1D4ED8;
+    box-shadow: 0 6px 28px rgba(29, 78, 216, 0.28), 0 2px 8px rgba(0,0,0,0.1);
+    transform: scale(1.06);
+  }
+
+  .fw-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #334155;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    pointer-events: none;
+    background: rgba(255,255,255,0.82);
+    padding: 2px 7px;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ── Float animations (staggered per node) ── */
+  @keyframes float {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0px);   }
+    50%       { transform: translate(-50%, -50%) translateY(-8px);  }
+  }
+  .fw-node:nth-child(1)  { animation: float 5.0s ease-in-out infinite 0.0s; }
+  .fw-node:nth-child(2)  { animation: float 5.3s ease-in-out infinite 0.6s; }
+  .fw-node:nth-child(3)  { animation: float 4.8s ease-in-out infinite 1.2s; }
+  .fw-node:nth-child(4)  { animation: float 5.6s ease-in-out infinite 1.8s; }
+  .fw-node:nth-child(5)  { animation: float 5.1s ease-in-out infinite 2.4s; }
+  .fw-node:nth-child(6)  { animation: float 4.7s ease-in-out infinite 0.4s; }
+  .fw-node:nth-child(7)  { animation: float 5.4s ease-in-out infinite 1.0s; }
+  .fw-node:nth-child(8)  { animation: float 4.9s ease-in-out infinite 1.6s; }
+
+  /* ── Globe pulse ── */
+  @keyframes globe-breathe {
+    0%, 100% { opacity: 0.97; }
+    50%       { opacity: 1;    }
+  }
+  .globe-circle { animation: globe-breathe 4s ease-in-out infinite; }
+
+  /* ── Connector line pulse ── */
+  @keyframes line-pulse {
+    0%, 100% { stroke-opacity: 0.22; }
+    50%       { stroke-opacity: 0.50; }
+  }
+  .conn-line { animation: line-pulse 3s ease-in-out infinite; }
+
+  /* ── Accent dot pulse ── */
+  @keyframes dot-pulse {
+    0%, 100% { r: 4; opacity: 0.55; }
+    50%       { r: 6; opacity: 1;    }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero-wrap">
+
+  <!-- ════════════════════════════════════
+       SVG LAYER: Globe + mesh + cloud + connectors
+       ════════════════════════════════════ -->
+  <svg class="globe-svg" viewBox="0 0 680 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- 3D blue sphere gradient -->
+      <radialGradient id="sg" cx="32%" cy="26%" r="72%">
+        <stop offset="0%"   stop-color="#CBE4FF"/>
+        <stop offset="14%"  stop-color="#6BAEED"/>
+        <stop offset="38%"  stop-color="#2563EB"/>
+        <stop offset="65%"  stop-color="#1D4ED8"/>
+        <stop offset="100%" stop-color="#060E2A"/>
+      </radialGradient>
+      <!-- clip everything to sphere -->
+      <clipPath id="sc">
+        <circle cx="340" cy="340" r="274"/>
+      </clipPath>
+    </defs>
+
+    <!-- Drop shadow -->
+    <ellipse cx="344" cy="635" rx="200" ry="18" fill="#1D4ED8" opacity="0.07"/>
+
+    <!-- SPHERE BASE -->
+    <circle class="globe-circle" cx="340" cy="340" r="274" fill="url(#sg)"/>
+
+    <!-- DENSE GEODESIC MESH — 3 rotations × 44 lines, 14px spacing -->
+    <g clip-path="url(#sc)">
+      <!-- 0° -->
+      <g stroke="white" stroke-width="0.5" opacity="0.19">
+        <line x1="0" y1="52"  x2="680" y2="52"/> <line x1="0" y1="66"  x2="680" y2="66"/>
+        <line x1="0" y1="80"  x2="680" y2="80"/> <line x1="0" y1="94"  x2="680" y2="94"/>
+        <line x1="0" y1="108" x2="680" y2="108"/><line x1="0" y1="122" x2="680" y2="122"/>
+        <line x1="0" y1="136" x2="680" y2="136"/><line x1="0" y1="150" x2="680" y2="150"/>
+        <line x1="0" y1="164" x2="680" y2="164"/><line x1="0" y1="178" x2="680" y2="178"/>
+        <line x1="0" y1="192" x2="680" y2="192"/><line x1="0" y1="206" x2="680" y2="206"/>
+        <line x1="0" y1="220" x2="680" y2="220"/><line x1="0" y1="234" x2="680" y2="234"/>
+        <line x1="0" y1="248" x2="680" y2="248"/><line x1="0" y1="262" x2="680" y2="262"/>
+        <line x1="0" y1="276" x2="680" y2="276"/><line x1="0" y1="290" x2="680" y2="290"/>
+        <line x1="0" y1="304" x2="680" y2="304"/><line x1="0" y1="318" x2="680" y2="318"/>
+        <line x1="0" y1="332" x2="680" y2="332"/><line x1="0" y1="346" x2="680" y2="346"/>
+        <line x1="0" y1="360" x2="680" y2="360"/><line x1="0" y1="374" x2="680" y2="374"/>
+        <line x1="0" y1="388" x2="680" y2="388"/><line x1="0" y1="402" x2="680" y2="402"/>
+        <line x1="0" y1="416" x2="680" y2="416"/><line x1="0" y1="430" x2="680" y2="430"/>
+        <line x1="0" y1="444" x2="680" y2="444"/><line x1="0" y1="458" x2="680" y2="458"/>
+        <line x1="0" y1="472" x2="680" y2="472"/><line x1="0" y1="486" x2="680" y2="486"/>
+        <line x1="0" y1="500" x2="680" y2="500"/><line x1="0" y1="514" x2="680" y2="514"/>
+        <line x1="0" y1="528" x2="680" y2="528"/><line x1="0" y1="542" x2="680" y2="542"/>
+        <line x1="0" y1="556" x2="680" y2="556"/><line x1="0" y1="570" x2="680" y2="570"/>
+        <line x1="0" y1="584" x2="680" y2="584"/><line x1="0" y1="598" x2="680" y2="598"/>
+        <line x1="0" y1="612" x2="680" y2="612"/><line x1="0" y1="626" x2="680" y2="626"/>
+      </g>
+      <!-- +60° -->
+      <g stroke="white" stroke-width="0.5" opacity="0.19" transform="rotate(60,340,340)">
+        <line x1="0" y1="52"  x2="680" y2="52"/> <line x1="0" y1="66"  x2="680" y2="66"/>
+        <line x1="0" y1="80"  x2="680" y2="80"/> <line x1="0" y1="94"  x2="680" y2="94"/>
+        <line x1="0" y1="108" x2="680" y2="108"/><line x1="0" y1="122" x2="680" y2="122"/>
+        <line x1="0" y1="136" x2="680" y2="136"/><line x1="0" y1="150" x2="680" y2="150"/>
+        <line x1="0" y1="164" x2="680" y2="164"/><line x1="0" y1="178" x2="680" y2="178"/>
+        <line x1="0" y1="192" x2="680" y2="192"/><line x1="0" y1="206" x2="680" y2="206"/>
+        <line x1="0" y1="220" x2="680" y2="220"/><line x1="0" y1="234" x2="680" y2="234"/>
+        <line x1="0" y1="248" x2="680" y2="248"/><line x1="0" y1="262" x2="680" y2="262"/>
+        <line x1="0" y1="276" x2="680" y2="276"/><line x1="0" y1="290" x2="680" y2="290"/>
+        <line x1="0" y1="304" x2="680" y2="304"/><line x1="0" y1="318" x2="680" y2="318"/>
+        <line x1="0" y1="332" x2="680" y2="332"/><line x1="0" y1="346" x2="680" y2="346"/>
+        <line x1="0" y1="360" x2="680" y2="360"/><line x1="0" y1="374" x2="680" y2="374"/>
+        <line x1="0" y1="388" x2="680" y2="388"/><line x1="0" y1="402" x2="680" y2="402"/>
+        <line x1="0" y1="416" x2="680" y2="416"/><line x1="0" y1="430" x2="680" y2="430"/>
+        <line x1="0" y1="444" x2="680" y2="444"/><line x1="0" y1="458" x2="680" y2="458"/>
+        <line x1="0" y1="472" x2="680" y2="472"/><line x1="0" y1="486" x2="680" y2="486"/>
+        <line x1="0" y1="500" x2="680" y2="500"/><line x1="0" y1="514" x2="680" y2="514"/>
+        <line x1="0" y1="528" x2="680" y2="528"/><line x1="0" y1="542" x2="680" y2="542"/>
+        <line x1="0" y1="556" x2="680" y2="556"/><line x1="0" y1="570" x2="680" y2="570"/>
+        <line x1="0" y1="584" x2="680" y2="584"/><line x1="0" y1="598" x2="680" y2="598"/>
+        <line x1="0" y1="612" x2="680" y2="612"/><line x1="0" y1="626" x2="680" y2="626"/>
+      </g>
+      <!-- -60° -->
+      <g stroke="white" stroke-width="0.5" opacity="0.19" transform="rotate(-60,340,340)">
+        <line x1="0" y1="52"  x2="680" y2="52"/> <line x1="0" y1="66"  x2="680" y2="66"/>
+        <line x1="0" y1="80"  x2="680" y2="80"/> <line x1="0" y1="94"  x2="680" y2="94"/>
+        <line x1="0" y1="108" x2="680" y2="108"/><line x1="0" y1="122" x2="680" y2="122"/>
+        <line x1="0" y1="136" x2="680" y2="136"/><line x1="0" y1="150" x2="680" y2="150"/>
+        <line x1="0" y1="164" x2="680" y2="164"/><line x1="0" y1="178" x2="680" y2="178"/>
+        <line x1="0" y1="192" x2="680" y2="192"/><line x1="0" y1="206" x2="680" y2="206"/>
+        <line x1="0" y1="220" x2="680" y2="220"/><line x1="0" y1="234" x2="680" y2="234"/>
+        <line x1="0" y1="248" x2="680" y2="248"/><line x1="0" y1="262" x2="680" y2="262"/>
+        <line x1="0" y1="276" x2="680" y2="276"/><line x1="0" y1="290" x2="680" y2="290"/>
+        <line x1="0" y1="304" x2="680" y2="304"/><line x1="0" y1="318" x2="680" y2="318"/>
+        <line x1="0" y1="332" x2="680" y2="332"/><line x1="0" y1="346" x2="680" y2="346"/>
+        <line x1="0" y1="360" x2="680" y2="360"/><line x1="0" y1="374" x2="680" y2="374"/>
+        <line x1="0" y1="388" x2="680" y2="388"/><line x1="0" y1="402" x2="680" y2="402"/>
+        <line x1="0" y1="416" x2="680" y2="416"/><line x1="0" y1="430" x2="680" y2="430"/>
+        <line x1="0" y1="444" x2="680" y2="444"/><line x1="0" y1="458" x2="680" y2="458"/>
+        <line x1="0" y1="472" x2="680" y2="472"/><line x1="0" y1="486" x2="680" y2="486"/>
+        <line x1="0" y1="500" x2="680" y2="500"/><line x1="0" y1="514" x2="680" y2="514"/>
+        <line x1="0" y1="528" x2="680" y2="528"/><line x1="0" y1="542" x2="680" y2="542"/>
+        <line x1="0" y1="556" x2="680" y2="556"/><line x1="0" y1="570" x2="680" y2="570"/>
+        <line x1="0" y1="584" x2="680" y2="584"/><line x1="0" y1="598" x2="680" y2="598"/>
+        <line x1="0" y1="612" x2="680" y2="612"/><line x1="0" y1="626" x2="680" y2="626"/>
+      </g>
+    </g>
+
+    <!-- Specular highlights (3D glass sheen) -->
+    <ellipse cx="242" cy="192" rx="152" ry="92" fill="white" opacity="0.13" clip-path="url(#sc)"/>
+    <ellipse cx="220" cy="167" rx="85"  ry="55" fill="white" opacity="0.20" clip-path="url(#sc)"/>
+    <ellipse cx="202" cy="148" rx="40"  ry="27" fill="white" opacity="0.30" clip-path="url(#sc)"/>
+    <ellipse cx="190" cy="136" rx="16"  ry="11" fill="white" opacity="0.46" clip-path="url(#sc)"/>
+    <!-- bottom streak -->
+    <ellipse cx="295" cy="546" rx="48" ry="9" fill="white" opacity="0.26" clip-path="url(#sc)" transform="rotate(-16,295,546)"/>
+    <ellipse cx="295" cy="546" rx="24" ry="4" fill="white" opacity="0.40" clip-path="url(#sc)" transform="rotate(-16,295,546)"/>
+
+    <!-- Sphere edge ring -->
+    <circle cx="340" cy="340" r="274" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
+
+    <!-- Connector lines: center → each node position (pulsing) -->
+    <!-- r=274 (edge), lines go from center 340,340 to each node at r=310 -->
+    <!-- 0°top:(340,30)  45°TR:(559,121)  90°R:(650,340)  135°BR:(559,559)
+         180°bot:(340,650) 225°BL:(121,559) 270°L:(30,340)  315°TL:(121,121) -->
+    <line class="conn-line" x1="340" y1="340" x2="340" y2="42"  stroke="white" stroke-width="1" stroke-dasharray="4 5"/>
+    <line class="conn-line" x1="340" y1="340" x2="554" y2="126" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:.4s"/>
+    <line class="conn-line" x1="340" y1="340" x2="638" y2="340" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:.8s"/>
+    <line class="conn-line" x1="340" y1="340" x2="554" y2="554" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:1.2s"/>
+    <line class="conn-line" x1="340" y1="340" x2="340" y2="638" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:1.6s"/>
+    <line class="conn-line" x1="340" y1="340" x2="126" y2="554" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:2.0s"/>
+    <line class="conn-line" x1="340" y1="340" x2="42"  y2="340" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:2.4s"/>
+    <line class="conn-line" x1="340" y1="340" x2="126" y2="126" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:2.8s"/>
+
+    <!-- Connector end dots on sphere edge -->
+    <circle cx="340" cy="66"  r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="5.0s" repeatCount="indefinite" begin="0s"/></circle>
+    <circle cx="554" cy="126" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="5.3s" repeatCount="indefinite" begin=".6s"/></circle>
+    <circle cx="614" cy="340" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="4.8s" repeatCount="indefinite" begin="1.2s"/></circle>
+    <circle cx="554" cy="554" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="5.6s" repeatCount="indefinite" begin="1.8s"/></circle>
+    <circle cx="340" cy="614" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="5.1s" repeatCount="indefinite" begin="2.4s"/></circle>
+    <circle cx="126" cy="554" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="4.7s" repeatCount="indefinite" begin=".4s"/></circle>
+    <circle cx="66"  cy="340" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="5.4s" repeatCount="indefinite" begin="1.0s"/></circle>
+    <circle cx="126" cy="126" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="4.9s" repeatCount="indefinite" begin="1.6s"/></circle>
+
+    <!-- ══════════════════════════════
+         CLOUD — centered on sphere
+         ══════════════════════════════ -->
+    <!-- back cloud (blue-tinted) -->
+    <rect   x="228" y="320" width="155" height="50" rx="25" fill="#7AAEE8" opacity="0.80"/>
+    <circle cx="256" cy="308" r="34" fill="#8DBCEF" opacity="0.85"/>
+    <circle cx="304" cy="296" r="43" fill="#A8CCF4" opacity="0.88"/>
+    <!-- front cloud (white) -->
+    <rect   x="244" y="330" width="202" height="56" rx="28" fill="white"/>
+    <circle cx="278" cy="314" r="37"  fill="#EEF5FF"/>
+    <circle cx="338" cy="299" r="50"  fill="white"/>
+    <circle cx="394" cy="315" r="33"  fill="#F2F7FF"/>
+    <!-- outlines -->
+    <rect   x="244" y="330" width="202" height="56" rx="28" fill="none" stroke="rgba(190,218,255,0.55)" stroke-width="1.2"/>
+    <circle cx="278" cy="314" r="37" fill="none" stroke="rgba(190,218,255,0.40)" stroke-width="0.9"/>
+    <circle cx="338" cy="299" r="50" fill="none" stroke="rgba(190,218,255,0.40)" stroke-width="0.9"/>
+    <!-- highlights -->
+    <ellipse cx="328" cy="283" rx="23" ry="13" fill="white" opacity="0.95"/>
+    <ellipse cx="280" cy="304" rx="13" ry="8"  fill="white" opacity="0.80"/>
+  </svg>
+
+  <!-- ════════════════════════════════════════════════════
+       HTML LAYER: Framework icon badges
+       Positioned JUST OUTSIDE the sphere edge (r=310)
+       Center=340,340  →  node coords at each 45°
+       
+       0°   top:        (340,  30)
+       45°  top-right:  (559, 121)
+       90°  right:      (650, 340)
+       135° bot-right:  (559, 559)
+       180° bottom:     (340, 650)
+       225° bot-left:   (121, 559)
+       270° left:       ( 30, 340)
+       315° top-left:   (121, 121)
+       ════════════════════════════════════════════════════ -->
+
+  <!-- 0° TOP -->
+  <div class="fw-node" style="left:340px;top:30px">
+    <div class="fw-badge">
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+        <polygon points="24,2 38,9 44,24 38,39 24,46 10,39 4,24 10,9" fill="#1D4ED8"/>
+        <polygon points="24,10 34,15 38,24 34,33 24,38 14,33 10,24 14,15" fill="none" stroke="#E4EAFA" stroke-width="1.1" opacity="0.5"/>
+        <text x="24" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="20" font-weight="700" fill="white">8</text>
+      </svg>
+    </div>
+    <div class="fw-label">Essential Eight</div>
+  </div>
+
+  <!-- 45° TOP-RIGHT -->
+  <div class="fw-node" style="left:559px;top:121px">
+    <div class="fw-badge">
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="22" fill="#1E3A8A"/>
+        <circle cx="24" cy="24" r="15" fill="none" stroke="#1D4ED8" stroke-width="2.5"/>
+        <circle cx="24" cy="24" r="7" fill="#1D4ED8"/>
+        <circle cx="24" cy="24" r="3" fill="#E4EAFA"/>
+        <line x1="24" y1="2"  x2="24" y2="9"  stroke="#E4EAFA" stroke-width="2" stroke-linecap="round"/>
+        <line x1="24" y1="39" x2="24" y2="46" stroke="#E4EAFA" stroke-width="2" stroke-linecap="round"/>
+        <line x1="2"  y1="24" x2="9"  y2="24" stroke="#E4EAFA" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="24" x2="46" y2="24" stroke="#E4EAFA" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="fw-label">CIS Benchmarks</div>
+  </div>
+
+  <!-- 90° RIGHT -->
+  <div class="fw-node" style="left:650px;top:340px">
+    <div class="fw-badge">
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+        <rect x="5" y="3" width="28" height="35" rx="4" fill="#1E3A8A"/>
+        <polygon points="25,3 33,11 25,11" fill="#1D4ED8"/>
+        <rect x="10" y="16" width="14" height="2.5" rx="1.25" fill="#E4EAFA" opacity="0.75"/>
+        <rect x="10" y="22" width="18" height="2" rx="1" fill="#E4EAFA" opacity="0.48"/>
+        <rect x="10" y="28" width="13" height="2" rx="1" fill="#E4EAFA" opacity="0.48"/>
+        <circle cx="35" cy="35" r="11" fill="#1D4ED8" stroke="#E4EAFA" stroke-width="1.3"/>
+        <polyline points="29,35 33,39 42,28" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="fw-label">ISO 27001</div>
+  </div>
+
+  <!-- 135° BOTTOM-RIGHT -->
+  <div class="fw-node" style="left:559px;top:559px">
+    <div class="fw-badge">
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+        <polygon points="24,2 44,13 44,35 24,46 4,35 4,13" fill="#1D4ED8"/>
+        <polygon points="24,9 37,16.5 37,31.5 24,39 11,31.5 11,16.5" fill="none" stroke="#E4EAFA" stroke-width="1" opacity="0.42"/>
+        <circle cx="24" cy="11"   r="2.2" fill="white"/>
+        <circle cx="37" cy="18.5" r="2.2" fill="white"/>
+        <circle cx="37" cy="29.5" r="2.2" fill="white"/>
+        <circle cx="24" cy="37"   r="2.2" fill="white"/>
+        <circle cx="11" cy="29.5" r="2.2" fill="white"/>
+        <circle cx="11" cy="18.5" r="2.2" fill="white"/>
+        <circle cx="24" cy="24"   r="4.5" fill="#E4EAFA"/>
+      </svg>
+    </div>
+    <div class="fw-label">NIST CSF 2.0</div>
+  </div>
+
+  <!-- 180° BOTTOM -->
+  <div class="fw-node" style="left:340px;top:650px">
+    <div class="fw-badge">
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+        <rect x="3"  y="41" width="42" height="4"  rx="2" fill="#1E3A8A"/>
+        <rect x="6"  y="17" width="7"  height="24" rx="2" fill="#1D4ED8"/>
+        <rect x="17" y="17" width="7"  height="24" rx="2" fill="#1D4ED8"/>
+        <rect x="28" y="17" width="7"  height="24" rx="2" fill="#1D4ED8"/>
+        <rect x="39" y="17" width="6"  height="24" rx="2" fill="#1D4ED8"/>
+        <rect x="4"  y="12" width="40" height="6"  rx="2" fill="#1E3A8A"/>
+        <polygon points="2,13 24,3 46,13" fill="#1D4ED8"/>
+        <circle cx="24" cy="29" r="9" fill="#1E3A8A" stroke="#E4EAFA" stroke-width="1.4"/>
+        <rect x="20" y="29" width="8" height="6.5" rx="1.5" fill="#E4EAFA"/>
+        <path d="M21.5 29L21.5 26C21.5 23.5 26.5 23.5 26.5 26L26.5 29" fill="none" stroke="#E4EAFA" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="fw-label">APRA CPS 234</div>
+  </div>
+
+  <!-- 225° BOTTOM-LEFT -->
+  <div class="fw-node" style="left:121px;top:559px">
+    <div class="fw-badge">
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+        <path d="M24 3L44 11L44 27C44 38 35 45 24 47C13 45 4 38 4 27L4 11Z" fill="#1D4ED8"/>
+        <path d="M24 10L38 17L38 27C38 36 32.5 41 24 43C15.5 41 10 36 10 27L10 17Z" fill="#1E3A8A"/>
+        <rect x="19" y="17" width="10" height="20" rx="3" fill="#E4EAFA"/>
+        <rect x="14" y="22" width="20" height="10" rx="3" fill="#E4EAFA"/>
+        <circle cx="24" cy="27" r="3.5" fill="#1D4ED8"/>
+      </svg>
+    </div>
+    <div class="fw-label">Healthcare</div>
+  </div>
+
+  <!-- 270° LEFT -->
+  <div class="fw-node" style="left:30px;top:340px">
+    <div class="fw-badge">
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+        <defs><clipPath id="gc"><circle cx="24" cy="24" r="20"/></clipPath></defs>
+        <circle cx="24" cy="24" r="20" fill="#EEF2F7"/>
+        <g clip-path="url(#gc)">
+          <ellipse cx="24" cy="24" rx="20" ry="7"  fill="none" stroke="#1D4ED8" stroke-width="1.3" opacity="0.9"/>
+          <ellipse cx="24" cy="15" rx="15" ry="5"  fill="none" stroke="#1D4ED8" stroke-width="1.1" opacity="0.65"/>
+          <ellipse cx="24" cy="33" rx="15" ry="5"  fill="none" stroke="#1D4ED8" stroke-width="1.1" opacity="0.65"/>
+          <ellipse cx="24" cy="24" rx="7"  ry="20" fill="none" stroke="#1D4ED8" stroke-width="1.3" opacity="0.9"/>
+          <ellipse cx="24" cy="24" rx="14" ry="20" fill="none" stroke="#1D4ED8" stroke-width="1"   opacity="0.60"/>
+        </g>
+        <circle cx="24" cy="24" r="20" fill="none" stroke="#1D4ED8" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="fw-label">Privacy (APP)</div>
+  </div>
+
+  <!-- 315° TOP-LEFT -->
+  <div class="fw-node" style="left:121px;top:121px">
+    <div class="fw-badge">
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+        <path d="M24 3L44 11L44 27C44 38 35 45 24 47C13 45 4 38 4 27L4 11Z" fill="#1E3A8A"/>
+        <path d="M24 9L41 16.5L41 27C41 36.5 33.5 42 24 44C14.5 42 7 36.5 7 27L7 16.5Z" fill="#1D4ED8"/>
+        <circle cx="15" cy="21" r="3.2" fill="#E4EAFA"/>
+        <circle cx="15" cy="30" r="3.2" fill="#E4EAFA"/>
+        <circle cx="15" cy="39" r="3.2" fill="#E4EAFA"/>
+        <line x1="21" y1="21" x2="35" y2="21" stroke="#E4EAFA" stroke-width="2.1" stroke-linecap="round" opacity="0.55"/>
+        <line x1="21" y1="30" x2="35" y2="30" stroke="#E4EAFA" stroke-width="2.1" stroke-linecap="round" opacity="0.55"/>
+        <line x1="21" y1="39" x2="29" y2="39" stroke="#E4EAFA" stroke-width="2.1" stroke-linecap="round" opacity="0.55"/>
+        <polyline points="12.5,21 14.2,22.6 16.8,19.4" fill="none" stroke="#1D4ED8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="12.5,30 14.2,31.6 16.8,28.4" fill="none" stroke="#1D4ED8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="12.5,39 14.2,40.6 16.8,37.4" fill="none" stroke="#1D4ED8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="fw-label">ISM Essentials</div>
+  </div>
+
+</div><!-- end hero-wrap -->
+
+</body>
+</html>
