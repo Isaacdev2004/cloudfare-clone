@@ -220,26 +220,6 @@ export const HeroFrameworkOrbitVisual: React.FC<{ className?: string }> = ({ cla
           <CloudLayer />
         </svg>
 
-        {[
-          { left: "92%", top: "13%" },
-          { left: "79%", top: "90%" },
-        ].map((pos, i) => (
-          <div
-            key={i}
-            className="pointer-events-none z-[5]"
-            style={{
-              position: "absolute",
-              left: pos.left,
-              top: pos.top,
-              width: 9,
-              height: 9,
-              background: "rgba(29,78,216,.38)",
-              border: "1.5px solid rgba(74,144,226,.38)",
-              transform: "translate(-50%, -50%) rotate(45deg)",
-            }}
-          />
-        ))}
-
         {ACCENT_DOTS.map((dot, i) => (
           <div
             key={i}
@@ -279,7 +259,7 @@ export const HeroFrameworkOrbitVisual: React.FC<{ className?: string }> = ({ cla
                 <Icon width={40} height={40} />
               </div>
               <span
-                className="pointer-events-none max-w-[88px] text-center text-[9px] font-semibold leading-tight text-[rgba(155,190,255,0.58)] sm:max-w-none sm:whitespace-nowrap"
+                className="pointer-events-none max-w-[88px] text-center text-[9px] font-semibold leading-tight text-[#1E3A8A] sm:max-w-none sm:whitespace-nowrap"
                 style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}
               >
                 {fw.label}
