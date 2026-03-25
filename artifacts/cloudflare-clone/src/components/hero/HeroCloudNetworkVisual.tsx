@@ -18,10 +18,6 @@ const CSS = `
     90%  { stroke-dashoffset: 0;   opacity: 0.3; }
     100% { stroke-dashoffset: 0;   opacity: 0;   }
   }
-  @keyframes cf-colorDotBlink {
-    0%,100% { r: 2.5; opacity: 0.3; }
-    50%      { r: 4.5; opacity: 1;   }
-  }
   .cf-cloud-center {
     transform-origin: 160px 160px;
     animation: cf-cloudPulse 3s ease-in-out infinite;
@@ -47,7 +43,6 @@ type NetworkTheme = {
   cloudOutline: string;
   cloudInnerStroke: string;
   iconCloudFill: string;
-  accentFills: string[];
 };
 
 const THEME_LIGHT: NetworkTheme = {
@@ -64,7 +59,6 @@ const THEME_LIGHT: NetworkTheme = {
   cloudOutline: "#1E3A8A",
   cloudInnerStroke: "#93c5fd",
   iconCloudFill: "#ffffff",
-  accentFills: ["#1E90FF", "#1F8A70", "#60a5fa", "#F5B700", "#a78bfa"],
 };
 
 const THEME_DARK: NetworkTheme = {
@@ -81,7 +75,6 @@ const THEME_DARK: NetworkTheme = {
   cloudOutline: "#1E90FF",
   cloudInnerStroke: "rgba(147, 197, 253, 0.55)",
   iconCloudFill: "#ffffff",
-  accentFills: ["#1E90FF", "#34d399", "#60a5fa", "#F5B700", "#a78bfa"],
 };
 
 function polarPt(cx: number, cy: number, r: number, angleDeg: number): [number, number] {
@@ -227,13 +220,6 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
   const t = compact ? THEME_LIGHT : THEME_DARK;
   const maxSize = compact ? 352 : 412;
 
-  const dotR = MESH_R + 20;
-  const accentDotAngles = [30, 90, 150, 210, 270];
-  const accentDots = accentDotAngles.map((deg, i) => {
-    const [cx, cy] = polarPt(CX, CY, dotR, deg);
-    return { cx, cy, fill: t.accentFills[i % t.accentFills.length], d: `${i * 0.25}s` };
-  });
-
   return (
     <>
       <style>{CSS}</style>
@@ -259,20 +245,6 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
               <feDropShadow dx="0" dy="3" stdDeviation="5" floodColor={t.dropShadow} />
             </filter>
           </defs>
-
-          {accentDots.map((d, i) => (
-            <circle
-              key={i}
-              cx={d.cx}
-              cy={d.cy}
-              r={4}
-              fill={d.fill}
-              style={{
-                animation: "cf-colorDotBlink 2s ease-in-out infinite",
-                animationDelay: d.d,
-              }}
-            />
-          ))}
 
           {/* Plain globe: smooth fill only (no mesh, ripples, or inner nodes) */}
           <circle cx={CX} cy={CY} r={MESH_R} fill={`url(#${rid}-meshBg)`} />
