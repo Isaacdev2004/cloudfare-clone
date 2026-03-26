@@ -39,7 +39,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
       className={cn(
         isNavy
           ? "relative overflow-hidden bg-[#0B1320] text-white"
-          : "relative overflow-hidden bg-[radial-gradient(ellipse_at_70%_40%,rgba(30,144,255,0.06),#F7F9FC_62%)]",
+          : "relative overflow-hidden bg-[#F7F9FC]",
         className,
       )}
     >
@@ -55,7 +55,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
             aside ? "lg:grid-cols-2" : "lg:grid-cols-1",
           )}
         >
-          <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="max-w-3xl">
+          <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="max-w-3xl min-w-0">
             {eyebrow && (
               <p
                 className={cn(
@@ -103,7 +103,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
               </div>
             )}
           </motion.div>
-          {aside && <div className="relative">{aside}</div>}
+          {aside && <div className="relative min-w-0 w-full overflow-x-clip">{aside}</div>}
         </div>
       </div>
     </section>

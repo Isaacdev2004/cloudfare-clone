@@ -48,28 +48,24 @@ const heroCss = `
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow:
-      0 4px 20px rgba(29, 78, 216, 0.15),
-      0 1px 4px rgba(0,0,0,0.08);
-    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    box-shadow: none;
+    transition: border-color 0.2s, transform 0.2s;
   }
   .hero-fw-node:hover .hero-fw-badge {
     border-color: #1D4ED8;
-    box-shadow: 0 6px 28px rgba(29, 78, 216, 0.28), 0 2px 8px rgba(0,0,0,0.1);
     transform: scale(1.06);
   }
   .hero-fw-label {
     font-size: 9px;
     font-weight: 700;
-    color: #334155;
+    color: #475569;
     text-align: center;
     white-space: nowrap;
     letter-spacing: 0.02em;
     pointer-events: none;
-    background: rgba(255,255,255,0.82);
-    padding: 2px 7px;
-    border-radius: 8px;
-    backdrop-filter: blur(4px);
+    background: none;
+    padding: 0;
+    border-radius: 0;
     -webkit-font-smoothing: antialiased;
   }
   .hero-globe-circle { animation: hero-globe-breathe 4s ease-in-out infinite; }
@@ -396,12 +392,12 @@ function GlobeSvgLayer({ rid }: { rid: string }) {
       style={{ shapeRendering: "geometricPrecision" }}
     >
       <defs>
-        <radialGradient id={sg} cx="32%" cy="26%" r="72%">
-          <stop offset="0%" stopColor="#CBE4FF" />
-          <stop offset="14%" stopColor="#6BAEED" />
-          <stop offset="38%" stopColor="#2563EB" />
-          <stop offset="65%" stopColor="#1D4ED8" />
-          <stop offset="100%" stopColor="#060E2A" />
+        <radialGradient id={sg} cx="30%" cy="26%" r="100%">
+          <stop offset="0%" stopColor="#EAF2FF" />
+          <stop offset="22%" stopColor="#93C5FD" />
+          <stop offset="48%" stopColor="#2563EB" />
+          <stop offset="74%" stopColor="#1E3A8A" />
+          <stop offset="100%" stopColor="#020617" />
         </radialGradient>
         <clipPath id={sc}>
           <circle cx={CX} cy={CY} r={274} />
@@ -423,13 +419,6 @@ function GlobeSvgLayer({ rid }: { rid: string }) {
           <HorizontalMeshLines />
         </g>
       </g>
-
-      <ellipse cx="242" cy="192" rx="152" ry="92" fill="white" opacity="0.13" clipPath={`url(#${sc})`} />
-      <ellipse cx="220" cy="167" rx="85" ry="55" fill="white" opacity="0.2" clipPath={`url(#${sc})`} />
-      <ellipse cx="202" cy="148" rx="40" ry="27" fill="white" opacity="0.3" clipPath={`url(#${sc})`} />
-      <ellipse cx="190" cy="136" rx="16" ry="11" fill="white" opacity="0.46" clipPath={`url(#${sc})`} />
-      <ellipse cx="295" cy="546" rx="48" ry="9" fill="white" opacity="0.26" clipPath={`url(#${sc})`} transform="rotate(-16 295 546)" />
-      <ellipse cx="295" cy="546" rx="24" ry="4" fill="white" opacity="0.4" clipPath={`url(#${sc})`} transform="rotate(-16 295 546)" />
 
       <circle cx={CX} cy={CY} r={274} fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="1.5" />
 
@@ -465,8 +454,6 @@ function GlobeSvgLayer({ rid }: { rid: string }) {
       <rect x="244" y="330" width="202" height="56" rx="28" fill="none" stroke="rgba(190,218,255,0.55)" strokeWidth="1.2" />
       <circle cx="278" cy="314" r="37" fill="none" stroke="rgba(190,218,255,0.4)" strokeWidth="0.9" />
       <circle cx="338" cy="299" r="50" fill="none" stroke="rgba(190,218,255,0.4)" strokeWidth="0.9" />
-      <ellipse cx="328" cy="283" rx="23" ry="13" fill="white" opacity="0.95" />
-      <ellipse cx="280" cy="304" rx="13" ry="8" fill="white" opacity="0.8" />
     </svg>
   );
 }
