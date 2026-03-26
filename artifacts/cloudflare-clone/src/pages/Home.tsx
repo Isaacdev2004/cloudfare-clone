@@ -116,7 +116,7 @@ export default function Home() {
         className="min-h-[100dvh] lg:min-h-screen flex items-center bg-white"
         contentClassName="relative z-10 w-full"
         aside={(
-          <div className="relative h-[min(54vh,460px)] sm:h-[500px] lg:h-[640px] flex items-center justify-center">
+          <div className="relative min-w-0 w-full overflow-x-clip h-[min(54vh,460px)] sm:h-[500px] lg:h-[640px] flex items-center justify-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}

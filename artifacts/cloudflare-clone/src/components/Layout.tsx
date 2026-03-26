@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'wouter';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Search, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ApexlynLogo } from '@/components/ApexlynLogo';
 
 const SIGN_UP_URL = '/pricing';
 const LOGIN_URL = '/pricing';
-const CONTACT_SALES_URL = '/enterprise';
 const CLOUDFLARE_BLOG_URL = '/resources/blog';
 const CLOUDFLARE_DOCS_URL = '/resources/documentation';
 const CLOUDFLARE_STATUS_URL = '/support/system-status';
@@ -36,6 +35,38 @@ const normalizeHref = (href: string) => {
 };
 
 const NAV_ITEMS = [
+  {
+    name: 'Platform',
+    href: '/products',
+    dropdown: {
+      columns: [
+        {
+          title: 'Performance & delivery',
+          items: [
+            { label: 'CDN', desc: 'Cache and serve from 320+ cities', href: '/products' },
+            { label: 'DNS', desc: "The world's fastest DNS resolver", href: '/products' },
+            { label: 'Load Balancing', desc: 'Global server load balancing', href: '/products' },
+          ],
+        },
+        {
+          title: 'Security & Zero Trust',
+          items: [
+            { label: 'DDoS Protection', desc: 'Unmetered, always-on protection', href: '/products' },
+            { label: 'Web Application Firewall', desc: 'Block threats at the edge', href: '/products' },
+            { label: 'Zero Trust', desc: 'Identity-aware access for every user and app', href: '/zero-trust' },
+          ],
+        },
+        {
+          title: 'Build at the edge',
+          items: [
+            { label: 'Workers', desc: 'Serverless at the edge', href: '/developers' },
+            { label: 'Pages', desc: 'Deploy JAMstack sites globally', href: '/developers' },
+            { label: 'R2 Storage', desc: 'Object storage, no egress fees', href: '/developers' },
+          ],
+        },
+      ],
+    },
+  },
   {
     name: 'Products',
     href: '/products',
@@ -89,7 +120,7 @@ const NAV_ITEMS = [
     },
   },
   {
-    name: 'Solutions',
+    name: 'Partners',
     href: '/solutions',
     dropdown: {
       columns: [
@@ -195,12 +226,8 @@ const NAV_ITEMS = [
   },
 ];
 
-const PRIMARY_LINKS = [
-  { name: 'Developers', href: '/developers' },
-  { name: 'Zero Trust', href: '/zero-trust' },
-  { name: 'Enterprise', href: '/enterprise' },
-  { name: 'Pricing', href: '/pricing' },
-];
+/** Fixed header height for dropdown / main offset (Cloudflare-style two-tier right cluster) */
+const HEADER_HEIGHT_PX = 80;
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -256,59 +283,82 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   return (
     <div className="min-h-screen flex flex-col bg-[#F7F9FC]">
 
-      {/* ── Header — infrastructure navy ── */}
-      <header ref={headerRef} className="fixed top-0 w-full z-50 border-b border-white/10 bg-[#0B1320]" style={{ height: 72 }}>
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-3">
-          {/* Left: Logo + Nav (min-w-0 prevents huge wordmark from breaking flex row) */}
-          <div className="flex items-center gap-4 lg:gap-6 min-w-0 flex-1">
+      {/* ── Header — Cloudflare-style white bar, two-tier utilities + CTAs ── */}
+      <header
+        ref={headerRef}
+        className="fixed top-0 z-50 w-full border-b border-slate-200 bg-white"
+        style={{ height: HEADER_HEIGHT_PX }}
+      >
+        <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6">
+          <div className="flex min-w-0 flex-1 items-center gap-5 lg:gap-8">
             <Link
               href="/"
-              className="flex items-center shrink-0 min-w-0 max-w-[min(72vw,280px)] sm:max-w-[320px] lg:max-w-none mr-2 lg:mr-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded"
+              className="flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded"
               onClick={() => setActiveDropdown(null)}
               aria-label="Apexlyn home"
             >
               <ApexlynLogo
                 variant="wordmark"
-                forDarkBackground
+                forDarkBackground={false}
                 align="start"
-                height={46}
-                className="w-auto [&_img]:max-w-full"
+                height={52}
+                className="w-auto max-w-[min(78vw,300px)] sm:max-w-[360px] lg:max-w-[min(100%,440px)] [&_img]:max-w-full"
               />
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center shrink-0">
-              {PRIMARY_LINKS.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setActiveDropdown(null)}
-                  className={cn(
-                    'px-3 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded',
-                    location === item.href ? 'text-white' : 'text-slate-300 hover:text-white'
-                  )}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              {NAV_ITEMS.map((item) => (
+            <nav className="hidden min-w-0 items-center lg:flex">
+              {NAV_ITEMS.slice(0, 2).map((item) => (
                 <button
                   key={item.name}
+                  type="button"
                   onMouseEnter={() => openDropdown(item.name)}
                   onMouseLeave={startCloseTimer}
                   onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
                   aria-expanded={activeDropdown === item.name}
                   aria-label={`${item.name} menu`}
                   className={cn(
-                    'flex items-center gap-1 px-3 py-2 text-[14px] font-medium transition-colors duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded',
-                    activeDropdown === item.name ? 'text-white' : 'text-slate-300 hover:text-white'
+                    'flex items-center gap-0.5 px-3 py-2 text-[15px] font-medium text-black transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
+                    activeDropdown === item.name ? 'text-black' : 'text-black hover:text-slate-600',
                   )}
                 >
                   {item.name}
                   <ChevronDown
                     className={cn(
-                      'w-3.5 h-3.5 transition-transform duration-200 mt-px',
-                      activeDropdown === item.name ? 'rotate-180 text-[#1E90FF]' : ''
+                      'h-3.5 w-3.5 transition-transform duration-200',
+                      activeDropdown === item.name ? 'rotate-180' : '',
+                    )}
+                  />
+                </button>
+              ))}
+              <Link
+                href="/developers"
+                onClick={() => setActiveDropdown(null)}
+                className={cn(
+                  'px-3 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
+                  location === '/developers' ? 'text-black' : 'text-black hover:text-slate-600',
+                )}
+              >
+                Developers
+              </Link>
+              {NAV_ITEMS.slice(2).map((item) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  onMouseEnter={() => openDropdown(item.name)}
+                  onMouseLeave={startCloseTimer}
+                  onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
+                  aria-expanded={activeDropdown === item.name}
+                  aria-label={`${item.name} menu`}
+                  className={cn(
+                    'flex items-center gap-0.5 px-3 py-2 text-[15px] font-medium text-black transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
+                    activeDropdown === item.name ? 'text-black' : 'text-black hover:text-slate-600',
+                  )}
+                >
+                  {item.name}
+                  <ChevronDown
+                    className={cn(
+                      'h-3.5 w-3.5 transition-transform duration-200',
+                      activeDropdown === item.name ? 'rotate-180' : '',
                     )}
                   />
                 </button>
@@ -316,30 +366,51 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </nav>
           </div>
 
-          {/* Right: CTAs */}
-          <div className="hidden lg:flex items-center gap-1 shrink-0">
-            <Link href={CONTACT_SALES_URL} className="px-3 py-2 text-[14px] font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded">
-              Contact Sales
-            </Link>
-            <Link href={LOGIN_URL} className="px-3 py-2 text-[14px] font-medium text-slate-300 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded">
-              Log in
-            </Link>
-            <Link
-              href={SIGN_UP_URL}
-              className="ml-2 inline-flex items-center justify-center px-4 py-[8px] rounded text-[14px] font-semibold text-white transition-colors duration-150 bg-[#1E3A8A] hover:bg-[#172554] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/60"
-            >
-              Sign up
-            </Link>
+          <div className="hidden shrink-0 flex-col items-end justify-center gap-1.5 lg:flex">
+            <div className="flex items-center gap-5 text-[13px] font-medium text-slate-700">
+              <Link
+                href="/resources/documentation"
+                className="flex items-center justify-center rounded p-1 text-slate-800 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15"
+                aria-label="Search documentation"
+              >
+                <Search className="h-4 w-4" strokeWidth={2} />
+              </Link>
+              <Link href={CLOUDFLARE_SUPPORT_URL} className="hover:text-black">
+                Support
+              </Link>
+              <span className="hidden text-slate-600 xl:inline">Sales: +1 (888) 555-0199</span>
+              <button
+                type="button"
+                className="flex items-center gap-1 text-slate-800 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded"
+                aria-label="Language"
+              >
+                <Globe className="h-4 w-4" strokeWidth={2} />
+                <ChevronDown className="h-3 w-3 opacity-70" />
+              </button>
+            </div>
+            <div className="flex items-center gap-3">
+              <Link
+                href={LOGIN_URL}
+                className="inline-flex items-center justify-center rounded border border-slate-300 bg-white px-4 py-2 text-[14px] font-semibold text-black transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/report-security"
+                className="inline-flex items-center justify-center rounded bg-[#1E3A8A] px-4 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-[#172554] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/50"
+              >
+                Under attack?
+              </Link>
+            </div>
           </div>
 
-          {/* Mobile hamburger */}
           <button
             type="button"
-            className="lg:hidden p-2 text-white shrink-0 -mr-1"
+            className="-mr-1 shrink-0 p-2 text-slate-900 lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </header>
@@ -353,8 +424,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.14, ease: 'easeOut' }}
-            className="fixed left-0 right-0 z-40 bg-[#111827] border-b border-white/10 shadow-[0_16px_30px_-18px_rgba(0,0,0,0.45)]"
-            style={{ top: 72 }}
+            className="fixed left-0 right-0 z-40 border-b border-slate-200 bg-white shadow-[0_24px_48px_-12px_rgba(15,23,42,0.12)]"
+            style={{ top: HEADER_HEIGHT_PX }}
             onMouseEnter={cancelCloseTimer}
             onMouseLeave={startCloseTimer}
           >
@@ -366,7 +437,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               >
                 {activeItem.dropdown.columns.map((col) => (
                   <div key={col.title}>
-                    <p className="text-[11px] font-semibold text-[#1E90FF] uppercase tracking-widest mb-4">
+                    <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-slate-500">
                       {col.title}
                     </p>
                     <ul className="space-y-0.5">
@@ -375,12 +446,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                           <Link
                             href={normalizeHref(sub.href || '#')}
                             onClick={() => setActiveDropdown(null)}
-                            className="group flex flex-col py-2 px-2 rounded-md hover:bg-white/5 transition-colors duration-100"
+                            className="group flex flex-col rounded-md px-2 py-2 transition-colors duration-100 hover:bg-slate-50"
                           >
-                            <span className="text-[14px] font-medium text-white group-hover:text-white">
+                            <span className="text-[14px] font-medium text-slate-900 group-hover:text-black">
                               {sub.label}
                             </span>
-                            <span className="text-[12px] text-slate-400 group-hover:text-slate-300 mt-0.5 leading-snug">
+                            <span className="mt-0.5 text-[12px] leading-snug text-slate-500 group-hover:text-slate-600">
                               {sub.desc}
                             </span>
                           </Link>
@@ -392,8 +463,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               </div>
             </div>
 
-            {/* Bottom accent bar */}
-            <div className="h-[2px] bg-gradient-to-r from-[#1E3A8A]/0 via-[#1E3A8A]/50 to-[#1E3A8A]/0" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -406,8 +475,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-30 bg-black/30 backdrop-blur-[1px]"
-            style={{ top: 72 }}
+            className="fixed inset-0 z-30 bg-black/20 backdrop-blur-[1px]"
+            style={{ top: HEADER_HEIGHT_PX }}
             onClick={() => setActiveDropdown(null)}
           />
         )}
@@ -421,50 +490,76 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="fixed inset-0 z-40 bg-[#0B1320] pt-[72px] overflow-y-auto lg:hidden"
+            className="fixed inset-0 z-[60] overflow-y-auto bg-white lg:hidden"
+            style={{ paddingTop: HEADER_HEIGHT_PX }}
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+            <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
               <Link
                 href="/"
-                className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded"
+                className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded"
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Apexlyn home"
               >
-                <ApexlynLogo variant="wordmark" forDarkBackground align="start" height={40} className="h-10 w-auto max-w-[85vw] [&_img]:max-w-full" />
+                <ApexlynLogo
+                  variant="wordmark"
+                  forDarkBackground={false}
+                  align="start"
+                  height={52}
+                  className="h-[52px] w-auto max-w-[min(88vw,380px)] [&_img]:max-w-full"
+                />
               </Link>
-              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-white">
-                <X className="w-5 h-5" />
+              <button type="button" onClick={() => setMobileMenuOpen(false)} className="p-2 text-slate-900" aria-label="Close menu">
+                <X className="h-5 w-5" />
               </button>
             </div>
 
             <nav className="px-4 py-2">
-              <div className="border-b border-white/10 pb-2 mb-1">
-                {PRIMARY_LINKS.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="block py-3 text-[15px] font-medium text-white hover:text-slate-200"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setMobileExpanded(null);
-                    }}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+              <div className="mb-1 border-b border-slate-200 pb-2">
+                <Link
+                  href="/developers"
+                  className="block py-3 text-[15px] font-medium text-slate-900 hover:text-black"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setMobileExpanded(null);
+                  }}
+                >
+                  Developers
+                </Link>
+                <Link
+                  href="/enterprise"
+                  className="block py-3 text-[15px] font-medium text-slate-900 hover:text-black"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setMobileExpanded(null);
+                  }}
+                >
+                  Enterprise
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="block py-3 text-[15px] font-medium text-slate-900 hover:text-black"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setMobileExpanded(null);
+                  }}
+                >
+                  Pricing
+                </Link>
               </div>
               {NAV_ITEMS.map((item) => (
-                <div key={item.name} className="border-b border-white/10">
+                <div key={item.name} className="border-b border-slate-200">
                   <button
-                    className="w-full flex items-center justify-between py-4 text-[15px] font-medium text-white"
+                    type="button"
+                    className="flex w-full items-center justify-between py-4 text-[15px] font-medium text-slate-900"
                     onClick={() => setMobileExpanded(mobileExpanded === item.name ? null : item.name)}
                     aria-expanded={mobileExpanded === item.name}
                     aria-label={`${item.name} mobile menu`}
                   >
                     {item.name}
                     <ChevronDown
-                      className={cn('w-4 h-4 text-slate-400 transition-transform duration-200',
-                        mobileExpanded === item.name ? 'rotate-180' : ''
+                      className={cn(
+                        'h-4 w-4 text-slate-500 transition-transform duration-200',
+                        mobileExpanded === item.name ? 'rotate-180' : '',
                       )}
                     />
                   </button>
@@ -478,24 +573,24 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                       >
-                        <div className="pb-6 space-y-5">
+                        <div className="space-y-5 pb-6">
                           {item.dropdown.columns.map((col) => (
                             <div key={col.title}>
-                              <p className="text-[10px] font-semibold text-[#1E90FF] uppercase tracking-widest mb-2 px-1">
+                              <p className="mb-2 px-1 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
                                 {col.title}
                               </p>
                               {col.items.map((sub) => (
                                 <Link
                                   key={sub.label}
                                   href={normalizeHref(sub.href)}
-                                  className="flex flex-col px-1 py-2 rounded hover:bg-white/5"
+                                  className="flex flex-col rounded px-1 py-2 hover:bg-slate-50"
                                   onClick={() => {
                                     setMobileMenuOpen(false);
                                     setMobileExpanded(null);
                                   }}
                                 >
-                                  <span className="text-[14px] text-white">{sub.label}</span>
-                                  <span className="text-[12px] text-slate-400">{sub.desc}</span>
+                                  <span className="text-[14px] text-slate-900">{sub.label}</span>
+                                  <span className="text-[12px] text-slate-500">{sub.desc}</span>
                                 </Link>
                               ))}
                             </div>
@@ -508,13 +603,24 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               ))}
             </nav>
 
-            <div className="px-4 pt-6 pb-8 flex flex-col gap-3">
-              <Link href={LOGIN_URL} className="block py-3 text-center text-[14px] font-medium text-white border border-white/20 rounded hover:bg-white/5" onClick={() => setMobileMenuOpen(false)}>
+            <div className="flex flex-col gap-3 px-4 pb-8 pt-6">
+              <Link
+                href={LOGIN_URL}
+                className="block rounded border border-slate-300 bg-white py-3 text-center text-[14px] font-semibold text-black hover:bg-slate-50"
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 Log in
               </Link>
               <Link
+                href="/report-security"
+                className="block rounded bg-[#1E3A8A] py-3 text-center text-[14px] font-semibold text-white transition-colors hover:bg-[#172554]"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Under attack?
+              </Link>
+              <Link
                 href={SIGN_UP_URL}
-                className="block py-3 text-center text-[14px] font-semibold text-white rounded bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
+                className="block py-3 text-center text-[14px] font-semibold text-[#1E3A8A] hover:underline"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Sign up
@@ -525,7 +631,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </AnimatePresence>
 
       {/* ── Main Content ── */}
-      <main className="flex-grow pt-[72px]">{children}</main>
+      <main className="flex-grow" style={{ paddingTop: HEADER_HEIGHT_PX }}>
+        {children}
+      </main>
 
       {/* ── Footer ── */}
       <footer className="bg-[#111827] border-t border-white/10 pt-16 pb-8">
