@@ -19,10 +19,6 @@ const heroCss = `
     0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
     50%       { transform: translate(-50%, -50%) translateY(-8px); }
   }
-  @keyframes hero-globe-breathe {
-    0%, 100% { opacity: 0.97; }
-    50%       { opacity: 1; }
-  }
   .hero-fw-node {
     position: absolute;
     display: flex;
@@ -127,7 +123,7 @@ const heroCss = `
     border-radius: 0;
     -webkit-font-smoothing: antialiased;
   }
-  .hero-globe-circle { animation: hero-globe-breathe 4s ease-in-out infinite; }
+  .hero-globe-circle { opacity: 1; }
 
   /* ── Cloud from cloud.html: pill + bumps + masks (accent dots removed) ── */
   .hero-cloud-card {
@@ -518,15 +514,12 @@ function GlobeSvgLayer({ rid }: { rid: string }) {
       style={{ shapeRendering: "geometricPrecision" }}
     >
       <defs>
-        {/* Blue-only sphere: smooth light → dark blue, no white / off-white highlight */}
-        <radialGradient id={sg} cx="32%" cy="28%" r="100%">
-          <stop offset="0%" stopColor="#7EBBF2" />
-          <stop offset="20%" stopColor="#5CA8EB" />
-          <stop offset="40%" stopColor="#3B82F6" />
-          <stop offset="58%" stopColor="#2563EB" />
-          <stop offset="76%" stopColor="#1E3A8A" />
-          <stop offset="100%" stopColor="#070D1A" />
-        </radialGradient>
+        {/* Saturated light-blue only — no pale/white rim, no near-black core */}
+        <linearGradient id={sg} x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stopColor="#5CB4F5" />
+          <stop offset="38%" stopColor="#4497EB" />
+          <stop offset="100%" stopColor="#2B7FD9" />
+        </linearGradient>
         <clipPath id={sc}>
           <circle cx={CX} cy={CY} r={274} />
         </clipPath>
@@ -535,18 +528,18 @@ function GlobeSvgLayer({ rid }: { rid: string }) {
       <circle className="hero-globe-circle" cx={CX} cy={CY} r={274} fill={`url(#${sg})`} />
 
       <g clipPath={`url(#${sc})`}>
-        <g stroke="#BFDBFE" strokeWidth="0.5" opacity="0.22">
+        <g stroke="#1E40AF" strokeWidth="0.55" opacity="0.16">
           <HorizontalMeshLines />
         </g>
-        <g stroke="#BFDBFE" strokeWidth="0.5" opacity="0.22" transform={`rotate(60 ${CX} ${CY})`}>
+        <g stroke="#1E40AF" strokeWidth="0.55" opacity="0.16" transform={`rotate(60 ${CX} ${CY})`}>
           <HorizontalMeshLines />
         </g>
-        <g stroke="#BFDBFE" strokeWidth="0.5" opacity="0.22" transform={`rotate(-60 ${CX} ${CY})`}>
+        <g stroke="#1E40AF" strokeWidth="0.55" opacity="0.16" transform={`rotate(-60 ${CX} ${CY})`}>
           <HorizontalMeshLines />
         </g>
       </g>
 
-      <circle cx={CX} cy={CY} r={274} fill="none" stroke="rgba(59,130,246,0.35)" strokeWidth="1.5" />
+      <circle cx={CX} cy={CY} r={274} fill="none" stroke="rgba(30,64,175,0.28)" strokeWidth="1.5" />
 
       {connectors.map((c, i) => (
         <line
@@ -555,9 +548,9 @@ function GlobeSvgLayer({ rid }: { rid: string }) {
           y1={CY}
           x2={c.x2}
           y2={c.y2}
-          stroke="white"
+          stroke="#1D4ED8"
           strokeWidth={1}
-          strokeOpacity={0.38}
+          strokeOpacity={0.28}
           strokeLinecap="round"
         />
       ))}
