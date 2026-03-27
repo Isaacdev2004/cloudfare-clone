@@ -1,8 +1,7 @@
 /**
- * Framework globe hero — pixel match to repo root `globe-hero-final.html`.
- * Single composed cloud (back + front layers only). White badges, sharp inline SVGs.
+ * Framework globe hero — globe/mesh/connectors in SVG; cloud matches repo `cloud.html` (HTML/CSS layers).
  */
-import React, { useId } from "react";
+import React, { useId, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const SCENE = 680;
@@ -24,10 +23,6 @@ const heroCss = `
     0%, 100% { opacity: 0.97; }
     50%       { opacity: 1; }
   }
-  @keyframes hero-conn-line-pulse {
-    0%, 100% { stroke-opacity: 0.22; }
-    50%       { stroke-opacity: 0.50; }
-  }
   .hero-fw-node {
     position: absolute;
     display: flex;
@@ -35,11 +30,10 @@ const heroCss = `
     align-items: center;
     gap: 6px;
     transform: translate(-50%, -50%);
-    cursor: default;
     z-index: 20;
     -webkit-font-smoothing: antialiased;
   }
-  .hero-fw-badge {
+  button.hero-fw-badge {
     width: 62px;
     height: 62px;
     background: #ffffff;
@@ -49,11 +43,62 @@ const heroCss = `
     align-items: center;
     justify-content: center;
     box-shadow: none;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    appearance: none;
+    -webkit-appearance: none;
   }
-  .hero-fw-node:hover .hero-fw-badge {
+  button.hero-fw-badge:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #2563EB;
+  }
+  .hero-fw-node:hover button.hero-fw-badge {
     border-color: #1D4ED8;
     transform: scale(1.06);
+  }
+  button.hero-fw-badge[aria-pressed="true"] {
+    border-color: #2563EB;
+  }
+  /* Inner edge accent toward globe center when a framework tile is active */
+  button.hero-fw-badge.hero-fw-badge--active::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    background: #2563EB;
+    border-radius: 2px;
+  }
+  button.hero-fw-badge.hero-fw-badge--active.hero-fw-badge--edge-left::after {
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 24px;
+  }
+  button.hero-fw-badge.hero-fw-badge--active.hero-fw-badge--edge-right::after {
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 24px;
+  }
+  button.hero-fw-badge.hero-fw-badge--active.hero-fw-badge--edge-top::after {
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 3px;
+  }
+  button.hero-fw-badge.hero-fw-badge--active.hero-fw-badge--edge-bottom::after {
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 3px;
   }
   .hero-fw-label {
     font-size: 9px;
@@ -69,7 +114,69 @@ const heroCss = `
     -webkit-font-smoothing: antialiased;
   }
   .hero-globe-circle { animation: hero-globe-breathe 4s ease-in-out infinite; }
-  .hero-conn-line { animation: hero-conn-line-pulse 3s ease-in-out infinite; }
+
+  /* ── Cloud from cloud.html: pill + bumps + masks (accent dots removed) ── */
+  .hero-cloud-card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(220px, 32vw);
+    max-width: 88%;
+    aspect-ratio: 220 / 130;
+    z-index: 12;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .hero-cloud-wrap {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-cloud-outer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .hero-cloud-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 53.846%;
+    background: #fff;
+    border-radius: 999px;
+    box-shadow: 0 0 0 4px #2563eb, 0 0 0 7px #bfdbfe;
+  }
+  .hero-cloud-bump {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px #2563eb, 0 0 0 7px #bfdbfe;
+  }
+  .hero-cloud-bump1 { width: 34.091%; aspect-ratio: 1; bottom: 30.769%; left: 13.636%; }
+  .hero-cloud-bump2 { width: 43.182%; aspect-ratio: 1; bottom: 30.769%; left: 34.091%; }
+  .hero-cloud-bump3 { width: 27.273%; aspect-ratio: 1; bottom: 30.769%; right: 12.727%; }
+  .hero-cloud-body-over {
+    position: absolute;
+    bottom: 0;
+    left: 1.818%;
+    right: 1.818%;
+    height: 52.308%;
+    background: #fff;
+    border-radius: 32px;
+    z-index: 2;
+  }
+  .hero-cloud-bump-mask {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    z-index: 2;
+  }
+  .hero-cloud-bump-mask1 { width: 29.545%; aspect-ratio: 1; bottom: 33.846%; left: 15.455%; }
+  .hero-cloud-bump-mask2 { width: 38.636%; aspect-ratio: 1; bottom: 33.846%; left: 35.909%; }
+  .hero-cloud-bump-mask3 { width: 22.727%; aspect-ratio: 1; bottom: 33.846%; right: 14.545%; }
 `;
 
 function HorizontalMeshLines() {
@@ -243,12 +350,8 @@ type NodeSpec = {
   label: string;
   floatDur: string;
   floatDelay: string;
-  lineDelay: string;
-  pulseDur: string;
-  pulseBegin: string;
   Icon: React.ComponentType<{ rid: string }>;
   line: { x2: number; y2: number };
-  dot: { cx: number; cy: number };
 };
 
 const BadgeWrapEe: React.FC<{ rid: string }> = () => <IconBadgeEssentialEight />;
@@ -259,6 +362,18 @@ const BadgeWrapApra: React.FC<{ rid: string }> = () => <IconBadgeApra />;
 const BadgeWrapHealth: React.FC<{ rid: string }> = () => <IconBadgeHealthcare />;
 const BadgeWrapIsm: React.FC<{ rid: string }> = () => <IconBadgeIsm />;
 
+/** Side of the badge tile that faces the globe center (for active-state inner accent). */
+type InnerEdge = "left" | "right" | "top" | "bottom";
+
+function innerEdgeFacingCenter(left: number, top: number): InnerEdge {
+  const dx = CX - left;
+  const dy = CY - top;
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    return dx > 0 ? "right" : "left";
+  }
+  return dy > 0 ? "bottom" : "top";
+}
+
 const NODE_SPECS: NodeSpec[] = [
   {
     key: "ee",
@@ -267,12 +382,8 @@ const NODE_SPECS: NodeSpec[] = [
     label: "Essential Eight",
     floatDur: "5.0s",
     floatDelay: "0s",
-    lineDelay: "0s",
-    pulseDur: "5.0s",
-    pulseBegin: "0s",
     Icon: BadgeWrapEe,
     line: { x2: 340, y2: 42 },
-    dot: { cx: 340, cy: 66 },
   },
   {
     key: "cis",
@@ -281,12 +392,8 @@ const NODE_SPECS: NodeSpec[] = [
     label: "CIS Benchmarks",
     floatDur: "5.3s",
     floatDelay: "0.6s",
-    lineDelay: "0.4s",
-    pulseDur: "5.3s",
-    pulseBegin: "0.6s",
     Icon: BadgeWrapCis,
     line: { x2: 554, y2: 126 },
-    dot: { cx: 554, cy: 126 },
   },
   {
     key: "iso",
@@ -295,12 +402,8 @@ const NODE_SPECS: NodeSpec[] = [
     label: "ISO 27001",
     floatDur: "4.8s",
     floatDelay: "1.2s",
-    lineDelay: "0.8s",
-    pulseDur: "4.8s",
-    pulseBegin: "1.2s",
     Icon: BadgeWrapIso,
     line: { x2: 638, y2: 340 },
-    dot: { cx: 614, cy: 340 },
   },
   {
     key: "nist",
@@ -309,12 +412,8 @@ const NODE_SPECS: NodeSpec[] = [
     label: "NIST CSF 2.0",
     floatDur: "5.6s",
     floatDelay: "1.8s",
-    lineDelay: "1.2s",
-    pulseDur: "5.6s",
-    pulseBegin: "1.8s",
     Icon: BadgeWrapNist,
     line: { x2: 554, y2: 554 },
-    dot: { cx: 554, cy: 554 },
   },
   {
     key: "apra",
@@ -323,12 +422,8 @@ const NODE_SPECS: NodeSpec[] = [
     label: "APRA CPS 234",
     floatDur: "5.1s",
     floatDelay: "2.4s",
-    lineDelay: "1.6s",
-    pulseDur: "5.1s",
-    pulseBegin: "2.4s",
     Icon: BadgeWrapApra,
     line: { x2: 340, y2: 638 },
-    dot: { cx: 340, cy: 614 },
   },
   {
     key: "health",
@@ -337,12 +432,8 @@ const NODE_SPECS: NodeSpec[] = [
     label: "Healthcare",
     floatDur: "4.7s",
     floatDelay: "0.4s",
-    lineDelay: "2.0s",
-    pulseDur: "4.7s",
-    pulseBegin: "0.4s",
     Icon: BadgeWrapHealth,
     line: { x2: 126, y2: 554 },
-    dot: { cx: 126, cy: 554 },
   },
   {
     key: "privacy",
@@ -351,12 +442,8 @@ const NODE_SPECS: NodeSpec[] = [
     label: "Privacy (APP)",
     floatDur: "5.4s",
     floatDelay: "1.0s",
-    lineDelay: "2.4s",
-    pulseDur: "5.4s",
-    pulseBegin: "1.0s",
     Icon: IconBadgePrivacyGlobe,
     line: { x2: 42, y2: 340 },
-    dot: { cx: 66, cy: 340 },
   },
   {
     key: "ism",
@@ -365,23 +452,35 @@ const NODE_SPECS: NodeSpec[] = [
     label: "ISM Essentials",
     floatDur: "4.9s",
     floatDelay: "1.6s",
-    lineDelay: "2.8s",
-    pulseDur: "4.9s",
-    pulseBegin: "1.6s",
     Icon: BadgeWrapIsm,
     line: { x2: 126, y2: 126 },
-    dot: { cx: 126, cy: 126 },
   },
 ];
+
+function HeroCloudFromHtml() {
+  return (
+    <div className="hero-cloud-card" aria-hidden>
+      <div className="hero-cloud-wrap">
+        <div className="hero-cloud-outer">
+          <div className="hero-cloud-bump hero-cloud-bump1" />
+          <div className="hero-cloud-bump hero-cloud-bump2" />
+          <div className="hero-cloud-bump hero-cloud-bump3" />
+          <div className="hero-cloud-body" />
+          <div className="hero-cloud-bump-mask hero-cloud-bump-mask1" />
+          <div className="hero-cloud-bump-mask hero-cloud-bump-mask2" />
+          <div className="hero-cloud-bump-mask hero-cloud-bump-mask3" />
+          <div className="hero-cloud-body-over" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function GlobeSvgLayer({ rid }: { rid: string }) {
   const sg = `${rid}-sg`;
   const sc = `${rid}-sc`;
 
-  const connectors = NODE_SPECS.map((n) => ({
-    ...n.line,
-    delay: n.lineDelay,
-  }));
+  const connectors = NODE_SPECS.map((n) => n.line);
 
   return (
     <svg
@@ -392,82 +491,67 @@ function GlobeSvgLayer({ rid }: { rid: string }) {
       style={{ shapeRendering: "geometricPrecision" }}
     >
       <defs>
-        <radialGradient id={sg} cx="30%" cy="26%" r="100%">
-          <stop offset="0%" stopColor="#EAF2FF" />
-          <stop offset="22%" stopColor="#93C5FD" />
-          <stop offset="48%" stopColor="#2563EB" />
-          <stop offset="74%" stopColor="#1E3A8A" />
-          <stop offset="100%" stopColor="#020617" />
+        {/* Blue-only sphere: smooth light → dark blue, no white / off-white highlight */}
+        <radialGradient id={sg} cx="32%" cy="28%" r="100%">
+          <stop offset="0%" stopColor="#7EBBF2" />
+          <stop offset="20%" stopColor="#5CA8EB" />
+          <stop offset="40%" stopColor="#3B82F6" />
+          <stop offset="58%" stopColor="#2563EB" />
+          <stop offset="76%" stopColor="#1E3A8A" />
+          <stop offset="100%" stopColor="#070D1A" />
         </radialGradient>
         <clipPath id={sc}>
           <circle cx={CX} cy={CY} r={274} />
         </clipPath>
       </defs>
 
-      <ellipse cx="344" cy="635" rx="200" ry="18" fill="#1D4ED8" opacity="0.07" />
-
       <circle className="hero-globe-circle" cx={CX} cy={CY} r={274} fill={`url(#${sg})`} />
 
       <g clipPath={`url(#${sc})`}>
-        <g stroke="white" strokeWidth="0.5" opacity="0.19">
+        <g stroke="#BFDBFE" strokeWidth="0.5" opacity="0.22">
           <HorizontalMeshLines />
         </g>
-        <g stroke="white" strokeWidth="0.5" opacity="0.19" transform={`rotate(60 ${CX} ${CY})`}>
+        <g stroke="#BFDBFE" strokeWidth="0.5" opacity="0.22" transform={`rotate(60 ${CX} ${CY})`}>
           <HorizontalMeshLines />
         </g>
-        <g stroke="white" strokeWidth="0.5" opacity="0.19" transform={`rotate(-60 ${CX} ${CY})`}>
+        <g stroke="#BFDBFE" strokeWidth="0.5" opacity="0.22" transform={`rotate(-60 ${CX} ${CY})`}>
           <HorizontalMeshLines />
         </g>
       </g>
 
-      <circle cx={CX} cy={CY} r={274} fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="1.5" />
+      <circle cx={CX} cy={CY} r={274} fill="none" stroke="rgba(59,130,246,0.35)" strokeWidth="1.5" />
 
       {connectors.map((c, i) => (
         <line
           key={i}
-          className="hero-conn-line"
           x1={CX}
           y1={CY}
           x2={c.x2}
           y2={c.y2}
           stroke="white"
           strokeWidth={1}
-          strokeDasharray="4 5"
-          style={{ animationDelay: c.delay }}
+          strokeOpacity={0.38}
+          strokeLinecap="round"
         />
       ))}
-
-      {NODE_SPECS.map((n) => (
-        <circle key={n.key} cx={n.dot.cx} cy={n.dot.cy} r={4} fill="white" opacity="0.6">
-          <animate attributeName="r" values="3;5;3" dur={n.pulseDur} repeatCount="indefinite" begin={n.pulseBegin} />
-        </circle>
-      ))}
-
-      {/* Single cloud — back + front layers only (globe-hero-final.html) */}
-      <rect x="228" y="320" width="155" height="50" rx="25" fill="#7AAEE8" opacity="0.8" />
-      <circle cx="256" cy="308" r="34" fill="#8DBCEF" opacity="0.85" />
-      <circle cx="304" cy="296" r="43" fill="#A8CCF4" opacity="0.88" />
-      <rect x="244" y="330" width="202" height="56" rx="28" fill="white" />
-      <circle cx="278" cy="314" r="37" fill="#EEF5FF" />
-      <circle cx="338" cy="299" r="50" fill="white" />
-      <circle cx="394" cy="315" r="33" fill="#F2F7FF" />
-      <rect x="244" y="330" width="202" height="56" rx="28" fill="none" stroke="rgba(190,218,255,0.55)" strokeWidth="1.2" />
-      <circle cx="278" cy="314" r="37" fill="none" stroke="rgba(190,218,255,0.4)" strokeWidth="0.9" />
-      <circle cx="338" cy="299" r="50" fill="none" stroke="rgba(190,218,255,0.4)" strokeWidth="0.9" />
     </svg>
   );
 }
 
 export const HeroFrameworkOrbitVisual: React.FC<{ className?: string }> = ({ className }) => {
   const rid = useId().replace(/:/g, "");
+  const [activeKey, setActiveKey] = useState<string | null>(null);
 
   return (
     <div className={cn("relative mx-auto aspect-square w-full max-w-[min(100%,680px)]", className)}>
       <style>{heroCss}</style>
       <div className="relative h-full w-full">
         <GlobeSvgLayer rid={rid} />
+        <HeroCloudFromHtml />
         {NODE_SPECS.map((n) => {
           const Icon = n.Icon;
+          const edge = innerEdgeFacingCenter(n.left, n.top);
+          const active = activeKey === n.key;
           return (
             <div
               key={n.key}
@@ -478,9 +562,19 @@ export const HeroFrameworkOrbitVisual: React.FC<{ className?: string }> = ({ cla
                 animation: `hero-fw-float ${n.floatDur} ease-in-out infinite ${n.floatDelay}`,
               }}
             >
-              <div className="hero-fw-badge">
+              <button
+                type="button"
+                aria-pressed={active}
+                aria-label={n.label}
+                className={cn(
+                  "hero-fw-badge",
+                  active && "hero-fw-badge--active",
+                  active && `hero-fw-badge--edge-${edge}`,
+                )}
+                onClick={() => setActiveKey((k) => (k === n.key ? null : n.key))}
+              >
                 <Icon rid={rid} />
-              </div>
+              </button>
               <div className="hero-fw-label">{n.label}</div>
             </div>
           );

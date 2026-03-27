@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Graphic</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #fdf1e0;
+  }
+
+  .card {
+    width: 340px;
+    height: 220px;
+    background: #fde8c8;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Geometric lines background */
+  .card svg.bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+
+  /* Cloud container */
+  .cloud-wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cloud-outer {
+    width: 220px;
+    height: 130px;
+    position: relative;
+  }
+
+  /* Cloud shape using layered divs */
+  .cloud-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: white;
+    border-radius: 35px;
+    /* orange border */
+    box-shadow:
+      0 0 0 4px #2563eb,
+      0 0 0 7px #bfdbfe;
+  }
+
+  /* Bumps on top */
+  .bump {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 4px #2563eb,
+      0 0 0 7px #bfdbfe;
+  }
+
+  .bump1 {
+    width: 75px; height: 75px;
+    bottom: 40px;
+    left: 30px;
+  }
+
+  .bump2 {
+    width: 95px; height: 95px;
+    bottom: 40px;
+    left: 75px;
+  }
+
+  .bump3 {
+    width: 60px; height: 60px;
+    bottom: 40px;
+    right: 28px;
+  }
+
+  /* Mask to hide borders between bumps and body */
+  .cloud-mask {
+    position: absolute;
+    bottom: 0;
+    left: 4px; right: 4px;
+    height: 60px;
+    background: white;
+    border-radius: 0 0 28px 28px;
+    z-index: 1;
+  }
+
+  .cloud-body-over {
+    position: absolute;
+    bottom: 0;
+    left: 4px; right: 4px;
+    height: 68px;
+    background: white;
+    border-radius: 32px;
+    z-index: 2;
+  }
+
+  .bump-mask {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    z-index: 2;
+  }
+  .bump-mask1 {
+    width: 65px; height: 65px;
+    bottom: 44px;
+    left: 34px;
+  }
+  .bump-mask2 {
+    width: 85px; height: 85px;
+    bottom: 44px;
+    left: 79px;
+  }
+  .bump-mask3 {
+    width: 50px; height: 50px;
+    bottom: 44px;
+    right: 32px;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- Geometric background SVG -->
+  <svg class="bg" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <style>
+        .geo { stroke: #f0b870; stroke-width: 0.8; fill: none; opacity: 0.5; }
+      </style>
+    </defs>
+    <!-- Radiating lines from top-right area -->
+    <line class="geo" x1="340" y1="0" x2="0" y2="220"/>
+    <line class="geo" x1="340" y1="0" x2="60" y2="220"/>
+    <line class="geo" x1="340" y1="0" x2="140" y2="220"/>
+    <line class="geo" x1="340" y1="0" x2="220" y2="220"/>
+    <line class="geo" x1="340" y1="0" x2="300" y2="220"/>
+    <line class="geo" x1="340" y1="0" x2="340" y2="220"/>
+    <line class="geo" x1="340" y1="0" x2="0" y2="140"/>
+    <line class="geo" x1="340" y1="0" x2="0" y2="80"/>
+    <line class="geo" x1="340" y1="0" x2="0" y2="30"/>
+    <line class="geo" x1="340" y1="0" x2="80" y2="0"/>
+    <line class="geo" x1="340" y1="0" x2="180" y2="0"/>
+    <line class="geo" x1="340" y1="0" x2="260" y2="0"/>
+    <!-- Horizontal & cross lines to create diamond/polygon feel -->
+    <line class="geo" x1="0" y1="0" x2="340" y2="220"/>
+    <line class="geo" x1="0" y1="55" x2="340" y2="55"/>
+    <line class="geo" x1="0" y1="110" x2="340" y2="110"/>
+    <line class="geo" x1="0" y1="165" x2="340" y2="165"/>
+    <line class="geo" x1="85" y1="0" x2="85" y2="220"/>
+    <line class="geo" x1="170" y1="0" x2="170" y2="220"/>
+    <line class="geo" x1="255" y1="0" x2="255" y2="220"/>
+  </svg>
+
+  <!-- Cloud -->
+  <div class="cloud-wrap">
+    <div class="cloud-outer">
+      <div class="bump bump1"></div>
+      <div class="bump bump2"></div>
+      <div class="bump bump3"></div>
+      <div class="cloud-body"></div>
+      <!-- Masks to clean inner area -->
+      <div class="bump-mask bump-mask1"></div>
+      <div class="bump-mask bump-mask2"></div>
+      <div class="bump-mask bump-mask3"></div>
+      <div class="cloud-body-over"></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

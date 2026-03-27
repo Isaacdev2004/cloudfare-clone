@@ -63,7 +63,7 @@ export const ApexlynLogo: React.FC<ApexlynLogoProps> = ({
       style={{
         height,
         width: "auto",
-        maxWidth: "min(100%, 560px)",
+        maxWidth: "min(100%, 640px)",
         objectFit: "contain",
         objectPosition: align === "start" ? "left center" : "center center",
       }}
