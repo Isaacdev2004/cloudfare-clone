@@ -226,8 +226,10 @@ const NAV_ITEMS = [
   },
 ];
 
-/** Fixed header height for dropdown / main offset (Cloudflare-style two-tier right cluster) */
-const HEADER_HEIGHT_PX = 80;
+/** Fixed header height for dropdown / main offset — tall enough for a prominent wordmark */
+const HEADER_HEIGHT_PX = 88;
+/** Logo mark height (px); icon + word scale together for visibility */
+const HEADER_LOGO_HEIGHT_PX = 64;
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -301,8 +303,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 variant="wordmark"
                 forDarkBackground={false}
                 align="start"
-                height={52}
-                className="w-auto max-w-[min(78vw,300px)] sm:max-w-[360px] lg:max-w-[min(100%,440px)] [&_img]:max-w-full"
+                height={HEADER_LOGO_HEIGHT_PX}
+                className="w-auto max-w-[min(92vw,520px)] sm:max-w-[min(100%,480px)] lg:max-w-[min(100%,580px)] [&_img]:h-full [&_img]:max-h-[64px] [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
               />
             </Link>
 
@@ -504,8 +506,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   variant="wordmark"
                   forDarkBackground={false}
                   align="start"
-                  height={52}
-                  className="h-[52px] w-auto max-w-[min(88vw,380px)] [&_img]:max-w-full"
+                  height={56}
+                  className="h-14 w-auto max-w-[min(92vw,480px)] [&_img]:h-full [&_img]:max-h-14 [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
                 />
               </Link>
               <button type="button" onClick={() => setMobileMenuOpen(false)} className="p-2 text-slate-900" aria-label="Close menu">

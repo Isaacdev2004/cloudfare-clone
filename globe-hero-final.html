@@ -90,18 +90,6 @@
   }
   .globe-circle { animation: globe-breathe 4s ease-in-out infinite; }
 
-  /* ── Connector line pulse ── */
-  @keyframes line-pulse {
-    0%, 100% { stroke-opacity: 0.22; }
-    50%       { stroke-opacity: 0.50; }
-  }
-  .conn-line { animation: line-pulse 3s ease-in-out infinite; }
-
-  /* ── Accent dot pulse ── */
-  @keyframes dot-pulse {
-    0%, 100% { r: 4; opacity: 0.55; }
-    50%       { r: 6; opacity: 1;    }
-  }
 </style>
 </head>
 <body>
@@ -114,12 +102,13 @@
   <svg class="globe-svg" viewBox="0 0 680 680" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <!-- 3D blue sphere gradient -->
-      <radialGradient id="sg" cx="30%" cy="26%" r="100%">
-        <stop offset="0%"   stop-color="#EAF2FF"/>
-        <stop offset="22%"  stop-color="#93C5FD"/>
-        <stop offset="48%"  stop-color="#2563EB"/>
-        <stop offset="74%"  stop-color="#1E3A8A"/>
-        <stop offset="100%" stop-color="#020617"/>
+      <radialGradient id="sg" cx="32%" cy="28%" r="100%">
+        <stop offset="0%"   stop-color="#7EBBF2"/>
+        <stop offset="20%"  stop-color="#5CA8EB"/>
+        <stop offset="40%"  stop-color="#3B82F6"/>
+        <stop offset="58%"  stop-color="#2563EB"/>
+        <stop offset="76%"  stop-color="#1E3A8A"/>
+        <stop offset="100%" stop-color="#070D1A"/>
       </radialGradient>
       <!-- clip everything to sphere -->
       <clipPath id="sc">
@@ -127,16 +116,13 @@
       </clipPath>
     </defs>
 
-    <!-- Drop shadow -->
-    <ellipse cx="344" cy="635" rx="200" ry="18" fill="#1D4ED8" opacity="0.07"/>
-
     <!-- SPHERE BASE -->
     <circle class="globe-circle" cx="340" cy="340" r="274" fill="url(#sg)"/>
 
     <!-- DENSE GEODESIC MESH — 3 rotations × 44 lines, 14px spacing -->
     <g clip-path="url(#sc)">
       <!-- 0° -->
-      <g stroke="white" stroke-width="0.5" opacity="0.19">
+      <g stroke="#BFDBFE" stroke-width="0.5" opacity="0.22">
         <line x1="0" y1="52"  x2="680" y2="52"/> <line x1="0" y1="66"  x2="680" y2="66"/>
         <line x1="0" y1="80"  x2="680" y2="80"/> <line x1="0" y1="94"  x2="680" y2="94"/>
         <line x1="0" y1="108" x2="680" y2="108"/><line x1="0" y1="122" x2="680" y2="122"/>
@@ -160,7 +146,7 @@
         <line x1="0" y1="612" x2="680" y2="612"/><line x1="0" y1="626" x2="680" y2="626"/>
       </g>
       <!-- +60° -->
-      <g stroke="white" stroke-width="0.5" opacity="0.19" transform="rotate(60,340,340)">
+      <g stroke="#BFDBFE" stroke-width="0.5" opacity="0.22" transform="rotate(60,340,340)">
         <line x1="0" y1="52"  x2="680" y2="52"/> <line x1="0" y1="66"  x2="680" y2="66"/>
         <line x1="0" y1="80"  x2="680" y2="80"/> <line x1="0" y1="94"  x2="680" y2="94"/>
         <line x1="0" y1="108" x2="680" y2="108"/><line x1="0" y1="122" x2="680" y2="122"/>
@@ -184,7 +170,7 @@
         <line x1="0" y1="612" x2="680" y2="612"/><line x1="0" y1="626" x2="680" y2="626"/>
       </g>
       <!-- -60° -->
-      <g stroke="white" stroke-width="0.5" opacity="0.19" transform="rotate(-60,340,340)">
+      <g stroke="#BFDBFE" stroke-width="0.5" opacity="0.22" transform="rotate(-60,340,340)">
         <line x1="0" y1="52"  x2="680" y2="52"/> <line x1="0" y1="66"  x2="680" y2="66"/>
         <line x1="0" y1="80"  x2="680" y2="80"/> <line x1="0" y1="94"  x2="680" y2="94"/>
         <line x1="0" y1="108" x2="680" y2="108"/><line x1="0" y1="122" x2="680" y2="122"/>
@@ -210,47 +196,19 @@
     </g>
 
     <!-- Sphere edge ring -->
-    <circle cx="340" cy="340" r="274" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1.5"/>
+    <circle cx="340" cy="340" r="274" fill="none" stroke="rgba(59,130,246,0.35)" stroke-width="1.5"/>
 
-    <!-- Connector lines: center → each node position (pulsing) -->
-    <!-- r=274 (edge), lines go from center 340,340 to each node at r=310 -->
-    <!-- 0°top:(340,30)  45°TR:(559,121)  90°R:(650,340)  135°BR:(559,559)
-         180°bot:(340,650) 225°BL:(121,559) 270°L:(30,340)  315°TL:(121,121) -->
-    <line class="conn-line" x1="340" y1="340" x2="340" y2="42"  stroke="white" stroke-width="1" stroke-dasharray="4 5"/>
-    <line class="conn-line" x1="340" y1="340" x2="554" y2="126" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:.4s"/>
-    <line class="conn-line" x1="340" y1="340" x2="638" y2="340" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:.8s"/>
-    <line class="conn-line" x1="340" y1="340" x2="554" y2="554" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:1.2s"/>
-    <line class="conn-line" x1="340" y1="340" x2="340" y2="638" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:1.6s"/>
-    <line class="conn-line" x1="340" y1="340" x2="126" y2="554" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:2.0s"/>
-    <line class="conn-line" x1="340" y1="340" x2="42"  y2="340" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:2.4s"/>
-    <line class="conn-line" x1="340" y1="340" x2="126" y2="126" stroke="white" stroke-width="1" stroke-dasharray="4 5" style="animation-delay:2.8s"/>
+    <!-- Connector lines: center → each node (solid, no dashes or edge dots) -->
+    <line x1="340" y1="340" x2="340" y2="42"  stroke="white" stroke-width="1" stroke-opacity="0.38" stroke-linecap="round"/>
+    <line x1="340" y1="340" x2="554" y2="126" stroke="white" stroke-width="1" stroke-opacity="0.38" stroke-linecap="round"/>
+    <line x1="340" y1="340" x2="638" y2="340" stroke="white" stroke-width="1" stroke-opacity="0.38" stroke-linecap="round"/>
+    <line x1="340" y1="340" x2="554" y2="554" stroke="white" stroke-width="1" stroke-opacity="0.38" stroke-linecap="round"/>
+    <line x1="340" y1="340" x2="340" y2="638" stroke="white" stroke-width="1" stroke-opacity="0.38" stroke-linecap="round"/>
+    <line x1="340" y1="340" x2="126" y2="554" stroke="white" stroke-width="1" stroke-opacity="0.38" stroke-linecap="round"/>
+    <line x1="340" y1="340" x2="42"  y2="340" stroke="white" stroke-width="1" stroke-opacity="0.38" stroke-linecap="round"/>
+    <line x1="340" y1="340" x2="126" y2="126" stroke="white" stroke-width="1" stroke-opacity="0.38" stroke-linecap="round"/>
 
-    <!-- Connector end dots on sphere edge -->
-    <circle cx="340" cy="66"  r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="5.0s" repeatCount="indefinite" begin="0s"/></circle>
-    <circle cx="554" cy="126" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="5.3s" repeatCount="indefinite" begin=".6s"/></circle>
-    <circle cx="614" cy="340" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="4.8s" repeatCount="indefinite" begin="1.2s"/></circle>
-    <circle cx="554" cy="554" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="5.6s" repeatCount="indefinite" begin="1.8s"/></circle>
-    <circle cx="340" cy="614" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="5.1s" repeatCount="indefinite" begin="2.4s"/></circle>
-    <circle cx="126" cy="554" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="4.7s" repeatCount="indefinite" begin=".4s"/></circle>
-    <circle cx="66"  cy="340" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="5.4s" repeatCount="indefinite" begin="1.0s"/></circle>
-    <circle cx="126" cy="126" r="4" fill="white" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="4.9s" repeatCount="indefinite" begin="1.6s"/></circle>
-
-    <!-- ══════════════════════════════
-         CLOUD — centered on sphere
-         ══════════════════════════════ -->
-    <!-- back cloud (blue-tinted) -->
-    <rect   x="228" y="320" width="155" height="50" rx="25" fill="#7AAEE8" opacity="0.80"/>
-    <circle cx="256" cy="308" r="34" fill="#8DBCEF" opacity="0.85"/>
-    <circle cx="304" cy="296" r="43" fill="#A8CCF4" opacity="0.88"/>
-    <!-- front cloud (white) -->
-    <rect   x="244" y="330" width="202" height="56" rx="28" fill="white"/>
-    <circle cx="278" cy="314" r="37"  fill="#EEF5FF"/>
-    <circle cx="338" cy="299" r="50"  fill="white"/>
-    <circle cx="394" cy="315" r="33"  fill="#F2F7FF"/>
-    <!-- outlines -->
-    <rect   x="244" y="330" width="202" height="56" rx="28" fill="none" stroke="rgba(190,218,255,0.55)" stroke-width="1.2"/>
-    <circle cx="278" cy="314" r="37" fill="none" stroke="rgba(190,218,255,0.40)" stroke-width="0.9"/>
-    <circle cx="338" cy="299" r="50" fill="none" stroke="rgba(190,218,255,0.40)" stroke-width="0.9"/>
+    <!-- Cloud: same layered markup/CSS as cloud.html — implemented in React HeroFrameworkOrbitVisual -->
   </svg>
 
   <!-- ════════════════════════════════════════════════════
