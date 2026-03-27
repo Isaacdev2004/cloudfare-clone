@@ -8,6 +8,8 @@ type ApexlynLogoProps = {
   /** Optional min-width so wide wordmarks don’t feel tiny (e.g. 220). */
   minWidth?: number;
   className?: string;
+  /** Hint LCP / decode first (e.g. header wordmark). */
+  priority?: boolean;
   /** `wordmark` = full logo (default). `icon` = symbol only for tight layouts. */
   variant?: "wordmark" | "icon";
   /**
@@ -29,6 +31,7 @@ export const ApexlynLogo: React.FC<ApexlynLogoProps> = ({
   variant = "wordmark",
   forDarkBackground = false,
   align = "start",
+  priority = false,
 }) => {
   const candidates = variant === "icon" ? LOGO_ICON_CANDIDATES : LOGO_WORDMARK_CANDIDATES;
   const [index, setIndex] = useState(0);
@@ -58,17 +61,18 @@ export const ApexlynLogo: React.FC<ApexlynLogoProps> = ({
       src={candidates[index]}
       alt="Apexlyn"
       height={height}
-      width="auto"
-      className={cn(forDarkBackground && "max-h-full w-auto")}
+      className="apexlyn-logo-img max-h-full w-auto"
       style={{
         height,
         width: "auto",
-        maxWidth: "min(100%, 640px)",
+        maxWidth: "min(100%, 720px)",
         objectFit: "contain",
         objectPosition: align === "start" ? "left center" : "center center",
+        imageRendering: "auto",
       }}
-      loading="eager"
-      decoding="async"
+      loading={priority ? "eager" : "lazy"}
+      decoding={priority ? "sync" : "async"}
+      fetchPriority={priority ? "high" : undefined}
       onError={() => setIndex((i) => i + 1)}
     />
   );

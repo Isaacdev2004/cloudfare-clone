@@ -227,9 +227,9 @@ const NAV_ITEMS = [
 ];
 
 /** Fixed header height for dropdown / main offset — tall enough for a prominent wordmark */
-const HEADER_HEIGHT_PX = 88;
+const HEADER_HEIGHT_PX = 108;
 /** Logo mark height (px); icon + word scale together for visibility */
-const HEADER_LOGO_HEIGHT_PX = 64;
+const HEADER_LOGO_HEIGHT_PX = 88;
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -304,7 +304,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 forDarkBackground={false}
                 align="start"
                 height={HEADER_LOGO_HEIGHT_PX}
-                className="w-auto max-w-[min(92vw,520px)] sm:max-w-[min(100%,480px)] lg:max-w-[min(100%,580px)] [&_img]:h-full [&_img]:max-h-[64px] [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
+                priority
+                className="w-auto max-w-[min(92vw,560px)] sm:max-w-[min(100%,520px)] lg:max-w-[min(100%,640px)] [&_img]:h-full [&_img]:max-h-[72px] sm:[&_img]:max-h-[80px] lg:[&_img]:max-h-[88px] [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
               />
             </Link>
 
@@ -506,8 +507,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   variant="wordmark"
                   forDarkBackground={false}
                   align="start"
-                  height={56}
-                  className="h-14 w-auto max-w-[min(92vw,480px)] [&_img]:h-full [&_img]:max-h-14 [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
+                  height={72}
+                  priority
+                  className="h-[72px] w-auto max-w-[min(92vw,520px)] [&_img]:h-full [&_img]:max-h-[72px] [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
                 />
               </Link>
               <button type="button" onClick={() => setMobileMenuOpen(false)} className="p-2 text-slate-900" aria-label="Close menu">
