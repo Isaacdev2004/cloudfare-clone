@@ -39,7 +39,8 @@ export const PageHero: React.FC<PageHeroProps> = ({
       className={cn(
         isNavy
           ? "relative overflow-hidden bg-[#0B1320] text-white"
-          : "relative overflow-hidden bg-[#F7F9FC]",
+          : /* allow orbit badges to paint full border when scaled (overflow-hidden clips left/right edges) */
+            "relative overflow-x-visible overflow-y-visible bg-[#F7F9FC]",
         className,
       )}
     >
@@ -103,7 +104,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
               </div>
             )}
           </motion.div>
-          {aside && <div className="relative min-w-0 w-full overflow-x-clip">{aside}</div>}
+          {aside && <div className="relative min-w-0 w-full overflow-x-visible overflow-y-visible">{aside}</div>}
         </div>
       </div>
     </section>

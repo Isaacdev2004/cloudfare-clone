@@ -31,6 +31,7 @@ const heroCss = `
     gap: 6px;
     transform: translate(-50%, -50%);
     z-index: 20;
+    overflow: visible;
     -webkit-font-smoothing: antialiased;
   }
   button.hero-fw-badge {
@@ -52,6 +53,13 @@ const heroCss = `
     color: inherit;
     appearance: none;
     -webkit-appearance: none;
+    overflow: visible;
+    isolation: isolate;
+  }
+  button.hero-fw-badge > svg {
+    position: relative;
+    z-index: 0;
+    flex-shrink: 0;
   }
   button.hero-fw-badge:focus-visible {
     outline: none;
@@ -59,46 +67,52 @@ const heroCss = `
   }
   .hero-fw-node:hover button.hero-fw-badge {
     border-color: #1D4ED8;
-    transform: scale(1.06);
+    /* 1.04 keeps outer edge inside scene after translate(-50%,-50%) on near-edge nodes */
+    transform: scale(1.04);
   }
   button.hero-fw-badge[aria-pressed="true"] {
-    border-color: #2563EB;
+    border-color: #2563eb;
   }
-  /* Inner edge accent toward globe center when a framework tile is active */
+  /*
+   * Inner-edge accent toward globe center. Vertical edges use top/bottom insets = border-radius (18px)
+   * so the bar sits on the *flat* side of the rounded rect (ISO left / Privacy right were clipping before).
+   */
   button.hero-fw-badge.hero-fw-badge--active::after {
     content: "";
     position: absolute;
     pointer-events: none;
-    background: #2563EB;
-    border-radius: 2px;
+    z-index: 4;
+    background: #1d4ed8;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.65);
   }
   button.hero-fw-badge.hero-fw-badge--active.hero-fw-badge--edge-left::after {
-    left: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    height: 24px;
+    left: 2px;
+    top: 18px;
+    bottom: 18px;
+    width: 5px;
+    height: auto;
   }
   button.hero-fw-badge.hero-fw-badge--active.hero-fw-badge--edge-right::after {
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    height: 24px;
+    right: 2px;
+    top: 18px;
+    bottom: 18px;
+    width: 5px;
+    height: auto;
   }
   button.hero-fw-badge.hero-fw-badge--active.hero-fw-badge--edge-top::after {
-    top: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 24px;
-    height: 3px;
+    top: 2px;
+    left: 18px;
+    right: 18px;
+    height: 5px;
+    width: auto;
   }
   button.hero-fw-badge.hero-fw-badge--active.hero-fw-badge--edge-bottom::after {
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 24px;
-    height: 3px;
+    bottom: 2px;
+    left: 18px;
+    right: 18px;
+    height: 5px;
+    width: auto;
   }
   .hero-fw-label {
     font-size: 9px;
@@ -219,14 +233,21 @@ function IconBadgeCis() {
 
 function IconBadgeIso() {
   return (
-    <svg width={36} height={36} viewBox="0 0 48 48" fill="none" aria-hidden style={{ shapeRendering: "geometricPrecision" }}>
-      <rect x="5" y="3" width="28" height="35" rx="4" fill="#1E3A8A" />
+    <svg
+      width={36}
+      height={36}
+      viewBox="0 0 48 48"
+      fill="none"
+      aria-hidden
+      style={{ shapeRendering: "geometricPrecision", transform: "translateX(-1px)" }}
+    >
+      <rect x="5" y="3" width="28" height="35" rx="4" fill="#1E3A8A" stroke="#172554" strokeWidth="0.75" />
       <polygon points="25,3 33,11 25,11" fill="#1D4ED8" />
-      <rect x="10" y="16" width="14" height="2.5" rx="1.25" fill="#E4EAFA" opacity="0.75" />
-      <rect x="10" y="22" width="18" height="2" rx="1" fill="#E4EAFA" opacity="0.48" />
-      <rect x="10" y="28" width="13" height="2" rx="1" fill="#E4EAFA" opacity="0.48" />
-      <circle cx="35" cy="35" r="11" fill="#1D4ED8" stroke="#E4EAFA" strokeWidth="1.3" />
-      <polyline points="29,35 33,39 42,28" fill="none" stroke="white" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="10" y="16" width="14" height="2.5" rx="1.25" fill="#E4EAFA" opacity="0.85" />
+      <rect x="10" y="22" width="18" height="2" rx="1" fill="#E4EAFA" opacity="0.6" />
+      <rect x="10" y="28" width="13" height="2" rx="1" fill="#E4EAFA" opacity="0.6" />
+      <circle cx="35" cy="35" r="11" fill="#1D4ED8" stroke="#E4EAFA" strokeWidth="1.5" />
+      <polyline points="29,35 33,39 42,28" fill="none" stroke="#ffffff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -282,24 +303,30 @@ function IconBadgeHealthcare() {
   );
 }
 
-function IconBadgePrivacyGlobe({ rid }: { rid: string }) {
-  const cid = `${rid}-gc`;
+/** Wireframe globe — light blue fill only (no near-white) to avoid fringing on white badges */
+function IconBadgePrivacyGlobe({ rid: _rid }: { rid: string }) {
+  void _rid;
   return (
-    <svg width={36} height={36} viewBox="0 0 48 48" fill="none" aria-hidden style={{ shapeRendering: "geometricPrecision" }}>
-      <defs>
-        <clipPath id={cid}>
-          <circle cx="24" cy="24" r="20" />
-        </clipPath>
-      </defs>
-      <circle cx="24" cy="24" r="20" fill="#EEF2F7" />
-      <g clipPath={`url(#${cid})`}>
-        <ellipse cx="24" cy="24" rx="20" ry="7" fill="none" stroke="#1D4ED8" strokeWidth="1.3" opacity="0.9" />
-        <ellipse cx="24" cy="15" rx="15" ry="5" fill="none" stroke="#1D4ED8" strokeWidth="1.1" opacity="0.65" />
-        <ellipse cx="24" cy="33" rx="15" ry="5" fill="none" stroke="#1D4ED8" strokeWidth="1.1" opacity="0.65" />
-        <ellipse cx="24" cy="24" rx="7" ry="20" fill="none" stroke="#1D4ED8" strokeWidth="1.3" opacity="0.9" />
-        <ellipse cx="24" cy="24" rx="14" ry="20" fill="none" stroke="#1D4ED8" strokeWidth="1" opacity="0.6" />
-      </g>
-      <circle cx="24" cy="24" r="20" fill="none" stroke="#1D4ED8" strokeWidth="2" />
+    <svg
+      width={36}
+      height={36}
+      viewBox="0 0 48 48"
+      fill="none"
+      aria-hidden
+      style={{ shapeRendering: "geometricPrecision", transform: "translateX(1px)" }}
+    >
+      <circle cx="24" cy="24" r="19" fill="#DBEAFE" stroke="#1D4ED8" strokeWidth="1.9" />
+      <ellipse cx="24" cy="24" rx="17.5" ry="6.2" fill="none" stroke="#1D4ED8" strokeWidth="1.15" />
+      <ellipse cx="24" cy="24" rx="17.5" ry="11.5" fill="none" stroke="#1D4ED8" strokeWidth="1" opacity="0.88" />
+      <line x1="24" y1="5.5" x2="24" y2="42.5" stroke="#1D4ED8" strokeWidth="1.15" strokeLinecap="round" />
+      <path
+        d="M 8.5 24 Q 24 14 39.5 24 Q 24 34 8.5 24"
+        fill="none"
+        stroke="#1D4ED8"
+        strokeWidth="1.05"
+        strokeLinecap="round"
+        opacity="0.9"
+      />
     </svg>
   );
 }
@@ -397,13 +424,13 @@ const NODE_SPECS: NodeSpec[] = [
   },
   {
     key: "iso",
-    left: 650,
+    left: 642,
     top: 340,
     label: "ISO 27001",
     floatDur: "4.8s",
     floatDelay: "1.2s",
     Icon: BadgeWrapIso,
-    line: { x2: 638, y2: 340 },
+    line: { x2: 630, y2: 340 },
   },
   {
     key: "nist",
@@ -437,13 +464,13 @@ const NODE_SPECS: NodeSpec[] = [
   },
   {
     key: "privacy",
-    left: 30,
+    left: 38,
     top: 340,
     label: "Privacy (APP)",
     floatDur: "5.4s",
     floatDelay: "1.0s",
     Icon: IconBadgePrivacyGlobe,
-    line: { x2: 42, y2: 340 },
+    line: { x2: 50, y2: 340 },
   },
   {
     key: "ism",
@@ -543,9 +570,9 @@ export const HeroFrameworkOrbitVisual: React.FC<{ className?: string }> = ({ cla
   const [activeKey, setActiveKey] = useState<string | null>(null);
 
   return (
-    <div className={cn("relative mx-auto aspect-square w-full max-w-[min(100%,680px)]", className)}>
+    <div className={cn("relative mx-auto aspect-square w-full max-w-[min(100%,680px)] overflow-visible", className)}>
       <style>{heroCss}</style>
-      <div className="relative h-full w-full">
+      <div className="relative h-full w-full overflow-visible">
         <GlobeSvgLayer rid={rid} />
         <HeroCloudFromHtml />
         {NODE_SPECS.map((n) => {
