@@ -4,6 +4,7 @@ import { Link } from 'wouter';
 import { motion } from 'framer-motion';
 import { PageHero } from '@/components/layout/PageHero';
 import { SectionHeading } from '@/components/layout/SectionHeading';
+import { InnerHeroBackdrop, SectionGridWash, GradientTopCard } from '@/components/layout/InnerPageChrome';
 import { subtleLiftHover } from '@/lib/motion';
 
 type InfoPageProps = {
@@ -390,75 +391,6 @@ export function ResourcesCommunityPage() {
   );
 }
 
-export function CompanyAboutPage() {
-  return (
-    <InfoPageTemplate
-      eyebrow="Company"
-      title="About Us"
-      subtitle="Mission, principles, and company story behind the platform."
-      sections={[
-        {
-          heading: 'Mission and values',
-          body: 'This section presents the company mission, operating values, and long-term vision for building a safer, faster, and more resilient Internet.',
-        },
-        {
-          heading: 'Global footprint',
-          body: 'Summarize where teams operate, how the company supports global customers, and how distributed teams deliver reliable operations.',
-        },
-        {
-          heading: 'Leadership and governance',
-          body: 'Provide executive leadership context and governance practices that guide strategic decisions, product investment, and customer trust.',
-        },
-      ]}
-      highlights={['Mission', 'Values', 'Platform vision', 'Internet impact']}
-      quickLinks={[
-        { label: 'Careers', href: '/company/careers' },
-        { label: 'Press', href: '/company/press' },
-      ]}
-      featureCards={[
-        { title: 'Careers', body: 'Join teams building platform security, performance, and reliability.', href: '/company/careers', cta: 'See roles' },
-        { title: 'Impact', body: 'Explore programs advancing a safer and more resilient Internet.', href: '/company/impact', cta: 'View impact' },
-      ]}
-      ctaLabel="View Impact"
-      ctaHref="/company/impact"
-    />
-  );
-}
-
-export function CompanyCareersPage() {
-  return (
-    <InfoPageTemplate
-      eyebrow="Company"
-      title="Careers"
-      subtitle="Open roles, hiring process, and growth opportunities across teams."
-      sections={[
-        {
-          heading: 'Open roles',
-          body: 'List opportunities by function, location, and seniority. Include role expectations and team impact to help candidates self-qualify quickly.',
-        },
-        {
-          heading: 'Hiring process',
-          body: 'Outline each interview stage, communication timelines, and evaluation focus so applicants can prepare effectively and have a transparent experience.',
-        },
-        {
-          heading: 'Culture and growth',
-          body: 'Describe team culture, learning programs, and career growth pathways with examples of mentorship, ownership, and cross-functional collaboration.',
-        },
-      ]}
-      highlights={['Open roles', 'Culture principles', 'Hiring process', 'Growth paths']}
-      quickLinks={[
-        { label: 'About Us', href: '/company/about' },
-        { label: 'Impact', href: '/company/impact' },
-      ]}
-      featureCards={[
-        { title: 'About Us', body: 'Learn mission, values, and how teams collaborate globally.', href: '/company/about', cta: 'Read about' },
-      ]}
-      ctaLabel="Read About Us"
-      ctaHref="/company/about"
-    />
-  );
-}
-
 export function CompanyPressPage() {
   return (
     <InfoPageTemplate
@@ -732,41 +664,64 @@ export function SupportCookiePreferencesPage() {
 }
 
 export function ResourcesIndexPage() {
+  const cards = [
+    {
+      title: 'Whitepapers',
+      body: 'Deep dives into evidence integrity, governance workflows, and defensible reporting.',
+      href: '/resources/whitepapers',
+    },
+    {
+      title: 'Framework Guides',
+      body: 'How to operationalise frameworks with continuous evidence — not checklists.',
+      href: '/resources/framework-guides',
+    },
+    {
+      title: 'AI Risk Briefs',
+      body: 'Governance patterns to reduce AI exposure risk without blocking adoption.',
+      href: '/resources/ai-risk-briefs',
+    },
+  ] as const;
+
+  const gradients = [
+    'from-[#1E3A8A] to-sky-500',
+    'from-violet-600 to-indigo-700',
+    'from-slate-700 to-[#1E3A8A]',
+  ] as const;
+
   return (
-    <InfoPageTemplate
-      eyebrow="Resources"
-      title="Resources"
-      subtitle="Learning, customer stories, and technical content for every stage of adoption."
-      sections={[
-        {
-          heading: 'Learn',
-          body: 'Explore blogs, webinars, and documentation to accelerate implementation and keep teams current on product changes and best practices.',
-        },
-        {
-          heading: 'Validate',
-          body: 'Review case studies and practical architecture examples to map outcomes and deployment patterns to your environment.',
-        },
-        {
-          heading: 'Engage',
-          body: 'Join the community to ask questions, share lessons, and collaborate with peers and technical contributors.',
-        },
-      ]}
-      highlights={['Blog', 'Case studies', 'Webinars', 'Documentation', 'Community']}
-      quickLinks={[
-        { label: 'Blog', href: '/resources/blog' },
-        { label: 'Case Studies', href: '/resources/case-studies' },
-        { label: 'Webinars', href: '/resources/webinars' },
-        { label: 'Documentation', href: '/resources/documentation' },
-        { label: 'Community', href: '/resources/community' },
-      ]}
-      featureCards={[
-        { title: 'Blog', body: 'Product updates and engineering insights from the team.', href: '/resources/blog', cta: 'Go to blog' },
-        { title: 'Case Studies', body: 'Real customer outcomes and architecture journeys.', href: '/resources/case-studies', cta: 'View studies' },
-        { title: 'Webinars', body: 'Live and recorded sessions for teams and architects.', href: '/resources/webinars', cta: 'Watch now' },
-      ]}
-      ctaLabel="Read Blog"
-      ctaHref="/resources/blog"
-    />
+    <div className="min-h-screen apex-page-bg">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
+        <InnerHeroBackdrop />
+        <PageHero
+          variant="light"
+          eyebrow="Resources"
+          title="Resources"
+          description="Evidence-led security and AI governance guidance — written for operators."
+          className="relative z-[1] bg-transparent"
+          contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24 max-w-3xl"
+        />
+      </section>
+      <section className="relative overflow-hidden py-16 md:py-20">
+        <SectionGridWash />
+        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+          <div className="grid gap-8 md:grid-cols-3">
+            {cards.map((card, i) => (
+              <motion.div key={card.href} whileHover={subtleLiftHover} className="h-full">
+                <Link href={card.href} className="block h-full">
+                  <GradientTopCard gradientClass={gradients[i % gradients.length]} className="h-full">
+                    <h2 className="text-lg font-bold text-slate-900">{card.title}</h2>
+                    <p className="mt-3 flex-grow text-[15px] leading-relaxed text-slate-600">{card.body}</p>
+                    <span className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-[#1E3A8A]">
+                      Open <ChevronRight className="h-4 w-4" />
+                    </span>
+                  </GradientTopCard>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -847,3 +802,6 @@ export function SupportIndexPage() {
     />
   );
 }
+
+export { default as CompanyAboutPage } from './AboutApexlynPage';
+export { default as CompanyCareersPage } from './CareersApexlynPage';

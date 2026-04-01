@@ -21,6 +21,8 @@ const CLOUDFLARE_GITHUB_URL = '/developers';
 const CLOUDFLARE_RADAR_URL = '/resources/case-studies';
 const CLOUDFLARE_SUPPORT_URL = '/support/help-center';
 
+const NAV_CTA_TEST_SECURITY_HREF = '/test-security-state';
+
 const normalizeHref = (href: string) => {
   if (href === '#') return '/';
   if (href.startsWith('http')) {
@@ -36,122 +38,54 @@ const normalizeHref = (href: string) => {
 
 const NAV_ITEMS = [
   {
-    name: 'Platform',
-    href: '/products',
+    name: 'Platforms',
+    href: '/platforms',
     dropdown: {
       columns: [
         {
-          title: 'Performance & delivery',
+          title: 'Platforms',
           items: [
-            { label: 'CDN', desc: 'Cache and serve from 320+ cities', href: '/products' },
-            { label: 'DNS', desc: "The world's fastest DNS resolver", href: '/products' },
-            { label: 'Load Balancing', desc: 'Global server load balancing', href: '/products' },
-          ],
-        },
-        {
-          title: 'Security & Zero Trust',
-          items: [
-            { label: 'DDoS Protection', desc: 'Unmetered, always-on protection', href: '/products' },
-            { label: 'Web Application Firewall', desc: 'Block threats at the edge', href: '/products' },
-            { label: 'Zero Trust', desc: 'Identity-aware access for every user and app', href: '/zero-trust' },
-          ],
-        },
-        {
-          title: 'Build at the edge',
-          items: [
-            { label: 'Workers', desc: 'Serverless at the edge', href: '/developers' },
-            { label: 'Pages', desc: 'Deploy JAMstack sites globally', href: '/developers' },
-            { label: 'R2 Storage', desc: 'Object storage, no egress fees', href: '/developers' },
+            { label: 'Overview', desc: 'Track and Lens — capabilities at a glance', href: '/platforms' },
+            { label: 'APEXLyn Track Platform', desc: 'Continuous visibility across your attack surface', href: '/platforms/track' },
+            { label: 'APEXLyn Lens Platform', desc: 'Governance, risk, and decision-ready insight', href: '/platforms/lens' },
+            { label: 'Architecture Overview', desc: 'How Track and Lens fit your stack', href: '/platforms/architecture' },
           ],
         },
       ],
     },
   },
   {
-    name: 'Products',
-    href: '/products',
-    dropdown: {
-      columns: [
-        {
-          title: 'Application Performance',
-          items: [
-            { label: 'CDN', desc: 'Cache and serve from 320+ cities', href: '/products' },
-            { label: 'DNS', desc: "The world's fastest DNS resolver", href: '/products' },
-            { label: 'Load Balancing', desc: 'Global server load balancing', href: '/products' },
-            { label: 'Argo Smart Routing', desc: 'Accelerate web traffic', href: '/products' },
-            { label: 'Early Hints', desc: 'Speed up page loads', href: '/products' },
-            { label: 'Zaraz', desc: 'Fast, privacy-first third parties', href: '/products' },
-          ],
-        },
-        {
-          title: 'Application Security',
-          items: [
-            { label: 'DDoS Protection', desc: 'Unmetered, always-on protection', href: '/products' },
-            { label: 'Web Application Firewall', desc: 'Block threats at the edge', href: '/products' },
-            { label: 'Bot Management', desc: 'Identify and stop bad bots', href: '/products' },
-            { label: 'API Shield', desc: 'Protect your API endpoints', href: '/products' },
-            { label: 'Page Shield', desc: 'Monitor for supply chain attacks', href: '/products' },
-            { label: 'SSL/TLS', desc: 'Free certificates, auto-renewal', href: '/products' },
-          ],
-        },
-        {
-          title: 'Zero Trust & SASE',
-          items: [
-            { label: 'Access', desc: 'Zero Trust application access', href: '/zero-trust' },
-            { label: 'Gateway', desc: 'Secure DNS & web filtering', href: '/zero-trust' },
-            { label: 'Browser Isolation', desc: 'Remote browser technology', href: '/zero-trust' },
-            { label: 'CASB', desc: 'Cloud app security broker', href: '/zero-trust' },
-            { label: 'Data Loss Prevention', desc: 'Stop sensitive data leaks', href: '/zero-trust' },
-            { label: 'WARP', desc: 'Secure device connectivity', href: '/zero-trust' },
-          ],
-        },
-        {
-          title: 'Developer Platform',
-          items: [
-            { label: 'Workers', desc: 'Serverless at the edge', href: '/developers' },
-            { label: 'Pages', desc: 'Deploy JAMstack sites globally', href: '/developers' },
-            { label: 'R2 Storage', desc: 'Object storage, no egress fees', href: '/developers' },
-            { label: 'D1 Database', desc: 'SQLite at the edge', href: '/developers' },
-            { label: 'KV', desc: 'Global key-value store', href: '/developers' },
-            { label: 'AI Gateway', desc: 'AI observability & caching', href: '/developers' },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    name: 'Partners',
+    name: 'Solutions',
     href: '/solutions',
     dropdown: {
       columns: [
         {
-          title: 'By Business Size',
+          title: 'Solutions',
           items: [
-            { label: 'Enterprise', desc: 'For large-scale organizations', href: '/enterprise' },
-            { label: 'Small & Medium Business', desc: 'Affordable, powerful security', href: '/solutions' },
-            { label: 'Startups', desc: 'Grow fast, stay secure', href: '/solutions' },
-            { label: 'Public Sector', desc: 'Government-grade compliance', href: '/solutions' },
+            { label: 'Overview', desc: 'Structured security & AI governance services', href: '/solutions' },
+            { label: 'Cyber Security Services', desc: 'Hands-on defense and response expertise', href: '/solutions/cyber-security-services' },
+            { label: 'AI Governance Advisory', desc: 'Policies and controls for safe AI adoption', href: '/solutions/ai-governance-advisory' },
+            { label: 'Compliance Operations', desc: 'Operationalize frameworks and audits', href: '/solutions/compliance-operations' },
           ],
         },
+      ],
+    },
+  },
+  {
+    name: 'Industries',
+    href: '/industries',
+    dropdown: {
+      columns: [
         {
-          title: 'By Industry',
+          title: 'Industries',
           items: [
-            { label: 'Technology', desc: 'Performance for SaaS companies', href: '/solutions' },
-            { label: 'Financial Services', desc: 'Security for financial data', href: '/solutions' },
-            { label: 'Healthcare', desc: 'HIPAA-ready infrastructure', href: '/solutions' },
-            { label: 'Retail & eCommerce', desc: 'Speed and security for stores', href: '/solutions' },
-            { label: 'Gaming', desc: 'Low latency, high availability', href: '/solutions' },
-            { label: 'Media & Entertainment', desc: 'Stream content globally', href: '/solutions' },
-          ],
-        },
-        {
-          title: 'By Use Case',
-          items: [
-            { label: 'Network Security', desc: 'Protect your network perimeter', href: '/solutions' },
-            { label: 'Application Security', desc: 'Secure every app and API', href: '/solutions' },
-            { label: 'Cloud Connectivity', desc: 'Connect clouds seamlessly', href: '/solutions' },
-            { label: 'Zero Trust', desc: 'Verify every user and device', href: '/zero-trust' },
-            { label: 'AI Protection', desc: 'Secure your AI workloads', href: '/products' },
+            { label: 'Overview', desc: 'Sectors under heightened data sensitivity', href: '/industries' },
+            { label: 'Healthcare', desc: 'Security and compliance for care delivery', href: '/industries/healthcare' },
+            { label: 'Legal', desc: 'Protect matter data and client trust', href: '/industries/legal' },
+            { label: 'Accounting', desc: 'Safeguard financial and client records', href: '/industries/accounting' },
+            { label: 'Insurance', desc: 'Resilience for policyholder data', href: '/industries/insurance' },
+            { label: 'MSP / Partners', desc: 'Scale security services for customers', href: '/industries/msp-partners' },
+            { label: 'Professional Services', desc: 'Confidentiality across client work', href: '/industries/professional-services' },
           ],
         },
       ],
@@ -159,37 +93,15 @@ const NAV_ITEMS = [
   },
   {
     name: 'Resources',
-    href: '/resources',
+    href: '/resources/whitepapers',
     dropdown: {
       columns: [
         {
-          title: 'Learn',
+          title: 'Resources',
           items: [
-            { label: 'Blog', desc: 'Product updates and insights', href: CLOUDFLARE_BLOG_URL },
-            { label: 'Learning Center', desc: 'Security & performance guides', href: '/resources/documentation' },
-            { label: 'Webinars', desc: 'Live and on-demand sessions', href: '/resources/webinars' },
-            { label: 'Apexlyn TV', desc: 'Stream our content channel', href: '/resources/blog' },
-            { label: 'Analysts & Awards', desc: 'See how analysts rate us', href: '/resources/case-studies' },
-          ],
-        },
-        {
-          title: 'Connect',
-          items: [
-            { label: 'Community Forum', desc: 'Connect with other users', href: CLOUDFLARE_COMMUNITY_URL },
-            { label: 'Apexlyn Radar', desc: 'Internet traffic insights', href: CLOUDFLARE_RADAR_URL },
-            { label: 'Speed Test', desc: 'Test your network performance', href: '/resources/case-studies' },
-            { label: 'Case Studies', desc: 'See customer success stories', href: '/resources/case-studies' },
-            { label: 'Trust & Safety', desc: 'Abuse policies and reports', href: '/report-security' },
-          ],
-        },
-        {
-          title: 'Develop',
-          items: [
-            { label: 'Documentation', desc: 'Guides for all Apexlyn products', href: CLOUDFLARE_DOCS_URL },
-            { label: 'API Reference', desc: 'Manage Apexlyn via API', href: '/resources/documentation' },
-            { label: 'Developer Discord', desc: 'Chat with our dev community', href: '/resources/community' },
-            { label: 'Apexlyn Status', desc: 'Real-time system status', href: CLOUDFLARE_STATUS_URL },
-            { label: 'Support Portal', desc: 'Get help from our team', href: CLOUDFLARE_SUPPORT_URL },
+            { label: 'Whitepapers', desc: 'Deep dives on risk and architecture', href: '/resources/whitepapers' },
+            { label: 'Framework Guides', desc: 'Map controls to standards you use', href: '/resources/framework-guides' },
+            { label: 'AI Risk Briefs', desc: 'Concise guidance on AI threats', href: '/resources/ai-risk-briefs' },
           ],
         },
       ],
@@ -197,28 +109,15 @@ const NAV_ITEMS = [
   },
   {
     name: 'Company',
-    href: '/company',
+    href: '/company/about',
     dropdown: {
       columns: [
         {
           title: 'Company',
           items: [
-            { label: 'About Apexlyn', desc: 'Our mission and story', href: '/company/about' },
-            { label: 'Leadership', desc: 'Meet the executive team', href: '/company/about' },
-            { label: 'Careers', desc: 'Join the Apexlyn team', href: CLOUDFLARE_CAREERS_URL },
-            { label: 'Press', desc: 'News and press releases', href: CLOUDFLARE_PRESS_URL },
-            { label: 'Investor Relations', desc: 'For shareholders and analysts', href: CLOUDFLARE_INVESTORS_URL },
-            { label: 'Analyst Reports', desc: 'Third-party evaluations', href: '/resources/case-studies' },
-          ],
-        },
-        {
-          title: 'Impact',
-          items: [
-            { label: 'Impact Report', desc: 'Our commitment to a better Internet', href: '/company/impact' },
-            { label: 'Project Galileo', desc: 'Protecting vulnerable voices', href: '/company/impact' },
-            { label: 'Athenian Project', desc: 'Securing election infrastructure', href: '/company/impact' },
-            { label: 'Apexlyn for Campaigns', desc: 'Protecting political speech', href: '/company/impact' },
-            { label: 'Critical Infrastructure Defense', desc: 'Protecting hospitals & utilities', href: '/company/impact' },
+            { label: 'About', desc: 'Mission, story, and leadership', href: '/company/about' },
+            { label: 'Careers', desc: 'Join the APEXLyn team', href: CLOUDFLARE_CAREERS_URL },
+            { label: 'Contact', desc: 'Speak with our team', href: '/company/contact' },
           ],
         },
       ],
@@ -334,16 +233,16 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 </button>
               ))}
               <Link
-                href="/developers"
+                href="/trust-center"
                 onClick={() => setActiveDropdown(null)}
                 className={cn(
                   'px-3 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
-                  location === '/developers' ? 'text-black' : 'text-black hover:text-slate-600',
+                  location === '/trust-center' ? 'text-black' : 'text-black hover:text-slate-600',
                 )}
               >
-                Developers
+                Trust Center
               </Link>
-              {NAV_ITEMS.slice(2).map((item) => (
+              {NAV_ITEMS.slice(2, 4).map((item) => (
                 <button
                   key={item.name}
                   type="button"
@@ -366,6 +265,39 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   />
                 </button>
               ))}
+              {NAV_ITEMS.slice(4).map((item) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  onMouseEnter={() => openDropdown(item.name)}
+                  onMouseLeave={startCloseTimer}
+                  onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
+                  aria-expanded={activeDropdown === item.name}
+                  aria-label={`${item.name} menu`}
+                  className={cn(
+                    'flex items-center gap-0.5 px-3 py-2 text-[15px] font-medium text-black transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
+                    activeDropdown === item.name ? 'text-black' : 'text-black hover:text-slate-600',
+                  )}
+                >
+                  {item.name}
+                  <ChevronDown
+                    className={cn(
+                      'h-3.5 w-3.5 transition-transform duration-200',
+                      activeDropdown === item.name ? 'rotate-180' : '',
+                    )}
+                  />
+                </button>
+              ))}
+              <Link
+                href="/pricing"
+                onClick={() => setActiveDropdown(null)}
+                className={cn(
+                  'px-3 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
+                  location === '/pricing' ? 'text-black' : 'text-black hover:text-slate-600',
+                )}
+              >
+                Pricing
+              </Link>
             </nav>
           </div>
 
@@ -399,10 +331,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 Log in
               </Link>
               <Link
-                href="/report-security"
+                href={NAV_CTA_TEST_SECURITY_HREF}
                 className="inline-flex items-center justify-center rounded bg-[#1E3A8A] px-4 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-[#172554] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/50"
               >
-                Under attack?
+                Test Your Security State
               </Link>
             </div>
           </div>
@@ -432,7 +364,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             onMouseEnter={cancelCloseTimer}
             onMouseLeave={startCloseTimer}
           >
-            {/* Full-page backdrop to catch mouse-out */}
             <div className="max-w-[1280px] mx-auto px-6 py-8">
               <div
                 className="grid gap-x-10"
@@ -465,7 +396,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 ))}
               </div>
             </div>
-
           </motion.div>
         )}
       </AnimatePresence>
@@ -520,24 +450,14 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <nav className="px-4 py-2">
               <div className="mb-1 border-b border-slate-200 pb-2">
                 <Link
-                  href="/developers"
+                  href="/trust-center"
                   className="block py-3 text-[15px] font-medium text-slate-900 hover:text-black"
                   onClick={() => {
                     setMobileMenuOpen(false);
                     setMobileExpanded(null);
                   }}
                 >
-                  Developers
-                </Link>
-                <Link
-                  href="/enterprise"
-                  className="block py-3 text-[15px] font-medium text-slate-900 hover:text-black"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setMobileExpanded(null);
-                  }}
-                >
-                  Enterprise
+                  Trust Center
                 </Link>
                 <Link
                   href="/pricing"
@@ -616,11 +536,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 Log in
               </Link>
               <Link
-                href="/report-security"
+                href={NAV_CTA_TEST_SECURITY_HREF}
                 className="block rounded bg-[#1E3A8A] py-3 text-center text-[14px] font-semibold text-white transition-colors hover:bg-[#172554]"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Under attack?
+                Test Your Security State
               </Link>
               <Link
                 href={SIGN_UP_URL}
@@ -642,7 +562,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       {/* ── Footer ── */}
       <footer className="bg-[#111827] border-t border-white/10 pt-16 pb-8">
         <div className="max-w-[1280px] mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-8 mb-12">
             <div className="col-span-2 md:col-span-3 lg:col-span-1 flex flex-col items-start text-left">
               <Link href="/" className="inline-flex items-center justify-start mb-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded w-full" aria-label="Apexlyn home">
                 <ApexlynLogo variant="wordmark" forDarkBackground align="start" height={44} className="h-11 w-auto max-w-full [&_img]:max-w-[min(100%,280px)]" />
@@ -652,53 +572,56 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
             {[
               {
-                title: 'Products',
+                title: 'Platforms',
                 links: [
-                  { label: 'Application Services', href: '/products' },
-                  { label: 'Network Services', href: '/products' },
-                  { label: 'Zero Trust', href: '/zero-trust' },
-                  { label: 'Developer Platform', href: '/developers' },
-                  { label: 'AI', href: '/products' },
+                  { label: 'Overview', href: '/platforms' },
+                  { label: 'APEXLyn Track Platform', href: '/platforms/track' },
+                  { label: 'APEXLyn Lens Platform', href: '/platforms/lens' },
+                  { label: 'Architecture Overview', href: '/platforms/architecture' },
                 ],
               },
               {
                 title: 'Solutions',
                 links: [
-                  { label: 'Enterprise', href: '/enterprise' },
-                  { label: 'SMB', href: '/solutions' },
-                  { label: 'Startups', href: '/solutions' },
-                  { label: 'Government', href: '/solutions' },
-                  { label: 'Gaming', href: '/solutions' },
+                  { label: 'Overview', href: '/solutions' },
+                  { label: 'Cyber Security Services', href: '/solutions/cyber-security-services' },
+                  { label: 'AI Governance Advisory', href: '/solutions/ai-governance-advisory' },
+                  { label: 'Compliance Operations', href: '/solutions/compliance-operations' },
+                ],
+              },
+              {
+                title: 'Industries',
+                links: [
+                  { label: 'Overview', href: '/industries' },
+                  { label: 'Healthcare', href: '/industries/healthcare' },
+                  { label: 'Legal', href: '/industries/legal' },
+                  { label: 'Accounting', href: '/industries/accounting' },
+                  { label: 'Insurance', href: '/industries/insurance' },
+                  { label: 'MSP / Partners', href: '/industries/msp-partners' },
+                  { label: 'Professional Services', href: '/industries/professional-services' },
                 ],
               },
               {
                 title: 'Resources',
                 links: [
-                  { label: 'Blog', href: CLOUDFLARE_BLOG_URL },
-                  { label: 'Case Studies', href: '/resources/case-studies' },
-                  { label: 'Webinars', href: '/resources/webinars' },
-                  { label: 'Documentation', href: CLOUDFLARE_DOCS_URL },
-                  { label: 'Community', href: CLOUDFLARE_COMMUNITY_URL },
+                  { label: 'Whitepapers', href: '/resources/whitepapers' },
+                  { label: 'Framework Guides', href: '/resources/framework-guides' },
+                  { label: 'AI Risk Briefs', href: '/resources/ai-risk-briefs' },
                 ],
               },
               {
                 title: 'Company',
                 links: [
-                  { label: 'About Us', href: '/company/about' },
+                  { label: 'About', href: '/company/about' },
                   { label: 'Careers', href: CLOUDFLARE_CAREERS_URL },
-                  { label: 'Press', href: CLOUDFLARE_PRESS_URL },
-                  { label: 'Investors', href: CLOUDFLARE_INVESTORS_URL },
-                  { label: 'Impact', href: '/company/impact' },
+                  { label: 'Contact', href: '/company/contact' },
                 ],
               },
               {
-                title: 'Support',
+                title: 'Trust',
                 links: [
-                  { label: 'Help Center', href: CLOUDFLARE_SUPPORT_URL },
-                  { label: 'System Status', href: CLOUDFLARE_STATUS_URL },
-                  { label: 'Compliance', href: CLOUDFLARE_TRUST_URL },
-                  { label: 'Trust Hub', href: CLOUDFLARE_TRUST_URL },
-                  { label: 'Cookie Preferences', href: '/support/cookie-preferences' },
+                  { label: 'Trust Center', href: '/trust-center' },
+                  { label: 'Request Security Documentation', href: '/trust-center/request-documentation' },
                 ],
               },
             ].map((col) => (
@@ -716,7 +639,21 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           </div>
 
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[13px] text-slate-500">
-            <p>© {new Date().getFullYear()} Apexlyn · <Link href={normalizeHref(CLOUDFLARE_PRIVACY_URL)} className="hover:text-slate-300 transition-colors">Privacy Policy</Link> · <Link href={normalizeHref(CLOUDFLARE_TERMS_URL)} className="hover:text-slate-300 transition-colors">Terms of Use</Link> · <Link href="/report-security" className="hover:text-slate-300 transition-colors">Report Security Issues</Link></p>
+            <p>
+              © APEXLyn. All rights reserved.
+              <span className="mx-2 text-slate-600" aria-hidden>
+                ·
+              </span>
+              <Link href={normalizeHref(CLOUDFLARE_PRIVACY_URL)} className="hover:text-slate-300 transition-colors">
+                Privacy
+              </Link>
+              <span className="mx-2 text-slate-600" aria-hidden>
+                ·
+              </span>
+              <Link href={normalizeHref(CLOUDFLARE_TERMS_URL)} className="hover:text-slate-300 transition-colors">
+                Terms
+              </Link>
+            </p>
             <div className="flex items-center gap-5">
               {[
                 { label: 'Twitter / X', href: '/resources/community' },
