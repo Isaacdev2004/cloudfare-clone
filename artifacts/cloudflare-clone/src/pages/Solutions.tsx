@@ -1,257 +1,109 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Building2, Store, Rocket, Landmark, ArrowRight, CheckCircle2, Shield, Zap, Lock, Globe } from 'lucide-react';
-import { PageHero } from '@/components/layout/PageHero';
-import { SectionHeading } from '@/components/layout/SectionHeading';
 import { Link } from 'wouter';
-import { subtleLiftHover } from '@/lib/motion';
+import { PageHero } from '@/components/layout/PageHero';
+import { fadeInUp } from '@/lib/motion';
+import {
+  InnerHeroBackdrop,
+  CapabilityTile,
+  ElevatedCtaBand,
+  SectionGridWash,
+} from '@/components/layout/InnerPageChrome';
 
-const SIGN_UP_URL = '/pricing';
-const CONTACT_SALES_URL = '/enterprise';
+const REQUEST_SERVICE_OVERVIEW_HREF = '/company/contact';
+const EXPLORE_PLATFORMS_HREF = '/platforms';
 
-const BY_SIZE = [
+const SOLUTION_SECTIONS = [
   {
-    icon: Building2,
-    id: 'enterprise',
-    title: 'Enterprise',
-    headline: 'Enterprise-grade security, performance, and reliability',
-    desc: 'Apexlyn gives enterprises a single platform to protect and accelerate every internet-facing application. From zero trust access to global network services — all without the complexity of point solutions.',
-    features: ['Dedicated customer success & solutions engineering', 'SLA-backed 100% uptime guarantee', 'Custom contracts and pricing', 'Advanced analytics & SIEM integration', 'FedRAMP High authorized (US Govt)', 'Magic Transit network-layer DDoS protection'],
-    cta: 'Talk to sales',
-    link: '/enterprise',
-    tag: 'Enterprise',
+    title: 'Security Evidence Infrastructure (Track-powered)',
+    body:
+      'Implement continuous evidence capture, control mapping, framework views, and audit-ready reporting cadence — without manual collection.',
   },
   {
-    icon: Store,
-    id: 'smb',
-    title: 'Small & Medium Business',
-    headline: 'Enterprise security and performance — at SMB pricing',
-    desc: 'Get the same tools large enterprises use, without an enterprise budget. Apexlyn\'s free and Pro plans give SMBs powerful DDoS protection, a CDN, and SSL — up and running in minutes.',
-    features: ['Free Universal SSL certificate', 'Unmetered DDoS mitigation', 'Global CDN with 320+ PoPs', 'Web Application Firewall', 'Email routing (included)', 'Bot fight mode'],
-    cta: 'Get started free',
-    link: '/pricing',
-    tag: 'SMB',
+    title: 'Operational Security Uplift (Pulse / Flow / Vault)',
+    body:
+      'Fix what matters first, stabilise the environment, then prevent drift through structured operational hardening.',
   },
   {
-    icon: Rocket,
-    id: 'startups',
-    title: 'Startups',
-    headline: 'Build fast, ship globally, stay secure from day one',
-    desc: 'Apexlyn Workers, Pages, R2, and D1 give startups a full serverless stack with zero cold starts and no egress fees. Apexlyn for Startups provides free access for qualifying companies.',
-    features: ['Workers & Pages — free tier', 'R2 storage — zero egress fees', 'D1 serverless SQL database', 'Apexlyn for Startups program', 'No credit card required to start', 'Community Discord & support'],
-    cta: 'Apply for Startups program',
-    link: '/developers',
-    tag: 'Startups',
+    title: 'AI Governance & DLP Advisory (Lens-powered)',
+    body:
+      'Define AI usage boundaries, implement enforcement, and reduce sensitive data exposure with governance you can defend.',
   },
   {
-    icon: Landmark,
-    id: 'public-sector',
-    title: 'Public Sector',
-    headline: 'FedRAMP-authorized security for critical infrastructure',
-    desc: 'Government agencies trust Apexlyn to protect the most sensitive systems in the world. Project Galileo and the Athenian Project protect at-risk organizations at no cost.',
-    features: ['FedRAMP High and Moderate authorization', 'IL4 and IL5 compliant options', 'Project Galileo — free for NGOs', 'Athenian Project — free for elections', 'CISA-recommended DDoS protection', 'Dedicated public sector team'],
-    cta: 'Contact public sector team',
-    link: '/why-cloudflare',
-    tag: 'Government',
+    title: 'Governance & Framework Alignment Support',
+    body:
+      'Translate frameworks into operational requirements, evidence mapping, and stakeholder-ready reporting.',
   },
-];
-
-const BY_INDUSTRY = [
-  { icon: Landmark, title: 'Financial Services', desc: 'Protect banking applications and comply with PCI DSS, SOC 2, and GDPR with a single, auditable platform.' },
-  { icon: Shield, title: 'Healthcare', desc: 'HIPAA-ready infrastructure to protect patient data and ensure availability for telehealth platforms.' },
-  { icon: Store, title: 'Retail & eCommerce', desc: 'Fast, secure shopping experiences with DDoS protection, bot mitigation, and global CDN performance.' },
-  { icon: Rocket, title: 'Gaming', desc: 'Ultra-low latency, DDoS protection for game servers, and global anycast for players everywhere.' },
-  { icon: Globe, title: 'Media & Entertainment', desc: 'Stream live and on-demand video globally with Apexlyn Stream, CDN caching, and DDoS resilience.' },
-  { icon: Building2, title: 'Technology & SaaS', desc: 'Scale SaaS applications globally with Workers, protect APIs, and ship faster with CI/CD via Pages.' },
-];
-
-const BY_USECASE = [
-  {
-    icon: Shield,
-    title: 'Network Security',
-    desc: 'Replace hardware firewalls with Magic Transit and Magic Firewall. Protect entire IP ranges from DDoS and threat actors at the network layer.',
-    products: ['Magic Transit', 'Magic Firewall', 'DDoS Protection', 'Spectrum'],
-  },
-  {
-    icon: Lock,
-    title: 'Zero Trust / SASE',
-    desc: 'Replace your VPN with Apexlyn Access, filter web traffic with Gateway, and secure devices with WARP — all from one dashboard.',
-    products: ['Access', 'Gateway', 'Browser Isolation', 'WARP'],
-  },
-  {
-    icon: Zap,
-    title: 'Application Performance',
-    desc: 'Speed up any website or API with our global CDN, smart routing, image optimization, and HTTP/3 — no code changes needed.',
-    products: ['CDN', 'Argo Smart Routing', 'Polish', 'Zaraz'],
-  },
-  {
-    icon: Globe,
-    title: 'Multi-Cloud Connectivity',
-    desc: 'Apexlyn Network Interconnect and Magic WAN connect your clouds, offices, and data centers with a software-defined WAN.',
-    products: ['Magic WAN', 'Network Interconnect', 'Apexlyn Tunnel', 'BYOIP'],
-  },
-];
+] as const;
 
 export default function Solutions() {
-  const [activeSize, setActiveSize] = useState('enterprise');
-  const selected = BY_SIZE.find(s => s.id === activeSize) || BY_SIZE[0];
-
   return (
     <div className="min-h-screen apex-page-bg">
-      {/* Hero */}
-      <section className="bg-white border-b border-slate-200">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
+        <InnerHeroBackdrop />
         <PageHero
+          variant="light"
           eyebrow="Solutions"
-          title={<>Apexlyn for every<br />organization</>}
-          description="Whether you're an individual developer or a Fortune 500 enterprise, Apexlyn has solutions tailored to your needs, budget, and compliance requirements."
+          title="Structured Security & AI Governance Services"
+          description="Platform-led delivery that removes compliance friction, strengthens control reality, and makes governance measurable."
           actions={[
-            { label: 'Get started free', href: SIGN_UP_URL, variant: 'primary' },
-            { label: 'Contact sales', href: CONTACT_SALES_URL, variant: 'outline' },
+            { label: 'Request Service Overview', href: REQUEST_SERVICE_OVERVIEW_HREF, variant: 'primary' },
+            { label: 'Explore Our Platforms', href: EXPLORE_PLATFORMS_HREF, variant: 'outline' },
           ]}
-          contentClassName="py-24"
-          className="bg-transparent"
+          className="relative z-[1] bg-transparent"
+          contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24"
         />
       </section>
 
-      {/* By Business Size */}
-      <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <SectionHeading
-          title="By business size"
-          description="Solutions designed for where you are today and where you're going."
-          className="mb-10"
-        />
-
-        <div className="grid lg:grid-cols-[280px_1fr] gap-8">
-          {/* Sidebar */}
-          <div className="flex flex-row lg:flex-col gap-2">
-            {BY_SIZE.map((s) => {
-              const Icon = s.icon;
-              return (
-                <button
-                  key={s.id}
-                  onClick={() => setActiveSize(s.id)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-left w-full transition-all ${
-                    activeSize === s.id
-                      ? 'bg-[#1E3A8A]/10 border border-[#1E3A8A]/30 text-slate-900'
-                      : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50 border border-transparent'
-                  }`}
-                >
-                  <Icon className={`w-5 h-5 shrink-0 ${activeSize === s.id ? 'text-[#1E3A8A]' : ''}`} />
-                  <span className="text-sm font-medium">{s.title}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Content panel */}
+      <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-16 md:py-24">
+        <SectionGridWash />
+        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
           <motion.div
-            key={activeSize}
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.2 }}
-            className="bg-white border border-slate-200 rounded-2xl p-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mb-12 max-w-2xl md:mb-16"
           >
-            <span className="inline-block text-[11px] font-semibold text-[#1E3A8A] uppercase tracking-widest border border-[#1E3A8A]/30 rounded-full px-3 py-1 mb-5">
-              {selected.tag}
-            </span>
-            <h3 className="text-2xl font-bold text-slate-900 mb-3">{selected.headline}</h3>
-            <p className="text-slate-600 mb-8 leading-relaxed">{selected.desc}</p>
-
-            <div className="grid sm:grid-cols-2 gap-3 mb-8">
-              {selected.features.map((f) => (
-                <div key={f} className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#1E3A8A] shrink-0 mt-0.5" />
-                  <span className="text-sm text-slate-600">{f}</span>
-                </div>
-              ))}
-            </div>
-
-            <Link
-              href={selected.link}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
-            >
-              {selected.cta} <ArrowRight className="w-4 h-4" />
-            </Link>
+            <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1E3A8A]">Delivery model</p>
+            <h2 className="text-[1.65rem] font-bold tracking-tight text-slate-900 sm:text-3xl md:text-4xl">
+              Four ways we engage
+            </h2>
+            <p className="mt-3 text-[15px] text-slate-600 sm:text-base">
+              Each line maps to platform and service components you can combine as your programme matures.
+            </p>
           </motion.div>
-        </div>
-      </section>
 
-      {/* By Industry */}
-      <section className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-20">
-          <SectionHeading
-            title="By industry"
-            description="Industry-specific guidance and compliance frameworks built in."
-            className="mb-10"
-          />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {BY_INDUSTRY.map((ind) => {
-              const Icon = ind.icon;
-              return (
-                <motion.div
-                  key={ind.title}
-                  whileHover={subtleLiftHover}
-                  className="group"
-                >
-                  <Link href="/solutions" className="block bg-white border border-slate-200 hover:border-[#1E3A8A]/30 rounded-xl p-6 transition-all h-full">
-                    <div className="w-10 h-10 rounded-lg bg-[#1E3A8A]/10 flex items-center justify-center mb-4">
-                      <Icon className="w-5 h-5 text-[#1E3A8A]" />
-                    </div>
-                    <h3 className="text-[15px] font-semibold text-slate-900 mb-2 group-hover:text-[#1E3A8A] transition-colors">{ind.title}</h3>
-                    <p className="text-[13px] text-slate-500 leading-relaxed">{ind.desc}</p>
-                    <div className="flex items-center gap-1 mt-4 text-[13px] text-[#1E3A8A] opacity-0 group-hover:opacity-100 transition-opacity font-medium">
-                      Learn more <ArrowRight className="w-3.5 h-3.5" />
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
+          <div className="grid gap-6 lg:grid-cols-2">
+            {SOLUTION_SECTIONS.map((section, i) => (
+              <motion.div
+                key={section.title}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+              >
+                <CapabilityTile index={i + 1} title={section.title} body={section.body} />
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* By Use Case */}
-      <section className="max-w-[1280px] mx-auto px-6 py-20">
-        <SectionHeading
-          title="By use case"
-          description="Solve specific problems with the right combination of Apexlyn products."
-          className="mb-10"
-        />
-        <div className="grid sm:grid-cols-2 gap-6">
-          {BY_USECASE.map((uc) => {
-            const Icon = uc.icon;
-            return (
-              <motion.div key={uc.title} whileHover={subtleLiftHover} className="bg-white border border-slate-200 rounded-xl p-8 hover:border-[#1E3A8A]/30 transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-[#1E3A8A]/10 flex items-center justify-center mb-5">
-                  <Icon className="w-5 h-5 text-[#1E3A8A]" />
-                </div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-3">{uc.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed mb-5">{uc.desc}</p>
-                <div className="flex flex-wrap gap-2">
-                  {uc.products.map((p) => (
-                    <Link key={p} href="/products" className="text-xs px-2.5 py-1 rounded bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-colors">
-                      {p}
-                    </Link>
-                  ))}
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Bottom CTA */}
-      <section className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
-          <h2 className="text-4xl font-bold text-slate-900 mb-4">Not sure where to start?</h2>
-          <p className="text-slate-600 text-lg mb-8 max-w-xl mx-auto">
-            Our solutions engineers will help you design the right architecture for your organization.
-          </p>
-          <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
-            Talk to an expert <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
+      <ElevatedCtaBand>
+        <Link
+          href={REQUEST_SERVICE_OVERVIEW_HREF}
+          className="inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554] font-sans"
+        >
+          Request Service Overview
+        </Link>
+        <Link
+          href={EXPLORE_PLATFORMS_HREF}
+          className="inline-flex items-center justify-center rounded border border-slate-300 bg-white px-6 py-3.5 text-[15px] font-semibold text-slate-800 transition-colors hover:bg-slate-50 font-sans"
+        >
+          Explore Our Platforms
+        </Link>
+      </ElevatedCtaBand>
     </div>
   );
 }
