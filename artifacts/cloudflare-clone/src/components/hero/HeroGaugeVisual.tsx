@@ -4,12 +4,12 @@ import { cn } from "@/lib/utils";
 
 const styles = `
   @keyframes hg-needleSwing {
-    0%   { transform: rotate(-62deg); }
-    30%  { transform: rotate(-10deg); }
-    55%  { transform: rotate(30deg); }
-    75%  { transform: rotate(48deg); }
-    85%  { transform: rotate(20deg); }
-    100% { transform: rotate(52deg); }
+    0%   { transform: rotate(-78deg); }
+    25%  { transform: rotate(-42deg); }
+    45%  { transform: rotate(-8deg); }
+    65%  { transform: rotate(22deg); }
+    82%  { transform: rotate(8deg); }
+    100% { transform: rotate(28deg); }
   }
   @keyframes hg-outerGaugePulse {
     0%,100% { opacity:0.4; }
@@ -79,14 +79,32 @@ export const HeroGaugeVisual: React.FC<{ className?: string; compact?: boolean }
               </linearGradient>
             </defs>
 
+            {/* Deep navy outer band + glassy sky inner arc + clean white dial face */}
             <path
               d="M 8,138 A 112,112 0 0 1 232,138 L 202,138 A 82,82 0 0 0 38,138 Z"
               fill={`url(#${rid}-gOuter)`}
               filter={`url(#${rid}-gShadow)`}
             />
             <path
+              d="M 8,138 A 112,112 0 0 1 232,138"
+              fill="none"
+              stroke="#172554"
+              strokeWidth="5"
+              strokeLinecap="round"
+              opacity="0.88"
+            />
+            <path
               d="M 40,138 A 80,80 0 0 1 200,138 L 178,138 A 58,58 0 0 0 62,138 Z"
               fill={`url(#${rid}-gInner)`}
+              opacity="0.95"
+            />
+            <path
+              d="M 44,138 A 76,76 0 0 1 196,138"
+              fill="none"
+              stroke="#93c5fd"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              opacity="0.55"
             />
             <path d="M 64,138 A 56,56 0 0 1 176,138 L 162,138 A 42,42 0 0 0 78,138 Z" fill="white" />
 

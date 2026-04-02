@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'wouter';
+import { HeroCloudNetworkVisual } from '@/components/hero/HeroCloudNetworkVisual';
 import { PageHero } from '@/components/layout/PageHero';
 import { fadeInUp } from '@/lib/motion';
 import {
@@ -61,6 +62,13 @@ export default function LensPlatformPage() {
           ]}
           className="relative z-[1] bg-transparent"
           contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24"
+          aside={
+            <div className="flex items-center justify-center py-4 lg:py-0">
+              <div className="relative w-full max-w-[min(100%,400px)] rounded-2xl border border-slate-200/90 bg-white p-3 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.2)] sm:p-5">
+                <HeroCloudNetworkVisual compact />
+              </div>
+            </div>
+          }
         />
       </section>
 
