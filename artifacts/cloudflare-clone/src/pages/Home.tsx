@@ -62,7 +62,7 @@ const PLATFORM_ROWS = [
     ],
     cta: { label: 'Test Your Evidence Readiness', href: '/platforms/track' },
     related: [] as { label: string; href: string }[],
-    visual: 'globe' as const,
+    visual: 'gauge' as const,
   },
   {
     title: 'APEXLyn Lens Platform',
@@ -77,7 +77,7 @@ const PLATFORM_ROWS = [
     ],
     cta: { label: 'Assess Your AI Exposure', href: '/platforms/lens' },
     related: [] as { label: string; href: string }[],
-    visual: 'gauge' as const,
+    visual: 'globe' as const,
   },
 ];
 
@@ -145,10 +145,7 @@ export default function Home() {
       </section>
 
       {/* ── Our Platforms (Track + Lens) ── */}
-      <section
-        id="our-platforms"
-        className="py-16 md:py-24 bg-[#F7F9FC] bg-[linear-gradient(to_right,rgba(11,19,32,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(11,19,32,0.06)_1px,transparent_1px)] bg-[size:24px_24px]"
-      >
+      <section id="our-platforms" className="py-16 md:py-24 bg-[#F7F9FC]">
         <div className="max-w-[1280px] mx-auto px-6 space-y-16 md:space-y-24">
           <motion.div
             initial="hidden"
@@ -185,13 +182,13 @@ export default function Home() {
                 transition={{ duration: 0.5 }}
               >
                 <div className="relative rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-6 h-[300px] sm:h-[340px] md:h-[380px] flex items-center justify-center overflow-hidden shadow-[0_12px_40px_-24px_rgba(15,23,42,0.25)]">
-                  {row.visual === 'globe' ? (
-                    <div className="relative flex w-full h-full min-h-[260px] items-center justify-center">
-                      <HeroCloudNetworkVisual compact />
+                  {row.visual === 'gauge' ? (
+                    <div className="relative flex h-full min-h-[240px] w-full items-center justify-center">
+                      <HeroGaugeVisual compact />
                     </div>
                   ) : (
-                    <div className="relative flex w-full h-full min-h-[240px] items-center justify-center">
-                      <HeroGaugeVisual compact />
+                    <div className="relative flex h-full min-h-[260px] w-full items-center justify-center">
+                      <HeroCloudNetworkVisual compact />
                     </div>
                   )}
                 </div>

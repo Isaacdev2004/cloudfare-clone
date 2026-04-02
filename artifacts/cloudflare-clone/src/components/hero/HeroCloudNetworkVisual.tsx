@@ -36,7 +36,6 @@ const ICON_R = MESH_R + 10;
 type NetworkTheme = {
   iconStroke: string;
   packageCloudStroke: string;
-  buildingFill: string;
   meshGrad: { off: string; color: string; opacity: string }[];
   dropShadow: string;
   motionStroke: string;
@@ -48,7 +47,6 @@ type NetworkTheme = {
 const THEME_LIGHT: NetworkTheme = {
   iconStroke: "#1E3A8A",
   packageCloudStroke: "#60a5fa",
-  buildingFill: "#bfdbfe",
   meshGrad: [
     { off: "0%", color: "#e0f2fe", opacity: "0.98" },
     { off: "55%", color: "#93c5fd", opacity: "0.78" },
@@ -64,7 +62,6 @@ const THEME_LIGHT: NetworkTheme = {
 const THEME_DARK: NetworkTheme = {
   iconStroke: "#1E90FF",
   packageCloudStroke: "#7dd3fc",
-  buildingFill: "rgba(30, 144, 255, 0.28)",
   meshGrad: [
     { off: "0%", color: "#38bdf8", opacity: "0.42" },
     { off: "58%", color: "#1E3A8A", opacity: "0.62" },
@@ -82,19 +79,23 @@ function polarPt(cx: number, cy: number, r: number, angleDeg: number): [number, 
   return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
 }
 
-/** Six icons at equal 60° steps (polarPt: 0° = top of circle) */
-const ICON_POSITIONS = [
-  { angle: 0, label: "cloud2" as const },
-  { angle: 60, label: "globe" as const },
-  { angle: 120, label: "package" as const },
-  { angle: 180, label: "home" as const },
-  { angle: 240, label: "building" as const },
-  { angle: 300, label: "user" as const },
+type PerimeterLabel = "cloud2" | "globe" | "cloudMini" | "package" | "home" | "dashboard" | "user";
+
+/** Seven nodes on the orbit (matches “globe / ecosystem” reference layout) */
+const ORBIT_STEP = 360 / 7;
+const ICON_POSITIONS: { angle: number; label: PerimeterLabel }[] = [
+  { angle: 0, label: "cloud2" },
+  { angle: ORBIT_STEP * 1, label: "globe" },
+  { angle: ORBIT_STEP * 2, label: "cloudMini" },
+  { angle: ORBIT_STEP * 3, label: "package" },
+  { angle: ORBIT_STEP * 4, label: "home" },
+  { angle: ORBIT_STEP * 5, label: "dashboard" },
+  { angle: ORBIT_STEP * 6, label: "user" },
 ];
 
 const SPOKES = ICON_POSITIONS.map((ip, i) => {
   const [x2, y2] = polarPt(CX, CY, MESH_R - 10, ip.angle);
-  return { x1: CX, y1: CY, x2, y2, delay: `${i * 0.55}s` };
+  return { x1: CX, y1: CY, x2, y2, delay: `${i * 0.42}s` };
 });
 
 function CloudIcon({
@@ -132,29 +133,6 @@ function GlobeIcon({ x, y, stroke, fill }: { x: number; y: number; stroke: strin
   );
 }
 
-function BuildingIcon({ x, y, stroke, windowFill }: { x: number; y: number; stroke: string; windowFill: string }) {
-  return (
-    <g transform={`translate(${x}, ${y})`}>
-      <rect x="-16" y="-20" width="32" height="40" rx="2" fill="none" stroke={stroke} strokeWidth="2" />
-      {[
-        [-8, -16],
-        [4, -16],
-        [-8, -6],
-        [4, -6],
-      ].map(([px, py], i) => (
-        <rect key={i} x={px} y={py} width="8" height="7" rx="1" fill={windowFill} stroke={stroke} strokeWidth="1" />
-      ))}
-      {[
-        [-10, 22, 7, 16],
-        [-1, 16, 7, 22],
-        [8, 10, 7, 28],
-      ].map(([px, py, w, h], i) => (
-        <rect key={i} x={px} y={py} width={w} height={h} fill="none" stroke={stroke} strokeWidth="1.5" />
-      ))}
-    </g>
-  );
-}
-
 function UserIcon({ x, y, stroke, fill }: { x: number; y: number; stroke: string; fill: string }) {
   return (
     <g>
@@ -167,6 +145,22 @@ function UserIcon({ x, y, stroke, fill }: { x: number; y: number; stroke: string
         strokeWidth="1.8"
         strokeLinecap="round"
       />
+    </g>
+  );
+}
+
+function DashboardIcon({ x, y, stroke, fill }: { x: number; y: number; stroke: string; fill: string }) {
+  return (
+    <g>
+      <circle cx={x} cy={y} r={21} fill={fill} stroke={stroke} strokeWidth="2" />
+      <rect x={x - 14} y={y - 14} width="28" height="24" rx="2.5" fill="none" stroke={stroke} strokeWidth="1.6" />
+      <rect x={x - 12} y={y - 12} width="7" height="6" rx="0.8" fill="none" stroke={stroke} strokeWidth="1.2" />
+      <rect x={x - 3} y={y - 12} width="7" height="6" rx="0.8" fill="none" stroke={stroke} strokeWidth="1.2" />
+      <rect x={x - 12} y={y - 4} width="7" height="6" rx="0.8" fill="none" stroke={stroke} strokeWidth="1.2" />
+      <rect x={x - 3} y={y - 4} width="7" height="6" rx="0.8" fill="none" stroke={stroke} strokeWidth="1.2" />
+      <rect x={x - 10} y={y + 5} width="4" height="8" rx="0.6" fill={stroke} opacity="0.35" />
+      <rect x={x - 3} y={y + 3} width="4" height="10" rx="0.6" fill={stroke} opacity="0.5" />
+      <rect x={x + 4} y={y + 6} width="4" height="7" rx="0.6" fill={stroke} opacity="0.4" />
     </g>
   );
 }
@@ -193,18 +187,20 @@ function PackageIcon({ x, y, t }: { x: number; y: number; t: NetworkTheme }) {
   );
 }
 
-function renderIcon(label: (typeof ICON_POSITIONS)[number]["label"], x: number, y: number, t: NetworkTheme) {
+function renderIcon(label: PerimeterLabel, x: number, y: number, t: NetworkTheme) {
   switch (label) {
     case "cloud2":
       return <CloudIcon x={x} y={y} stroke={t.iconStroke} fill={t.iconCloudFill} />;
+    case "cloudMini":
+      return <CloudIcon x={x} y={y} size={28} stroke={t.iconStroke} fill={t.iconCloudFill} />;
     case "globe":
       return <GlobeIcon x={x} y={y} stroke={t.iconStroke} fill={t.iconCloudFill} />;
-    case "building":
-      return <BuildingIcon x={x} y={y} stroke={t.iconStroke} windowFill={t.buildingFill} />;
     case "user":
       return <UserIcon x={x} y={y} stroke={t.iconStroke} fill={t.iconCloudFill} />;
     case "home":
       return <HomeIcon x={x} y={y} stroke={t.iconStroke} fill={t.iconCloudFill} />;
+    case "dashboard":
+      return <DashboardIcon x={x} y={y} stroke={t.iconStroke} fill={t.iconCloudFill} />;
     case "package":
       return <PackageIcon x={x} y={y} t={t} />;
     default:
