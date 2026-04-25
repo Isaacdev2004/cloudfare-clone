@@ -5,17 +5,26 @@ import { PageHero } from '@/components/layout/PageHero';
 import { fadeInUp } from '@/lib/motion';
 import { InnerHeroBackdrop, SectionGridWash, ElevatedCtaBand } from '@/components/layout/InnerPageChrome';
 import { FileStack } from 'lucide-react';
-
-const CONTACT_HREF = '/company/contact';
+import { CTA, CONTACT_TOPICS } from '@/lib/apexlyn-cta-routes';
 
 type ResourceDetailProps = {
   title: string;
   subheadline: string;
   emptyState: string;
   ctaLabel: string;
+  ctaHref: string;
+  /** When false, omit the generic “Prefer email?” line under the empty state. */
+  showEmailHint?: boolean;
 };
 
-function ResourceDetailPage({ title, subheadline, emptyState, ctaLabel }: ResourceDetailProps) {
+function ResourceDetailPage({
+  title,
+  subheadline,
+  emptyState,
+  ctaLabel,
+  ctaHref,
+  showEmailHint = true,
+}: ResourceDetailProps) {
   return (
     <div className="min-h-screen apex-page-bg">
       <section className="relative overflow-hidden border-b border-slate-200 bg-white">
@@ -45,15 +54,17 @@ function ResourceDetailPage({ title, subheadline, emptyState, ctaLabel }: Resour
             className="rounded-2xl border border-slate-200/90 bg-white px-8 py-12 shadow-[0_24px_56px_-32px_rgba(11,19,32,0.18)]"
           >
             <p className="font-sans text-[17px] leading-relaxed text-slate-600">{emptyState}</p>
-            <p className="mt-6 font-sans text-sm text-slate-500">
-              Prefer email? Use contact and we’ll route your request to the right team.
-            </p>
+            {showEmailHint ? (
+              <p className="mt-6 font-sans text-sm text-slate-500">
+                Prefer email? Use contact and we’ll route your request to the right team.
+              </p>
+            ) : null}
           </motion.div>
         </div>
       </div>
       <ElevatedCtaBand>
         <Link
-          href={CONTACT_HREF}
+          href={ctaHref}
           className="inline-flex items-center justify-center rounded px-6 py-3.5 font-sans text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554]"
         >
           {ctaLabel}
@@ -73,9 +84,11 @@ export function ResourcesWhitepapersPage() {
   return (
     <ResourceDetailPage
       title="Whitepapers"
-      subheadline="Research-backed writing focused on defensible evidence and governance execution."
+      subheadline="Research-backed writing focused on defensible evidence, governance execution, and stronger operational trust."
       emptyState="New releases are publishing soon."
       ctaLabel="Request Early Access"
+      ctaHref={CTA.contactTopic(CONTACT_TOPICS.resources)}
+      showEmailHint={false}
     />
   );
 }
@@ -84,9 +97,10 @@ export function ResourcesFrameworkGuidesPage() {
   return (
     <ResourceDetailPage
       title="Framework Guides"
-      subheadline="Translate frameworks into operational control reality and evidence mapping."
+      subheadline="Translate frameworks into operational control reality and evidence mapping — not checklist theater."
       emptyState="Guides are being released in stages."
       ctaLabel="Request a Guide"
+      ctaHref={CTA.contactTopic(CONTACT_TOPICS.frameworkGuide)}
     />
   );
 }
@@ -95,9 +109,10 @@ export function ResourcesAIRiskBriefsPage() {
   return (
     <ResourceDetailPage
       title="AI Risk Briefs"
-      subheadline="Practical AI governance patterns for visibility, enforcement, and reduced exposure."
+      subheadline="Practical AI governance guidance for visibility, enforcement, and reduced exposure."
       emptyState="Briefs are publishing soon."
       ctaLabel="Request an AI Briefing"
+      ctaHref={CTA.contactTopic(CONTACT_TOPICS.aiBriefing)}
     />
   );
 }

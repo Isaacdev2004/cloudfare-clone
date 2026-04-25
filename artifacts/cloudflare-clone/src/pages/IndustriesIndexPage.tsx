@@ -57,11 +57,27 @@ export default function IndustriesIndexPage() {
         <PageHero
           variant="light"
           eyebrow="Industries"
-          title="Designed for Organisations Operating Under Heightened Data Sensitivity and Oversight"
-          description="Evidence-led security and AI governance built for environments where assumptions become liability."
+          title="Built for Organisations Operating Under Heightened Data Sensitivity and Oversight"
+          description="Evidence-led security and AI governance for environments where assumptions become liability."
           className="relative z-[1] bg-transparent"
           contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24"
         />
+      </section>
+
+      <section className="border-b border-slate-200 bg-white py-14 md:py-16">
+        <div className="mx-auto max-w-3xl px-6">
+          <motion.p
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-[17px] leading-relaxed text-slate-600 sm:text-[18px]"
+          >
+            Different industries carry different pressures, but the pattern is consistent: sensitive data, growing tool
+            sprawl, rising AI usage, and stronger governance expectations. APEXLyn helps make control reality visible and
+            defensible without relying on manual assurance.
+          </motion.p>
+        </div>
       </section>
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-16 md:py-24">
@@ -76,7 +92,7 @@ export default function IndustriesIndexPage() {
           >
             <h2 className="text-lg font-semibold text-slate-900">Sectors</h2>
             <p className="mt-2 max-w-2xl text-slate-600">
-              Select a vertical to see how APEXLyn maps evidence, AI governance, and services to your operating context.
+              Select a sector to see how APEXLyn maps evidence, AI governance, and services to your operating context.
             </p>
           </motion.div>
 

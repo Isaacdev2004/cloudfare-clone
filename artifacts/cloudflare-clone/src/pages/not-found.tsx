@@ -1,27 +1,36 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
-import { Link } from "wouter";
+import { Link } from 'wouter';
+import { PageHero } from '@/components/layout/PageHero';
+import { InnerHeroBackdrop, ElevatedCtaBand } from '@/components/layout/InnerPageChrome';
+import { CTA } from '@/lib/apexlyn-cta-routes';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#f8fafc] px-4">
-      <Card className="w-full max-w-md border-slate-200 bg-white">
-        <CardContent className="pt-6">
-          <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-[#1E3A8A]" />
-            <h1 className="text-2xl font-bold text-slate-900">404 Page Not Found</h1>
-          </div>
-
-          <p className="mt-4 text-sm text-slate-600">The page you requested does not exist in this clone.</p>
-          <Link
-            href="/"
-            className="mt-6 inline-flex items-center justify-center rounded px-4 py-2 text-sm font-semibold text-white"
-            style={{ backgroundColor: "#1E3A8A" }}
-          >
-            Back to homepage
-          </Link>
-        </CardContent>
-      </Card>
+    <div className="min-h-screen apex-page-bg">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
+        <InnerHeroBackdrop />
+        <PageHero
+          variant="light"
+          eyebrow="Error"
+          title="This Page Could Not Be Found"
+          description="The page you are looking for may have moved, expired, or never existed."
+          className="relative z-[1] bg-transparent"
+          contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24 max-w-3xl"
+        />
+      </section>
+      <ElevatedCtaBand>
+        <Link
+          href="/"
+          className="inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554] font-sans"
+        >
+          Return Home
+        </Link>
+        <Link
+          href={CTA.platforms}
+          className="inline-flex items-center justify-center rounded border border-slate-300 bg-white px-6 py-3.5 text-[15px] font-semibold text-slate-800 transition-colors hover:bg-slate-50 font-sans"
+        >
+          Explore Our Platforms
+        </Link>
+      </ElevatedCtaBand>
     </div>
   );
 }

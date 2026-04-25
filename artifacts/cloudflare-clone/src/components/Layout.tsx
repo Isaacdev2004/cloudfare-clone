@@ -11,23 +11,23 @@ const CLOUDFLARE_BLOG_URL = '/resources/blog';
 const CLOUDFLARE_DOCS_URL = '/resources/documentation';
 const CLOUDFLARE_STATUS_URL = '/support/system-status';
 const CLOUDFLARE_COMMUNITY_URL = '/resources/community';
-const CLOUDFLARE_CAREERS_URL = '/company/careers';
+const COMPANY_CAREERS_HREF = '/company/careers';
 const CLOUDFLARE_PRESS_URL = '/company/press';
 const CLOUDFLARE_INVESTORS_URL = '/company/investors';
 const CLOUDFLARE_TRUST_URL = '/support/trust-hub';
-const CLOUDFLARE_PRIVACY_URL = '/privacy-policy';
-const CLOUDFLARE_TERMS_URL = '/terms-of-use';
-const CLOUDFLARE_GITHUB_URL = '/developers';
+const CLOUDFLARE_PRIVACY_URL = '/privacy';
+const CLOUDFLARE_TERMS_URL = '/terms';
 const CLOUDFLARE_RADAR_URL = '/resources/case-studies';
 const CLOUDFLARE_SUPPORT_URL = '/support/help-center';
 
-const NAV_CTA_TEST_SECURITY_HREF = '/test-security-state';
+const NAV_CTA_TEST_SECURITY_HREF = '/test-your-security-state';
 
 const normalizeHref = (href: string) => {
   if (href === '#') return '/';
   if (href.startsWith('http')) {
     if (href.includes('developers') || href.includes('workers') || href.includes('pages')) return '/developers';
-    if (href.includes('enterprise') || href.includes('contact')) return '/enterprise';
+    if (href.includes('contact')) return '/contact';
+    if (href.includes('enterprise')) return '/enterprise';
     if (href.includes('plans') || href.includes('pricing') || href.includes('dash.cloudflare.com')) return '/pricing';
     if (href.includes('zero-trust') || href.includes('sase')) return '/zero-trust';
     if (href.includes('partners')) return '/solutions';
@@ -36,6 +36,40 @@ const normalizeHref = (href: string) => {
   return href;
 };
 
+const pathOnly = (path: string) => path.split('?')[0] || '/';
+
+/** §8.4 — top-level group matches current route (for persistent active styling). */
+function isRouteInNavGroup(groupName: string, locationPath: string): boolean {
+  const p = pathOnly(locationPath);
+  switch (groupName) {
+    case 'Platforms':
+      return p === '/platforms' || p.startsWith('/platforms/') || p === '/architecture-overview';
+    case 'Solutions':
+      return p === '/solutions' || p.startsWith('/solutions/');
+    case 'Industries':
+      return p === '/industries' || p.startsWith('/industries/');
+    case 'Resources':
+      return p === '/resources' || p.startsWith('/resources/');
+    case 'Company':
+      return p === '/contact' || p === '/company' || p.startsWith('/company/');
+    default:
+      return false;
+  }
+}
+
+/** §8.4 — sub-link (dropdown / drawer) is current page. */
+function isActiveNavHref(href: string, locationPath: string): boolean {
+  const h = normalizeHref(href);
+  const p = pathOnly(locationPath);
+  if (h === p) return true;
+  if (h.length > 1 && p.startsWith(h.endsWith('/') ? h : `${h}/`)) return true;
+  return false;
+}
+
+const DESKTOP_DROPDOWN_HOVER_OPEN_MS = 120;
+const DESKTOP_DROPDOWN_HOVER_CLOSE_MS = 150;
+
+/** Section 4 — top nav + dropdowns (master specification). */
 const NAV_ITEMS = [
   {
     name: 'Platforms',
@@ -45,10 +79,9 @@ const NAV_ITEMS = [
         {
           title: 'Platforms',
           items: [
-            { label: 'Overview', desc: 'Track and Lens — capabilities at a glance', href: '/platforms' },
-            { label: 'APEXLyn Track Platform', desc: 'Continuous visibility across your attack surface', href: '/platforms/track' },
-            { label: 'APEXLyn Lens Platform', desc: 'Governance, risk, and decision-ready insight', href: '/platforms/lens' },
-            { label: 'Architecture Overview', desc: 'How Track and Lens fit your stack', href: '/platforms/architecture' },
+            { label: 'APEXLyn Track Platform', desc: 'Security Evidence Infrastructure', href: '/platforms/track' },
+            { label: 'APEXLyn Lens Platform', desc: 'AI Governance & AI Risk Infrastructure', href: '/platforms/lens' },
+            { label: 'Architecture Overview', desc: 'How Track and Lens fit your stack', href: '/architecture-overview' },
           ],
         },
       ],
@@ -62,10 +95,9 @@ const NAV_ITEMS = [
         {
           title: 'Solutions',
           items: [
-            { label: 'Overview', desc: 'Structured security & AI governance services', href: '/solutions' },
-            { label: 'Cyber Security Services', desc: 'Hands-on defense and response expertise', href: '/solutions/cyber-security-services' },
-            { label: 'AI Governance Advisory', desc: 'Policies and controls for safe AI adoption', href: '/solutions/ai-governance-advisory' },
-            { label: 'Compliance Operations', desc: 'Operationalize frameworks and audits', href: '/solutions/compliance-operations' },
+            { label: 'Cyber Security Services', desc: 'Operational uplift and control stabilisation', href: '/solutions/cyber-security-services' },
+            { label: 'AI Governance Advisory', desc: 'Policies, controls, and safe AI operating models', href: '/solutions/ai-governance-advisory' },
+            { label: 'Compliance Operations', desc: 'Frameworks, evidence mapping, and review cadence', href: '/solutions/compliance-operations' },
           ],
         },
       ],
@@ -79,7 +111,6 @@ const NAV_ITEMS = [
         {
           title: 'Industries',
           items: [
-            { label: 'Overview', desc: 'Sectors under heightened data sensitivity', href: '/industries' },
             { label: 'Healthcare', desc: 'Security and compliance for care delivery', href: '/industries/healthcare' },
             { label: 'Legal', desc: 'Protect matter data and client trust', href: '/industries/legal' },
             { label: 'Accounting', desc: 'Safeguard financial and client records', href: '/industries/accounting' },
@@ -93,15 +124,15 @@ const NAV_ITEMS = [
   },
   {
     name: 'Resources',
-    href: '/resources/whitepapers',
+    href: '/resources',
     dropdown: {
       columns: [
         {
           title: 'Resources',
           items: [
-            { label: 'Whitepapers', desc: 'Deep dives on risk and architecture', href: '/resources/whitepapers' },
-            { label: 'Framework Guides', desc: 'Map controls to standards you use', href: '/resources/framework-guides' },
-            { label: 'AI Risk Briefs', desc: 'Concise guidance on AI threats', href: '/resources/ai-risk-briefs' },
+            { label: 'Whitepapers', desc: 'Research and architecture depth', href: '/resources/whitepapers' },
+            { label: 'Framework Guides', desc: 'Map controls to the standards you use', href: '/resources/framework-guides' },
+            { label: 'AI Risk Briefs', desc: 'Concise guidance on AI risk', href: '/resources/ai-risk-briefs' },
           ],
         },
       ],
@@ -115,9 +146,9 @@ const NAV_ITEMS = [
         {
           title: 'Company',
           items: [
-            { label: 'About', desc: 'Mission, story, and leadership', href: '/company/about' },
-            { label: 'Careers', desc: 'Join the APEXLyn team', href: CLOUDFLARE_CAREERS_URL },
-            { label: 'Contact', desc: 'Speak with our team', href: '/company/contact' },
+            { label: 'About', desc: 'Who we are and what we build', href: '/company/about' },
+            { label: 'Careers', desc: 'Join the APEXLyn team', href: COMPANY_CAREERS_HREF },
+            { label: 'Contact', desc: 'Speak with our team', href: '/contact' },
           ],
         },
       ],
@@ -136,18 +167,35 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [location] = useLocation();
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openDelayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setMobileMenuOpen(false);
     setMobileExpanded(null);
+    if (openDelayTimer.current) {
+      clearTimeout(openDelayTimer.current);
+      openDelayTimer.current = null;
+    }
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
     setActiveDropdown(null);
   }, [location]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        if (openDelayTimer.current) {
+          clearTimeout(openDelayTimer.current);
+          openDelayTimer.current = null;
+        }
+        if (closeTimer.current) {
+          clearTimeout(closeTimer.current);
+          closeTimer.current = null;
+        }
         setActiveDropdown(null);
         setMobileMenuOpen(false);
         setMobileExpanded(null);
@@ -166,17 +214,47 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     };
   }, [mobileMenuOpen]);
 
-  const openDropdown = (name: string) => {
+  const clearOpenDelay = () => {
+    if (openDelayTimer.current) {
+      clearTimeout(openDelayTimer.current);
+      openDelayTimer.current = null;
+    }
+  };
+
+  /** §8.2 — open on hover after short delay (not instant) */
+  const scheduleOpenDropdown = (name: string) => {
+    clearOpenDelay();
     if (closeTimer.current) clearTimeout(closeTimer.current);
-    setActiveDropdown(name);
+    openDelayTimer.current = setTimeout(() => {
+      openDelayTimer.current = null;
+      setActiveDropdown(name);
+    }, DESKTOP_DROPDOWN_HOVER_OPEN_MS);
+  };
+
+  /** §8.2 — click: open/close immediately (a11y); only one section open at a time */
+  const onDesktopNavClick = (name: string) => {
+    clearOpenDelay();
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setActiveDropdown((prev) => (prev === name ? null : name));
   };
 
   const startCloseTimer = () => {
-    closeTimer.current = setTimeout(() => setActiveDropdown(null), 150);
+    clearOpenDelay();
+    closeTimer.current = setTimeout(() => setActiveDropdown(null), DESKTOP_DROPDOWN_HOVER_CLOSE_MS);
   };
 
   const cancelCloseTimer = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
+  };
+
+  /** Dismiss any pending open/close animation timers (used when navigating away). */
+  const dismissDesktopDropdown = () => {
+    clearOpenDelay();
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setActiveDropdown(null);
   };
 
   const activeItem = NAV_ITEMS.find((i) => i.name === activeDropdown);
@@ -184,10 +262,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   return (
     <div className="min-h-screen flex flex-col bg-[#F7F9FC]">
 
-      {/* ── Header — Cloudflare-style white bar, two-tier utilities + CTAs ── */}
+      {/* §8.1 — header stays at top of viewport (fixed = sticky site chrome) on all breakpoints */}
       <header
         ref={headerRef}
-        className="fixed top-0 z-50 w-full border-b border-slate-200 bg-white"
+        className="fixed top-0 inset-x-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-sm supports-[backdrop-filter]:bg-white/90"
         style={{ height: HEADER_HEIGHT_PX }}
       >
         <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6">
@@ -195,7 +273,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <Link
               href="/"
               className="flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded"
-              onClick={() => setActiveDropdown(null)}
+              onClick={dismissDesktopDropdown}
               aria-label="Apexlyn home"
             >
               <ApexlynLogo
@@ -208,99 +286,91 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               />
             </Link>
 
-            <nav className="hidden min-w-0 items-center lg:flex">
-              {NAV_ITEMS.slice(0, 2).map((item) => (
+            <nav className="hidden min-w-0 flex-wrap items-center justify-end gap-x-0.5 gap-y-1 lg:flex" aria-label="Primary">
+              {NAV_ITEMS.map((item) => {
+                const navItemOpen = activeDropdown === item.name;
+                const navItemRoute = isRouteInNavGroup(item.name, location);
+                return (
                 <button
                   key={item.name}
                   type="button"
-                  onMouseEnter={() => openDropdown(item.name)}
+                  onMouseEnter={() => scheduleOpenDropdown(item.name)}
                   onMouseLeave={startCloseTimer}
-                  onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
-                  aria-expanded={activeDropdown === item.name}
-                  aria-label={`${item.name} menu`}
+                  onClick={() => onDesktopNavClick(item.name)}
+                  aria-expanded={navItemOpen}
+                  aria-haspopup="true"
+                  aria-label={`${item.name} menu${navItemRoute ? ', current section' : ''}`}
                   className={cn(
-                    'flex items-center gap-0.5 px-3 py-2 text-[15px] font-medium text-black transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
-                    activeDropdown === item.name ? 'text-black' : 'text-black hover:text-slate-600',
+                    'flex items-center gap-0.5 px-2.5 py-2 text-[15px] font-medium transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded xl:px-3',
+                    navItemOpen
+                      ? 'bg-slate-100 text-[#0B1320] ring-1 ring-slate-200/90'
+                      : navItemRoute
+                        ? 'text-[#1E3A8A] font-semibold'
+                        : 'text-slate-800 hover:text-slate-900',
                   )}
                 >
                   {item.name}
                   <ChevronDown
                     className={cn(
-                      'h-3.5 w-3.5 transition-transform duration-200',
-                      activeDropdown === item.name ? 'rotate-180' : '',
+                      'h-3.5 w-3.5 text-slate-500 transition-transform duration-200',
+                      navItemOpen ? 'rotate-180 text-[#1E3A8A]' : '',
+                      !navItemOpen && navItemRoute ? 'text-[#1E3A8A]/80' : '',
                     )}
+                    aria-hidden
                   />
                 </button>
-              ))}
+                );
+              })}
               <Link
                 href="/trust-center"
-                onClick={() => setActiveDropdown(null)}
+                onClick={dismissDesktopDropdown}
+                aria-current={pathOnly(location) === '/trust-center' ? 'page' : undefined}
                 className={cn(
-                  'px-3 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
-                  location === '/trust-center' ? 'text-black' : 'text-black hover:text-slate-600',
+                  'px-2.5 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded xl:px-3',
+                  pathOnly(location) === '/trust-center'
+                    ? 'bg-slate-100 font-semibold text-[#0B1320] ring-1 ring-slate-200/90'
+                    : 'text-slate-800 hover:text-slate-900',
                 )}
               >
                 Trust Center
               </Link>
-              {NAV_ITEMS.slice(2, 4).map((item) => (
-                <button
-                  key={item.name}
-                  type="button"
-                  onMouseEnter={() => openDropdown(item.name)}
-                  onMouseLeave={startCloseTimer}
-                  onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
-                  aria-expanded={activeDropdown === item.name}
-                  aria-label={`${item.name} menu`}
-                  className={cn(
-                    'flex items-center gap-0.5 px-3 py-2 text-[15px] font-medium text-black transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
-                    activeDropdown === item.name ? 'text-black' : 'text-black hover:text-slate-600',
-                  )}
-                >
-                  {item.name}
-                  <ChevronDown
-                    className={cn(
-                      'h-3.5 w-3.5 transition-transform duration-200',
-                      activeDropdown === item.name ? 'rotate-180' : '',
-                    )}
-                  />
-                </button>
-              ))}
-              {NAV_ITEMS.slice(4).map((item) => (
-                <button
-                  key={item.name}
-                  type="button"
-                  onMouseEnter={() => openDropdown(item.name)}
-                  onMouseLeave={startCloseTimer}
-                  onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
-                  aria-expanded={activeDropdown === item.name}
-                  aria-label={`${item.name} menu`}
-                  className={cn(
-                    'flex items-center gap-0.5 px-3 py-2 text-[15px] font-medium text-black transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
-                    activeDropdown === item.name ? 'text-black' : 'text-black hover:text-slate-600',
-                  )}
-                >
-                  {item.name}
-                  <ChevronDown
-                    className={cn(
-                      'h-3.5 w-3.5 transition-transform duration-200',
-                      activeDropdown === item.name ? 'rotate-180' : '',
-                    )}
-                  />
-                </button>
-              ))}
               <Link
                 href="/pricing"
-                onClick={() => setActiveDropdown(null)}
+                onClick={dismissDesktopDropdown}
+                aria-current={pathOnly(location) === '/pricing' ? 'page' : undefined}
                 className={cn(
-                  'px-3 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded',
-                  location === '/pricing' ? 'text-black' : 'text-black hover:text-slate-600',
+                  'px-2.5 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded xl:px-3',
+                  pathOnly(location) === '/pricing'
+                    ? 'bg-slate-100 font-semibold text-[#0B1320] ring-1 ring-slate-200/90'
+                    : 'text-slate-800 hover:text-slate-900',
                 )}
               >
                 Pricing
               </Link>
+              <Link
+                href={NAV_CTA_TEST_SECURITY_HREF}
+                onClick={dismissDesktopDropdown}
+                aria-current={
+                  pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
+                    ? 'page'
+                    : undefined
+                }
+                className={cn(
+                  'px-2.5 py-2 text-[15px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded hover:text-[#172554] xl:px-3',
+                  pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
+                    ? 'bg-[#1E3A8A] text-white ring-1 ring-[#1E3A8A] shadow-sm'
+                    : 'text-[#1E3A8A] hover:text-[#172554]',
+                )}
+              >
+                Test Your Security State
+              </Link>
             </nav>
           </div>
 
+          {/*
+            §7.2 + §8.1 — mobile: logo, compact CTA, menu; header fixed on all viewports.
+            §7.3 + §8.3 — one accordion section at a time; tap toggles (second tap closes).
+          */}
           <div className="hidden shrink-0 flex-col items-end justify-center gap-1.5 lg:flex">
             <div className="flex items-center gap-5 text-[13px] font-medium text-slate-700">
               <Link
@@ -330,23 +400,32 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               >
                 Log in
               </Link>
-              <Link
-                href={NAV_CTA_TEST_SECURITY_HREF}
-                className="inline-flex items-center justify-center rounded bg-[#1E3A8A] px-4 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-[#172554] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/50"
-              >
-                Test Your Security State
-              </Link>
             </div>
           </div>
 
-          <button
-            type="button"
-            className="-mr-1 shrink-0 p-2 text-slate-900 lg:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-          >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
+            <Link
+              href={NAV_CTA_TEST_SECURITY_HREF}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setMobileExpanded(null);
+              }}
+              className="inline-flex max-w-[min(42vw,180px)] items-center justify-center rounded-md bg-[#1E3A8A] px-2.5 py-2 text-center text-[11px] font-semibold leading-tight text-white transition-colors hover:bg-[#172554] sm:px-3 sm:text-xs"
+            >
+              Test security
+            </Link>
+            <button
+              type="button"
+              className="-mr-1 shrink-0 p-2 text-slate-900"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-haspopup="dialog"
+              aria-expanded={mobileMenuOpen}
+              aria-controls={mobileMenuOpen ? 'site-mobile-nav-panel' : undefined}
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -361,7 +440,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             transition={{ duration: 0.14, ease: 'easeOut' }}
             className="fixed left-0 right-0 z-40 border-b border-slate-200 bg-white shadow-[0_24px_48px_-12px_rgba(15,23,42,0.12)]"
             style={{ top: HEADER_HEIGHT_PX }}
-            onMouseEnter={cancelCloseTimer}
+            onMouseEnter={() => {
+              cancelCloseTimer();
+              clearOpenDelay();
+            }}
             onMouseLeave={startCloseTimer}
           >
             <div className="max-w-[1280px] mx-auto px-6 py-8">
@@ -375,22 +457,42 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                       {col.title}
                     </p>
                     <ul className="space-y-0.5">
-                      {col.items.map((sub) => (
+                      {col.items.map((sub) => {
+                        const subHref = normalizeHref(sub.href || '#');
+                        const subActive = isActiveNavHref(sub.href || '#', location);
+                        return (
                         <li key={sub.label}>
                           <Link
-                            href={normalizeHref(sub.href || '#')}
-                            onClick={() => setActiveDropdown(null)}
-                            className="group flex flex-col rounded-md px-2 py-2 transition-colors duration-100 hover:bg-slate-50"
+                            href={subHref}
+                            onClick={dismissDesktopDropdown}
+                            aria-current={subActive ? 'page' : undefined}
+                            className={cn(
+                              'group flex flex-col rounded-md px-2 py-2 transition-colors duration-100',
+                              subActive
+                                ? 'bg-[#1E3A8A]/8 ring-1 ring-[#1E3A8A]/20'
+                                : 'hover:bg-slate-50',
+                            )}
                           >
-                            <span className="text-[14px] font-medium text-slate-900 group-hover:text-black">
+                            <span
+                              className={cn(
+                                'text-[14px] font-medium',
+                                subActive ? 'text-[#1E3A8A]' : 'text-slate-900 group-hover:text-black',
+                              )}
+                            >
                               {sub.label}
                             </span>
-                            <span className="mt-0.5 text-[12px] leading-snug text-slate-500 group-hover:text-slate-600">
+                            <span
+                              className={cn(
+                                'mt-0.5 text-[12px] leading-snug',
+                                subActive ? 'text-slate-700' : 'text-slate-500 group-hover:text-slate-600',
+                              )}
+                            >
                               {sub.desc}
                             </span>
                           </Link>
                         </li>
-                      ))}
+                        );
+                      })}
                     </ul>
                   </div>
                 ))}
@@ -410,7 +512,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-30 bg-black/20 backdrop-blur-[1px]"
             style={{ top: HEADER_HEIGHT_PX }}
-            onClick={() => setActiveDropdown(null)}
+            onClick={dismissDesktopDropdown}
           />
         )}
       </AnimatePresence>
@@ -419,12 +521,16 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
+            id="site-mobile-nav-panel"
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
             className="fixed inset-0 z-[60] overflow-y-auto bg-white lg:hidden"
             style={{ paddingTop: HEADER_HEIGHT_PX }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
           >
             <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
               <Link
@@ -447,11 +553,105 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               </button>
             </div>
 
-            <nav className="px-4 py-2">
-              <div className="mb-1 border-b border-slate-200 pb-2">
+            <nav className="px-4 py-2" aria-label="Primary mobile">
+              {NAV_ITEMS.map((item) => {
+                const sectionOpen = mobileExpanded === item.name;
+                const sectionRoute = isRouteInNavGroup(item.name, location);
+                return (
+                  <div key={item.name} className="border-b border-slate-200">
+                    {/* §8.3 — tap opens; second tap on same row closes */}
+                    <button
+                      type="button"
+                      className={cn(
+                        'flex w-full items-center justify-between py-4 text-left text-[15px] font-medium',
+                        sectionOpen
+                          ? 'bg-slate-50 text-[#0B1320]'
+                          : sectionRoute
+                            ? 'text-[#1E3A8A] font-semibold'
+                            : 'text-slate-900',
+                      )}
+                      onClick={() => setMobileExpanded(mobileExpanded === item.name ? null : item.name)}
+                      aria-expanded={sectionOpen}
+                      aria-label={`${item.name} menu${sectionRoute ? ', current section' : ''}`}
+                    >
+                      {item.name}
+                      <ChevronDown
+                        className={cn(
+                          'h-4 w-4 shrink-0 text-slate-500 transition-transform duration-200',
+                          sectionOpen ? 'rotate-180 text-[#1E3A8A]' : '',
+                          !sectionOpen && sectionRoute ? 'text-[#1E3A8A]/80' : '',
+                        )}
+                        aria-hidden
+                      />
+                    </button>
+
+                    <AnimatePresence>
+                      {sectionOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="space-y-5 pb-6">
+                            {item.dropdown.columns.map((col) => (
+                              <div key={col.title}>
+                                <p className="mb-2 px-1 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+                                  {col.title}
+                                </p>
+                                {col.items.map((sub) => {
+                                  const mActive = isActiveNavHref(sub.href, location);
+                                  return (
+                                    <Link
+                                      key={sub.label}
+                                      href={normalizeHref(sub.href)}
+                                      aria-current={mActive ? 'page' : undefined}
+                                      className={cn(
+                                        'flex flex-col rounded px-1 py-2',
+                                        mActive
+                                          ? 'bg-[#1E3A8A]/8 ring-1 ring-[#1E3A8A]/15'
+                                          : 'hover:bg-slate-50',
+                                      )}
+                                      onClick={() => {
+                                        setMobileMenuOpen(false);
+                                        setMobileExpanded(null);
+                                      }}
+                                    >
+                                      <span
+                                        className={cn(
+                                          'text-[14px] font-medium',
+                                          mActive ? 'text-[#1E3A8A]' : 'text-slate-900',
+                                        )}
+                                      >
+                                        {sub.label}
+                                      </span>
+                                      <span className={cn('text-[12px]', mActive ? 'text-slate-600' : 'text-slate-500')}>
+                                        {sub.desc}
+                                      </span>
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+
+              <div className="mb-1 mt-1 border-b border-slate-200">
                 <Link
                   href="/trust-center"
-                  className="block py-3 text-[15px] font-medium text-slate-900 hover:text-black"
+                  aria-current={pathOnly(location) === '/trust-center' ? 'page' : undefined}
+                  className={cn(
+                    'block py-3 text-[15px] font-medium',
+                    pathOnly(location) === '/trust-center'
+                      ? 'font-semibold text-[#0B1320] bg-slate-50 -mx-4 px-4 rounded-md'
+                      : 'text-slate-900 hover:text-black',
+                  )}
                   onClick={() => {
                     setMobileMenuOpen(false);
                     setMobileExpanded(null);
@@ -461,7 +661,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 </Link>
                 <Link
                   href="/pricing"
-                  className="block py-3 text-[15px] font-medium text-slate-900 hover:text-black"
+                  aria-current={pathOnly(location) === '/pricing' ? 'page' : undefined}
+                  className={cn(
+                    'block py-3 text-[15px] font-medium',
+                    pathOnly(location) === '/pricing'
+                      ? 'font-semibold text-[#0B1320] bg-slate-50 -mx-4 px-4 rounded-md'
+                      : 'text-slate-900 hover:text-black',
+                  )}
                   onClick={() => {
                     setMobileMenuOpen(false);
                     setMobileExpanded(null);
@@ -469,65 +675,30 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 >
                   Pricing
                 </Link>
+                <Link
+                  href={NAV_CTA_TEST_SECURITY_HREF}
+                  aria-current={
+                    pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
+                      ? 'page'
+                      : undefined
+                  }
+                  className={cn(
+                    'block py-3 text-[15px] font-semibold',
+                    pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
+                      ? 'rounded-md bg-[#1E3A8A] text-white -mx-4 px-4'
+                      : 'text-[#1E3A8A] hover:text-[#172554]',
+                  )}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setMobileExpanded(null);
+                  }}
+                >
+                  Test Your Security State
+                </Link>
               </div>
-              {NAV_ITEMS.map((item) => (
-                <div key={item.name} className="border-b border-slate-200">
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-between py-4 text-[15px] font-medium text-slate-900"
-                    onClick={() => setMobileExpanded(mobileExpanded === item.name ? null : item.name)}
-                    aria-expanded={mobileExpanded === item.name}
-                    aria-label={`${item.name} mobile menu`}
-                  >
-                    {item.name}
-                    <ChevronDown
-                      className={cn(
-                        'h-4 w-4 text-slate-500 transition-transform duration-200',
-                        mobileExpanded === item.name ? 'rotate-180' : '',
-                      )}
-                    />
-                  </button>
-
-                  <AnimatePresence>
-                    {mobileExpanded === item.name && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="space-y-5 pb-6">
-                          {item.dropdown.columns.map((col) => (
-                            <div key={col.title}>
-                              <p className="mb-2 px-1 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
-                                {col.title}
-                              </p>
-                              {col.items.map((sub) => (
-                                <Link
-                                  key={sub.label}
-                                  href={normalizeHref(sub.href)}
-                                  className="flex flex-col rounded px-1 py-2 hover:bg-slate-50"
-                                  onClick={() => {
-                                    setMobileMenuOpen(false);
-                                    setMobileExpanded(null);
-                                  }}
-                                >
-                                  <span className="text-[14px] text-slate-900">{sub.label}</span>
-                                  <span className="text-[12px] text-slate-500">{sub.desc}</span>
-                                </Link>
-                              ))}
-                            </div>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
             </nav>
 
-            <div className="flex flex-col gap-3 px-4 pb-8 pt-6">
+            <div className="flex flex-col gap-3 px-4 pb-8 pt-4">
               <Link
                 href={LOGIN_URL}
                 className="block rounded border border-slate-300 bg-white py-3 text-center text-[14px] font-semibold text-black hover:bg-slate-50"
@@ -536,18 +707,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 Log in
               </Link>
               <Link
-                href={NAV_CTA_TEST_SECURITY_HREF}
-                className="block rounded bg-[#1E3A8A] py-3 text-center text-[14px] font-semibold text-white transition-colors hover:bg-[#172554]"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Test Your Security State
-              </Link>
-              <Link
                 href={SIGN_UP_URL}
                 className="block py-3 text-center text-[14px] font-semibold text-[#1E3A8A] hover:underline"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Sign up
+                View pricing
               </Link>
             </div>
           </motion.div>
@@ -567,23 +731,21 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               <Link href="/" className="inline-flex items-center justify-start mb-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded w-full" aria-label="Apexlyn home">
                 <ApexlynLogo variant="wordmark" forDarkBackground align="start" height={44} className="h-11 w-auto max-w-full [&_img]:max-w-[min(100%,280px)]" />
               </Link>
-              <p className="text-slate-400 text-sm leading-relaxed">Infrastructure you can trust.</p>
+              <p className="text-slate-400 text-sm leading-relaxed">The Evidence-Led Security & AI Governance Infrastructure.</p>
             </div>
 
             {[
               {
                 title: 'Platforms',
                 links: [
-                  { label: 'Overview', href: '/platforms' },
                   { label: 'APEXLyn Track Platform', href: '/platforms/track' },
                   { label: 'APEXLyn Lens Platform', href: '/platforms/lens' },
-                  { label: 'Architecture Overview', href: '/platforms/architecture' },
+                  { label: 'Architecture Overview', href: '/architecture-overview' },
                 ],
               },
               {
                 title: 'Solutions',
                 links: [
-                  { label: 'Overview', href: '/solutions' },
                   { label: 'Cyber Security Services', href: '/solutions/cyber-security-services' },
                   { label: 'AI Governance Advisory', href: '/solutions/ai-governance-advisory' },
                   { label: 'Compliance Operations', href: '/solutions/compliance-operations' },
@@ -592,7 +754,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               {
                 title: 'Industries',
                 links: [
-                  { label: 'Overview', href: '/industries' },
                   { label: 'Healthcare', href: '/industries/healthcare' },
                   { label: 'Legal', href: '/industries/legal' },
                   { label: 'Accounting', href: '/industries/accounting' },
@@ -610,18 +771,18 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 ],
               },
               {
-                title: 'Company',
-                links: [
-                  { label: 'About', href: '/company/about' },
-                  { label: 'Careers', href: CLOUDFLARE_CAREERS_URL },
-                  { label: 'Contact', href: '/company/contact' },
-                ],
-              },
-              {
                 title: 'Trust',
                 links: [
                   { label: 'Trust Center', href: '/trust-center' },
-                  { label: 'Request Security Documentation', href: '/trust-center/request-documentation' },
+                  { label: 'Request Security Documentation', href: '/request-security-documentation' },
+                ],
+              },
+              {
+                title: 'Company',
+                links: [
+                  { label: 'About', href: '/company/about' },
+                  { label: 'Careers', href: COMPANY_CAREERS_HREF },
+                  { label: 'Contact', href: '/contact' },
                 ],
               },
             ].map((col) => (
@@ -638,33 +799,19 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             ))}
           </div>
 
-          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[13px] text-slate-500">
-            <p>
-              © APEXLyn. All rights reserved.
-              <span className="mx-2 text-slate-600" aria-hidden>
-                ·
-              </span>
+          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3 text-[13px] text-slate-500">
+            <p>© APEXLyn. All rights reserved.</p>
+            <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
               <Link href={normalizeHref(CLOUDFLARE_PRIVACY_URL)} className="hover:text-slate-300 transition-colors">
                 Privacy
               </Link>
-              <span className="mx-2 text-slate-600" aria-hidden>
+              <span className="text-slate-600" aria-hidden>
                 ·
               </span>
               <Link href={normalizeHref(CLOUDFLARE_TERMS_URL)} className="hover:text-slate-300 transition-colors">
                 Terms
               </Link>
             </p>
-            <div className="flex items-center gap-5">
-              {[
-                { label: 'Twitter / X', href: '/resources/community' },
-                { label: 'LinkedIn', href: '/resources/community' },
-                { label: 'Facebook', href: '/resources/community' },
-                { label: 'YouTube', href: '/resources/community' },
-                { label: 'GitHub', href: CLOUDFLARE_GITHUB_URL },
-              ].map((s) => (
-                <Link key={s.label} href={normalizeHref(s.href)} className="hover:text-slate-300 transition-colors text-xs">{s.label}</Link>
-              ))}
-            </div>
           </div>
         </div>
       </footer>

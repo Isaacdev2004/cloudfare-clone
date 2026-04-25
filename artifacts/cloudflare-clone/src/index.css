@@ -1,8 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+/*
+ * §6 — Visual posture: premium, infrastructure-grade, restrained.
+ * Primary action: #1E3A8A only. AI accent #1E90FF for Lens/AI highlights — not default buttons.
+ */
+
 @theme inline {
-  --font-sans: 'Inter', sans-serif;
+  --font-sans:
+    'Inter',
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
   
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -58,7 +69,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased selection:bg-[#1E3A8A]/20 selection:text-[#0B1320];
+    @apply bg-background text-foreground font-sans antialiased selection:bg-[#1E3A8A]/15 selection:text-[#0B1320];
+    font-family: var(--font-sans);
   }
   /* Ensure anchors never fall back to browser serif (client parity) */
   a {
@@ -87,6 +99,13 @@
   }
   .apex-section-light {
     background-color: var(--apex-light);
+  }
+  /** Dark structural framing (top/bottom border) — §6.5 */
+  .apex-frame-y {
+    @apply border-y border-[#0B1320]/12;
+  }
+  .apex-frame-t {
+    @apply border-t border-[#0B1320]/12;
   }
   .apex-surface {
     background-color: #ffffff;
