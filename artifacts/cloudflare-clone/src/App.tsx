@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import { Layout } from "@/components/Layout";
+import { DocumentSeo } from "@/components/DocumentSeo";
 import Home from "@/pages/Home";
 import Products from "@/pages/Products";
 import Pricing from "@/pages/Pricing";
@@ -57,11 +58,14 @@ const queryClient = new QueryClient();
 
 function Router() {
   return (
+    <>
+      <DocumentSeo />
     <Layout>
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/platforms/track" component={TrackPlatformPage} />
         <Route path="/platforms/lens" component={LensPlatformPage} />
+        <Route path="/architecture-overview" component={ArchitectureOverviewPage} />
         <Route path="/platforms/architecture" component={ArchitectureOverviewPage} />
         <Route path="/products" component={Products} />
         <Route path="/pricing" component={Pricing} />
@@ -75,7 +79,9 @@ function Router() {
         <Route path="/zero-trust" component={ZeroTrust} />
         <Route path="/cloudflare-one" component={ZeroTrust} />
         <Route path="/developers" component={Developers} />
+        <Route path="/privacy" component={PrivacyPolicyPage} />
         <Route path="/privacy-policy" component={PrivacyPolicyPage} />
+        <Route path="/terms" component={TermsOfUsePage} />
         <Route path="/terms-of-use" component={TermsOfUsePage} />
         <Route path="/report-security" component={ReportSecurityPage} />
         <Route path="/resources/whitepapers" component={ResourcesWhitepapersPage} />
@@ -87,6 +93,7 @@ function Router() {
         <Route path="/resources/webinars" component={ResourcesWebinarsPage} />
         <Route path="/resources/documentation" component={ResourcesDocumentationPage} />
         <Route path="/resources/community" component={ResourcesCommunityPage} />
+        <Route path="/contact" component={ContactApexlynPage} />
         <Route path="/company/contact" component={ContactApexlynPage} />
         <Route path="/company/about" component={CompanyAboutPage} />
         <Route path="/company/careers" component={CompanyCareersPage} />
@@ -103,12 +110,16 @@ function Router() {
         <Route path="/platforms" component={PlatformsOverview} />
         <Route path="/industries/:slug" component={IndustryPage} />
         <Route path="/industries" component={IndustriesIndexPage} />
+        <Route path="/request-security-documentation" component={TrustRequestDocumentationPage} />
         <Route path="/trust-center/request-documentation" component={TrustRequestDocumentationPage} />
         <Route path="/trust-center" component={TrustCenterPage} />
+        <Route path="/test-your-security-state" component={TestSecurityStatePage} />
         <Route path="/test-security-state" component={TestSecurityStatePage} />
+        <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
+    </>
   );
 }
 

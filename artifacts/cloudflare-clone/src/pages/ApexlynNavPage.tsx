@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useLocation } from "wouter";
 import TrackPlatformPage from "@/pages/TrackPlatformPage";
 import LensPlatformPage from "@/pages/LensPlatformPage";
@@ -8,6 +8,9 @@ import TrustCenterPage from "@/pages/TrustCenterPage";
 import TrustRequestDocumentationPage from "@/pages/TrustRequestDocumentationPage";
 import ContactApexlynPage from "@/pages/ContactApexlynPage";
 import TestSecurityStatePage from "@/pages/TestSecurityStatePage";
+import CyberSecurityServicesPage from "@/pages/CyberSecurityServicesPage";
+import AIGovernanceAdvisoryPage from "@/pages/AIGovernanceAdvisoryPage";
+import ComplianceOperationsPage from "@/pages/ComplianceOperationsPage";
 
 /** Normalise so `/platforms/lens` and `/platforms/lens/` both match. */
 function normalizePath(path: string) {
@@ -15,32 +18,31 @@ function normalizePath(path: string) {
   return path;
 }
 
-const PAGE_COPY: Record<string, { eyebrow?: string; title: string }> = {
-  "/solutions/cyber-security-services": { eyebrow: "Solutions", title: "Cyber Security Services" },
-  "/solutions/ai-governance-advisory": { eyebrow: "Solutions", title: "AI Governance Advisory" },
-  "/solutions/compliance-operations": { eyebrow: "Solutions", title: "Compliance Operations" },
-};
-
 export default function ApexlynNavPage() {
   const [loc] = useLocation();
   const path = normalizePath(loc);
 
   // Renders full platform pages even if a stale route still points here (or cache).
+  if (path === "/solutions/cyber-security-services") return <CyberSecurityServicesPage />;
+  if (path === "/solutions/ai-governance-advisory") return <AIGovernanceAdvisoryPage />;
+  if (path === "/solutions/compliance-operations") return <ComplianceOperationsPage />;
+
   if (path === "/platforms/track") return <TrackPlatformPage />;
   if (path === "/platforms/lens") return <LensPlatformPage />;
-  if (path === "/platforms/architecture") return <ArchitectureOverviewPage />;
+  if (path === "/platforms/architecture" || path === "/architecture-overview") return <ArchitectureOverviewPage />;
 
   if (path.startsWith("/industries/")) {
     const slug = path.slice("/industries/".length).split("/")[0];
     if (slug) return <IndustryPage params={{ slug }} />;
   }
 
-  if (path === "/trust-center/request-documentation") return <TrustRequestDocumentationPage />;
+  if (path === "/trust-center/request-documentation" || path === "/request-security-documentation")
+    return <TrustRequestDocumentationPage />;
   if (path === "/trust-center") return <TrustCenterPage />;
-  if (path === "/company/contact") return <ContactApexlynPage />;
-  if (path === "/test-security-state") return <TestSecurityStatePage />;
+  if (path === "/company/contact" || path === "/contact") return <ContactApexlynPage />;
+  if (path === "/test-security-state" || path === "/test-your-security-state") return <TestSecurityStatePage />;
 
-  const meta = useMemo(() => PAGE_COPY[path] ?? { title: "APEXLyn" }, [path]);
+  const meta = { title: "APEXLyn", eyebrow: undefined as string | undefined };
 
   return (
     <div className="flex flex-col apex-page-bg min-h-[calc(100dvh-108px)]">

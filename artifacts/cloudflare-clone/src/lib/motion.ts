@@ -1,11 +1,14 @@
 import type { Variants } from "framer-motion";
 
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+/** §6.5 — restrained entry motion */
 export const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 12 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+    transition: { duration: 0.4, ease: EASE },
   },
 };
 
@@ -14,13 +17,13 @@ export const sectionStagger = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.04,
+      staggerChildren: 0.05,
+      delayChildren: 0.03,
     },
   },
 };
 
 export const subtleLiftHover = {
-  y: -3,
-  transition: { duration: 0.18, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  y: -2,
+  transition: { duration: 0.16, ease: EASE },
 };

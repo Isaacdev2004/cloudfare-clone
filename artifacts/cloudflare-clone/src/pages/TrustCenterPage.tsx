@@ -5,12 +5,14 @@ import { PageHero } from '@/components/layout/PageHero';
 import { InnerHeroBackdrop, SectionGridWash, NavySignalBand } from '@/components/layout/InnerPageChrome';
 import { Shield } from 'lucide-react';
 
-const REVIEW_ARCHITECTURE_HREF = '/platforms/architecture';
-const REQUEST_DOCS_HREF = '/trust-center/request-documentation';
+import { CTA } from '@/lib/apexlyn-cta-routes';
+
+const REVIEW_ARCHITECTURE_HREF = CTA.architectureOverview;
+const REQUEST_DOCS_HREF = CTA.requestSecurityDocumentation;
 
 const SECTIONS = [
   {
-    title: 'Data Residency & Storage',
+    title: 'Data Residency and Storage',
     bullets: [
       'Primary data hosting region',
       'Backup region',
@@ -22,50 +24,50 @@ const SECTIONS = [
       'We state clearly where customer data is stored, how it is protected, and how tenancy is separated. Security documentation is available on request.',
   },
   {
-    title: 'Access & Identity Controls',
+    title: 'Access and Identity Controls',
     bullets: [
       'Role-based access control',
-      'Least-privilege architecture',
+      'Least-privilege design',
       'MFA enforcement',
       'Privileged activity logging',
     ],
     body:
-      'Access is designed around least privilege. Privileged actions are logged for accountability and auditability.',
+      'Access is designed around least privilege. Privileged actions are visible, controlled, and logged to support accountability.',
   },
   {
-    title: 'Evidence Integrity & Immutability',
+    title: 'Evidence Integrity and Immutability',
     bullets: [
-      'Append-only evidence model',
-      'Immutable audit trail',
-      'Hash validation',
-      'Timestamp integrity',
+      'Structured evidence model',
+      'Append-only history posture',
+      'Audit visibility',
+      'Hash and timestamp integrity support',
     ],
     body:
-      'Evidence integrity is a core design goal. Records are structured to preserve history and to support verification under scrutiny.',
+      'Evidence integrity is a core design goal. Records are structured to preserve history and support verification under scrutiny.',
   },
   {
-    title: 'Privacy & Data Usage',
+    title: 'Privacy and Data Usage',
     bullets: [
       'What data we collect',
       'What data we do not collect',
-      'How customer-submitted information is processed',
+      'How submitted information is processed',
       'AI prompt inspection boundaries',
       'Data retention model',
     ],
     body:
-      'We make data boundaries explicit. Customers control what is connected, what is inspected, and what is retained under the agreed model.',
+      'We make data boundaries explicit. Customers control what is connected, what is inspected, and what is retained under the agreed operating model.',
   },
   {
-    title: 'Regulatory Alignment (Australia-Focused)',
+    title: 'Regulatory Alignment',
     bullets: [
-      'Essential Eight alignment',
-      'Privacy Act (Australia) awareness',
+      'Essential Eight support posture',
+      'Privacy Act awareness',
       'AI governance awareness',
       'Data breach response posture',
     ],
     body: null as string | null,
     disclaimer:
-      'We do not claim compliance. APEXLyn is designed to support alignment and governance outcomes.',
+      'We do not claim compliance. APEXLyn is designed to support alignment, governance, and defensible operational outcomes.',
   },
 ] as const;
 
@@ -83,8 +85,8 @@ export default function TrustCenterPage() {
           <PageHero
             variant="light"
             eyebrow="Trust Center"
-            title="Trust is Engineered. Not Assumed."
-            description="Apexlyn is built with structured security architecture, transparent governance controls, and privacy-respectful data handling aligned to Australian regulatory expectations."
+            title="Trust Is Engineered. Not Assumed."
+            description="APEXLyn is built with structured security architecture, transparent governance controls, and privacy-respectful data handling aligned to Australian operating conditions."
             className="min-w-0 flex-1 bg-transparent"
             contentClassName="py-0 sm:py-0 max-w-3xl"
           />

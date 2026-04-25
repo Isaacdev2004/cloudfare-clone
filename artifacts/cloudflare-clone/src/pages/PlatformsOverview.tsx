@@ -5,14 +5,18 @@ import { PageHero } from '@/components/layout/PageHero';
 import { fadeInUp } from '@/lib/motion';
 import { InnerHeroBackdrop, GradientTopCard, SectionGridWash } from '@/components/layout/InnerPageChrome';
 import { Layers, Radar } from 'lucide-react';
+import { CTA, testYourSecurityStateWithMode } from '@/lib/apexlyn-cta-routes';
+
+const TEST_SECURITY_STATE_URL = CTA.testYourSecurityState;
+const STRATEGIC_CONVERSATION_URL = CTA.contact;
 
 const PLATFORM_CARDS = [
   {
     title: 'APEXLyn Track Platform',
     subtitle: 'Security Evidence Infrastructure',
     body:
-      'Continuous control evidence, framework views, and audit-ready reporting — built as a system of record.',
-    cta: { label: 'Test Your Evidence Readiness', href: '/platforms/track' },
+      'Continuously capture control reality, structure defensible evidence, support governance workflows, and produce reporting that stands up under scrutiny.',
+    cta: { label: 'Test Your Evidence Readiness', href: testYourSecurityStateWithMode('track') },
     gradientClass: 'from-[#1E3A8A] via-sky-500 to-cyan-400',
     Icon: Layers,
   },
@@ -20,8 +24,8 @@ const PLATFORM_CARDS = [
     title: 'APEXLyn Lens Platform',
     subtitle: 'AI Governance & AI Risk Infrastructure',
     body:
-      'AI usage discovery, prompt-level risk inspection, and policy enforcement to reduce sensitive data exposure.',
-    cta: { label: 'Assess Your AI Exposure', href: '/platforms/lens' },
+      'Gain visibility into AI usage, inspect prompt and response risk, reduce sensitive-data exposure, and enforce structured governance at scale.',
+    cta: { label: 'Assess Your AI Exposure', href: testYourSecurityStateWithMode('lens') },
     gradientClass: 'from-violet-600 via-indigo-600 to-[#1E3A8A]',
     Icon: Radar,
   },
@@ -35,8 +39,8 @@ export default function PlatformsOverview() {
         <PageHero
           variant="light"
           eyebrow="Platforms"
-          title="Infrastructure for Continuous Security & AI Governance"
-          description="APEXLyn delivers two purpose-built platforms designed to transform operational security and AI oversight into structured, defensible systems."
+          title="Infrastructure for Continuous Security and AI Governance"
+          description="APEXLyn delivers two flagship platforms designed to transform operational security and AI oversight into structured, defensible systems."
           className="relative z-[1] bg-transparent"
           contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24"
         />
@@ -52,10 +56,14 @@ export default function PlatformsOverview() {
             variants={fadeInUp}
             className="mb-12 max-w-3xl md:mb-16"
           >
-            <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1E3A8A]">Capability map</p>
             <h2 className="text-[1.65rem] font-bold leading-[1.1] tracking-[-0.02em] text-slate-900 sm:text-4xl md:text-[44px] lg:text-[52px]">
-              Two Platforms. Distinct Capabilities.
+              Two Platforms. Equal Importance. Distinct Outcomes.
             </h2>
+            <p className="mt-5 max-w-3xl text-[17px] leading-relaxed text-slate-600 sm:text-[18px]">
+              Track and Lens solve different problems, serve different entry points, and create stronger results together.
+              One proves security reality through evidence. The other governs AI usage and reduces AI-driven exposure in
+              real environments.
+            </p>
           </motion.div>
 
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
@@ -89,6 +97,34 @@ export default function PlatformsOverview() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-[#0B1320]/10 bg-[#F7F9FC] py-16 md:py-24">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <h2 className="text-[1.65rem] font-bold leading-[1.1] tracking-[-0.02em] text-slate-900 sm:text-4xl md:text-[40px]">
+              One Company. Two Platforms. One Higher Standard of Trust.
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-slate-600 sm:text-[18px]">
+              Whether your first priority is security evidence or AI governance, APEXLyn is designed to make operational
+              truth visible, defensible, and easier to act on.
+            </p>
+            <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row sm:flex-wrap">
+              <Link
+                href={TEST_SECURITY_STATE_URL}
+                className="inline-flex items-center justify-center gap-2 rounded px-6 py-3.5 text-base font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554]"
+              >
+                Test Your Security State
+              </Link>
+              <Link
+                href={STRATEGIC_CONVERSATION_URL}
+                className="inline-flex items-center justify-center gap-2 rounded border border-slate-300 bg-white px-6 py-3.5 text-base font-semibold text-slate-800 transition-colors hover:bg-slate-50"
+              >
+                Start a Strategic Conversation
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

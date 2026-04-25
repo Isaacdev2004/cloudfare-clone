@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import { PageHero } from '@/components/layout/PageHero';
 import { SectionHeading } from '@/components/layout/SectionHeading';
 import { InnerHeroBackdrop, SectionGridWash, GradientTopCard } from '@/components/layout/InnerPageChrome';
-import { subtleLiftHover } from '@/lib/motion';
+import { subtleLiftHover, fadeInUp } from '@/lib/motion';
+import { CTA } from '@/lib/apexlyn-cta-routes';
 
 type InfoPageProps = {
   eyebrow?: string;
@@ -120,70 +121,159 @@ function InfoPageTemplate({
   );
 }
 
+const PRIVACY_SUGGESTED_SECTIONS = [
+  'What information we collect',
+  'How we use submitted information',
+  'How we protect submitted information',
+  'How to contact us about privacy',
+  'Updates to this notice',
+] as const;
+
+const PRIVACY_USE_BULLETS = [
+  'respond to your request',
+  'understand your stated need',
+  'route your inquiry correctly',
+  'follow up where appropriate',
+] as const;
+
 export function PrivacyPolicyPage() {
   return (
-    <InfoPageTemplate
-      title="Privacy Policy"
-      subtitle="How data is collected, used, and protected on the Apexlyn platform."
-      sections={[
-        {
-          heading: 'Data collection and use',
-          body: 'This page explains what categories of personal information are collected, why they are processed, and how data is secured. It is structured for production-ready replacement with legal counsel reviewed policy text.',
-        },
-        {
-          heading: 'Retention and user rights',
-          body: 'Information should be retained only for as long as needed to provide service and meet legal obligations. This section should document rights requests, retention windows, and response timelines for each data category.',
-        },
-        {
-          heading: 'Regional compliance',
-          body: 'Include GDPR, CCPA, and other applicable regional requirements in this section, along with contact pathways for data access, correction, and deletion requests.',
-        },
-      ]}
-      highlights={['Data minimization', 'Purpose limitation', 'Retention controls', 'User rights transparency']}
-      quickLinks={[
-        { label: 'Terms of Use', href: '/terms-of-use' },
-        { label: 'Report Security Issues', href: '/report-security' },
-      ]}
-      featureCards={[
-        { title: 'Terms of Use', body: 'Review legal terms and account obligations tied to service usage.', href: '/terms-of-use', cta: 'Open terms' },
-        { title: 'Cookie Preferences', body: 'Manage cookie categories and consent behavior for this experience.', href: '/support/cookie-preferences', cta: 'Manage cookies' },
-      ]}
-      ctaLabel="View Terms of Use"
-      ctaHref="/terms-of-use"
-    />
+    <div className="min-h-screen apex-page-bg">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
+        <InnerHeroBackdrop />
+        <PageHero
+          variant="light"
+          eyebrow="Legal"
+          title="Privacy"
+          description="This page explains how we handle information submitted through the APEXLyn website."
+          className="relative z-[1] bg-transparent"
+          contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24 max-w-3xl"
+        />
+      </section>
+
+      <div className="border-b border-amber-200/90 bg-amber-50" role="status">
+        <p className="mx-auto max-w-4xl px-6 py-3.5 font-sans text-[14px] leading-relaxed text-amber-950 sm:text-[15px]">
+          <span className="font-semibold">Important:</span> This page must be legally reviewed before launch.
+        </p>
+      </div>
+
+      <section className="relative overflow-hidden border-b border-slate-200 bg-white py-12 md:py-16">
+        <SectionGridWash className="opacity-30" />
+        <div className="relative z-[1] mx-auto max-w-3xl px-6">
+          <motion.h2
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-lg font-bold text-slate-900"
+          >
+            Suggested page sections
+          </motion.h2>
+          <ul className="mt-4 space-y-2 text-[15px] leading-relaxed text-slate-600">
+            {PRIVACY_SUGGESTED_SECTIONS.map((line) => (
+              <li key={line} className="flex gap-3">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#1E3A8A]" aria-hidden />
+                {line}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-200 bg-[#f8fafc] py-12 md:py-16">
+        <div className="mx-auto max-w-3xl px-6">
+          <motion.h2
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-lg font-bold text-slate-900"
+          >
+            Default website privacy summary
+          </motion.h2>
+          <div className="mt-6 space-y-4 font-sans text-[15px] leading-relaxed text-slate-600 sm:text-[16px]">
+            <p>
+              We collect only the information needed to respond to inquiries, baseline requests, documentation
+              requests, and other direct interactions submitted through this website.
+            </p>
+            <p>We do not sell website-submitted personal information.</p>
+            <p>We use submitted information to:</p>
+            <ul className="ml-1 space-y-2 border-l-2 border-slate-200 pl-4">
+              {PRIVACY_USE_BULLETS.map((b) => (
+                <li key={b} className="text-slate-600">
+                  {b}
+                </li>
+              ))}
+            </ul>
+            <p>
+              If you have a privacy-related question about this website, contact us through the{' '}
+              <Link href={CTA.contact} className="font-semibold text-[#1E3A8A] underline-offset-2 hover:underline">
+                contact page
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
 
+const TERMS_MUST_NOT = [
+  'misuse forms',
+  'attempt unauthorised access',
+  'submit false or misleading information',
+  'interfere with site operation',
+] as const;
+
 export function TermsOfUsePage() {
   return (
-    <InfoPageTemplate
-      title="Terms of Use"
-      subtitle="Key terms and conditions for using this demo platform."
-      sections={[
-        {
-          heading: 'Service agreement',
-          body: 'This section defines account responsibilities, service boundaries, payment terms, and legal limitations. It should be replaced with legal language specific to launch markets and plan tiers.',
-        },
-        {
-          heading: 'Acceptable use policy',
-          body: 'Usage must comply with applicable law and anti-abuse standards. Clarify prohibited behaviors, enforcement actions, and suspension criteria for platform abuse scenarios.',
-        },
-        {
-          heading: 'Termination and updates',
-          body: 'Document how terms updates are communicated, when they take effect, and how users can terminate service while preserving exported data and records.',
-        },
-      ]}
-      highlights={['Service boundaries', 'Acceptable use', 'Disclaimer language', 'Termination conditions']}
-      quickLinks={[
-        { label: 'Privacy Policy', href: '/privacy-policy' },
-        { label: 'Help Center', href: '/support/help-center' },
-      ]}
-      featureCards={[
-        { title: 'Report Security', body: 'Submit vulnerabilities or abuse reports through coordinated disclosure.', href: '/report-security', cta: 'Report issue' },
-      ]}
-      ctaLabel="Report Security"
-      ctaHref="/report-security"
-    />
+    <div className="min-h-screen apex-page-bg">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
+        <InnerHeroBackdrop />
+        <PageHero
+          variant="light"
+          eyebrow="Legal"
+          title="Terms"
+          description="These terms govern use of the APEXLyn public website."
+          className="relative z-[1] bg-transparent"
+          contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24 max-w-3xl"
+        />
+      </section>
+
+      <div className="border-b border-amber-200/90 bg-amber-50" role="status">
+        <p className="mx-auto max-w-4xl px-6 py-3.5 font-sans text-[14px] leading-relaxed text-amber-950 sm:text-[15px]">
+          <span className="font-semibold">Important:</span> This page must be legally reviewed before launch.
+        </p>
+      </div>
+
+      <section className="border-b border-slate-200 bg-[#f8fafc] py-12 md:py-16">
+        <div className="mx-auto max-w-3xl px-6">
+          <motion.h2
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-lg font-bold text-slate-900"
+          >
+            Default website terms summary
+          </motion.h2>
+          <div className="mt-6 space-y-4 font-sans text-[15px] leading-relaxed text-slate-600 sm:text-[16px]">
+            <p>By using this website, you agree to use it lawfully and appropriately.</p>
+            <p>You must not:</p>
+            <ul className="ml-1 space-y-2 border-l-2 border-slate-200 pl-4">
+              {TERMS_MUST_NOT.map((line) => (
+                <li key={line} className="text-slate-600">
+                  {line}
+                </li>
+              ))}
+            </ul>
+            <p>All website content remains the property of APEXLyn unless otherwise stated.</p>
+            <p>Use of this site does not create a client relationship until separately agreed.</p>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -584,7 +674,7 @@ export function SupportCompliancePage() {
       highlights={['Audit readiness', 'Control mapping', 'Policy governance', 'Risk documentation']}
       quickLinks={[
         { label: 'Trust Hub', href: '/support/trust-hub' },
-        { label: 'Privacy Policy', href: '/privacy-policy' },
+        { label: 'Privacy Policy', href: '/privacy' },
       ]}
       featureCards={[
         { title: 'Trust Hub', body: 'Centralized security, privacy, and compliance transparency.', href: '/support/trust-hub', cta: 'Go to trust hub' },
@@ -651,14 +741,14 @@ export function SupportCookiePreferencesPage() {
       ]}
       highlights={['Essential cookies', 'Analytics cookies', 'Preference controls', 'Consent records']}
       quickLinks={[
-        { label: 'Privacy Policy', href: '/privacy-policy' },
-        { label: 'Terms of Use', href: '/terms-of-use' },
+        { label: 'Privacy Policy', href: '/privacy' },
+        { label: 'Terms of Use', href: '/terms' },
       ]}
       featureCards={[
-        { title: 'Privacy Policy', body: 'Understand data handling practices and regional privacy coverage.', href: '/privacy-policy', cta: 'Read policy' },
+        { title: 'Privacy Policy', body: 'Understand data handling practices and regional privacy coverage.', href: '/privacy', cta: 'Read policy' },
       ]}
       ctaLabel="Privacy Policy"
-      ctaHref="/privacy-policy"
+      ctaHref="/privacy"
     />
   );
 }
@@ -667,17 +757,17 @@ export function ResourcesIndexPage() {
   const cards = [
     {
       title: 'Whitepapers',
-      body: 'Deep dives into evidence integrity, governance workflows, and defensible reporting.',
+      body: 'Long-form thinking on evidence integrity, governance workflows, and defensible operational reporting.',
       href: '/resources/whitepapers',
     },
     {
       title: 'Framework Guides',
-      body: 'How to operationalise frameworks with continuous evidence — not checklists.',
+      body: 'Guidance on translating frameworks into operational evidence, governance, and reporting reality.',
       href: '/resources/framework-guides',
     },
     {
       title: 'AI Risk Briefs',
-      body: 'Governance patterns to reduce AI exposure risk without blocking adoption.',
+      body: 'Practical AI governance guidance for visibility, enforcement, and reduced exposure.',
       href: '/resources/ai-risk-briefs',
     },
   ] as const;
@@ -696,7 +786,7 @@ export function ResourcesIndexPage() {
           variant="light"
           eyebrow="Resources"
           title="Resources"
-          description="Evidence-led security and AI governance guidance — written for operators."
+          description="Evidence-led security and AI governance guidance written for serious operators."
           className="relative z-[1] bg-transparent"
           contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24 max-w-3xl"
         />
