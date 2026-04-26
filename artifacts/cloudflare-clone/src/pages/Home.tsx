@@ -185,7 +185,7 @@ export default function Home() {
         description="Prove security reality continuously. Govern AI use safely. Replace assumptions, screenshots, and fragmented tooling with defensible evidence and enforceable oversight."
         eyebrow="WHERE SECURITY BECOMES EVIDENCE"
         valuePoints={HERO_VALUE_POINTS}
-        primaryMicrocopy="2 minutes • Clear baseline signal • Next steps included"
+        primaryMicrocopy="Guided entry • Defensible baseline signal • Clear next steps"
         positioningParagraph="APEXLyn builds security and AI governance as infrastructure — not manual process, not fragmented tooling, and not assumption-driven reporting. We help organisations understand what is protected, what is drifting, what is exposed, and what can be defended under scrutiny."
         actions={[
           { label: 'Test Your Security State', href: TEST_SECURITY_STATE_URL, variant: 'primary' },
@@ -258,7 +258,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+          <div className="mx-auto flex max-w-3xl flex-col gap-8 lg:gap-10">
             {PLATFORM_ROWS.map((row) => (
               <motion.article
                 key={row.title}
@@ -406,18 +406,31 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <ol className="relative max-w-3xl border-l-2 border-[#0B1320]/12 pl-8 md:pl-10 space-y-10 md:space-y-12">
-            {HOW_IT_WORKS.map((step, index) => (
-              <li key={index} className="relative">
-                <span
-                  className="absolute -left-[1.1rem] md:-left-[1.4rem] top-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-[#0B1320] bg-white text-xs font-bold text-[#0B1320] font-sans"
-                  aria-hidden
-                >
-                  {index + 1}
-                </span>
-                <p className="text-slate-600 text-[15px] sm:text-[16px] leading-relaxed font-sans">{step.body}</p>
-              </li>
-            ))}
+          <ol className="max-w-3xl list-none p-0 m-0 space-y-0" role="list">
+            {HOW_IT_WORKS.map((step, index) => {
+              const isLast = index === HOW_IT_WORKS.length - 1;
+              return (
+                <li key={index} className="flex gap-4 md:gap-5">
+                  <div className="flex w-8 shrink-0 flex-col items-center md:w-9" aria-hidden>
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#0B1320] bg-white text-[11px] font-bold text-[#0B1320] font-sans md:h-8 md:w-8 md:text-xs">
+                      {index + 1}
+                    </span>
+                    {!isLast ? (
+                      <span className="mt-1 w-px min-h-[1.5rem] flex-1 grow bg-[#0B1320]/15 md:min-h-[1.75rem]" />
+                    ) : null}
+                  </div>
+                  <p
+                    className={
+                      isLast
+                        ? 'text-slate-600 text-[15px] sm:text-[16px] leading-relaxed font-sans pb-0'
+                        : 'text-slate-600 text-[15px] sm:text-[16px] leading-relaxed font-sans pb-8 md:pb-10'
+                    }
+                  >
+                    {step.body}
+                  </p>
+                </li>
+              );
+            })}
           </ol>
         </div>
       </section>
