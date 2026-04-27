@@ -221,14 +221,22 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
       <style>{CSS}</style>
       <div
         className={cn(
-          "relative mx-auto flex aspect-square w-full items-center justify-center",
+          "relative mx-auto flex w-full items-center justify-center",
+          compact
+            ? "h-full min-h-0 max-h-full max-w-full"
+            : "aspect-square max-h-none",
           className,
         )}
-        style={{ maxWidth: maxSize, maxHeight: maxSize }}
+        style={
+          compact
+            ? { maxWidth: `min(100%, ${maxSize}px)` }
+            : { maxWidth: maxSize, maxHeight: maxSize }
+        }
       >
         <svg
           className="cf-network-svg h-full w-full"
           viewBox="0 0 320 320"
+          preserveAspectRatio="xMidYMid meet"
           aria-hidden
         >
           <defs>

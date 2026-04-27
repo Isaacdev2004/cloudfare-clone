@@ -268,13 +268,13 @@ export default function Home() {
                 variants={fadeInUp}
                 className="flex flex-col h-full min-h-0 rounded-xl border border-slate-200/90 bg-white shadow-[0_1px_0_rgba(11,19,32,0.06)] overflow-hidden"
               >
-                <div className="relative h-[min(44vw,300px)] sm:h-[300px] lg:h-[320px] border-b border-slate-200/80 bg-[#F7F9FC] flex items-center justify-center p-4">
+                <div className="relative min-h-0 h-[min(56vw,300px)] sm:h-[300px] lg:h-[320px] border-b border-slate-200/80 bg-[#F7F9FC] flex items-center justify-center p-3 sm:p-4 overflow-hidden">
                   {row.visual === 'gauge' ? (
-                    <div className="relative flex h-full w-full min-h-[220px] items-center justify-center">
+                    <div className="relative flex h-full w-full min-h-0 items-center justify-center">
                       <HeroGaugeVisual compact />
                     </div>
                   ) : (
-                    <div className="relative flex h-full w-full min-h-[220px] items-center justify-center">
+                    <div className="relative flex h-full w-full min-h-0 items-center justify-center">
                       <HeroCloudNetworkVisual compact />
                     </div>
                   )}
