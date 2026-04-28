@@ -1,8 +1,8 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "wouter";
 import { cn } from "@/lib/utils";
-import { fadeInUp } from "@/lib/motion";
+import { fadeInUp, fadeInUpReduced } from "@/lib/motion";
 
 type HeroAction = {
   label: string;
@@ -46,6 +46,8 @@ export const PageHero: React.FC<PageHeroProps> = ({
   primaryMicrocopy,
   positioningParagraph,
 }) => {
+  const reduceMotion = useReducedMotion();
+  const heroEnter = reduceMotion ? fadeInUpReduced : fadeInUp;
   const isNavy = variant === "navy";
   const isHomeLayout = layout === "home";
 
@@ -99,7 +101,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
           <motion.div
             initial="hidden"
             animate="visible"
-            variants={fadeInUp}
+            variants={heroEnter}
             className={cn("max-w-3xl min-w-0", isHomeLayout && "flex flex-col")}
           >
             {!isHomeLayout && eyebrow && (

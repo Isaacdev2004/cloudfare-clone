@@ -191,7 +191,7 @@ export default function Home() {
           { label: 'Test Your Security State', href: TEST_SECURITY_STATE_URL, variant: 'primary' },
           { label: 'Explore Our Platforms', href: CTA.platforms, variant: 'outline' },
         ]}
-        className="min-h-[100dvh] lg:min-h-screen flex items-center bg-white border-b border-[#0B1320]/10"
+        className="apex-hero-ambient min-h-[100dvh] lg:min-h-screen flex items-center bg-white border-b border-[#0B1320]/10"
         contentClassName="relative z-10 w-full"
         aside={(
           <div className="relative min-w-0 w-full overflow-visible h-[min(54vh,460px)] sm:h-[500px] lg:h-[640px] flex items-center justify-center px-1 sm:px-2">
