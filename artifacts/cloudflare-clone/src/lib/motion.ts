@@ -12,6 +12,16 @@ export const fadeInUp: Variants = {
   },
 };
 
+/** Same layout end-state for users who prefer reduced motion (WCAG 2.x). */
+export const fadeInUpReduced: Variants = {
+  hidden: { opacity: 1, y: 0 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0 },
+  },
+};
+
 export const sectionStagger = {
   hidden: { opacity: 0 },
   visible: {

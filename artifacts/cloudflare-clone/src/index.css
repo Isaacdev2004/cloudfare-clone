@@ -144,6 +144,27 @@
     mix-blend-mode: normal;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
   }
+  /** Direction B — soft depth on light hero (restrained; no animation) */
+  .apex-hero-ambient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 85% 55% at 72% 8%, rgba(30, 58, 138, 0.09), transparent 58%),
+      radial-gradient(ellipse 45% 38% at 92% 55%, rgba(30, 144, 255, 0.07), transparent 52%);
+  }
+  .apex-hero-ambient > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation-duration: 120s !important;
+  }
 }
 
 /* Marquee */

@@ -1,6 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="APEXLyn">
-  <rect width="1200" height="630" fill="#0B1320"/>
-  <rect x="0" y="0" width="1200" height="4" fill="#1E3A8A"/>
-  <text x="80" y="300" font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="700" fill="#F7F9FC">APEXLyn</text>
-  <text x="80" y="380" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="500" fill="#94a3b8">Evidence-led security and AI governance infrastructure</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" role="img" aria-label="APEXLyn">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1320"/>
+      <stop offset="0.45" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#0B1320"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="80" y1="520" x2="1120" y2="140" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E3A8A" stop-opacity="0"/>
+      <stop offset="0.35" stop-color="#1E90FF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#1E3A8A" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="5" fill="#1E3A8A"/>
+  <path d="M0 420 Q300 380 600 460 T1200 400 L1200 630 L0 630 Z" fill="url(#beam)" opacity="0.9"/>
+  <text x="80" y="290" fill="#F7F9FC" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="62" font-weight="700" letter-spacing="-0.02em">APEXLyn</text>
+  <text x="80" y="362" fill="#cbd5e1" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="26" font-weight="500" opacity="0.95">Evidence-led security &amp; AI governance infrastructure</text>
+  <circle cx="1080" cy="120" r="72" stroke="#1E90FF" stroke-opacity="0.35" stroke-width="2" fill="none"/>
+  <circle cx="1080" cy="120" r="8" fill="#1E90FF" opacity="0.9"/>
 </svg>
