@@ -1,7 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { HeroHomePlatformVisual } from '@/components/hero/HeroHomePlatformVisual';
 import { HeroCloudNetworkVisual } from '@/components/hero/HeroCloudNetworkVisual';
-import { HeroFrameworkOrbitVisual } from '@/components/hero/HeroFrameworkOrbitVisual';
 import { HeroGaugeVisual } from '@/components/hero/HeroGaugeVisual';
 import { Marquee } from '@/components/Marquee';
 import { PageHero } from '@/components/layout/PageHero';
@@ -176,6 +176,8 @@ const connectivityLinkClass =
   'font-sans text-[15px] font-medium text-[#1E3A8A] underline underline-offset-[5px] decoration-slate-300 hover:text-[#172554] hover:decoration-[#1E3A8A] antialiased transition-colors';
 
 export default function Home() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div className="flex flex-col apex-page-bg">
       <PageHero
@@ -194,14 +196,14 @@ export default function Home() {
         className="apex-hero-ambient min-h-[100dvh] lg:min-h-screen flex items-center bg-white border-b border-[#0B1320]/10"
         contentClassName="relative z-10 w-full"
         aside={(
-          <div className="relative min-w-0 w-full overflow-visible h-[min(54vh,460px)] sm:h-[500px] lg:h-[640px] flex items-center justify-center px-1 sm:px-2">
+          <div className="relative flex min-h-0 w-full flex-col px-1 sm:px-2 h-[min(54vh,460px)] sm:h-[500px] lg:h-[640px]">
             <motion.div
-              initial={{ opacity: 0, y: 8 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="absolute inset-0 flex items-center justify-center overflow-visible"
+              transition={{ duration: reduceMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="flex h-full min-h-0 w-full flex-1 flex-col"
             >
-              <HeroFrameworkOrbitVisual />
+              <HeroHomePlatformVisual className="min-h-0 flex-1" />
             </motion.div>
           </div>
         )}
@@ -266,7 +268,7 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeInUp}
-                className="flex flex-col h-full min-h-0 rounded-xl border border-slate-200/90 bg-white shadow-[0_1px_0_rgba(11,19,32,0.06)] overflow-hidden"
+                className="flex flex-col h-full min-h-0 rounded-xl border border-slate-200/90 bg-white shadow-[0_1px_0_rgba(11,19,32,0.06)] overflow-hidden apex-premium-card"
               >
                 <div className="relative min-h-0 h-[min(56vw,300px)] sm:h-[300px] lg:h-[320px] border-b border-slate-200/80 bg-[#F7F9FC] flex items-center justify-center p-3 sm:p-4 overflow-hidden">
                   {row.visual === 'gauge' ? (

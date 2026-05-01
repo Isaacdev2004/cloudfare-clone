@@ -159,11 +159,20 @@
     position: relative;
     z-index: 1;
   }
+  .apex-premium-card {
+    box-shadow:
+      0 1px 0 rgba(11, 19, 32, 0.06),
+      inset 0 1px 0 rgba(30, 144, 255, 0.08);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
     animation-duration: 120s !important;
+  }
+  .cf-network-svg,
+  .cf-cloud-center {
+    animation: none !important;
   }
 }
 

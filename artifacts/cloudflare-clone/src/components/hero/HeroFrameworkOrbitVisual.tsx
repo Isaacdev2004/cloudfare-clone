@@ -61,6 +61,11 @@ const heroCss = `
     outline: none;
     box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #2563EB;
   }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-fw-node {
+      animation: none !important;
+    }
+  }
   .hero-fw-node:hover button.hero-fw-badge {
     border-color: #1D4ED8;
     /* 1.04 keeps outer edge inside scene after translate(-50%,-50%) on near-edge nodes */
