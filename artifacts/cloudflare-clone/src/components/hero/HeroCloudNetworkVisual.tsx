@@ -25,6 +25,17 @@ const CSS = `
   .cf-network-svg {
     animation: cf-bobFloat 4s ease-in-out infinite;
   }
+  @media (prefers-reduced-motion: reduce) {
+    .cf-network-svg,
+    .cf-cloud-center {
+      animation: none !important;
+    }
+    .cf-network-svg line {
+      animation: none !important;
+      opacity: 0.35 !important;
+      stroke-dashoffset: 0 !important;
+    }
+  }
 `;
 
 const CX = 160,

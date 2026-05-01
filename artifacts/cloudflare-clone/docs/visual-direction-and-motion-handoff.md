@@ -59,7 +59,7 @@ Internal reference and client-facing summary. Keep product copy aligned with `ap
 | SVG heroes (gauge, globe, cloud network) | Existing loop animations | Sub-second; no rapid flashing |
 | Cards / primary buttons | Optional 2px lift on hover | 160ms; no bounce |
 
-**Signature interactive (premium, one focal point):** “**Evidence vs assumption**” scrub or **Track/Lens lens toggle** on the hero diagram (single control that cross-fades two SVG states or opacity layers). Scope: one component, ship after core pages stable.
+**Signature interactive (premium, one focal point):** **Shipped on home hero:** segmented **Track | Lens** control cross-fades **framework orbit** (Track/evidence framing) and **cloud network** (Lens). Reduced-motion users get instant swaps and static orbit floats.
 
 **Avoid:** Parallax on text, scroll-jacking, autoplay video with sound, motion-only CTAs.
 
@@ -67,7 +67,7 @@ Internal reference and client-facing summary. Keep product copy aligned with `ap
 
 ## 4. Identity layer: favicon, OG, social
 
-- **Favicon:** SVG mark — navy field, white apex stroke, Lens dot (`#1E90FF`). Export **180×180 PNG** from design tool for `apple-touch-icon` when ready (replace placeholder strategy in `index.html`).
+- **Favicon:** SVG mark — navy field, white apex stroke, Lens dot (`#1E90FF`). **`apple-touch-icon`** currently points at the same SVG (works on many modern browsers); export **180×180 PNG** from design when you want guaranteed iOS home-screen parity.
 - **OG default:** `public/og-default.svg` — dark gradient, brand bar, subtitle, subtle Lens orbit motif; keep under 200KB when exported as PNG for networks that rasterize poorly.
 - **Twitter / LinkedIn:** Already `summary_large_image`; ensure staging URL absolute for testers.
 
