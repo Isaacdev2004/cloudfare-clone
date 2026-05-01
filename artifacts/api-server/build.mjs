@@ -100,6 +100,10 @@ async function buildAll() {
       "puppeteer",
       "puppeteer-core",
       "electron",
+      // Express transitive chain — subpath `dunder-proto/get` breaks esbuild bundling under pnpm
+      "get-proto",
+      "dunder-proto",
+      "dunder-proto/get",
     ],
     sourcemap: "linked",
     plugins: [
