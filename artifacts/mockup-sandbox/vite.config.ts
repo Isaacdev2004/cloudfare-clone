@@ -22,52 +22,50 @@ function resolvePort(): number {
 /** Root-relative deploy by default; override BASE_PATH for subdirectory hosting (e.g. Replit). */
 const basePath = process.env.BASE_PATH ?? "/";
 
-export default defineConfig(async ({ mode }) => {
-  const port = resolvePort();
+const port = resolvePort();
 
-  const cartographerPlugins =
-    mode !== "production" && process.env.REPL_ID !== undefined
-      ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer({
-              root: path.resolve(import.meta.dirname, ".."),
-            }),
-          ),
-        ]
-      : [];
+const cartographerPlugins =
+  process.env.NODE_ENV !== "production" && process.env.REPL_ID !== undefined
+    ? [
+        await import("@replit/vite-plugin-cartographer").then((m) =>
+          m.cartographer({
+            root: path.resolve(import.meta.dirname, ".."),
+          }),
+        ),
+      ]
+    : [];
 
-  return {
-    base: basePath,
-    plugins: [
-      mockupPreviewPlugin(),
-      react(),
-      tailwindcss(),
-      runtimeErrorOverlay(),
-      ...cartographerPlugins,
-    ],
-    resolve: {
-      alias: {
-        "@": path.resolve(import.meta.dirname, "src"),
-      },
+export default defineConfig({
+  base: basePath,
+  plugins: [
+    mockupPreviewPlugin(),
+    react(),
+    tailwindcss(),
+    runtimeErrorOverlay(),
+    ...cartographerPlugins,
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "src"),
     },
-    root: path.resolve(import.meta.dirname),
-    build: {
-      outDir: path.resolve(import.meta.dirname, "dist"),
-      emptyOutDir: true,
+  },
+  root: path.resolve(import.meta.dirname),
+  build: {
+    outDir: path.resolve(import.meta.dirname, "dist"),
+    emptyOutDir: true,
+  },
+  server: {
+    port,
+    host: "0.0.0.0",
+    allowedHosts: true,
+    fs: {
+      strict: true,
+      deny: ["**/.*"],
     },
-    server: {
-      port,
-      host: "0.0.0.0",
-      allowedHosts: true,
-      fs: {
-        strict: true,
-        deny: ["**/.*"],
-      },
-    },
-    preview: {
-      port,
-      host: "0.0.0.0",
-      allowedHosts: true,
-    },
-  };
+  },
+  preview: {
+    port,
+    host: "0.0.0.0",
+    allowedHosts: true,
+  },
 });
