@@ -73,7 +73,7 @@ export default function CyberSecurityServicesPage() {
         <div className="mx-auto max-w-3xl px-6 text-center sm:text-left">
           <Link
             href={REQUEST_SERVICE_OVERVIEW_HREF}
-            className="font-sans inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554]"
+            className="font-sans inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73]"
           >
             Request Service Overview
           </Link>

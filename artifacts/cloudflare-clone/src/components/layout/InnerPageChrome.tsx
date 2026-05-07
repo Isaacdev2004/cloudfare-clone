@@ -92,7 +92,7 @@ export function ElevatedCtaBand({ children }: { children: React.ReactNode }) {
     <section className="relative overflow-hidden border-t border-slate-200/90 py-14 md:py-16">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-[#e8eefc]/50" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(30,58,138,0.09),transparent)]" />
-      <div className="relative z-[1] mx-auto flex max-w-[1280px] flex-col flex-wrap items-center justify-center gap-4 px-6 sm:flex-row">
+      <div className="relative z-[1] mx-auto flex max-w-[1200px] flex-col flex-wrap items-center justify-center gap-4 px-6 sm:flex-row">
         {children}
       </div>
     </section>
@@ -105,7 +105,7 @@ export function NavySignalBand({ children }: { children: React.ReactNode }) {
     <section className="relative overflow-hidden border-t border-white/10 bg-[#0B1320] py-14 md:py-16 text-white">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_100%_80%_at_20%_0%,rgba(30,58,138,0.35),transparent)]" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-72 w-72 translate-x-1/4 translate-y-1/4 rounded-full bg-[#1E3A8A]/25 blur-3xl" />
-      <div className="relative z-[1] mx-auto flex max-w-[1280px] flex-col flex-wrap items-center justify-center gap-4 px-6 sm:flex-row">
+      <div className="relative z-[1] mx-auto flex max-w-[1200px] flex-col flex-wrap items-center justify-center gap-4 px-6 sm:flex-row">
         {children}
       </div>
     </section>

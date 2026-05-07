@@ -261,6 +261,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F7F9FC]">
+      <a href="#main-content" className="apex-skip-link">
+        Skip to main content
+      </a>
 
       {/* §8.1 — header stays at top of viewport (fixed = sticky site chrome) on all breakpoints */}
       <header
@@ -268,7 +271,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         className="fixed top-0 inset-x-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-sm supports-[backdrop-filter]:bg-white/90"
         style={{ height: HEADER_HEIGHT_PX }}
       >
-        <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="mx-auto flex h-full max-w-[1200px] items-center justify-between gap-4 px-4 sm:px-6">
           <div className="flex min-w-0 flex-1 items-center gap-5 lg:gap-8">
             <Link
               href="/"
@@ -356,10 +359,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                     : undefined
                 }
                 className={cn(
-                  'px-2.5 py-2 text-[15px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded hover:text-[#172554] xl:px-3',
+                  'px-2.5 py-2 text-[15px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded hover:text-[#172E73] xl:px-3',
                   pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
                     ? 'bg-[#1E3A8A] text-white ring-1 ring-[#1E3A8A] shadow-sm'
-                    : 'text-[#1E3A8A] hover:text-[#172554]',
+                    : 'text-[#1E3A8A] hover:text-[#172E73]',
                 )}
               >
                 Test Your Security State
@@ -410,7 +413,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 setMobileMenuOpen(false);
                 setMobileExpanded(null);
               }}
-              className="inline-flex max-w-[min(42vw,180px)] items-center justify-center rounded-md bg-[#1E3A8A] px-2.5 py-2 text-center text-[11px] font-semibold leading-tight text-white transition-colors hover:bg-[#172554] sm:px-3 sm:text-xs"
+              className="inline-flex max-w-[min(42vw,180px)] items-center justify-center rounded-md bg-[#1E3A8A] px-2.5 py-2 text-center text-[11px] font-semibold leading-tight text-white transition-colors hover:bg-[#172E73] sm:px-3 sm:text-xs"
             >
               Test security
             </Link>
@@ -446,7 +449,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             }}
             onMouseLeave={startCloseTimer}
           >
-            <div className="max-w-[1280px] mx-auto px-6 py-8">
+            <div className="max-w-[1200px] mx-auto px-6 py-8">
               <div
                 className="grid gap-x-10"
                 style={{ gridTemplateColumns: `repeat(${activeItem.dropdown.columns.length}, 1fr)` }}
@@ -686,7 +689,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                     'block py-3 text-[15px] font-semibold',
                     pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
                       ? 'rounded-md bg-[#1E3A8A] text-white -mx-4 px-4'
-                      : 'text-[#1E3A8A] hover:text-[#172554]',
+                      : 'text-[#1E3A8A] hover:text-[#172E73]',
                   )}
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -719,13 +722,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </AnimatePresence>
 
       {/* ── Main Content ── */}
-      <main className="flex-grow" style={{ paddingTop: HEADER_HEIGHT_PX }}>
+      <main id="main-content" className="flex-grow" style={{ paddingTop: HEADER_HEIGHT_PX }} tabIndex={-1}>
         {children}
       </main>
 
       {/* ── Footer ── */}
       <footer className="bg-[#111827] border-t border-white/10 pt-16 pb-8">
-        <div className="max-w-[1280px] mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-8 mb-12">
             <div className="col-span-2 md:col-span-3 lg:col-span-1 flex flex-col items-start text-left">
               <Link href="/" className="inline-flex items-center justify-start mb-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded w-full" aria-label="Apexlyn home">

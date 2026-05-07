@@ -29,7 +29,7 @@ function ResourceDetailPage({
     <div className="min-h-screen apex-page-bg">
       <section className="relative overflow-hidden border-b border-slate-200 bg-white">
         <InnerHeroBackdrop />
-        <div className="relative z-[1] mx-auto flex max-w-[1280px] flex-col gap-6 px-6 py-16 sm:flex-row sm:items-start sm:py-20 lg:py-24">
+        <div className="relative z-[1] mx-auto flex max-w-[1200px] flex-col gap-6 px-6 py-16 sm:flex-row sm:items-start sm:py-20 lg:py-24">
           <div className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm sm:flex">
             <FileStack className="h-7 w-7 text-[#1E3A8A]" strokeWidth={1.5} />
           </div>
@@ -65,7 +65,7 @@ function ResourceDetailPage({
       <ElevatedCtaBand>
         <Link
           href={ctaHref}
-          className="inline-flex items-center justify-center rounded px-6 py-3.5 font-sans text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554]"
+          className="inline-flex items-center justify-center rounded px-6 py-3.5 font-sans text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73]"
         >
           {ctaLabel}
         </Link>

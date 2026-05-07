@@ -76,7 +76,7 @@ export default function TrustCenterPage() {
     <div className="min-h-screen apex-page-bg">
       <section className="relative overflow-hidden border-b border-slate-200 bg-white">
         <InnerHeroBackdrop />
-        <div className="relative z-[1] mx-auto flex max-w-[1280px] flex-col gap-8 px-6 py-16 sm:flex-row sm:items-start sm:py-20 lg:py-24">
+        <div className="relative z-[1] mx-auto flex max-w-[1200px] flex-col gap-8 px-6 py-16 sm:flex-row sm:items-start sm:py-20 lg:py-24">
           <div className="hidden shrink-0 sm:flex sm:w-14 lg:w-16">
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm lg:h-16 lg:w-16">
               <Shield className="h-7 w-7 text-[#1E3A8A]" strokeWidth={1.5} />

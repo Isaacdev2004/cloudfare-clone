@@ -88,7 +88,7 @@ export const HeroGaugeVisual: React.FC<{ className?: string; compact?: boolean }
             <path
               d="M 8,138 A 112,112 0 0 1 232,138"
               fill="none"
-              stroke="#172554"
+              stroke="#172E73"
               strokeWidth="5"
               strokeLinecap="round"
               opacity="0.88"

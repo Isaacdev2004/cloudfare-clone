@@ -1,19 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 /*
- * §6 — Visual posture: premium, infrastructure-grade, restrained.
- * Primary action: #1E3A8A only. AI accent #1E90FF for Lens/AI highlights — not default buttons.
+ * Build spec v2.0 Part 1 — design tokens + legacy §6 notes.
+ * Primary action: #1E3A8A. Primary hover: #172E73 (§9.1). AI accent #1E90FF for Lens only.
  */
 
 @theme inline {
   --font-sans:
     'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
     'Segoe UI',
     Roboto,
     'Helvetica Neue',
     Arial,
     sans-serif;
+  /** §6.1 — monospace for Trust Center / technical values */
+  --font-mono:
+    'JetBrains Mono',
+    'Fira Code',
+    Consolas,
+    monospace;
   
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -55,7 +64,8 @@
   --apex-secondary-dark: #111827;
   --apex-light: #F7F9FC;
   --apex-primary-btn: #1E3A8A;
-  --apex-primary-btn-hover: #172554;
+  /* §9.1 primary button hover */
+  --apex-primary-btn-hover: #172E73;
   --apex-ai: #1E90FF;
   --apex-success: #1F8A70;
   --apex-warning: #F5B700;
@@ -72,12 +82,28 @@
     @apply bg-background text-foreground font-sans antialiased selection:bg-[#1E3A8A]/15 selection:text-[#0B1320];
     font-family: var(--font-sans);
   }
+  /* §13.3 — keyboard focus (WCAG 2.1 AA target) */
+  :where(a, button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid #1e3a8a;
+    outline-offset: 2px;
+  }
   /* Ensure anchors never fall back to browser serif (client parity) */
   a {
     font-family: inherit;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight text-slate-900;
+    @apply font-bold tracking-tight;
+    color: #111827;
+  }
+  /* §6.2 body on light surfaces */
+  .apex-prose-light p {
+    color: #4b5563;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 680px;
+  }
+  .apex-prose-light p + p {
+    margin-top: 1.5em;
   }
 }
 
@@ -111,7 +137,7 @@
     background-color: #ffffff;
   }
   .apex-btn-primary {
-    @apply bg-[#1E3A8A] text-white hover:bg-[#172554] transition-colors;
+    @apply bg-[#1E3A8A] text-white hover:bg-[#172E73] transition-colors;
   }
   .apex-text-ai {
     color: var(--apex-ai);
@@ -163,6 +189,36 @@
     box-shadow:
       0 1px 0 rgba(11, 19, 32, 0.06),
       inset 0 1px 0 rgba(30, 144, 255, 0.08);
+  }
+  /** §13.3 — skip link: first focusable control per page */
+  .apex-skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: 9999;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: #fff;
+    color: #111827;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 24px rgba(11, 19, 32, 0.12);
+  }
+  .apex-skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    position: fixed;
+  }
+  /** §6.1 technical monospace block (Trust Center, specs) */
+  .font-apex-mono {
+    font-family: var(--font-mono);
   }
 }
 

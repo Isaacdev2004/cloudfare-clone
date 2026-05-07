@@ -82,7 +82,7 @@ export default function IndustriesIndexPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-16 md:py-24">
         <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"

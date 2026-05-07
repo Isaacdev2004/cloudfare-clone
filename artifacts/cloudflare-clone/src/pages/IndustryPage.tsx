@@ -243,7 +243,7 @@ function HealthcareIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -258,7 +258,7 @@ function HealthcareIndustryPage() {
       </section>
 
       <section className="relative border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -281,7 +281,7 @@ function HealthcareIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash className="opacity-40" />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -311,7 +311,7 @@ function HealthcareIndustryPage() {
       </section>
 
       <section className="border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -367,7 +367,7 @@ function LegalIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -382,7 +382,7 @@ function LegalIndustryPage() {
       </section>
 
       <section className="relative border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -405,7 +405,7 @@ function LegalIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash className="opacity-40" />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -435,7 +435,7 @@ function LegalIndustryPage() {
       </section>
 
       <section className="border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -490,7 +490,7 @@ function AccountingIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -505,7 +505,7 @@ function AccountingIndustryPage() {
       </section>
 
       <section className="relative border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -528,7 +528,7 @@ function AccountingIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash className="opacity-40" />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -558,7 +558,7 @@ function AccountingIndustryPage() {
       </section>
 
       <section className="border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -613,7 +613,7 @@ function InsuranceIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -628,7 +628,7 @@ function InsuranceIndustryPage() {
       </section>
 
       <section className="relative border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -651,7 +651,7 @@ function InsuranceIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash className="opacity-40" />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -681,7 +681,7 @@ function InsuranceIndustryPage() {
       </section>
 
       <section className="border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -736,7 +736,7 @@ function MspPartnersIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -751,7 +751,7 @@ function MspPartnersIndustryPage() {
       </section>
 
       <section className="relative border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -774,7 +774,7 @@ function MspPartnersIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash className="opacity-40" />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -804,7 +804,7 @@ function MspPartnersIndustryPage() {
       </section>
 
       <section className="border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -859,7 +859,7 @@ function ProfessionalServicesIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -874,7 +874,7 @@ function ProfessionalServicesIndustryPage() {
       </section>
 
       <section className="relative border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -897,7 +897,7 @@ function ProfessionalServicesIndustryPage() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash className="opacity-40" />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -927,7 +927,7 @@ function ProfessionalServicesIndustryPage() {
       </section>
 
       <section className="border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"

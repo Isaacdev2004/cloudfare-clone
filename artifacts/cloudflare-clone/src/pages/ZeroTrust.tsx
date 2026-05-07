@@ -53,7 +53,7 @@ export default function ZeroTrust() {
       </section>
 
       {/* Products */}
-      <section className="max-w-[1280px] mx-auto px-6 py-20">
+      <section className="max-w-[1200px] mx-auto px-6 py-20">
         <SectionHeading
           title="The complete Zero Trust platform"
           description="Every product shares our global network — no stitching together third-party tools."
@@ -92,7 +92,7 @@ export default function ZeroTrust() {
 
       {/* How it works */}
       <section className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-20">
+        <div className="max-w-[1200px] mx-auto px-6 py-20">
           <SectionHeading
             title="How Apexlyn One works"
             description="From pilot to full deployment in days."
@@ -116,7 +116,7 @@ export default function ZeroTrust() {
       </section>
 
       {/* VPN comparison */}
-      <section className="max-w-[1280px] mx-auto px-6 py-20">
+      <section className="max-w-[1200px] mx-auto px-6 py-20">
         <SectionHeading
           title="Zero Trust vs. traditional VPN"
           description="Why thousands of organizations are replacing their VPNs with Apexlyn."
@@ -143,13 +143,13 @@ export default function ZeroTrust() {
 
       {/* CTA */}
       <section className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
+        <div className="max-w-[1200px] mx-auto px-6 py-20 text-center">
           <h2 className="text-4xl font-bold text-slate-900 mb-4">Start your Zero Trust journey</h2>
           <p className="text-slate-600 mb-8 max-w-lg mx-auto">
             Free for up to 50 users. No hardware. No hidden setup fees.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172E73] transition-colors">
               Start for free <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">

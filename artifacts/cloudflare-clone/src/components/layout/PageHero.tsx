@@ -1,8 +1,6 @@
 import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "wouter";
 import { cn } from "@/lib/utils";
-import { fadeInUp, fadeInUpReduced } from "@/lib/motion";
 
 type HeroAction = {
   label: string;
@@ -46,8 +44,6 @@ export const PageHero: React.FC<PageHeroProps> = ({
   primaryMicrocopy,
   positioningParagraph,
 }) => {
-  const reduceMotion = useReducedMotion();
-  const heroEnter = reduceMotion ? fadeInUpReduced : fadeInUp;
   const isNavy = variant === "navy";
   const isHomeLayout = layout === "home";
 
@@ -64,7 +60,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
                 ? isNavy
                   ? "text-white border border-white/25 hover:bg-white/10"
                   : "text-slate-800 border border-slate-300 hover:bg-slate-50"
-                : "text-white bg-[#1E3A8A] hover:bg-[#172554]",
+                : "text-white bg-[#1E3A8A] hover:bg-[#172E73]",
             )}
           >
             {action.label}
@@ -85,7 +81,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
     >
       <div
         className={cn(
-          "max-w-[1280px] mx-auto px-6 py-14 sm:py-20 lg:py-28",
+          "max-w-[1200px] mx-auto px-6 py-14 sm:py-20 lg:py-28",
           contentClassName,
         )}
       >
@@ -98,12 +94,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
             aside ? "lg:grid-cols-2" : "lg:grid-cols-1",
           )}
         >
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={heroEnter}
-            className={cn("max-w-3xl min-w-0", isHomeLayout && "flex flex-col")}
-          >
+          <div className={cn("max-w-3xl min-w-0", isHomeLayout && "flex flex-col")}>
             {!isHomeLayout && eyebrow && (
               <p
                 className={cn(
@@ -192,7 +183,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
                 )}
               </>
             )}
-          </motion.div>
+          </div>
           {aside && (
             <div className="relative min-w-0 w-full max-lg:order-last overflow-x-visible overflow-y-visible">
               {aside}

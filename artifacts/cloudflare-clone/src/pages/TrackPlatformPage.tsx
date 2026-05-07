@@ -197,7 +197,7 @@ export default function TrackPlatformPage() {
             <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row sm:flex-wrap">
               <Link
                 href={TEST_EVIDENCE_READINESS_HREF}
-                className="inline-flex items-center justify-center gap-2 rounded px-6 py-3.5 text-base font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554]"
+                className="inline-flex items-center justify-center gap-2 rounded px-6 py-3.5 text-base font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73]"
               >
                 Test Your Evidence Readiness
               </Link>

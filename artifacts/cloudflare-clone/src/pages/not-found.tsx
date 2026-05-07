@@ -20,7 +20,7 @@ export default function NotFound() {
       <ElevatedCtaBand>
         <Link
           href="/"
-          className="inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554] font-sans"
+          className="inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73] font-sans"
         >
           Return Home
         </Link>

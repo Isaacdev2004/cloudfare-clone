@@ -73,7 +73,7 @@ export default function ComplianceOperationsPage() {
         <div className="mx-auto max-w-3xl px-6 text-center sm:text-left">
           <Link
             href={EXPLORE_COMPLIANCE_SUPPORT_HREF}
-            className="font-sans inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554]"
+            className="font-sans inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73]"
           >
             Explore Compliance Support
           </Link>

@@ -71,7 +71,7 @@ export default function ArchitectureOverviewPage() {
         id="architecture-pillars"
         className="scroll-mt-[calc(108px+1rem)] border-b border-slate-200 bg-[#F7F9FC] py-16 md:py-24"
       >
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -115,7 +115,7 @@ export default function ArchitectureOverviewPage() {
         id="architecture-diagrams"
         className="scroll-mt-[calc(108px+1rem)] border-b border-slate-200 bg-white py-16 md:py-24"
       >
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -154,7 +154,7 @@ export default function ArchitectureOverviewPage() {
       </section>
 
       <section className="border-b border-slate-200 bg-[#F7F9FC] py-14 md:py-16">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -164,7 +164,7 @@ export default function ArchitectureOverviewPage() {
           >
             <Link
               href={REVIEW_ARCHITECTURE_HREF}
-              className="font-sans inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554]"
+              className="font-sans inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73]"
             >
               Review Our Security Architecture
             </Link>

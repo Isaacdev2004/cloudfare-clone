@@ -46,7 +46,7 @@ export default function ApexlynNavPage() {
 
   return (
     <div className="flex flex-col apex-page-bg min-h-[calc(100dvh-108px)]">
-      <div className="max-w-[1280px] w-full mx-auto px-6 py-16 sm:py-20">
+      <div className="max-w-[1200px] w-full mx-auto px-6 py-16 sm:py-20">
         {meta.eyebrow ? (
           <p className="text-sm font-semibold uppercase tracking-widest text-[#1E3A8A] mb-3">
             {meta.eyebrow}

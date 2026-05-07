@@ -125,7 +125,7 @@ export default function TestSecurityStatePage() {
       <div className="min-h-screen apex-page-bg">
         <section className="relative overflow-hidden border-b border-slate-200 bg-white">
           <InnerHeroBackdrop />
-          <div className="relative z-[1] mx-auto max-w-[1280px] px-6 py-16 sm:py-20 lg:py-24">
+          <div className="relative z-[1] mx-auto max-w-[1200px] px-6 py-16 sm:py-20 lg:py-24">
             <PageHero
               variant="light"
               eyebrow="Baseline"
@@ -158,7 +158,7 @@ export default function TestSecurityStatePage() {
     <div className="min-h-screen apex-page-bg">
       <section className="relative overflow-hidden border-b border-slate-200 bg-white">
         <InnerHeroBackdrop />
-        <div className="relative z-[1] mx-auto flex max-w-[1280px] flex-col gap-6 px-6 py-16 sm:flex-row sm:items-start sm:py-20 lg:py-24">
+        <div className="relative z-[1] mx-auto flex max-w-[1200px] flex-col gap-6 px-6 py-16 sm:flex-row sm:items-start sm:py-20 lg:py-24">
           <div className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white/90 shadow-sm backdrop-blur-sm sm:flex">
             <ClipboardCheck className="h-7 w-7 text-[#1E3A8A]" strokeWidth={1.5} />
           </div>
@@ -413,7 +413,7 @@ export default function TestSecurityStatePage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex w-full min-h-[3rem] items-center justify-center rounded-lg px-6 py-3.5 font-sans text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554] disabled:cursor-not-allowed disabled:opacity-80"
+                className="inline-flex w-full min-h-[3rem] items-center justify-center rounded-lg px-6 py-3.5 font-sans text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73] disabled:cursor-not-allowed disabled:opacity-80"
               >
                 {isSubmitting ? S9.submitting : 'Generate Baseline Signal'}
               </button>

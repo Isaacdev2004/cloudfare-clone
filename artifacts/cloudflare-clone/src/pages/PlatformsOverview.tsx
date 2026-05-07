@@ -48,7 +48,7 @@ export default function PlatformsOverview() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-white py-16 md:py-24">
         <SectionGridWash className="opacity-25" />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -88,7 +88,7 @@ export default function PlatformsOverview() {
                     <p className="mt-4 flex-grow text-[17px] leading-relaxed text-slate-600">{card.body}</p>
                     <Link
                       href={card.cta.href}
-                      className="mt-8 inline-flex w-full items-center justify-center rounded px-5 py-3 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554] sm:w-auto"
+                      className="mt-8 inline-flex w-full items-center justify-center rounded px-5 py-3 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73] sm:w-auto"
                     >
                       {card.cta.label}
                     </Link>
@@ -113,7 +113,7 @@ export default function PlatformsOverview() {
             <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row sm:flex-wrap">
               <Link
                 href={TEST_SECURITY_STATE_URL}
-                className="inline-flex items-center justify-center gap-2 rounded px-6 py-3.5 text-base font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554]"
+                className="inline-flex items-center justify-center gap-2 rounded px-6 py-3.5 text-base font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73]"
               >
                 Test Your Security State
               </Link>

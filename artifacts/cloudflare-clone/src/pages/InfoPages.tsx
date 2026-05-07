@@ -43,7 +43,7 @@ function InfoPageTemplate({
         />
       </section>
 
-      <section className="max-w-[1280px] mx-auto px-6 py-16">
+      <section className="max-w-[1200px] mx-auto px-6 py-16">
         {!!quickLinks.length && (
           <div className="mb-8 flex flex-wrap gap-2.5">
             {quickLinks.map((item) => (
@@ -110,7 +110,7 @@ function InfoPageTemplate({
             </div>
             <Link
               href={ctaHref}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172E73] transition-colors"
             >
               {ctaLabel} <ArrowRight className="w-4 h-4" />
             </Link>
@@ -793,7 +793,7 @@ export function ResourcesIndexPage() {
       </section>
       <section className="relative overflow-hidden py-16 md:py-20">
         <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <div className="grid gap-8 md:grid-cols-3">
             {cards.map((card, i) => (
               <motion.div key={card.href} whileHover={subtleLiftHover} className="h-full">

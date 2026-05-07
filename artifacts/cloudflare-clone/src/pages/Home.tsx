@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { HeroHomePlatformVisual } from '@/components/hero/HeroHomePlatformVisual';
 import { HeroCloudNetworkVisual } from '@/components/hero/HeroCloudNetworkVisual';
 import { HeroGaugeVisual } from '@/components/hero/HeroGaugeVisual';
@@ -173,11 +173,9 @@ const PLATFORM_ROWS = [
 ];
 
 const connectivityLinkClass =
-  'font-sans text-[15px] font-medium text-[#1E3A8A] underline underline-offset-[5px] decoration-slate-300 hover:text-[#172554] hover:decoration-[#1E3A8A] antialiased transition-colors';
+  'font-sans text-[15px] font-medium text-[#1E3A8A] underline underline-offset-[5px] decoration-slate-300 hover:text-[#172E73] hover:decoration-[#1E3A8A] antialiased transition-colors';
 
 export default function Home() {
-  const reduceMotion = useReducedMotion();
-
   return (
     <div className="flex flex-col apex-page-bg">
       <PageHero
@@ -197,21 +195,16 @@ export default function Home() {
         contentClassName="relative z-10 w-full"
         aside={(
           <div className="relative flex min-h-0 w-full flex-col px-1 sm:px-2 h-[min(54vh,460px)] sm:h-[500px] lg:h-[640px]">
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="flex h-full min-h-0 w-full flex-1 flex-col"
-            >
+            <div className="flex h-full min-h-0 w-full flex-1 flex-col">
               <HeroHomePlatformVisual className="min-h-0 flex-1" />
-            </motion.div>
+            </div>
           </div>
         )}
       />
 
       {/* §6.7 — Proof strip: one horizontal row */}
       <section className="apex-section-light apex-frame-y border-[#0B1320]/10">
-        <div className="max-w-[1280px] mx-auto px-6 py-8 md:py-10">
+        <div className="max-w-[1200px] mx-auto px-6 py-8 md:py-10">
           <h2 className="text-sm font-bold uppercase tracking-[0.12em] text-slate-500 font-sans mb-6 md:mb-8 text-center sm:text-left">
             {PROOF_STRIP_TITLE}
           </h2>
@@ -244,7 +237,7 @@ export default function Home() {
 
       {/* Platforms — two equal cards (§6.7) */}
       <section id="our-platforms" className="py-16 md:py-24 bg-[#F7F9FC] border-t border-[#0B1320]/8">
-        <div className="max-w-[1280px] mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -308,7 +301,7 @@ export default function Home() {
                   <div className="mt-auto">
                     <Link
                       href={row.cta.href}
-                      className="font-sans inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
+                      className="font-sans inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172E73] transition-colors"
                     >
                       {row.cta.label}
                     </Link>
@@ -334,7 +327,7 @@ export default function Home() {
 
       {/* Buyer path — 3 + 2 (§6.7) */}
       <section className="py-16 md:py-24 bg-white border-t border-[#0B1320]/8">
-        <div className="max-w-[1280px] mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -392,7 +385,7 @@ export default function Home() {
 
       {/* How it works — vertical steps (§6.7) */}
       <section className="py-16 md:py-24 bg-[#F7F9FC] border-t border-[#0B1320]/8">
-        <div className="max-w-[1280px] mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -442,7 +435,7 @@ export default function Home() {
         id="solutions"
         className="py-16 md:py-24 bg-white border-t border-[#0B1320]/8"
       >
-        <div className="max-w-[1280px] mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -474,7 +467,7 @@ export default function Home() {
                 <div className="mt-auto">
                   <Link
                     href={col.href}
-                    className="font-sans inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
+                    className="font-sans inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172E73] transition-colors"
                   >
                     {col.ctaLabel}
                   </Link>
@@ -508,7 +501,7 @@ export default function Home() {
 
       {/* Trust — two columns (§6.7) */}
       <section className="py-16 md:py-24 bg-white border-t border-[#0B1320]/8">
-        <div className="max-w-[1280px] mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
             <motion.div
               initial="hidden"
@@ -574,7 +567,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
                 href={TEST_SECURITY_STATE_URL}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172E73] transition-colors"
               >
                 Test Your Security State
               </Link>

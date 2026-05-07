@@ -242,7 +242,7 @@ function IconBadgeIso() {
       aria-hidden
       style={{ shapeRendering: "geometricPrecision", transform: "translateX(-1px)" }}
     >
-      <rect x="5" y="3" width="28" height="35" rx="4" fill="#1E3A8A" stroke="#172554" strokeWidth="0.75" />
+      <rect x="5" y="3" width="28" height="35" rx="4" fill="#1E3A8A" stroke="#172E73" strokeWidth="0.75" />
       <polygon points="25,3 33,11 25,11" fill="#1D4ED8" />
       <rect x="10" y="16" width="14" height="2.5" rx="1.25" fill="#E4EAFA" opacity="0.85" />
       <rect x="10" y="22" width="18" height="2" rx="1" fill="#E4EAFA" opacity="0.6" />

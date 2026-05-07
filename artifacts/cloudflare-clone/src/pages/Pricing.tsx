@@ -80,7 +80,7 @@ export default function Pricing() {
       </section>
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -114,7 +114,7 @@ export default function Pricing() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-14 md:py-20">
         <SectionGridWash className="opacity-40" />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -139,7 +139,7 @@ export default function Pricing() {
       </section>
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-[1280px] px-6">
+        <div className="mx-auto max-w-[1200px] px-6">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -178,7 +178,7 @@ export default function Pricing() {
           <p className="mt-5 text-[17px] leading-relaxed text-slate-600">{ENTERPRISE_SECTION_BODY}</p>
           <Link
             href={CONTACT_ENTERPRISE_PARTNER_HREF}
-            className="mt-10 inline-flex min-h-[3rem] items-center justify-center rounded-lg bg-[#1E3A8A] px-8 py-3.5 text-[15px] font-semibold text-white transition-colors hover:bg-[#172554]"
+            className="mt-10 inline-flex min-h-[3rem] items-center justify-center rounded-lg bg-[#1E3A8A] px-8 py-3.5 text-[15px] font-semibold text-white transition-colors hover:bg-[#172E73]"
           >
             Request an Enterprise or Partner Proposal
           </Link>
@@ -188,7 +188,7 @@ export default function Pricing() {
       <ElevatedCtaBand>
         <Link
           href={CONTACT_PRICING_HREF}
-          className="inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554]"
+          className="inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73]"
         >
           Request Pricing Details
         </Link>
