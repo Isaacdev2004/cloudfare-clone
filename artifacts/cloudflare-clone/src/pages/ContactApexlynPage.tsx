@@ -1,355 +1,501 @@
 import React, { FormEvent, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { useLocation } from 'wouter';
-import { PageHero } from '@/components/layout/PageHero';
-import { fadeInUp } from '@/lib/motion';
-import { InnerHeroBackdrop, SectionGridWash } from '@/components/layout/InnerPageChrome';
-import { Mail } from 'lucide-react';
-import { contactTopicLabel } from '@/lib/apexlyn-cta-routes';
+import { Link } from 'wouter';
+import { ChevronDown } from 'lucide-react';
+import { Spinner } from '@/components/ui/spinner';
 import { FieldError, fieldErrorInputClass } from '@/components/forms/FieldError';
-import { S9, isValidWorkEmail, shouldSimulateSubmitFailure } from '@/lib/apexlyn-form-copy';
+import { capturePosthogEvent } from '@/lib/apexlyn-analytics-consent';
+import { APEXLN_COMPANY } from '@/lib/apexlyn-company';
+import {
+  HUBSPOT_FORM_IDS,
+  apexFormInputClass,
+  apexFormLabelClass,
+  apexFormTextareaClass,
+  honeypotInputClass,
+  isFreeEmailDomain,
+  scrollFieldIntoView,
+  submitHubSpotForm,
+  validateMinLength,
+  validateOptionalPhone,
+  validateWorkEmail,
+} from '@/lib/apexlyn-form-shared';
 import { cn } from '@/lib/utils';
 
-const inputClass =
-  'w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-[15px] text-slate-900 font-sans placeholder:text-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]/25 focus:border-[#1E3A8A]';
-const labelClass = 'mb-1.5 block text-sm font-medium text-slate-700 font-sans';
+const INQUIRY_OPTIONS = [
+  'Compliance evidence (Track)',
+  'AI governance (Lens)',
+  'Both platforms',
+  'MSP / Partner inquiry',
+  'Enterprise or government inquiry',
+  'Insurance / underwriting inquiry',
+  'General inquiry',
+] as const;
 
-const HERO_SUBHEAD =
-  'Tell us what you need to prove, what you need to protect, and what your constraints are. We will respond with a clearer path forward.';
-
-const SUPPORT_LINE = 'Clear answers • No pressure • Built for serious operators';
-
-type CField =
-  | 'workEmail'
-  | 'organisation'
-  | 'role'
-  | 'primaryArea'
-  | 'environmentType'
-  | 'currentChallenge';
-type CErrors = Partial<Record<CField, string>>;
-
-function readTopicFromSearch(): string | null {
-  if (typeof window === 'undefined') return null;
-  return new URLSearchParams(window.location.search).get('topic');
-}
-
-function validateContact(
-  workEmail: string,
-  organisation: string,
-  role: string,
-  primaryArea: string,
-  environmentType: string,
-  currentChallenge: string,
-): CErrors {
-  const e: CErrors = {};
-  const em = workEmail.trim();
-  if (!em) e.workEmail = S9.emailEmpty;
-  else if (!isValidWorkEmail(em)) e.workEmail = S9.emailInvalid;
-  if (!organisation.trim()) e.organisation = S9.organisationEmpty;
-  if (!role.trim()) e.role = S9.roleEmpty;
-  if (!primaryArea.trim()) e.primaryArea = S9.primaryAreaEmpty;
-  if (!environmentType.trim()) e.environmentType = S9.environmentTypeEmpty;
-  if (!currentChallenge.trim()) e.currentChallenge = S9.currentChallengeEmpty;
-  return e;
+function SelectChevronWrap({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative">
+      {children}
+      <ChevronDown
+        className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6B7280]"
+        aria-hidden
+      />
+    </div>
+  );
 }
 
 export default function ContactApexlynPage() {
-  const [path] = useLocation();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [workEmail, setWorkEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [organisation, setOrganisation] = useState('');
-  const [role, setRole] = useState('');
-  const [primaryArea, setPrimaryArea] = useState('');
-  const [environmentType, setEnvironmentType] = useState('');
-  const [currentChallenge, setCurrentChallenge] = useState('');
-  const [notes, setNotes] = useState('');
-  const [fieldErrors, setFieldErrors] = useState<CErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [jobTitle, setJobTitle] = useState('');
+  const [inquiryType, setInquiryType] = useState('');
+  const [message, setMessage] = useState('');
+  const [honeypot, setHoneypot] = useState('');
+  const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
+  const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [serverError, setServerError] = useState(false);
-  const [topic, setTopic] = useState<string | null>(null);
 
   useEffect(() => {
-    const sync = () => setTopic(readTopicFromSearch());
-    sync();
-    window.addEventListener('popstate', sync);
-    return () => window.removeEventListener('popstate', sync);
-  }, [path]);
+    capturePosthogEvent('contact_page_viewed', {});
+  }, []);
 
-  const topicLine = contactTopicLabel(topic);
+  const clearErr = (k: string) => setErrors((e) => ({ ...e, [k]: undefined }));
 
-  function clearField(field: CField) {
-    setFieldErrors((f) => ({ ...f, [field]: undefined }));
+  function validateField(name: string, value?: string): string | undefined {
+    switch (name) {
+      case 'firstName':
+        return firstName.trim().length >= 2 ? undefined : 'Please enter your first name';
+      case 'lastName':
+        return lastName.trim().length >= 2 ? undefined : 'Please enter your last name';
+      case 'workEmail': {
+        const err = validateWorkEmail(workEmail);
+        return err ?? undefined;
+      }
+      case 'phone':
+        return validateOptionalPhone(phone) ?? undefined;
+      case 'organisation':
+        return organisation.trim().length >= 2 ? undefined : 'Please enter your organisation name';
+      case 'jobTitle':
+        return jobTitle.trim().length > 100 ? 'Job title must be under 100 characters' : undefined;
+      case 'inquiryType':
+        return inquiryType ? undefined : 'Please select what your inquiry is about';
+      case 'message':
+        if (message.length > 2000) return 'Message must be under 2000 characters';
+        return undefined;
+      default:
+        return undefined;
+    }
+  }
+
+  function onBlurField(name: string) {
+    const v = validateField(name);
+    if (name === 'workEmail' && workEmail.trim() && isFreeEmailDomain(workEmail)) {
+      capturePosthogEvent('contact_email_validation_failed', {});
+    }
+    setErrors((e) => ({ ...e, [name]: v }));
+  }
+
+  function validateAll(): boolean {
+    const next: Record<string, string> = {};
+    const pairs: [string, string][] = [
+      ['firstName', 'firstName'],
+      ['lastName', 'lastName'],
+      ['workEmail', 'workEmail'],
+      ['phone', 'phone'],
+      ['organisation', 'organisation'],
+      ['inquiryType', 'inquiryType'],
+      ['message', 'message'],
+    ];
+    for (const [, key] of pairs) {
+      const msg = validateField(key);
+      if (msg) next[key] = msg;
+    }
+    setErrors(next);
+    return Object.keys(next).length === 0;
   }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setServerError(false);
-    const errors = validateContact(workEmail, organisation, role, primaryArea, environmentType, currentChallenge);
-    setFieldErrors(errors);
-    if (Object.keys(errors).length > 0) return;
+    if (honeypot.trim()) return;
+    if (!validateAll()) return;
 
-    setIsSubmitting(true);
+    setSubmitting(true);
     try {
-      await new Promise((r) => setTimeout(r, 700));
-      if (shouldSimulateSubmitFailure()) {
-        setServerError(true);
-        return;
-      }
+      await submitHubSpotForm(HUBSPOT_FORM_IDS.apexlyn_contact, [
+        { name: 'first_name', value: firstName.trim() },
+        { name: 'last_name', value: lastName.trim() },
+        { name: 'email', value: workEmail.trim() },
+        { name: 'phone', value: phone.trim() },
+        { name: 'organisation', value: organisation.trim() },
+        { name: 'job_title', value: jobTitle.trim() },
+        { name: 'inquiry_type', value: inquiryType },
+        { name: 'message', value: message.trim() },
+      ]);
+      capturePosthogEvent('contact_form_submitted', { inquiry_type: inquiryType });
       setSuccess(true);
     } catch {
+      capturePosthogEvent('contact_form_failed', { error: 'submit' });
       setServerError(true);
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   }
 
   if (success) {
     return (
-      <div className="min-h-screen apex-page-bg">
-        <section className="relative overflow-hidden border-b border-slate-200 bg-white">
-          <InnerHeroBackdrop />
-          <div className="relative z-[1] mx-auto flex max-w-[1280px] flex-col gap-6 px-6 py-16 sm:py-20 lg:py-24">
-            <div className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm sm:flex" aria-hidden>
-              <Mail className="h-7 w-7 text-[#1E3A8A]" strokeWidth={1.5} />
-            </div>
-            <PageHero
-              variant="light"
-              eyebrow="Contact"
-              title="Start a Strategic Conversation"
-              description={HERO_SUBHEAD}
-              className="min-w-0 flex-1 bg-transparent"
-              contentClassName="py-0 sm:py-0 max-w-3xl"
-            />
+      <div className="flex flex-col bg-white">
+        <section className="bg-[#0B1320] pt-12 pb-8 text-center lg:pt-20 lg:pb-12">
+          <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+            <h1 className="text-[32px] font-bold leading-tight text-white lg:text-[48px]">Start a conversation</h1>
           </div>
         </section>
-        <div className="relative overflow-hidden py-12 md:py-16">
-          <SectionGridWash />
-          <div className="relative z-[1] mx-auto max-w-[560px] px-6">
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="rounded-2xl border border-slate-200 bg-white p-8 text-center font-sans text-[15px] leading-relaxed text-slate-700 shadow-lg"
-              role="status"
-            >
-              {S9.submitSuccess}
-            </motion.p>
+        <section className="py-16" role="status" aria-live="polite">
+          <div className="mx-auto max-w-[560px] px-4 text-center sm:px-6">
+            <p className="text-[17px] font-normal leading-relaxed text-[#1F8A70]">Thank you. We have received your message.</p>
+            <p className="mt-4 text-[15px] leading-relaxed text-[#4B5563]">
+              We will respond within one business day to the email address you provided. If your inquiry is urgent, you can
+              reach us directly at{' '}
+              <a className="text-[#1E3A8A] underline" href={`mailto:${APEXLN_COMPANY.email}`}>
+                {APEXLN_COMPANY.email}
+              </a>{' '}
+              or {APEXLN_COMPANY.phone}.
+            </p>
           </div>
-        </div>
+        </section>
       </div>
     );
   }
 
+  const inputProps = (name: string) => ({
+    onBlur: () => onBlurField(name),
+    onFocus: (ev: React.FocusEvent<HTMLElement>) => {
+      capturePosthogEvent('contact_form_field_focused', { field: name });
+      scrollFieldIntoView(ev.target as HTMLElement);
+    },
+  });
+
   return (
-    <div className="min-h-screen apex-page-bg">
-      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
-        <InnerHeroBackdrop />
-        <div className="relative z-[1] mx-auto flex max-w-[1280px] flex-col gap-6 px-6 py-16 sm:flex-row sm:items-start sm:py-20 lg:py-24">
-          <div className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm sm:flex">
-            <Mail className="h-7 w-7 text-[#1E3A8A]" strokeWidth={1.5} />
-          </div>
-          <div className="min-w-0 flex-1 max-w-3xl">
-            <PageHero
-              variant="light"
-              eyebrow="Contact"
-              title="Start a Strategic Conversation"
-              description={HERO_SUBHEAD}
-              className="bg-transparent"
-              contentClassName="py-0 sm:py-0"
-            />
-            <p className="mt-6 font-sans text-sm font-medium tracking-wide text-slate-600 sm:text-[15px]">{SUPPORT_LINE}</p>
-          </div>
+    <div className="flex flex-col bg-white">
+      <section className="bg-[#0B1320] pt-12 pb-8 text-center lg:pt-20 lg:pb-12">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <h1 className="mb-4 text-[32px] font-bold leading-tight text-white lg:text-[48px]">Start a conversation</h1>
+          <p className="mx-auto max-w-[540px] text-[16px] leading-[1.7] text-white/[0.85] lg:text-[18px]">
+            Tell us about your organisation and what you are looking for. We will respond within one business day.
+          </p>
         </div>
       </section>
 
-      <div className="relative overflow-hidden py-12 md:py-16">
-        <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[560px] px-6">
-          {topicLine ? (
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              className="mb-6 rounded-lg border border-[#1E3A8A]/20 bg-[#1E3A8A]/[0.05] px-4 py-3 text-center"
-              role="status"
-            >
-              <p className="text-xs font-semibold uppercase tracking-wider text-[#1E3A8A]">Request context</p>
-              <p className="mt-1 text-[15px] font-medium text-slate-800">{topicLine}</p>
-            </motion.div>
-          ) : null}
+      <section className="py-16 pb-20">
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-12 px-4 lg:grid-cols-12 lg:gap-16 sm:px-6">
+          <div className="lg:col-span-7">
+            <div aria-live="polite" className="sr-only" id="contact-form-status" />
 
-          {serverError ? (
-            <p
-              className="mb-5 rounded-lg border border-[#D64545]/30 bg-[#D64545]/[0.06] px-4 py-3 text-center font-sans text-[15px] leading-relaxed text-slate-800"
-              role="alert"
-            >
-              {S9.submitFailed}
-            </p>
-          ) : null}
+            <form id="apexlyn_contact" name="contact_form" onSubmit={onSubmit} noValidate className="space-y-5">
+              <input
+                type="text"
+                name="website_url"
+                tabIndex={-1}
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                autoComplete="off"
+                className={honeypotInputClass}
+                aria-hidden
+              />
 
-          <motion.form
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            noValidate
-            onSubmit={onSubmit}
-            className="space-y-5 rounded-2xl border border-slate-200/90 bg-white p-8 shadow-[0_24px_56px_-32px_rgba(11,19,32,0.18)]"
-            aria-labelledby="contact-form-title"
-          >
-            {topic ? <input type="hidden" name="topic" value={topic} /> : null}
-            <h2 id="contact-form-title" className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
-              Secure Inquiry
-            </h2>
+              {serverError ? (
+                <p
+                  className="rounded-lg border border-[#FECACA] bg-[#FEF2F2] px-4 py-3 text-[14px] text-[#D64545]"
+                  role="alert"
+                >
+                  Something went wrong. Please try again, or contact us directly at {APEXLN_COMPANY.email}.
+                </p>
+              ) : null}
 
-            <div>
-              <label className={labelClass} htmlFor="contact-email">
-                Work email (Required)
-              </label>
-              <input
-                id="contact-email"
-                name="work_email"
-                type="email"
-                autoComplete="email"
-                value={workEmail}
-                onChange={(ev) => {
-                  setWorkEmail(ev.target.value);
-                  setServerError(false);
-                  if (fieldErrors.workEmail) clearField('workEmail');
-                }}
-                aria-invalid={!!fieldErrors.workEmail}
-                aria-describedby={fieldErrors.workEmail ? 'err-c-email' : undefined}
-                className={cn(inputClass, fieldErrors.workEmail && fieldErrorInputClass)}
-              />
-              <FieldError id="err-c-email" message={fieldErrors.workEmail} />
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <div>
+                  <label className={apexFormLabelClass} htmlFor="c-first">
+                    First name <span className="text-[#D64545]">*</span>
+                  </label>
+                  <input
+                    id="c-first"
+                    name="first_name"
+                    value={firstName}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                      clearErr('firstName');
+                    }}
+                    {...inputProps('firstName')}
+                    aria-required="true"
+                    aria-invalid={!!errors.firstName}
+                    aria-describedby={errors.firstName ? 'err-c-fn' : undefined}
+                    className={cn(apexFormInputClass, errors.firstName && fieldErrorInputClass)}
+                    autoComplete="given-name"
+                  />
+                  <FieldError id="err-c-fn" message={errors.firstName} />
+                </div>
+                <div>
+                  <label className={apexFormLabelClass} htmlFor="c-last">
+                    Last name <span className="text-[#D64545]">*</span>
+                  </label>
+                  <input
+                    id="c-last"
+                    name="last_name"
+                    value={lastName}
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                      clearErr('lastName');
+                    }}
+                    {...inputProps('lastName')}
+                    aria-required="true"
+                    aria-invalid={!!errors.lastName}
+                    aria-describedby={errors.lastName ? 'err-c-ln' : undefined}
+                    className={cn(apexFormInputClass, errors.lastName && fieldErrorInputClass)}
+                    autoComplete="family-name"
+                  />
+                  <FieldError id="err-c-ln" message={errors.lastName} />
+                </div>
+              </div>
+
+              <div>
+                <label className={apexFormLabelClass} htmlFor="c-email">
+                  Work email address <span className="text-[#D64545]">*</span>
+                </label>
+                <input
+                  id="c-email"
+                  name="email"
+                  type="email"
+                  inputMode="email"
+                  value={workEmail}
+                  onChange={(e) => {
+                    setWorkEmail(e.target.value);
+                    clearErr('workEmail');
+                  }}
+                  {...inputProps('workEmail')}
+                  aria-required="true"
+                  aria-invalid={!!errors.workEmail}
+                  aria-describedby={errors.workEmail ? 'err-c-em' : undefined}
+                  className={cn(apexFormInputClass, errors.workEmail && fieldErrorInputClass)}
+                  autoComplete="email"
+                />
+                <FieldError id="err-c-em" message={errors.workEmail} />
+              </div>
+
+              <div>
+                <label className={apexFormLabelClass} htmlFor="c-phone">
+                  Phone number (optional)
+                </label>
+                <input
+                  id="c-phone"
+                  name="phone"
+                  type="tel"
+                  inputMode="tel"
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    clearErr('phone');
+                  }}
+                  {...inputProps('phone')}
+                  aria-invalid={!!errors.phone}
+                  aria-describedby={errors.phone ? 'err-c-ph' : undefined}
+                  className={cn(apexFormInputClass, errors.phone && fieldErrorInputClass)}
+                  autoComplete="tel"
+                />
+                <FieldError id="err-c-ph" message={errors.phone} />
+              </div>
+
+              <div>
+                <label className={apexFormLabelClass} htmlFor="c-org">
+                  Organisation name <span className="text-[#D64545]">*</span>
+                </label>
+                <input
+                  id="c-org"
+                  name="organisation"
+                  value={organisation}
+                  onChange={(e) => {
+                    setOrganisation(e.target.value);
+                    clearErr('organisation');
+                  }}
+                  {...inputProps('organisation')}
+                  aria-required="true"
+                  aria-invalid={!!errors.organisation}
+                  aria-describedby={errors.organisation ? 'err-c-org' : undefined}
+                  className={cn(apexFormInputClass, errors.organisation && fieldErrorInputClass)}
+                  autoComplete="organization"
+                />
+                <FieldError id="err-c-org" message={errors.organisation} />
+              </div>
+
+              <div>
+                <label className={apexFormLabelClass} htmlFor="c-job">
+                  Job title (optional)
+                </label>
+                <input
+                  id="c-job"
+                  name="job_title"
+                  value={jobTitle}
+                  onChange={(e) => setJobTitle(e.target.value)}
+                  onFocus={(e) => {
+                    capturePosthogEvent('contact_form_field_focused', { field: 'jobTitle' });
+                    scrollFieldIntoView(e.target);
+                  }}
+                  className={apexFormInputClass}
+                  autoComplete="organization-title"
+                />
+              </div>
+
+              <div>
+                <label className={apexFormLabelClass} htmlFor="c-inquiry">
+                  What is this about? <span className="text-[#D64545]">*</span>
+                </label>
+                <SelectChevronWrap>
+                  <select
+                    id="c-inquiry"
+                    name="inquiry_type"
+                    value={inquiryType}
+                    onChange={(e) => {
+                      setInquiryType(e.target.value);
+                      clearErr('inquiryType');
+                    }}
+                    {...inputProps('inquiryType')}
+                    aria-required="true"
+                    aria-invalid={!!errors.inquiryType}
+                    aria-describedby={errors.inquiryType ? 'err-c-inq' : undefined}
+                    className={cn(apexFormInputClass, 'appearance-none pr-10', errors.inquiryType && fieldErrorInputClass)}
+                  >
+                    <option value="">Select inquiry type</option>
+                    {INQUIRY_OPTIONS.map((o) => (
+                      <option key={o} value={o}>
+                        {o}
+                      </option>
+                    ))}
+                  </select>
+                </SelectChevronWrap>
+                <FieldError id="err-c-inq" message={errors.inquiryType} />
+              </div>
+
+              <div>
+                <label className={apexFormLabelClass} htmlFor="c-msg">
+                  Tell us about your requirements (optional)
+                </label>
+                <textarea
+                  id="c-msg"
+                  name="message"
+                  value={message}
+                  onChange={(e) => {
+                    setMessage(e.target.value);
+                    clearErr('message');
+                  }}
+                  {...inputProps('message')}
+                  maxLength={2000}
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? 'err-c-msg' : undefined}
+                  className={cn(apexFormTextareaClass, errors.message && fieldErrorInputClass)}
+                />
+                <div className="mt-1 flex justify-between text-[12px]">
+                  <FieldError id="err-c-msg" message={errors.message} />
+                  <span
+                    className={cn(
+                      'text-[#9CA3AF]',
+                      message.length >= 1800 && message.length <= 2000 && 'text-[#F5B700]',
+                      message.length > 2000 && 'text-[#D64545]',
+                    )}
+                  >
+                    {message.length} / 2000
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-[12px] leading-[1.5] text-[#9CA3AF]">
+                By submitting this form, you agree to our{' '}
+                <Link href="/privacy" className="text-[#1E3A8A] underline">
+                  Privacy Policy
+                </Link>
+                . We use the information you provide to respond to your inquiry and may contact you about relevant APEXLyn
+                services. We do not share your information with third parties. You can request access to or deletion of
+                your information at any time.
+              </p>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-md bg-[#1E3A8A] px-6 text-[15px] font-semibold text-white transition-colors hover:bg-[#172E73] disabled:opacity-80 sm:w-auto"
+              >
+                {submitting ? (
+                  <>
+                    <Spinner className="text-white" />
+                    Sending...
+                  </>
+                ) : (
+                  'Send message'
+                )}
+              </button>
+            </form>
+          </div>
+
+          <aside className="lg:col-span-5">
+            <h2 className="text-[18px] font-semibold text-[#0B1320]">Contact details</h2>
+            <div className="mt-8 space-y-6">
+              <div>
+                <p className="text-[14px] font-semibold uppercase tracking-[0.5px] text-[#6B7280]">Email</p>
+                <a href={`mailto:${APEXLN_COMPANY.email}`} className="mt-1 block text-[16px] text-[#0B1320] underline-offset-2 hover:underline">
+                  {APEXLN_COMPANY.email}
+                </a>
+              </div>
+              <div>
+                <p className="text-[14px] font-semibold uppercase tracking-[0.5px] text-[#6B7280]">Phone</p>
+                <a href={`tel:${APEXLN_COMPANY.phone.replace(/[^\d+]/g, '')}`} className="mt-1 block text-[16px] text-[#0B1320]">
+                  {APEXLN_COMPANY.phone}
+                </a>
+              </div>
+              <div>
+                <p className="text-[14px] font-semibold uppercase tracking-[0.5px] text-[#6B7280]">Location</p>
+                <p className="mt-1 text-[16px] text-[#0B1320]">{APEXLN_COMPANY.location}</p>
+              </div>
+              <div>
+                <p className="text-[14px] font-semibold uppercase tracking-[0.5px] text-[#6B7280]">ABN</p>
+                <p className="mt-1 text-[16px] text-[#0B1320]">{APEXLN_COMPANY.abn}</p>
+              </div>
             </div>
+
+            <hr className="my-8 border-[#E5E7EB]" />
             <div>
-              <label className={labelClass} htmlFor="contact-organisation">
-                Organisation (Required)
-              </label>
-              <input
-                id="contact-organisation"
-                name="organisation"
-                autoComplete="organization"
-                value={organisation}
-                onChange={(ev) => {
-                  setOrganisation(ev.target.value);
-                  setServerError(false);
-                  if (fieldErrors.organisation) clearField('organisation');
-                }}
-                aria-invalid={!!fieldErrors.organisation}
-                aria-describedby={fieldErrors.organisation ? 'err-c-org' : undefined}
-                className={cn(inputClass, fieldErrors.organisation && fieldErrorInputClass)}
-              />
-              <FieldError id="err-c-org" message={fieldErrors.organisation} />
+              <h3 className="text-[16px] font-semibold text-[#0B1320]">Response time</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-[#4B5563]">
+                We respond to all inquiries within one business day. Enterprise, government, and insurance inquiries are
+                prioritised.
+              </p>
             </div>
+
+            <hr className="my-8 border-[#E5E7EB]" />
             <div>
-              <label className={labelClass} htmlFor="contact-role">
-                Role (Required)
-              </label>
-              <input
-                id="contact-role"
-                name="role"
-                autoComplete="organization-title"
-                value={role}
-                onChange={(ev) => {
-                  setRole(ev.target.value);
-                  setServerError(false);
-                  if (fieldErrors.role) clearField('role');
-                }}
-                aria-invalid={!!fieldErrors.role}
-                aria-describedby={fieldErrors.role ? 'err-c-role' : undefined}
-                className={cn(inputClass, fieldErrors.role && fieldErrorInputClass)}
-              />
-              <FieldError id="err-c-role" message={fieldErrors.role} />
+              <h3 className="text-[16px] font-semibold text-[#0B1320]">Looking for something specific?</h3>
+              <ul className="mt-4 flex flex-col gap-3">
+                {(
+                  [
+                    ['Request your baseline assessment', '/baseline'],
+                    ['Request security documentation', '/documentation'],
+                    ['See pricing', '/pricing'],
+                    ['Explore MSP partnership', '/industries/msp-partners'],
+                  ] as const
+                ).map(([label, dest]) => (
+                  <li key={dest}>
+                    <Link
+                      href={dest}
+                      onClick={() => capturePosthogEvent('contact_direct_link_clicked', { link: dest })}
+                      className="text-[15px] font-medium text-[#1E3A8A] hover:text-[#172E73]"
+                    >
+                      {label} →
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div>
-              <label className={labelClass} htmlFor="contact-primary-area">
-                Primary area of interest (Required)
-              </label>
-              <textarea
-                id="contact-primary-area"
-                name="primary_area_of_interest"
-                value={primaryArea}
-                onChange={(ev) => {
-                  setPrimaryArea(ev.target.value);
-                  setServerError(false);
-                  if (fieldErrors.primaryArea) clearField('primaryArea');
-                }}
-                rows={3}
-                aria-invalid={!!fieldErrors.primaryArea}
-                aria-describedby={fieldErrors.primaryArea ? 'err-c-area' : undefined}
-                className={cn(`${inputClass} min-h-[88px] resize-y`, fieldErrors.primaryArea && fieldErrorInputClass)}
-                placeholder="e.g. Track, Lens, services, compliance, partner programme…"
-              />
-              <FieldError id="err-c-area" message={fieldErrors.primaryArea} />
-            </div>
-            <div>
-              <label className={labelClass} htmlFor="contact-environment">
-                Environment type (Required)
-              </label>
-              <input
-                id="contact-environment"
-                name="environment_type"
-                value={environmentType}
-                onChange={(ev) => {
-                  setEnvironmentType(ev.target.value);
-                  setServerError(false);
-                  if (fieldErrors.environmentType) clearField('environmentType');
-                }}
-                placeholder="e.g. regulated, enterprise, mid-market, government…"
-                aria-invalid={!!fieldErrors.environmentType}
-                aria-describedby={fieldErrors.environmentType ? 'err-c-env' : undefined}
-                className={cn(inputClass, fieldErrors.environmentType && fieldErrorInputClass)}
-              />
-              <FieldError id="err-c-env" message={fieldErrors.environmentType} />
-            </div>
-            <div>
-              <label className={labelClass} htmlFor="contact-challenge">
-                Current challenge (Required)
-              </label>
-              <textarea
-                id="contact-challenge"
-                name="current_challenge"
-                value={currentChallenge}
-                onChange={(ev) => {
-                  setCurrentChallenge(ev.target.value);
-                  setServerError(false);
-                  if (fieldErrors.currentChallenge) clearField('currentChallenge');
-                }}
-                rows={4}
-                aria-invalid={!!fieldErrors.currentChallenge}
-                aria-describedby={fieldErrors.currentChallenge ? 'err-c-challenge' : undefined}
-                className={cn(`${inputClass} min-h-[120px] resize-y`, fieldErrors.currentChallenge && fieldErrorInputClass)}
-              />
-              <FieldError id="err-c-challenge" message={fieldErrors.currentChallenge} />
-            </div>
-            <div>
-              <label className={labelClass} htmlFor="contact-notes">
-                Notes
-              </label>
-              <textarea
-                id="contact-notes"
-                name="notes"
-                value={notes}
-                onChange={(ev) => {
-                  setNotes(ev.target.value);
-                  setServerError(false);
-                }}
-                placeholder="Optional — timeline, confidentiality, or other context"
-                className={cn(inputClass, 'min-h-[100px] resize-y')}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full min-h-[3rem] rounded-lg px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554] disabled:cursor-not-allowed disabled:opacity-80"
-            >
-              {isSubmitting ? S9.submitting : 'Send a Secure Inquiry'}
-            </button>
-          </motion.form>
+          </aside>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

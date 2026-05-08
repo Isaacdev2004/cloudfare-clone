@@ -9,7 +9,7 @@ Internal reference and client-facing summary. Keep product copy aligned with `ap
 **Layout & breakpoints**
 
 - [ ] `320px`, `375px`, `428px` — no horizontal scroll; tap targets ≥44px where interactive
-- [ ] `768px`, `1024px`, `1280px+` — grid alignment, section max-width, hero two-column balance
+- [ ] `768px`, `1024px`, `1200px+` — grid alignment, section max-width (v2: 1200px), hero two-column balance
 - [ ] Platform cards: visuals contained (no overflow onto body copy); Track + Lens both checked
 
 **Motion & accessibility**

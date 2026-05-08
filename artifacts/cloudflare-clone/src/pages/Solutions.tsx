@@ -74,7 +74,7 @@ export default function Solutions() {
 
       <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-16 md:py-24">
         <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
+        <div className="relative z-[1] mx-auto max-w-[1200px] px-6">
           <div className="grid gap-6 md:grid-cols-2">
             {SOLUTION_BLOCKS.map((section, i) => (
               <motion.div
@@ -103,7 +103,7 @@ export default function Solutions() {
       <ElevatedCtaBand>
         <Link
           href={REQUEST_SERVICE_OVERVIEW_HREF}
-          className="font-sans inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172554]"
+          className="font-sans inline-flex items-center justify-center rounded px-6 py-3.5 text-[15px] font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73]"
         >
           Request Service Overview
         </Link>

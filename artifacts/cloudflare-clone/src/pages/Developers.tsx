@@ -97,7 +97,7 @@ export default function Developers() {
       </section>
 
       {/* Core products */}
-      <section className="max-w-[1280px] mx-auto px-6 py-20">
+      <section className="max-w-[1200px] mx-auto px-6 py-20">
         <SectionHeading
           title="Core platform"
           description="The building blocks of every Apexlyn application."
@@ -149,7 +149,7 @@ export default function Developers() {
 
       {/* More products */}
       <section className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-20">
+        <div className="max-w-[1200px] mx-auto px-6 py-20">
           <SectionHeading
             title="More developer tools"
             description="Storage, messaging, media, AI — everything you need in one platform."
@@ -174,7 +174,7 @@ export default function Developers() {
       </section>
 
       {/* Code example */}
-      <section className="max-w-[1280px] mx-auto px-6 py-20">
+      <section className="max-w-[1200px] mx-auto px-6 py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Write once, run everywhere</h2>
@@ -189,7 +189,7 @@ export default function Developers() {
                 </div>
               ))}
             </div>
-            <Link href={DOCS_URL} className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
+            <Link href={DOCS_URL} className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172E73] transition-colors">
               Read the docs <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -244,11 +244,11 @@ export default function Developers() {
 
       {/* CTA */}
       <section className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
+        <div className="max-w-[1200px] mx-auto px-6 py-20 text-center">
           <h2 className="text-4xl font-bold text-slate-900 mb-4">Start building for free</h2>
           <p className="text-slate-600 mb-8 max-w-lg mx-auto">Workers, Pages, R2, D1, and KV all have generous free tiers. No credit card needed.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172E73] transition-colors">
               Create free account <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href={DOCS_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">

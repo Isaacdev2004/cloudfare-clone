@@ -14,7 +14,7 @@ export const PageSection: React.FC<PageSectionProps> = ({
 }) => {
   return (
     <section className={cn("py-24", className)}>
-      <div className={cn("max-w-[1280px] mx-auto px-6", contentClassName)}>{children}</div>
+      <div className={cn("max-w-[1200px] mx-auto px-6", contentClassName)}>{children}</div>
     </section>
   );
 };

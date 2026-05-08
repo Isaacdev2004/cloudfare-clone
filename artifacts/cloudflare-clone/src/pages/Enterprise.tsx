@@ -65,7 +65,7 @@ export default function Enterprise() {
 
       {/* Customer logos */}
       <section className="border-b border-slate-200">
-        <div className="max-w-[1280px] mx-auto px-6 py-10">
+        <div className="max-w-[1200px] mx-auto px-6 py-10">
           <p className="text-slate-500 text-sm text-center mb-8">Trusted by the world's leading organizations</p>
           <div className="flex flex-wrap gap-5 justify-center">
             {brandLogos.map((logo) => (
@@ -78,7 +78,7 @@ export default function Enterprise() {
       </section>
 
       {/* Capabilities */}
-      <section className="max-w-[1280px] mx-auto px-6 py-20">
+      <section className="max-w-[1200px] mx-auto px-6 py-20">
         <SectionHeading
           title="Full-stack enterprise platform"
           description="Every product, on one network, from one vendor."
@@ -118,7 +118,7 @@ export default function Enterprise() {
 
       {/* Compliance */}
       <section className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-20">
+        <div className="max-w-[1200px] mx-auto px-6 py-20">
           <SectionHeading
             title="Compliance, built in"
             description="Apexlyn is audited and certified across the major compliance frameworks."
@@ -136,7 +136,7 @@ export default function Enterprise() {
       </section>
 
       {/* What's included */}
-      <section className="max-w-[1280px] mx-auto px-6 py-20">
+      <section className="max-w-[1200px] mx-auto px-6 py-20">
         <SectionHeading title="Enterprise includes" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
@@ -158,10 +158,10 @@ export default function Enterprise() {
 
       {/* CTA */}
       <section className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
+        <div className="max-w-[1200px] mx-auto px-6 py-20 text-center">
           <h2 className="text-4xl font-bold text-slate-900 mb-4">Ready to secure your enterprise?</h2>
           <p className="text-slate-600 mb-8 max-w-lg mx-auto">Our solutions engineers will design a custom architecture for your organization.</p>
-          <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
+          <Link href={CONTACT_SALES_URL} className="inline-flex items-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172E73] transition-colors">
             Talk to our enterprise team <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

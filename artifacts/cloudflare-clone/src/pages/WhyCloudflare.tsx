@@ -103,7 +103,7 @@ export default function WhyApexlyn() {
 
       {/* Stats grid */}
       <section className="border-b border-slate-200">
-        <div className="max-w-[1280px] mx-auto px-6 py-16">
+        <div className="max-w-[1200px] mx-auto px-6 py-16">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             {STATS.map((stat, i) => (
               <motion.div
@@ -123,7 +123,7 @@ export default function WhyApexlyn() {
       </section>
 
       {/* 4 Reasons */}
-      <section className="max-w-[1280px] mx-auto px-6 py-20">
+      <section className="max-w-[1200px] mx-auto px-6 py-20">
         <SectionHeading
           title="Why choose Apexlyn?"
           description="Four fundamental reasons organizations pick Apexlyn over alternatives."
@@ -167,7 +167,7 @@ export default function WhyApexlyn() {
 
       {/* Network map visual */}
       <section className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-20">
+        <div className="max-w-[1200px] mx-auto px-6 py-20">
           <SectionHeading
             title="320+ cities. One network."
             description="Our anycast network automatically directs users to the nearest data center. No configuration needed."
@@ -208,7 +208,7 @@ export default function WhyApexlyn() {
       </section>
 
       {/* Company timeline */}
-      <section className="max-w-[1280px] mx-auto px-6 py-20">
+      <section className="max-w-[1200px] mx-auto px-6 py-20">
         <SectionHeading title="Our story" />
         <div className="relative">
           <div className="absolute left-[90px] top-0 bottom-0 w-px bg-slate-200 hidden md:block" />
@@ -235,7 +235,7 @@ export default function WhyApexlyn() {
 
       {/* Impact section */}
       <section className="border-t border-slate-200 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6 py-20">
+        <div className="max-w-[1200px] mx-auto px-6 py-20">
           <SectionHeading
             title="Impact beyond business"
             description="We believe in giving back. Apexlyn provides free protection to organizations that need it most."
@@ -276,13 +276,13 @@ export default function WhyApexlyn() {
 
       {/* Final CTA */}
       <section className="bg-white border-t border-slate-200">
-        <div className="max-w-[1280px] mx-auto px-6 py-20 text-center">
+        <div className="max-w-[1200px] mx-auto px-6 py-20 text-center">
           <h2 className="text-4xl font-bold text-slate-900 mb-4">Join millions of Internet properties</h2>
           <p className="text-slate-600 text-lg mb-8 max-w-xl mx-auto">
             It takes about 2 minutes to set up. No credit card required for the Free plan.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors">
+            <Link href={SIGN_UP_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-white bg-[#1E3A8A] hover:bg-[#172E73] transition-colors">
               Get started for free <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href={CONTACT_SALES_URL} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded text-base font-semibold text-slate-800 border border-slate-300 hover:bg-slate-50 transition-colors">

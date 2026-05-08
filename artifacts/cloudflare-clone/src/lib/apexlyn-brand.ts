@@ -7,7 +7,7 @@ export const APEX = {
   secondaryDark: "#111827",
   light: "#F7F9FC",
   primaryBtn: "#1E3A8A",
-  primaryBtnHover: "#172554",
+  primaryBtnHover: "#172E73",
   aiAccent: "#1E90FF",
   success: "#1F8A70",
   warning: "#F5B700",

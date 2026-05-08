@@ -1,19 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 /*
- * §6 — Visual posture: premium, infrastructure-grade, restrained.
- * Primary action: #1E3A8A only. AI accent #1E90FF for Lens/AI highlights — not default buttons.
+ * Build spec v2.0 Part 1 — design tokens + legacy §6 notes.
+ * Fonts: Inter + JetBrains Mono via @fontsource (§22.3 self-host; entry: main.tsx).
+ * Primary action: #1E3A8A. Primary hover: #172E73 (§9.1). AI accent #1E90FF for Lens only.
  */
 
 @theme inline {
   --font-sans:
     'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
     'Segoe UI',
     Roboto,
     'Helvetica Neue',
     Arial,
     sans-serif;
+  /** §6.1 — monospace for Trust Center / technical values */
+  --font-mono:
+    'JetBrains Mono',
+    'Fira Code',
+    Consolas,
+    monospace;
   
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -55,7 +63,8 @@
   --apex-secondary-dark: #111827;
   --apex-light: #F7F9FC;
   --apex-primary-btn: #1E3A8A;
-  --apex-primary-btn-hover: #172554;
+  /* §9.1 primary button hover */
+  --apex-primary-btn-hover: #172E73;
   --apex-ai: #1E90FF;
   --apex-success: #1F8A70;
   --apex-warning: #F5B700;
@@ -72,12 +81,93 @@
     @apply bg-background text-foreground font-sans antialiased selection:bg-[#1E3A8A]/15 selection:text-[#0B1320];
     font-family: var(--font-sans);
   }
+  /* §13.3 — keyboard focus (WCAG 2.1 AA target) */
+  :where(a, button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid #1e3a8a;
+    outline-offset: 2px;
+  }
   /* Ensure anchors never fall back to browser serif (client parity) */
   a {
     font-family: inherit;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight text-slate-900;
+    @apply font-bold tracking-tight;
+    color: #111827;
+  }
+  /** §56 — legal pages injected HTML (Privacy, Terms, Cookies, Disclaimer) */
+  .legal-page-body .legal-html {
+    @apply font-sans text-[16px] font-normal leading-[1.8] text-[#374151];
+  }
+  .legal-page-body .legal-html h2 {
+    @apply mt-12 mb-4 text-[22px] font-semibold text-[#0B1320];
+    scroll-margin-top: 5rem;
+  }
+  .legal-page-body .legal-html h2:first-child {
+    margin-top: 0;
+  }
+  .legal-page-body .legal-html p {
+    margin-top: 0;
+    margin-bottom: 0.75em;
+  }
+  .legal-page-body .legal-html table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+  }
+  .legal-page-body .legal-html th,
+  .legal-page-body .legal-html td {
+    border: 1px solid #e5e7eb;
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 15px;
+  }
+  .legal-page-body .legal-html th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #0b1320;
+  }
+  /* §6.2 body on light surfaces */
+  .apex-prose-light p {
+    color: #4b5563;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 680px;
+  }
+  .apex-prose-light p + p {
+    margin-top: 1.5em;
+  }
+
+  /** §49.1 — resource article body */
+  .apex-resource-article {
+    @apply font-sans text-[17px] leading-[1.8] text-[#374151];
+  }
+  .apex-resource-article p {
+    margin-top: 0;
+    margin-bottom: 1.25em;
+  }
+  .apex-resource-article h2 {
+    @apply mt-12 mb-4 text-[28px] font-bold text-[#0B1320];
+  }
+  .apex-resource-article h3 {
+    @apply mt-8 mb-3 text-[22px] font-semibold text-[#0B1320];
+  }
+  .apex-resource-article blockquote {
+    margin: 1.5em 0;
+    border-left: 3px solid #1e3a8a;
+    padding-left: 1.25rem;
+    @apply text-[17px] italic text-[#4B5563];
+  }
+  .apex-resource-article ul,
+  .apex-resource-article ol {
+    @apply my-4 pl-6 text-[17px] leading-[1.7] text-[#374151];
+  }
+  .apex-resource-article li + li {
+    margin-top: 0.5em;
+  }
+  .apex-resource-article img {
+    @apply my-8 w-full max-w-[720px] rounded-lg;
   }
 }
 
@@ -111,7 +201,7 @@
     background-color: #ffffff;
   }
   .apex-btn-primary {
-    @apply bg-[#1E3A8A] text-white hover:bg-[#172554] transition-colors;
+    @apply bg-[#1E3A8A] text-white hover:bg-[#172E73] transition-colors;
   }
   .apex-text-ai {
     color: var(--apex-ai);
@@ -164,6 +254,76 @@
       0 1px 0 rgba(11, 19, 32, 0.06),
       inset 0 1px 0 rgba(30, 144, 255, 0.08);
   }
+  /** §24 — skip link when focused (above header chrome) */
+  .apex-skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: 10050;
+    padding: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #fff;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: none;
+  }
+  .apex-skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    position: fixed;
+    padding: 8px 16px;
+    background: #1e3a8a;
+    color: #fff;
+    z-index: 10050;
+  }
+  /** §26.1 — route transition loading bar */
+  @keyframes apex-route-load {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes home-hero-line-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  .apex-route-loading-bar-inner {
+    transform-origin: left center;
+    animation: apex-route-load 0.38s ease-out forwards;
+  }
+
+  /** §27.1 — homepage hero evidence SVG line draw (respects reduced motion via media rule) */
+  @media (prefers-reduced-motion: no-preference) {
+    .home-hero-line {
+      stroke-dasharray: 120;
+      stroke-dashoffset: 120;
+      animation: home-hero-line-draw 2s ease-out forwards;
+    }
+    .home-hero-line--d0 { animation-delay: 0ms; }
+    .home-hero-line--d1 { animation-delay: 200ms; }
+    .home-hero-line--d2 { animation-delay: 400ms; }
+    .home-hero-line--d3 { animation-delay: 600ms; }
+    .home-hero-line--d4 { animation-delay: 800ms; }
+    .home-hero-line--d5 { animation-delay: 1000ms; }
+    .home-hero-line--d6 { animation-delay: 1200ms; }
+    .home-hero-line--d7 { animation-delay: 1400ms; }
+  }
+  /** §6.1 technical monospace block (Trust Center, specs) */
+  .font-apex-mono {
+    font-family: var(--font-mono);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -173,6 +333,14 @@
   .cf-network-svg,
   .cf-cloud-center {
     animation: none !important;
+  }
+  .apex-route-loading-bar-inner {
+    animation: none !important;
+    transform: scaleX(1) !important;
+  }
+  .home-hero-line {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
   }
 }
 
@@ -188,4 +356,70 @@
 
 .pause-on-hover:hover .animate-marquee {
   animation-play-state: paused;
+}
+
+/* §56.2 — legal pages print (hide chrome; reading typography; canonical URL footer) */
+@media print {
+  .apex-site-header,
+  .apex-global-breadcrumbs,
+  .apex-site-footer,
+  .apex-cookie-consent-banner,
+  .legal-cross-nav,
+  .apex-skip-link,
+  .apex-route-loading-bar,
+  .apex-header-spacer {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  .min-h-screen.bg-\[\#F7F9FC\],
+  .min-h-screen.bg-white {
+    background: #fff !important;
+  }
+
+  .legal-page-print-root {
+    padding: 0 !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+  }
+
+  .legal-html,
+  .legal-page-body .legal-html {
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    color: #374151 !important;
+  }
+
+  .legal-html h2,
+  .legal-page-body .legal-html h2 {
+    font-size: 12pt !important;
+    font-weight: 600 !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    color: #0b1320 !important;
+    page-break-after: avoid;
+  }
+
+  .legal-html p,
+  .legal-page-body .legal-html p {
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+
+  .legal-html table {
+    font-size: 10pt !important;
+  }
+
+  * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    margin: 1.5cm;
+  }
 }

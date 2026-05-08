@@ -4,7 +4,6 @@ import { Link } from 'wouter';
 import { motion } from 'framer-motion';
 import { PageHero } from '@/components/layout/PageHero';
 import { SectionHeading } from '@/components/layout/SectionHeading';
-import { InnerHeroBackdrop, SectionGridWash, GradientTopCard } from '@/components/layout/InnerPageChrome';
 import { subtleLiftHover, fadeInUp } from '@/lib/motion';
 import { CTA } from '@/lib/apexlyn-cta-routes';
 
@@ -43,7 +42,7 @@ function InfoPageTemplate({
         />
       </section>
 
-      <section className="max-w-[1280px] mx-auto px-6 py-16">
+      <section className="max-w-[1200px] mx-auto px-6 py-16">
         {!!quickLinks.length && (
           <div className="mb-8 flex flex-wrap gap-2.5">
             {quickLinks.map((item) => (
@@ -110,167 +109,11 @@ function InfoPageTemplate({
             </div>
             <Link
               href={ctaHref}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172554] transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded text-sm font-semibold text-white bg-[#1E3A8A] hover:bg-[#172E73] transition-colors"
             >
               {ctaLabel} <ArrowRight className="w-4 h-4" />
             </Link>
           </aside>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-const PRIVACY_SUGGESTED_SECTIONS = [
-  'What information we collect',
-  'How we use submitted information',
-  'How we protect submitted information',
-  'How to contact us about privacy',
-  'Updates to this notice',
-] as const;
-
-const PRIVACY_USE_BULLETS = [
-  'respond to your request',
-  'understand your stated need',
-  'route your inquiry correctly',
-  'follow up where appropriate',
-] as const;
-
-export function PrivacyPolicyPage() {
-  return (
-    <div className="min-h-screen apex-page-bg">
-      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
-        <InnerHeroBackdrop />
-        <PageHero
-          variant="light"
-          eyebrow="Legal"
-          title="Privacy"
-          description="This page explains how we handle information submitted through the APEXLyn website."
-          className="relative z-[1] bg-transparent"
-          contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24 max-w-3xl"
-        />
-      </section>
-
-      <div className="border-b border-amber-200/90 bg-amber-50" role="status">
-        <p className="mx-auto max-w-4xl px-6 py-3.5 font-sans text-[14px] leading-relaxed text-amber-950 sm:text-[15px]">
-          <span className="font-semibold">Important:</span> This page must be legally reviewed before launch.
-        </p>
-      </div>
-
-      <section className="relative overflow-hidden border-b border-slate-200 bg-white py-12 md:py-16">
-        <SectionGridWash className="opacity-30" />
-        <div className="relative z-[1] mx-auto max-w-3xl px-6">
-          <motion.h2
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-lg font-bold text-slate-900"
-          >
-            Suggested page sections
-          </motion.h2>
-          <ul className="mt-4 space-y-2 text-[15px] leading-relaxed text-slate-600">
-            {PRIVACY_SUGGESTED_SECTIONS.map((line) => (
-              <li key={line} className="flex gap-3">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#1E3A8A]" aria-hidden />
-                {line}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="border-b border-slate-200 bg-[#f8fafc] py-12 md:py-16">
-        <div className="mx-auto max-w-3xl px-6">
-          <motion.h2
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-lg font-bold text-slate-900"
-          >
-            Default website privacy summary
-          </motion.h2>
-          <div className="mt-6 space-y-4 font-sans text-[15px] leading-relaxed text-slate-600 sm:text-[16px]">
-            <p>
-              We collect only the information needed to respond to inquiries, baseline requests, documentation
-              requests, and other direct interactions submitted through this website.
-            </p>
-            <p>We do not sell website-submitted personal information.</p>
-            <p>We use submitted information to:</p>
-            <ul className="ml-1 space-y-2 border-l-2 border-slate-200 pl-4">
-              {PRIVACY_USE_BULLETS.map((b) => (
-                <li key={b} className="text-slate-600">
-                  {b}
-                </li>
-              ))}
-            </ul>
-            <p>
-              If you have a privacy-related question about this website, contact us through the{' '}
-              <Link href={CTA.contact} className="font-semibold text-[#1E3A8A] underline-offset-2 hover:underline">
-                contact page
-              </Link>
-              .
-            </p>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-const TERMS_MUST_NOT = [
-  'misuse forms',
-  'attempt unauthorised access',
-  'submit false or misleading information',
-  'interfere with site operation',
-] as const;
-
-export function TermsOfUsePage() {
-  return (
-    <div className="min-h-screen apex-page-bg">
-      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
-        <InnerHeroBackdrop />
-        <PageHero
-          variant="light"
-          eyebrow="Legal"
-          title="Terms"
-          description="These terms govern use of the APEXLyn public website."
-          className="relative z-[1] bg-transparent"
-          contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24 max-w-3xl"
-        />
-      </section>
-
-      <div className="border-b border-amber-200/90 bg-amber-50" role="status">
-        <p className="mx-auto max-w-4xl px-6 py-3.5 font-sans text-[14px] leading-relaxed text-amber-950 sm:text-[15px]">
-          <span className="font-semibold">Important:</span> This page must be legally reviewed before launch.
-        </p>
-      </div>
-
-      <section className="border-b border-slate-200 bg-[#f8fafc] py-12 md:py-16">
-        <div className="mx-auto max-w-3xl px-6">
-          <motion.h2
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-lg font-bold text-slate-900"
-          >
-            Default website terms summary
-          </motion.h2>
-          <div className="mt-6 space-y-4 font-sans text-[15px] leading-relaxed text-slate-600 sm:text-[16px]">
-            <p>By using this website, you agree to use it lawfully and appropriately.</p>
-            <p>You must not:</p>
-            <ul className="ml-1 space-y-2 border-l-2 border-slate-200 pl-4">
-              {TERMS_MUST_NOT.map((line) => (
-                <li key={line} className="text-slate-600">
-                  {line}
-                </li>
-              ))}
-            </ul>
-            <p>All website content remains the property of APEXLyn unless otherwise stated.</p>
-            <p>Use of this site does not create a client relationship until separately agreed.</p>
-          </div>
         </div>
       </section>
     </div>
@@ -538,7 +381,7 @@ export function CompanyInvestorsPage() {
       highlights={['Reports', 'Governance info', 'Earnings updates', 'Investor resources']}
       quickLinks={[
         { label: 'Press', href: '/company/press' },
-        { label: 'About Us', href: '/company/about' },
+        { label: 'About Us', href: '/about' },
       ]}
       featureCards={[
         { title: 'Press Center', body: 'Stay current with company announcements and official media updates.', href: '/company/press', cta: 'Open press' },
@@ -571,7 +414,7 @@ export function CompanyImpactPage() {
       ]}
       highlights={['Public-interest programs', 'Digital resilience', 'Security initiatives', 'Community outcomes']}
       quickLinks={[
-        { label: 'About Us', href: '/company/about' },
+        { label: 'About Us', href: '/about' },
         { label: 'Trust Hub', href: '/support/trust-hub' },
       ]}
       featureCards={[
@@ -753,67 +596,7 @@ export function SupportCookiePreferencesPage() {
   );
 }
 
-export function ResourcesIndexPage() {
-  const cards = [
-    {
-      title: 'Whitepapers',
-      body: 'Long-form thinking on evidence integrity, governance workflows, and defensible operational reporting.',
-      href: '/resources/whitepapers',
-    },
-    {
-      title: 'Framework Guides',
-      body: 'Guidance on translating frameworks into operational evidence, governance, and reporting reality.',
-      href: '/resources/framework-guides',
-    },
-    {
-      title: 'AI Risk Briefs',
-      body: 'Practical AI governance guidance for visibility, enforcement, and reduced exposure.',
-      href: '/resources/ai-risk-briefs',
-    },
-  ] as const;
-
-  const gradients = [
-    'from-[#1E3A8A] to-sky-500',
-    'from-violet-600 to-indigo-700',
-    'from-slate-700 to-[#1E3A8A]',
-  ] as const;
-
-  return (
-    <div className="min-h-screen apex-page-bg">
-      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
-        <InnerHeroBackdrop />
-        <PageHero
-          variant="light"
-          eyebrow="Resources"
-          title="Resources"
-          description="Evidence-led security and AI governance guidance written for serious operators."
-          className="relative z-[1] bg-transparent"
-          contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24 max-w-3xl"
-        />
-      </section>
-      <section className="relative overflow-hidden py-16 md:py-20">
-        <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[1280px] px-6">
-          <div className="grid gap-8 md:grid-cols-3">
-            {cards.map((card, i) => (
-              <motion.div key={card.href} whileHover={subtleLiftHover} className="h-full">
-                <Link href={card.href} className="block h-full">
-                  <GradientTopCard gradientClass={gradients[i % gradients.length]} className="h-full">
-                    <h2 className="text-lg font-bold text-slate-900">{card.title}</h2>
-                    <p className="mt-3 flex-grow text-[15px] leading-relaxed text-slate-600">{card.body}</p>
-                    <span className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-[#1E3A8A]">
-                      Open <ChevronRight className="h-4 w-4" />
-                    </span>
-                  </GradientTopCard>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
+export { default as ResourcesIndexPage } from '@/pages/ResourcesUnifiedPage';
 
 export function CompanyIndexPage() {
   return (
@@ -837,19 +620,19 @@ export function CompanyIndexPage() {
       ]}
       highlights={['About us', 'Careers', 'Press', 'Investors', 'Impact']}
       quickLinks={[
-        { label: 'About Us', href: '/company/about' },
+        { label: 'About Us', href: '/about' },
         { label: 'Careers', href: '/company/careers' },
         { label: 'Press', href: '/company/press' },
         { label: 'Investors', href: '/company/investors' },
         { label: 'Impact', href: '/company/impact' },
       ]}
       featureCards={[
-        { title: 'About Us', body: 'Mission, leadership, and company values.', href: '/company/about', cta: 'Read about us' },
+        { title: 'About Us', body: 'Mission, leadership, and company values.', href: '/about', cta: 'Read about us' },
         { title: 'Careers', body: 'Open opportunities and hiring pathways.', href: '/company/careers', cta: 'View careers' },
         { title: 'Investors', body: 'Financial updates and governance materials.', href: '/company/investors', cta: 'Open investors' },
       ]}
       ctaLabel="View About Us"
-      ctaHref="/company/about"
+      ctaHref="/about"
     />
   );
 }
@@ -892,6 +675,11 @@ export function SupportIndexPage() {
     />
   );
 }
+
+export { PrivacyPolicyPage } from './legal/PrivacyPolicyLegalPage';
+export { TermsOfUsePage } from './legal/TermsOfUseLegalPage';
+export { CookiePolicyPage } from './legal/CookiePolicyLegalPage';
+export { DisclaimerPage } from './legal/DisclaimerLegalPage';
 
 export { default as CompanyAboutPage } from './AboutApexlynPage';
 export { default as CompanyCareersPage } from './CareersApexlynPage';

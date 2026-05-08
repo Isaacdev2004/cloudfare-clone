@@ -3,7 +3,7 @@ import React from 'react';
 export function FieldError({ id, message }: { id?: string; message: string | undefined }) {
   if (!message) return null;
   return (
-    <p id={id} className="mt-1.5 text-sm font-sans text-[#D64545]" role="alert">
+    <p id={id} className="mt-1.5 font-sans text-[13px] text-[#D64545]" aria-live="polite">
       {message}
     </p>
   );

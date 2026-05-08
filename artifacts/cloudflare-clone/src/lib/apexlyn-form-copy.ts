@@ -20,6 +20,8 @@ export const S9 = {
   environmentTypeEmpty: 'Describe your environment type.',
   primaryAreaEmpty: 'Describe your primary area of interest.',
   currentChallengeEmpty: 'Describe your current challenge.',
+  /** §45.2 */
+  requiredField: 'This field is required',
 } as const;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
