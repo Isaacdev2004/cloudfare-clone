@@ -76,6 +76,9 @@
     "zod": "^3.25.76"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "posthog-js": "^1.372.9",
     "react-intersection-observer": "^10.0.3"
   }
 }

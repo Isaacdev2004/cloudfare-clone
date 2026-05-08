@@ -1,0 +1,4 @@
+# §48.1 — Temporary redirects until category listing pages are activated (302).
+/resources/whitepapers /resources?sec=whitepapers 302
+/resources/framework-guides /resources?sec=framework-guides 302
+/resources/ai-risk-briefs /resources?sec=ai-risk-briefs 302

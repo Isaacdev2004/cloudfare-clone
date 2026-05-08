@@ -1,214 +1,677 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
 import { Link } from 'wouter';
-import { HeroGaugeVisual } from '@/components/hero/HeroGaugeVisual';
-import { PageHero } from '@/components/layout/PageHero';
-import { fadeInUp } from '@/lib/motion';
-import { CheckCircle2 } from 'lucide-react';
-import { InnerHeroBackdrop, SectionGridWash } from '@/components/layout/InnerPageChrome';
-import { CTA, PLATFORM_ANCHORS, testYourSecurityStateWithMode } from '@/lib/apexlyn-cta-routes';
+import { Link as LinkIcon, Lock, Layers, FileCheck, ChevronDown } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
+import { cn } from '@/lib/utils';
+import { capturePosthogEvent } from '@/lib/apexlyn-analytics-consent';
+import { CTA } from '@/lib/apexlyn-cta-routes';
+import { TrackEvidenceFlowDiagram } from '@/components/track/TrackEvidenceFlowDiagram';
+import { TrackGovernanceVisual } from '@/components/track/TrackGovernanceVisual';
 
-const TEST_EVIDENCE_READINESS_HREF = testYourSecurityStateWithMode('track');
-const STRATEGIC_CONVERSATION_URL = CTA.contact;
+const BASELINE_HREF = CTA.testYourSecurityState;
+const PRICING_HREF = '/pricing';
+const CONTACT_HREF = CTA.contact;
+const MSP_HREF = '/industries/msp-partners';
 
-const HOW_TRACK_WORKS: { title: string; body: string }[] = [
+const OUTCOME_CARDS = [
   {
-    title: 'Connect the environment',
-    body: 'Establish a verified baseline by connecting identity, device, and security signals.',
+    Icon: LinkIcon,
+    title: 'Automates evidence collection',
+    body:
+      'Track connects to your systems and collects security evidence on a policy-driven schedule. No one in your team needs to export data, compile spreadsheets, or take screenshots. Evidence arrives automatically.',
   },
   {
-    title: 'Capture evidence continuously',
-    body: 'Evidence is collected on schedule and through ongoing operational change.',
+    Icon: Lock,
+    title: 'Locks evidence permanently',
+    body:
+      'Every piece of evidence is written to tamper-proof storage and cryptographically chained to the record before it. Evidence cannot be altered, deleted, or disputed after collection — not even by APEXLyn.',
   },
   {
-    title: 'Preserve defensible history',
-    body: 'Evidence is recorded in a structured model designed for integrity and traceability.',
+    Icon: Layers,
+    title: 'Maps to compliance frameworks',
+    body:
+      'Track maps your evidence to the frameworks that matter — Essential Eight, ISO 27001, NIST CSF, APRA CPS 234, ASD ISM, healthcare, privacy, and more. One set of evidence satisfies multiple frameworks simultaneously.',
   },
   {
-    title: 'Normalise into control views',
-    body: 'Operational signals are translated into clearer control and governance views.',
+    Icon: FileCheck,
+    title: 'Generates verifiable reports',
+    body:
+      'Track generates insurance-grade and audit-grade reports with executive summaries, risk scorecards, evidence proof, governance records, and chain-of-custody statements. Every report can be independently verified.',
   },
-  {
-    title: 'Support framework alignment',
-    body: 'See status through structured views such as Essential Eight, ISO 27001, and NIST support models.',
-  },
-  {
-    title: 'Strengthen governance and reporting',
-    body: 'Use the result for review workflows, reporting cadence, and clearer operational accountability.',
-  },
-];
-
-const FRAMEWORK_BADGES = ['Essential Eight', 'ISO 27001', 'NIST'] as const;
-
-const WHY_TRACK_BULLETS = [
-  'Reduce audit overhead',
-  'Replace fragmented evidence collection',
-  'Increase continuous control visibility',
-  'Improve leadership reporting quality',
-  'Create stronger governance continuity',
-  'Make security reality referenceable under scrutiny',
 ] as const;
 
-export default function TrackPlatformPage() {
+const FRAMEWORK_ROWS = [
+  {
+    framework: 'Essential Eight\n(ACSC)',
+    scope: 'All 8 mitigation strategies. Maturity levels L1, L2, L3 selectable per tenant.',
+    source: 'Microsoft 365, Active Directory, CIS scanners, AWS, Azure, EDR',
+  },
+  {
+    framework: 'CIS\nBenchmarks',
+    scope:
+      'Microsoft 365 Foundations, Google Chrome, Windows 11, Windows Server 2022. Profile-based. Version-tracked.',
+    source: 'CIS-CAT Pro, Tenable/Nessus, Qualys scan results',
+  },
+  {
+    framework: 'ISO/IEC\n27001:2022',
+    scope: 'Clause-level and Annex A control-level.',
+    source: 'All connected evidence sources mapped through universal controls',
+  },
+  {
+    framework: 'NIST CSF 2.0',
+    scope: 'Function, category, and subcategory level.',
+    source: 'All connected evidence sources mapped through universal controls',
+  },
+  {
+    framework: 'APRA CPS 234',
+    scope: 'Information security requirements for financial services.',
+    source: 'All connected evidence sources plus governance-linked evidence',
+  },
+  {
+    framework: 'Healthcare',
+    scope: 'My Health Records Act, RACGP standards, Healthcare Identifiers Act.',
+    source: 'Connected sources plus governance-evidence where required',
+  },
+  {
+    framework: 'Privacy Act &\nAPPs',
+    scope:
+      'All 13 Australian Privacy Principles, OAIC guidelines, NDB scheme. Jurisdiction-aware legal-sector evaluation across all 8 Australian jurisdictions.',
+    source: 'Connected sources plus governance-evidence where required',
+  },
+  {
+    framework: 'ASD ISM',
+    scope: 'Australian Signals Directorate Information Security Manual, March 2026 release. Government-grade.',
+    source: 'Connected sources plus governance-evidence where required',
+  },
+] as const;
+
+const CONNECTOR_CARDS = [
+  {
+    heading: 'Microsoft 365',
+    body: 'Users, groups, roles, admin assignments, MFA and Conditional Access signals, device and compliance signals.',
+  },
+  {
+    heading: 'Active Directory',
+    body: 'Privileged groups, password policies, last logon records, GPO security baselines.',
+  },
+  {
+    heading: 'AWS',
+    body: 'Security Hub findings, Config rule evaluations, CloudTrail status, IAM posture evidence.',
+  },
+  {
+    heading: 'Microsoft Azure',
+    body: 'Security posture, policy compliance, role assignments, encryption and logging configuration.',
+  },
+  {
+    heading: 'Google Cloud Platform',
+    body: 'IAM roles and bindings, Security Command Center findings, logging and encryption posture, organisation policies.',
+  },
+  {
+    heading: 'Google Workspace',
+    body: 'Users, groups, admin roles, MFA status, admin console security configuration, Drive sharing settings.',
+  },
+  {
+    heading: 'CIS Scanners',
+    body: 'CIS-CAT Pro, Tenable/Nessus, and Qualys scan results. Profile-based ingestion with rule-level pass/fail evaluation.',
+  },
+  {
+    heading: 'Backup Software',
+    body: 'Veeam, Datto, and Acronis. Backup job status, retention configuration, restore-test evidence, protected backup posture.',
+  },
+  {
+    heading: 'EDR Platforms',
+    body: 'CrowdStrike Falcon, SentinelOne, and Microsoft Defender for Endpoint. Endpoint inventory, health, policy enforcement, and detection telemetry.',
+  },
+  {
+    heading: 'Generic API',
+    body: 'Any additional source that produces JSON telemetry conforming to the evidence event format. Tenant-bound, validated, and audit-logged.',
+  },
+] as const;
+
+const TRACK_PRICING = [
+  {
+    tier: 'Track Standard',
+    price: 'From A$349/month',
+    body: 'Automated evidence collection, Essential Eight and CIS mapping, standard reporting, and self-service onboarding.',
+  },
+  {
+    tier: 'Track Professional',
+    price: 'From A$899/month',
+    body: 'Additional frameworks including APRA CPS 234, assisted onboarding, deeper connectors, and governance workflows.',
+  },
+  {
+    tier: 'Track Enterprise',
+    price: 'From A$75,000/year',
+    body: 'Full framework access, dedicated support, forensic-grade reporting, legal hold, and enterprise connectors.',
+  },
+  {
+    tier: 'Track Sovereign',
+    price: 'Contact us',
+    body: 'Isolated deployment, customer-managed keys, ASD ISM, and the highest evidence assurance for government and regulated institutions.',
+  },
+] as const;
+
+const MSP_CARDS = [
+  {
+    title: 'Portfolio dashboard',
+    body:
+      'Multi-tenant portfolio view supporting 500+ tenants with precomputed snapshots. Hotspots, heatmap, and trend views. Drill down from portfolio to tenant to framework to control to immutable evidence.',
+  },
+  {
+    title: 'White-label reporting',
+    body:
+      'Your brand on the portal header, PDF cover page, footer, and contact details. The underlying evidence, hashes, requirement IDs, and assessment statuses are never altered by branding. Your brand. Our evidence integrity.',
+  },
+  {
+    title: 'Consolidated operations',
+    body:
+      'Consolidated billing visibility, client-by-client seat accounting, template propagation across client tenants, client onboarding, client monitoring, and direct-conversion tracking when a client moves from MSP-managed to direct.',
+  },
+] as const;
+
+function TrackExpandable({ label, children }: { label: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  const toggle = () => {
+    const next = !open;
+    setOpen(next);
+    if (next) capturePosthogEvent('track_layer2_expanded', { section: label });
+  };
+
   return (
-    <div className="flex min-h-[calc(100dvh-108px)] flex-col apex-page-bg">
-      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
-        <InnerHeroBackdrop />
-        <PageHero
-          variant="light"
-          eyebrow="APEXLyn Track — Security Evidence Infrastructure"
-          title="Connect → Track → Evidence → Govern"
-          description="APEXLyn Track continuously captures control reality, structures it into defensible records, and turns operational security into reporting and governance that leaders can trust."
-          actions={[
-            { label: 'Test Your Evidence Readiness', href: TEST_EVIDENCE_READINESS_HREF, variant: 'primary' },
-            { label: 'Explore Framework Views', href: PLATFORM_ANCHORS.trackFrameworkAlignment, variant: 'outline' },
-          ]}
-          className="relative z-[1] bg-transparent"
-          contentClassName="relative z-[1] py-16 sm:py-20 lg:py-24"
-          aside={
-            <div className="flex items-center justify-center py-4 lg:py-0">
-              <div className="relative w-full max-w-[400px] rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.2)] sm:p-7">
-                <HeroGaugeVisual compact />
+    <div className="rounded-lg border border-[#E5E7EB] bg-white p-4">
+      <button
+        type="button"
+        onClick={toggle}
+        className="flex w-full cursor-pointer items-center gap-2 text-left text-[15px] font-medium text-[#1E3A8A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2"
+        aria-expanded={open}
+      >
+        <span className="flex-1">{label}</span>
+        <ChevronDown
+          className={cn('h-4 w-4 shrink-0 transition-transform duration-300', open && 'rotate-180')}
+          aria-hidden
+        />
+      </button>
+      <div
+        className={cn(
+          'grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out',
+          open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+        )}
+      >
+        <div className="min-h-0">
+          <div className="mt-3 border-t border-[#E5E7EB] pt-3 text-[15px] font-normal leading-[1.7] text-[#4B5563]">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FrameworkName({ text }: { text: string }) {
+  const lines = text.split('\n');
+  return (
+    <>
+      {lines.map((line, i) => (
+        <React.Fragment key={i}>
+          {i > 0 ? <br /> : null}
+          {line}
+        </React.Fragment>
+      ))}
+    </>
+  );
+}
+
+export default function TrackPlatformPage() {
+  const { ref: frameworkTableRef } = useInView({
+    threshold: 0.12,
+    triggerOnce: true,
+    onChange: (inView) => {
+      if (inView) capturePosthogEvent('track_framework_table_viewed', {});
+    },
+  });
+
+  const { ref: connectorGridRef } = useInView({
+    threshold: 0.12,
+    triggerOnce: true,
+    onChange: (inView) => {
+      if (inView) capturePosthogEvent('track_connector_card_viewed', {});
+    },
+  });
+
+  return (
+    <div className="flex flex-col bg-white">
+      {/* §28.1 Hero */}
+      <section className="bg-[#0B1320] pb-12 pt-16 lg:pb-20 lg:pt-24">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-7">
+              <p className="mb-4 text-[14px] font-medium uppercase tracking-[0.5px] text-[#93C5FD]">APEXLyn Track</p>
+              <h1 className="mb-6 text-[32px] font-bold leading-[1.2] text-white lg:text-[48px]">
+                Compliance evidence that stands up
+              </h1>
+              <p className="mb-8 max-w-[540px] text-[16px] font-normal leading-[1.7] text-white/[0.85] lg:text-[18px]">
+                Track collects security evidence automatically from your existing systems, locks it in tamper-proof
+                storage the moment it arrives, maps it to the compliance frameworks your insurer and auditor actually
+                ask for, and generates reports that can be independently verified. No spreadsheets. No screenshots. No
+                manual uploads.
+              </p>
+              <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+                <Link
+                  href={BASELINE_HREF}
+                  onClick={() =>
+                    capturePosthogEvent('track_hero_cta_clicked', { cta_label: 'Request your baseline assessment' })
+                  }
+                  className="inline-flex min-h-[48px] items-center justify-center rounded-md bg-white px-6 text-[15px] font-semibold text-[#0B1320] transition-colors hover:bg-[#E5E7EB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1320]"
+                >
+                  Request your baseline assessment
+                </Link>
+                <Link
+                  href={PRICING_HREF}
+                  onClick={() => capturePosthogEvent('track_hero_cta_clicked', { cta_label: 'See pricing' })}
+                  className="inline-flex min-h-[48px] items-center justify-center rounded-md border border-white/50 bg-transparent px-6 text-[15px] font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1320]"
+                >
+                  See pricing
+                </Link>
               </div>
             </div>
-          }
-        />
-      </section>
-
-      <section className="relative overflow-hidden border-b border-slate-200 bg-white py-16 md:py-24">
-        <div className="relative z-[1] mx-auto max-w-[900px] px-6">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="md:mb-0"
-          >
-            <h2 className="text-[1.65rem] font-bold leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-4xl md:text-[44px]">
-              What Track Does
-            </h2>
-            <p className="mt-5 text-[17px] leading-relaxed text-slate-600 sm:text-[18px]">
-              APEXLyn Track is built for organisations that need more than screenshots, spreadsheets, and audit scramble. It
-              creates a structured system of record for operational security by continuously capturing evidence, preserving
-              history, and making governance and reporting more defensible over time.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="relative overflow-hidden border-b border-slate-200 bg-[#f8fafc] py-16 md:py-24">
-        <SectionGridWash />
-        <div className="relative z-[1] mx-auto max-w-[900px] px-6">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="mb-12 md:mb-14"
-          >
-            <h2 className="text-[1.65rem] font-bold leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-4xl md:text-[44px]">
-              How Track Works
-            </h2>
-          </motion.div>
-
-          <div className="relative">
-            <div
-              className="absolute left-[22px] top-8 bottom-8 w-px bg-gradient-to-b from-[#1E3A8A] via-[#1E3A8A]/35 to-transparent md:left-[27px]"
-              aria-hidden
-            />
-            <ol className="relative m-0 list-none space-y-5 p-0 md:space-y-6">
-              {HOW_TRACK_WORKS.map((step, i) => (
-                <motion.li
-                  key={step.title}
-                  initial={{ opacity: 0, x: -8 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
-                  className="relative flex gap-5 pl-2 md:gap-7 md:pl-0"
-                >
-                  <div className="relative z-[1] flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#1E3A8A] text-sm font-bold text-white shadow-lg shadow-[#1E3A8A]/25 md:h-14 md:w-14 md:text-base">
-                    {i + 1}
-                  </div>
-                  <div className="min-w-0 flex-1 rounded-2xl border border-slate-200/90 bg-white p-6 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.14)] md:p-8">
-                    <h3 className="text-lg font-bold text-slate-900">{step.title}</h3>
-                    <p className="mt-2 text-[15px] leading-relaxed text-slate-600 sm:text-[16px]">{step.body}</p>
-                  </div>
-                </motion.li>
-              ))}
-            </ol>
+            <div className="hidden lg:col-span-5 lg:block">
+              <TrackEvidenceFlowDiagram variant="hero" />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="border-b border-slate-200 bg-gradient-to-br from-slate-50 to-white py-16 md:py-20">
-        <div className="mx-auto max-w-[720px] px-6">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-            <h2 className="text-[1.5rem] font-bold text-slate-900 sm:text-3xl">Why Organisations Choose Track</h2>
-            <ul className="mt-8 space-y-3">
-              {WHY_TRACK_BULLETS.map((item) => (
-                <li key={item} className="flex gap-3 text-[15px] text-slate-600 sm:text-[16px]">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#1E3A8A]" aria-hidden />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+      {/* §28.2 What Track does */}
+      <section className="bg-white py-16 lg:py-20">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <h2 className="mb-12 text-center text-[1.65rem] font-bold leading-tight text-[#0B1320] sm:text-3xl lg:text-[2.25rem]">
+            What Track does for your organisation
+          </h2>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {OUTCOME_CARDS.map(({ Icon, title, body }) => (
+              <article
+                key={title}
+                className="flex h-full flex-col rounded-xl border border-[#E5E7EB] border-l-[3px] border-l-[#1E3A8A] bg-white p-6 shadow-[0_1px_0_rgba(11,19,32,0.06)] lg:p-8"
+              >
+                <Icon className="mb-4 h-8 w-8 text-[#1E3A8A]" strokeWidth={1.75} aria-hidden />
+                <h3 className="mb-3 text-[18px] font-semibold text-[#0B1320]">{title}</h3>
+                <p className="text-[15px] font-normal leading-relaxed text-[#4B5563]">{body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
+      {/* §28.3 Evidence chain */}
+      <section className="bg-[#F7F9FC] py-20 lg:py-24">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <h2 className="mb-6 text-center text-[1.65rem] font-bold leading-tight text-[#0B1320] sm:text-3xl lg:text-[2.25rem]">
+            The evidence chain — how Track turns data into proof
+          </h2>
+          <p className="mx-auto mb-12 max-w-[680px] text-center text-[17px] font-normal leading-relaxed text-[#4B5563]">
+            Track follows a strict, deterministic sequence every time evidence is collected. This is not a process that can
+            be skipped, reordered, or overridden. If any step fails, the evidence is not considered committed.
+          </p>
+          <div className="mb-12 flex justify-center">
+            <TrackEvidenceFlowDiagram variant="section" />
+          </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <TrackExpandable label="How automated collection works">
+              <p className="mb-4">
+                Track connects to your systems through secure, tenant-bound connectors. Each connector is authorised with
+                the minimum permissions required and bound to your specific tenant — no connector can access another
+                organisation&apos;s data. Evidence is collected on a policy-driven schedule: a full baseline at
+                onboarding, then recurring collection at defined intervals. Delta collection runs where the source system
+                supports it. If a connector fails or a source is temporarily unavailable, the gap is recorded honestly —
+                Track never fabricates evidence to fill a gap.
+              </p>
+              <p>
+                Supported connectors include: Microsoft 365 (Graph API), Active Directory (LDAP/Agent), AWS (Security Hub,
+                Config, CloudTrail, IAM), Microsoft Azure, Google Cloud Platform (Security Command Center), Google Workspace,
+                CIS scan ingestion (CIS-CAT Pro, Tenable/Nessus, Qualys), backup software (Veeam, Datto, Acronis), EDR
+                platforms (CrowdStrike, SentinelOne, Microsoft Defender for Endpoint), and a generic API intake for
+                additional sources.
+              </p>
+            </TrackExpandable>
+            <TrackExpandable label="How tamper-proof storage works">
+              <p>
+                Every evidence record is written to WORM storage (Write Once, Read Many). WORM storage physically prevents
+                modification or deletion of stored objects. This is not a software setting that can be turned off — it is an
+                infrastructure-level guarantee provided by the underlying storage service. Evidence is stored in AWS Sydney
+                (ap-southeast-2) and does not leave Australia. Each stored object is individually locked at the time of
+                writing.
+              </p>
+            </TrackExpandable>
+            <TrackExpandable label="How cryptographic chaining works">
+              <p className="mb-4">
+                After evidence is written to WORM storage, a SHA-256 hash is computed from the evidence payload. This hash is
+                then combined with the previous record&apos;s hash to create a new ledger block in a per-tenant hash chain.
+                Each tenant has its own independent chain — no cross-tenant chaining exists. The chain is append-only: there
+                is no update operation and no delete operation at any layer. If any record in the chain were altered, all
+                subsequent hashes would become invalid, making tampering immediately detectable.
+              </p>
+              <p>
+                Device identity fields — including device ID, hostname, IP address, and MAC address where available — are
+                included in the hashed evidence packet. This means the evidence is cryptographically bound to the specific
+                device context at the time of collection.
+              </p>
+            </TrackExpandable>
+            <TrackExpandable label="How framework mapping works">
+              <p className="mb-4">
+                Track maintains a set of universal controls that are stable and framework-independent. Compliance frameworks
+                — Essential Eight, ISO 27001, NIST CSF 2.0, APRA CPS 234, ASD ISM, and others — are views mapped onto these
+                universal controls. This means adding a new framework requires loading requirement definitions and mapping
+                rules, not rebuilding the engine. A single universal control (such as &quot;MFA enforced for all
+                users&quot;) can map to multiple framework requirements simultaneously across Essential Eight, ISO 27001,
+                NIST, and CIS.
+              </p>
+              <p>
+                Framework assessment is confidence-calibrated. A control can only produce a PASS result when confidence is high
+                — meaning the evidence is present, fresh, complete, structurally valid, from the correct source, and within
+                scope. If any of those conditions is not met, the output is UNKNOWN (insufficient evidence), never PASS.
+                Missing evidence never produces a passing result.
+              </p>
+            </TrackExpandable>
+            <TrackExpandable label="How insurance-grade reporting works">
+              <p className="mb-4">
+                Track generates PDF report packs with a fixed structure designed for insurers, auditors, boards, and
+                regulators. Every report includes: an executive summary in plain English, risk scorecards with RAG
+                (red/amber/green) status per framework, a findings table with plain-language explanations and remediation
+                guidance for every non-passing control, an evidence proof appendix with cryptographic hashes, timestamps,
+                event IDs, and device identity, a governance appendix with attestation records and risk acceptance history, a
+                data residency and integrity statement, and a chain-of-custody statement.
+              </p>
+              <p>
+                Every report prints the exact framework version, mapping rules version, control rules version, and
+                assessment date it is bound to. Reports are generated server-side only — never in the browser. The generated
+                report&apos;s hash is recorded in the evidence ledger, creating a verifiable proof that the report existed in
+                its exact form at the time of generation.
+              </p>
+            </TrackExpandable>
+            <TrackExpandable label="How independent verification works">
+              <p className="mb-4">
+                Every report generated by Track can be independently verified through a dedicated verification endpoint. The
+                endpoint accepts a report identifier and returns: the report hash, generation timestamp, framework versions
+                and scope, and confirmation that the report hash is recorded in the evidence ledger. The verification
+                response confirms whether the report is valid or invalid without revealing any tenant data beyond the
+                verification metadata.
+              </p>
+              <p>
+                Reports can optionally include a QR code that links directly to the verification endpoint. An insurer,
+                auditor, or regulator receiving a Track report can scan the QR code and confirm independently that the report
+                is genuine and unaltered — without needing APEXLyn platform access and without needing to trust APEXLyn.
+              </p>
+            </TrackExpandable>
+          </div>
+        </div>
+      </section>
+
+      {/* §28.4 Frameworks */}
       <section
         id="framework-alignment"
-        className="scroll-mt-[calc(108px+1rem)] border-b border-slate-200 bg-white py-16 md:py-20"
+        className="scroll-mt-[calc(108px+1rem)] bg-white py-16 lg:py-20"
+        ref={frameworkTableRef}
       >
-        <div className="mx-auto max-w-[720px] px-6">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-            <h2 className="text-[1.5rem] font-bold text-slate-900 sm:text-3xl">Framework-Aligned by Design</h2>
-            <p className="mt-4 text-[17px] leading-relaxed text-slate-600">
-              Track is designed to support organisations working toward stronger framework alignment by making evidence
-              capture, control views, and reporting more structured over time.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-2.5">
-              {FRAMEWORK_BADGES.map((label) => (
-                <span
-                  key={label}
-                  className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-800"
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
-            <p className="mt-8 border-l-4 border-[#1E3A8A]/40 pl-4 text-sm leading-relaxed text-slate-500">
-              Alignment support does not constitute certification or compliance.
-            </p>
-          </motion.div>
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <h2 className="mb-6 text-center text-[1.65rem] font-bold leading-tight text-[#0B1320] sm:text-3xl lg:text-[2.25rem]">
+            Frameworks that matter for Australian organisations
+          </h2>
+          <p className="mx-auto mb-12 max-w-[680px] text-center text-[17px] font-normal leading-relaxed text-[#4B5563]">
+            Track does not assess against generic checklists. It maps your real evidence to specific, version-tracked
+            compliance frameworks using a confidence-calibrated engine. If the evidence is insufficient, the result is
+            &quot;insufficient evidence&quot; — never a false pass.
+          </p>
+
+          <div className="hidden overflow-hidden rounded-lg border border-[#E5E7EB] lg:block">
+            <table className="w-full border-collapse text-left">
+              <thead>
+                <tr className="bg-[#F7F9FC]">
+                  <th className="border border-[#E5E7EB] px-4 py-3 text-[14px] font-semibold text-[#0B1320]">Framework</th>
+                  <th className="border border-[#E5E7EB] px-4 py-3 text-[14px] font-semibold text-[#0B1320]">Scope</th>
+                  <th className="border border-[#E5E7EB] px-4 py-3 text-[14px] font-semibold text-[#0B1320]">
+                    Evidence source
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {FRAMEWORK_ROWS.map((row, i) => (
+                  <tr key={row.framework} className={i % 2 === 1 ? 'bg-[#FAFBFC]' : 'bg-white'}>
+                    <td className="border border-[#E5E7EB] px-4 py-3 text-[14px] font-normal text-[#4B5563]">
+                      <FrameworkName text={row.framework} />
+                    </td>
+                    <td className="border border-[#E5E7EB] px-4 py-3 text-[14px] font-normal text-[#4B5563]">
+                      {row.scope}
+                    </td>
+                    <td className="border border-[#E5E7EB] px-4 py-3 text-[14px] font-normal text-[#4B5563]">
+                      {row.source}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="flex flex-col gap-4 lg:hidden">
+            {FRAMEWORK_ROWS.map((row) => (
+              <article key={row.framework} className="rounded-lg border border-[#E5E7EB] bg-white p-4">
+                <h3 className="mb-3 text-[16px] font-semibold text-[#0B1320]">
+                  <FrameworkName text={row.framework} />
+                </h3>
+                <p className="mb-2 text-[14px] leading-relaxed text-[#4B5563]">
+                  <span className="font-medium text-[#0B1320]">Scope: </span>
+                  {row.scope}
+                </p>
+                <p className="text-[14px] leading-relaxed text-[#4B5563]">
+                  <span className="font-medium text-[#0B1320]">Evidence source: </span>
+                  {row.source}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <p className="mt-6 text-center text-[14px] font-normal text-[#6B7280]">
+            All frameworks map to the same universal controls. Evidence collected once satisfies multiple frameworks
+            simultaneously. Adding new frameworks requires no platform changes.
+          </p>
+          <p className="mx-auto mt-4 max-w-[680px] text-center text-[13px] font-normal text-[#9CA3AF]">
+            Framework alignment reflects how Track maps collected evidence to published framework requirements. Track does
+            not claim certification, accreditation, or formal compliance on behalf of any organisation. Assessment outputs
+            are evidence-based and should be reviewed by qualified professionals for formal compliance decisions.
+          </p>
         </div>
       </section>
 
-      <section className="border-t border-[#0B1320]/10 bg-[#F7F9FC] py-16 md:py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-            <h2 className="text-[1.65rem] font-bold leading-[1.1] tracking-[-0.02em] text-slate-900 sm:text-4xl md:text-[40px]">
-              Turn Security Activity Into Defensible Evidence
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-slate-600 sm:text-[18px]">
-              Start with a baseline and see where control reality, evidence readiness, and governance gaps need attention
-              first.
-            </p>
-            <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row sm:flex-wrap">
-              <Link
-                href={TEST_EVIDENCE_READINESS_HREF}
-                className="inline-flex items-center justify-center gap-2 rounded px-6 py-3.5 text-base font-semibold text-white transition-colors bg-[#1E3A8A] hover:bg-[#172E73]"
-              >
-                Test Your Evidence Readiness
-              </Link>
-              <Link
-                href={STRATEGIC_CONVERSATION_URL}
-                className="inline-flex items-center justify-center gap-2 rounded border border-slate-300 bg-white px-6 py-3.5 text-base font-semibold text-slate-800 transition-colors hover:bg-slate-50"
-              >
-                Start a Strategic Conversation
-              </Link>
+      {/* §28.5 Connected systems */}
+      <section className="bg-[#F7F9FC] py-16 lg:py-20" ref={connectorGridRef}>
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <h2 className="mb-6 text-center text-[1.65rem] font-bold leading-tight text-[#0B1320] sm:text-3xl lg:text-[2.25rem]">
+            Connects to the systems you already use
+          </h2>
+          <p className="mx-auto mb-12 max-w-[680px] text-center text-[17px] font-normal leading-relaxed text-[#4B5563]">
+            Track collects evidence automatically through secure, tenant-bound connectors. Each connector uses the minimum
+            permissions required and is bound to your specific organisation. No manual data exports.
+          </p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {CONNECTOR_CARDS.map((c) => (
+              <article key={c.heading} className="rounded-lg border border-[#E5E7EB] bg-white p-4">
+                <h3 className="mb-2 text-[16px] font-semibold text-[#0B1320]">{c.heading}</h3>
+                <p className="text-[13px] font-normal leading-[1.5] text-[#4B5563]">{c.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* §28.6 Governance */}
+      <section className="bg-white py-16 lg:py-20">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start lg:gap-12">
+            <div className="lg:col-span-6">
+              <h2 className="mb-6 text-[1.65rem] font-bold leading-tight text-[#0B1320] sm:text-3xl lg:text-[2rem] xl:text-[2.25rem]">
+                Governance that leaves a permanent record
+              </h2>
+              <p className="mb-6 text-[15px] font-normal leading-relaxed text-[#4B5563] lg:text-[16px]">
+                Track does not just collect evidence — it records the human decisions made about that evidence. When an
+                approver attests that evidence is correct, or accepts a risk with a documented reason and expiry date, that
+                governance action is written to the immutable ledger alongside the evidence it relates to.
+              </p>
+              <TrackExpandable label="Governance detail">
+                <p className="mb-4">
+                  The governance workflow operates as follows: when a report is generated, the system sends an automated
+                  review request to the designated approver. The approver receives a secure link that is one-time use,
+                  time-limited (default 60 minutes, configurable per tenant), and bound to the specific user and tenant.
+                  Accessing the secure link requires MFA re-verification.
+                </p>
+                <p className="mb-4">
+                  The approver reviews non-compliant items and completes one of two actions: attestation (&quot;I certify
+                  this evidence is correct&quot;) or risk acceptance (&quot;I accept the risk of this finding for documented
+                  reasons&quot;). Risk acceptance requires a reason in plain English, an owner, an expiry date, and a review
+                  date.
+                </p>
+                <p className="mb-4">
+                  Every governance action writes a signature event to the immutable ledger containing: the actor&apos;s
+                  identity and role, timestamp, IP address, user agent, the evidence records referenced, their cryptographic
+                  hashes, ledger block references, and the scope context (framework, version, assessment date). This
+                  signature event is permanent and independently verifiable.
+                </p>
+                <p>
+                  When a risk acceptance expires, the exception status is automatically removed and the underlying assessment
+                  result takes effect. The system sends reminders before expiry at 30 days, 15 days, 3 days, and 1 day.
+                </p>
+              </TrackExpandable>
             </div>
-          </motion.div>
+            <div className="flex justify-center lg:col-span-6 lg:justify-end">
+              <TrackGovernanceVisual className="w-full max-w-[360px]" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* §28.7 MSP */}
+      <section className="bg-[#F7F9FC] py-16 lg:py-20">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <h2 className="mb-6 text-center text-[1.65rem] font-bold leading-tight text-[#0B1320] sm:text-3xl lg:text-[2.25rem]">
+            Built for MSPs managing multiple clients
+          </h2>
+          <p className="mx-auto mb-12 max-w-[680px] text-center text-[17px] font-normal leading-relaxed text-[#4B5563]">
+            Track is designed for managed service providers who deliver compliance evidence to their client base. White-label
+            the platform with your branding. Manage hundreds of clients from a single portfolio dashboard. Drill from
+            portfolio overview down to individual tenant, framework, control, and evidence proof.
+          </p>
+          <div className="mb-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
+            {MSP_CARDS.map((card) => (
+              <article
+                key={card.title}
+                className="flex h-full flex-col rounded-xl border border-[#E5E7EB] border-l-[3px] border-l-[#1E3A8A] bg-white p-6 shadow-[0_1px_0_rgba(11,19,32,0.06)] lg:p-8"
+              >
+                <h4 className="mb-3 text-[20px] font-semibold text-[#0B1320]">{card.title}</h4>
+                <p className="text-[15px] font-normal leading-relaxed text-[#4B5563]">{card.body}</p>
+              </article>
+            ))}
+          </div>
+          <div className="flex justify-center">
+            <Link
+              href={MSP_HREF}
+              className="inline-flex min-h-[48px] items-center justify-center rounded-md border border-[#1E3A8A] bg-transparent px-6 text-[15px] font-semibold text-[#1E3A8A] transition-colors hover:bg-[#1E3A8A]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2"
+            >
+              See MSP &amp; Partners details
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* §28.8 Insurance */}
+      <section className="bg-white py-16 lg:py-20">
+        <div className="mx-auto max-w-[1000px] px-4 text-center sm:px-6">
+          <h2 className="mb-6 text-[1.65rem] font-bold leading-tight text-[#0B1320] sm:text-3xl lg:text-[2.25rem]">
+            Evidence your insurer can actually use
+          </h2>
+          <p className="mx-auto mb-4 max-w-[680px] text-[17px] font-normal leading-relaxed text-[#4B5563]">
+            Cyber insurance underwriting in Australia still relies heavily on self-assessment questionnaires. Your organisation
+            ticks boxes. Nobody verifies the answers.
+          </p>
+          <p className="mx-auto mb-4 max-w-[680px] text-[17px] font-normal leading-relaxed text-[#4B5563]">
+            Track changes this. Instead of claiming your MFA is enabled, Track provides cryptographic proof that MFA was
+            enabled on specific systems, on specific devices, at specific times — with an unbroken chain of evidence that your
+            insurer can independently verify.
+          </p>
+          <p className="mx-auto mb-4 max-w-[680px] text-[17px] font-normal leading-relaxed text-[#4B5563]">
+            Every Track report includes an assertion statement describing exactly what was assessed and a non-assertion
+            statement describing what was not. The report says precisely what it can prove and explicitly disclaims what it
+            cannot. No ambiguity. No overclaiming.
+          </p>
+          <p className="mx-auto mb-10 max-w-[680px] text-[17px] font-normal leading-relaxed text-[#4B5563]">
+            If your insurer, auditor, or board reviewer receives a Track report, they can verify it is genuine by checking
+            the report hash against the evidence ledger — through a QR code on the report or through the verification
+            endpoint. They do not need platform access. They do not need to trust APEXLyn. They verify the mathematics.
+          </p>
+          <Link
+            href={CONTACT_HREF}
+            onClick={() => capturePosthogEvent('track_insurance_cta_clicked', {})}
+            className="inline-flex min-h-[48px] items-center justify-center rounded-md bg-[#1E3A8A] px-6 text-[15px] font-semibold text-white transition-colors hover:bg-[#172E73] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2"
+          >
+            Talk to us about evidence for insurance
+          </Link>
+        </div>
+      </section>
+
+      {/* §28.9 Pricing preview */}
+      <section className="bg-[#F7F9FC] py-12 lg:py-16">
+        <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6">
+          <h2 className="mb-4 text-[1.65rem] font-bold leading-tight text-[#0B1320] sm:text-3xl">Track pricing</h2>
+          <p className="mx-auto mb-8 max-w-[640px] text-[17px] font-normal leading-relaxed text-[#4B5563]">
+            Start where your organisation is today. Scale as your evidence requirements grow.
+          </p>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {TRACK_PRICING.map((row) => (
+              <article
+                key={row.tier}
+                className="flex h-full flex-col rounded-xl border border-[#E5E7EB] bg-white p-6 text-left shadow-[0_1px_0_rgba(11,19,32,0.06)]"
+              >
+                <h3 className="text-[18px] font-semibold text-[#0B1320]">{row.tier}</h3>
+                <p className="mt-2 text-[20px] font-semibold text-[#1E3A8A]">{row.price}</p>
+                <p className="mt-4 flex-1 text-[15px] leading-relaxed text-[#4B5563]">{row.body}</p>
+                <Link
+                  href={PRICING_HREF}
+                  onClick={() => capturePosthogEvent('track_pricing_card_clicked', { tier: row.tier })}
+                  className="mt-6 inline-flex text-[15px] font-medium text-[#1E3A8A] underline-offset-2 hover:underline"
+                >
+                  See full pricing →
+                </Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* §28.10 Final CTA */}
+      <section className="bg-[#0B1320] py-16 lg:py-20">
+        <div className="mx-auto max-w-[800px] px-4 text-center sm:px-6">
+          <h2 className="mb-6 text-[1.65rem] font-bold leading-tight text-white sm:text-3xl lg:text-[2.25rem]">
+            Start collecting evidence that stands up
+          </h2>
+          <p className="mx-auto mb-10 max-w-[600px] text-[17px] font-normal leading-relaxed text-white/80">
+            Whether you need Essential Eight evidence for your insurer, ISO 27001 mapping for your auditor, or APRA CPS 234
+            reporting for your regulator — Track turns compliance from a claim into a proof.
+          </p>
+          <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
+            <Link
+              href={BASELINE_HREF}
+              onClick={() =>
+                capturePosthogEvent('track_final_cta_clicked', { cta_label: 'Request your baseline assessment' })
+              }
+              className="inline-flex min-h-[48px] items-center justify-center rounded-md bg-white px-6 text-[15px] font-semibold text-[#0B1320] transition-colors hover:bg-[#E5E7EB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1320]"
+            >
+              Request your baseline assessment
+            </Link>
+            <Link
+              href={CONTACT_HREF}
+              onClick={() => capturePosthogEvent('track_final_cta_clicked', { cta_label: 'Start a conversation' })}
+              className="inline-flex min-h-[48px] items-center justify-center rounded-md border border-white/50 bg-transparent px-6 text-[15px] font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1320]"
+            >
+              Start a conversation
+            </Link>
+          </div>
         </div>
       </section>
     </div>

@@ -1,15 +1,15 @@
 /**
- * Section 5 — CTA destination mapping (canonical public URLs).
- * Legacy paths (/company/contact, /test-security-state, etc.) may still be registered in App.
+ * §5 — CTA destination mapping (canonical public URLs, §16).
+ * Legacy paths remain reachable via redirects in App.tsx.
  */
 
 export const CTA = {
-  testYourSecurityState: '/test-your-security-state',
+  testYourSecurityState: '/baseline',
   platforms: '/platforms',
   contact: '/contact',
   contactTopic: (topic: string) => `/contact?topic=${encodeURIComponent(topic)}`,
-  architectureOverview: '/architecture-overview',
-  requestSecurityDocumentation: '/request-security-documentation',
+  architectureOverview: '/architecture',
+  requestSecurityDocumentation: '/documentation',
 } as const;
 
 const MODE_PARAM = 'mode' as const;
@@ -51,6 +51,6 @@ export function contactTopicLabel(topic: string | null | undefined): string | nu
 }
 
 export const PLATFORM_ANCHORS = {
-  trackFrameworkAlignment: '/platforms/track#framework-alignment',
-  lensPolicyEnforcement: '/platforms/lens#policy-enforcement',
+  trackFrameworkAlignment: '/track#framework-alignment',
+  lensPolicyEnforcement: '/lens#policy-enforcement',
 } as const;

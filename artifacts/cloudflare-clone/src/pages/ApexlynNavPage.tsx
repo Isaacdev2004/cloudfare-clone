@@ -12,7 +12,7 @@ import CyberSecurityServicesPage from "@/pages/CyberSecurityServicesPage";
 import AIGovernanceAdvisoryPage from "@/pages/AIGovernanceAdvisoryPage";
 import ComplianceOperationsPage from "@/pages/ComplianceOperationsPage";
 
-/** Normalise so `/platforms/lens` and `/platforms/lens/` both match. */
+/** Normalise so `/lens` and `/lens/` both match. */
 function normalizePath(path: string) {
   if (path.length > 1 && path.endsWith("/")) return path.slice(0, -1);
   return path;
@@ -22,25 +22,30 @@ export default function ApexlynNavPage() {
   const [loc] = useLocation();
   const path = normalizePath(loc);
 
-  // Renders full platform pages even if a stale route still points here (or cache).
   if (path === "/solutions/cyber-security-services") return <CyberSecurityServicesPage />;
   if (path === "/solutions/ai-governance-advisory") return <AIGovernanceAdvisoryPage />;
   if (path === "/solutions/compliance-operations") return <ComplianceOperationsPage />;
 
-  if (path === "/platforms/track") return <TrackPlatformPage />;
-  if (path === "/platforms/lens") return <LensPlatformPage />;
-  if (path === "/platforms/architecture" || path === "/architecture-overview") return <ArchitectureOverviewPage />;
+  if (path === "/track" || path === "/platforms/track") return <TrackPlatformPage />;
+  if (path === "/lens" || path === "/platforms/lens") return <LensPlatformPage />;
+  if (path === "/architecture" || path === "/platforms/architecture" || path === "/architecture-overview")
+    return <ArchitectureOverviewPage />;
 
   if (path.startsWith("/industries/")) {
     const slug = path.slice("/industries/".length).split("/")[0];
     if (slug) return <IndustryPage params={{ slug }} />;
   }
 
-  if (path === "/trust-center/request-documentation" || path === "/request-security-documentation")
+  if (
+    path === "/documentation" ||
+    path === "/trust-center/request-documentation" ||
+    path === "/request-security-documentation"
+  )
     return <TrustRequestDocumentationPage />;
-  if (path === "/trust-center") return <TrustCenterPage />;
+  if (path === "/trust" || path === "/trust-center") return <TrustCenterPage />;
   if (path === "/company/contact" || path === "/contact") return <ContactApexlynPage />;
-  if (path === "/test-security-state" || path === "/test-your-security-state") return <TestSecurityStatePage />;
+  if (path === "/baseline" || path === "/test-security-state" || path === "/test-your-security-state")
+    return <TestSecurityStatePage />;
 
   const meta = { title: "APEXLyn", eyebrow: undefined as string | undefined };
 

@@ -1,321 +1,180 @@
 /**
- * §12 — SEO and metadata. OG title/description match SEO at launch; default social image: /og-default.svg
+ * §12 / §20 — SEO, titles, descriptions. OG mirrors page meta; default image §21.
  */
 
-const BRAND = 'APEXLyn';
-const DEFAULT_TITLE = `${BRAND} | Evidence-Led Security & AI Governance`;
-const DEFAULT_DESCRIPTION =
-  'Australian-built security evidence and AI governance infrastructure. APEXLyn Track and APEXLyn Lens for defensible control visibility, not theatre.';
+import { INDUSTRY_SEO_ROWS } from '@/lib/apexlyn-seo-industry';
+import { getPublishedResource } from '@/lib/apexlyn-resources';
 
 export type SeoConfig = {
   title: string;
   description: string;
-  /** If omitted, matches title and description (§12.1) */
   ogTitle?: string;
   ogDescription?: string;
-  /** Path under site origin, e.g. /og-default.svg */
   ogImagePath?: string;
 };
 
+const SUFFIX = ' | APEXLyn — Where Security Becomes Evidence';
+
+/** §20.1 — homepage title (no duplicate suffix). */
+export const HOME_TITLE = 'APEXLyn — Where Security Becomes Evidence';
+
+function pageTitle(specific: string): string {
+  return `${specific}${SUFFIX}`;
+}
+
+function d(text: string): string {
+  const t = text.trim();
+  if (t.length >= 140 && t.length <= 160) return t;
+  if (t.length > 160) return t.slice(0, 157).trimEnd() + '…';
+  let u = t;
+  while (u.length < 140) u = `${u} Australian evidence-led security.`;
+  return u.slice(0, 160);
+}
+
+/** §27 — Homepage meta (Part 3); ≤160 chars for §20.2 while preserving keywords. */
+const HOME_META_DESCRIPTION =
+  'Australian cybersecurity and AI governance platforms. Track makes compliance provable. Lens governs AI with forensic proof. From small business to government.';
+
 export const DEFAULT_SEO: SeoConfig = {
-  title: DEFAULT_TITLE,
-  description: DEFAULT_DESCRIPTION,
-  ogTitle: DEFAULT_TITLE,
-  ogDescription: DEFAULT_DESCRIPTION,
-  ogImagePath: '/og-default.svg',
+  title: HOME_TITLE,
+  description: HOME_META_DESCRIPTION,
+  ogTitle: HOME_TITLE,
+  ogDescription: HOME_META_DESCRIPTION,
+  ogImagePath: '/og/default.png',
 };
 
-function withBrand(title: string): string {
-  if (title.includes(BRAND) && title.length < 80) return title;
-  return `${title} | ${BRAND}`;
+function clipMeta(text: string, max = 160): string {
+  const t = text.trim();
+  if (t.length <= max) return t;
+  return t.slice(0, max - 1).trimEnd() + '…';
 }
 
 const ROUTES: Record<string, { title: string; description: string }> = {
   '/': {
-    title: 'APEXLyn | Evidence-Led Security & AI Governance Infrastructure',
-    description:
-      'APEXLyn helps organisations prove security reality continuously and govern AI use safely through evidence-led infrastructure, structured oversight, and defensible reporting.',
+    title: HOME_TITLE,
+    description: HOME_META_DESCRIPTION,
   },
-  '/platforms': {
-    title: 'Platforms | APEXLyn Track and APEXLyn Lens',
+  '/track': {
+    title: 'Track — Evidence-Led Compliance Engine | APEXLyn',
     description:
-      'Explore APEXLyn Track and APEXLyn Lens — two flagship platforms built for security evidence infrastructure and AI governance infrastructure.',
+      'Automated compliance evidence that cannot be altered or deleted. Track maps to Essential Eight, ISO 27001, NIST, APRA CPS 234, ASD ISM, and more. Insurance-grade reports with independent verification. Australian-built and hosted.',
   },
-  '/platforms/track': {
-    title: 'APEXLyn Track | Security Evidence Infrastructure',
+  '/lens': {
+    title: 'Lens — AI Security & Evidence Platform | APEXLyn',
     description:
-      'APEXLyn Track continuously captures control reality, structures defensible evidence, and supports governance and reporting under scrutiny.',
+      'See and control how AI is used across your organisation. 7 enforcement layers. Forensic-grade evidence. Works alongside your existing security tools. Australian-built, Australian-hosted.',
   },
-  '/platforms/lens': {
-    title: 'APEXLyn Lens | AI Governance & AI Risk Infrastructure',
+  '/architecture': {
+    title: 'Architecture — How Our Evidence Infrastructure Works | APEXLyn',
     description:
-      'APEXLyn Lens provides AI usage visibility, prompt risk inspection, sensitive-data exposure control, and structured AI governance.',
+      'Two platforms, one evidence architecture. Track and Lens share an immutable, hash-chained evidence infrastructure hosted in AWS Sydney. See how automated collection, tamper-proof storage, and independent verification work together.',
   },
-  '/architecture-overview': {
-    title: 'Architecture Overview | APEXLyn',
+  '/trust': {
+    title: 'Trust Center — Security Posture & Architecture Detail | APEXLyn',
     description:
-      'See how APEXLyn is engineered to turn security activity and AI oversight into structured, defensible records designed for scale and scrutiny.',
-  },
-  '/platforms/architecture': {
-    title: 'Architecture Overview | APEXLyn',
-    description:
-      'See how APEXLyn is engineered to turn security activity and AI oversight into structured, defensible records designed for scale and scrutiny.',
-  },
-  '/products': {
-    title: withBrand('Product Catalog'),
-    description: 'Browse APEXLyn product and platform information aligned to the public site.',
+      'Full technical security posture for APEXLyn Track and Lens. Australian data residency in AWS Sydney. AES-256 encryption. Immutable evidence storage. Per-tenant isolation. 7-year retention. Published for CISOs, auditors, insurers, and government evaluators.',
   },
   '/pricing': {
-    title: 'Pricing | APEXLyn Packages',
+    title: 'Pricing — Standard to Sovereign | APEXLyn',
     description:
-      'Explore APEXLyn package paths for growing teams, regulated environments, enterprise operations, and partner delivery.',
+      'APEXLyn Track and Lens pricing from A$349/month. Four tiers — Standard, Professional, Enterprise, and Sovereign. Compliance evidence and AI governance for Australian organisations from small business to government.',
   },
-  '/plans': {
-    title: 'Pricing | APEXLyn Packages',
-    description:
-      'Explore APEXLyn package paths for growing teams, regulated environments, enterprise operations, and partner delivery.',
-  },
-  '/solutions': {
-    title: 'Solutions | APEXLyn',
-    description:
-      'Explore APEXLyn’s structured security and AI governance services built around evidence, governance, and operational clarity.',
-  },
-  '/solutions/cyber-security-services': {
-    title: 'Cyber Security Services | APEXLyn',
-    description:
-      'APEXLyn provides structured security uplift and operational hardening designed to reduce exposure and improve control reality.',
-  },
-  '/solutions/ai-governance-advisory': {
-    title: 'AI Governance Advisory | APEXLyn',
-    description:
-      'APEXLyn helps organisations define AI usage boundaries, reduce exposure, and create governance that leadership can trust.',
-  },
-  '/solutions/compliance-operations': {
-    title: 'Compliance Operations | APEXLyn',
-    description:
-      'APEXLyn helps organisations replace manual assurance with structured evidence, reporting, and governance support.',
-  },
-  '/why-cloudflare': {
-    title: withBrand('Why APEXLyn'),
-    description: 'Positioning and rationale for evidence-led security and AI governance on APEXLyn.',
-  },
-  '/enterprise': {
-    title: withBrand('Enterprise'),
-    description: 'Enterprise patterns for APEXLyn — governance, trust, and operating requirements at scale.',
-  },
-  '/zero-trust': {
-    title: withBrand('Zero Trust'),
-    description: 'Zero trust concepts and how they relate to APEXLyn security evidence and governance posture.',
-  },
-  '/cloudflare-one': {
-    title: withBrand('Zero Trust'),
-    description: 'Zero trust concepts and how they relate to APEXLyn security evidence and governance posture.',
-  },
-  '/developers': {
-    title: withBrand('Developers'),
-    description: 'Developer-relevant information for the APEXLyn public site.',
-  },
-  '/privacy': {
-    title: 'Privacy | APEXLyn',
-    description:
-      'Read how APEXLyn handles website inquiries, submitted information, and public-site privacy expectations.',
-  },
-  '/privacy-policy': {
-    title: 'Privacy | APEXLyn',
-    description:
-      'Read how APEXLyn handles website inquiries, submitted information, and public-site privacy expectations.',
-  },
-  '/terms': {
-    title: 'Terms | APEXLyn',
-    description: 'Read the website use terms for the APEXLyn public website.',
-  },
-  '/terms-of-use': {
-    title: 'Terms | APEXLyn',
-    description: 'Read the website use terms for the APEXLyn public website.',
-  },
-  '/report-security': {
-    title: withBrand('Report a Security Issue'),
-    description: 'How to report a security concern related to APEXLyn.',
-  },
-  '/resources': {
-    title: 'Resources | APEXLyn',
-    description: 'Read evidence-led security and AI governance guidance written for serious operators.',
-  },
-  '/resources/whitepapers': {
-    title: 'Whitepapers | APEXLyn',
-    description: 'Read APEXLyn whitepapers on evidence integrity, governance execution, and operational trust.',
-  },
-  '/resources/framework-guides': {
-    title: 'Framework Guides | APEXLyn',
-    description:
-      'Explore APEXLyn framework guides designed to translate frameworks into operational evidence and governance.',
-  },
-  '/resources/ai-risk-briefs': {
-    title: 'AI Risk Briefs | APEXLyn',
-    description: 'Read practical APEXLyn AI risk briefs on governance, visibility, and exposure reduction.',
-  },
-  '/resources/blog': {
-    title: withBrand('Blog'),
-    description: 'Updates and analysis from the APEXLyn team.',
-  },
-  '/resources/case-studies': {
-    title: withBrand('Case Studies'),
-    description: 'How organisations use APEXLyn-style evidence and governance.',
-  },
-  '/resources/webinars': {
-    title: withBrand('Webinars'),
-    description: 'Sessions and replays from APEXLyn.',
-  },
-  '/resources/documentation': {
-    title: withBrand('Documentation'),
-    description: 'Public documentation and reference material for APEXLyn.',
-  },
-  '/resources/community': {
-    title: withBrand('Community'),
-    description: 'Community links and public channels for APEXLyn.',
+  '/about': {
+    title: 'About APEXLyn — Australian Cybersecurity & AI Governance | APEXLyn',
+    description: clipMeta(
+      'APEXLyn is an Australian cybersecurity and AI governance company. Two platforms — Track for compliance evidence and Lens for AI governance — built on one immutable evidence architecture. Founded by Vishwa Teja Mardha. Based in Sydney, Australia.',
+    ),
   },
   '/contact': {
-    title: 'Contact APEXLyn',
-    description:
-      'Start a strategic conversation with APEXLyn about security evidence, AI governance, and your operating constraints.',
-  },
-  '/company/contact': {
-    title: 'Contact APEXLyn',
-    description:
-      'Start a strategic conversation with APEXLyn about security evidence, AI governance, and your operating constraints.',
-  },
-  '/company': {
-    title: withBrand('Company'),
-    description: 'About APEXLyn, careers, and company information.',
-  },
-  '/company/about': {
-    title: 'About APEXLyn',
-    description:
-      'Learn why APEXLyn was founded to turn operational security and AI usage into defensible evidence and governance.',
-  },
-  '/company/careers': {
-    title: 'Careers | APEXLyn',
-    description:
-      'Join APEXLyn and help build infrastructure that makes security evidence defensible and AI risk governable.',
-  },
-  '/company/press': {
-    title: withBrand('Press'),
-    description: 'Press information for APEXLyn.',
-  },
-  '/company/investors': {
-    title: withBrand('Investors'),
-    description: 'Investor information for APEXLyn.',
-  },
-  '/company/impact': {
-    title: withBrand('Impact'),
-    description: 'Impact and responsibility at APEXLyn.',
-  },
-  '/support': {
-    title: withBrand('Support'),
-    description: 'Help, status, and support resources for APEXLyn.',
-  },
-  '/support/help-center': {
-    title: withBrand('Help Center'),
-    description: 'Get help with APEXLyn products and the public site.',
-  },
-  '/support/system-status': {
-    title: withBrand('System Status'),
-    description: 'Operational status for APEXLyn services and the public site.',
-  },
-  '/support/compliance': {
-    title: withBrand('Compliance'),
-    description: 'Compliance-related information and resources from APEXLyn.',
-  },
-  '/support/trust-hub': {
-    title: withBrand('Trust Hub'),
-    description: 'Trust, security, and transparency resources for APEXLyn.',
-  },
-  '/support/cookie-preferences': {
-    title: withBrand('Cookie Preferences'),
-    description: 'Manage cookie preferences for the APEXLyn public site.',
+    title: 'Contact APEXLyn | APEXLyn',
+    description: clipMeta(
+      'Get in touch with APEXLyn. Start a conversation about compliance evidence, AI governance, enterprise deployment, MSP partnership, or government requirements. Based in Sydney, Australia.',
+    ),
   },
   '/industries': {
-    title: 'Industries | APEXLyn',
-    description:
-      'APEXLyn supports healthcare, legal, accounting, insurance, MSP, and professional services environments with evidence-led security and AI governance.',
+    title: pageTitle('Industries — Regulated Sectors'),
+    description: d(
+      'APEXLyn industry guidance for healthcare, legal, accounting, insurance, professional services, and MSP partners — evidence-led security tailored to sector risk.',
+    ),
   },
-  '/trust-center': {
-    title: 'Trust Center | APEXLyn',
-    description:
-      'Review APEXLyn’s trust posture across data residency, access controls, evidence integrity, privacy, and Australian operating conditions.',
+  '/baseline': {
+    title: 'Test Your Security State — Baseline Assessment | APEXLyn',
+    description: clipMeta(
+      "Request a structured baseline assessment of your organisation's security evidence posture. We review your environment and show you where your evidence is strong and where the gaps are. No obligation.",
+    ),
   },
-  '/request-security-documentation': {
+  '/documentation': {
     title: 'Request Security Documentation | APEXLyn',
-    description:
-      'Request relevant APEXLyn security and trust documentation for serious evaluation and review processes.',
+    description: clipMeta(
+      'Request detailed security documentation for APEXLyn Track and Lens. Available for qualified evaluators including enterprise, government, insurance, and regulated-industry assessments. Covers architecture, data handling, evidence schemas, and operational controls.',
+    ),
   },
-  '/trust-center/request-documentation': {
-    title: 'Request Security Documentation | APEXLyn',
-    description:
-      'Request relevant APEXLyn security and trust documentation for serious evaluation and review processes.',
+  '/resources': {
+    title: 'Resources — Security Evidence & AI Governance Insights | APEXLyn',
+    description: clipMeta(
+      'Whitepapers, framework guides, and AI risk briefs from APEXLyn. Practical insights on compliance evidence, Essential Eight, AI governance, and security for Australian organisations.',
+    ),
   },
-  '/test-your-security-state': {
-    title: 'Test Your Security State | APEXLyn',
-    description:
-      'Get a fast baseline across security evidence readiness and AI exposure risk with clear next steps.',
+  '/resources/whitepapers': {
+    title: 'Whitepapers | Resources | APEXLyn',
+    description: clipMeta(
+      'In-depth analysis of compliance evidence, security posture, and evidence infrastructure for Australian organisations. Published by the APEXLyn team.',
+    ),
   },
-  '/test-security-state': {
-    title: 'Test Your Security State | APEXLyn',
+  '/resources/framework-guides': {
+    title: 'Framework Guides | Resources | APEXLyn',
+    description: clipMeta(
+      'Practical guides to Essential Eight, ISO 27001, APRA CPS 234, and other compliance frameworks. What they require, what evidence looks like, and how to prepare.',
+    ),
+  },
+  '/resources/ai-risk-briefs': {
+    title: 'AI Risk Briefs | Resources | APEXLyn',
+    description: clipMeta(
+      'Focused briefings on AI governance risks, regulatory developments, and practical steps for managing AI use across Australian organisations.',
+    ),
+  },
+  '/privacy': {
+    title: 'Privacy Policy | APEXLyn',
     description:
-      'Get a fast baseline across security evidence readiness and AI exposure risk with clear next steps.',
+      'How APEXLyn collects, uses, stores, and protects your personal information. Compliant with the Privacy Act 1988 and the Australian Privacy Principles. APEXLyn Pty Ltd, Sydney, Australia.',
+  },
+  '/terms': {
+    title: 'Terms of Use | APEXLyn',
+    description:
+      'Terms of use for the APEXLyn website. Governs your access to and use of www.apexlyn.com.au. APEXLyn Pty Ltd, Sydney, Australia. Governed by the laws of New South Wales.',
+  },
+  '/cookies': {
+    title: 'Cookie Policy | APEXLyn',
+    description:
+      'How APEXLyn uses cookies and analytics on www.apexlyn.com.au. Privacy-focused analytics hosted in Australia. No advertising cookies. No third-party trackers. Full transparency.',
+  },
+  '/disclaimer': {
+    title: 'Disclaimer | APEXLyn',
+    description:
+      'Important disclaimers for the APEXLyn website. Information provided for general purposes only. Not professional advice. Framework alignment is evidence-based, not certification.',
   },
   '/404': {
     title: 'Page Not Found | APEXLyn',
-    description: 'The page you requested could not be found.',
+    description: '',
   },
 };
 
-const SLUG_INDUSTRY: Record<string, string> = {
-  healthcare: 'Healthcare',
-  legal: 'Legal',
-  accounting: 'Accounting',
-  insurance: 'Insurance',
-  'msp-partners': 'MSP / Partners',
-  'professional-services': 'Professional Services',
+/** Map legacy URLs to canonical path for SEO resolution. */
+const LEGACY_CANONICAL_PATH: Record<string, string> = {
+  '/platforms/track': '/track',
+  '/platforms/lens': '/lens',
+  '/platforms/architecture': '/architecture',
+  '/architecture-overview': '/architecture',
+  '/trust-center': '/trust',
+  '/company/about': '/about',
+  '/test-your-security-state': '/baseline',
+  '/test-security-state': '/baseline',
+  '/request-security-documentation': '/documentation',
+  '/trust-center/request-documentation': '/documentation',
+  '/privacy-policy': '/privacy',
+  '/terms-of-use': '/terms',
 };
 
-/** Section 23+ per-slug SEO where it differs from the generic industry template. */
-const INDUSTRY_SEO_OVERRIDES: Record<string, { title: string; description: string }> = {
-  healthcare: {
-    title: 'Security & Governance for Healthcare Providers | APEXLyn',
-    description:
-      'APEXLyn helps healthcare providers improve security evidence, reduce AI exposure, and strengthen defensible governance.',
-  },
-  legal: {
-    title: 'Security & Governance for Legal Practices | APEXLyn',
-    description:
-      'APEXLyn helps legal practices reduce exposure, govern AI use, and support defensible evidence and reporting.',
-  },
-  accounting: {
-    title: 'Security & Governance for Accounting Firms | APEXLyn',
-    description:
-      'APEXLyn helps accounting firms improve evidence continuity, reduce AI exposure, and strengthen governance under client pressure.',
-  },
-  insurance: {
-    title: 'Security & Governance for Insurance Organisations | APEXLyn',
-    description:
-      'APEXLyn helps insurance organisations improve defensible governance, reduce AI exposure, and strengthen evidence-led reporting.',
-  },
-  'msp-partners': {
-    title: 'Evidence-Led Security for MSPs & Partners | APEXLyn',
-    description:
-      'APEXLyn helps MSPs and partners deliver evidence-led security and AI governance across multiple client environments.',
-  },
-  'professional-services': {
-    title: 'Security & AI Governance for Professional Services | APEXLyn',
-    description:
-      'APEXLyn helps professional services firms reduce exposure, prove control reality, and govern AI usage with stronger evidence.',
-  },
-};
-
-/**
- * Resolves metadata for a pathname (no query string).
- */
 function normalizePathname(pathname: string): string {
   let p = (pathname.split('?')[0] || '/').trim() || '/';
   if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
@@ -323,29 +182,47 @@ function normalizePathname(pathname: string): string {
 }
 
 export function getSeoForPathname(pathname: string): SeoConfig {
-  const p = normalizePathname(pathname);
+  let p = normalizePathname(pathname);
+  p = LEGACY_CANONICAL_PATH[p] ?? p;
+
+  const resourceArticleMatch = /^\/resources\/(whitepapers|framework-guides|ai-risk-briefs)\/([^/]+)$/.exec(p);
+  if (resourceArticleMatch) {
+    const cat = resourceArticleMatch[1];
+    const slug = resourceArticleMatch[2];
+    if (cat && slug) {
+      const r = getPublishedResource(cat, slug);
+      if (r && r.content.trim().length >= 20) {
+        const title = `${r.title} | APEXLyn`;
+        const desc = clipMeta(r.description, 155);
+        return {
+          title,
+          description: desc,
+          ogTitle: title,
+          ogDescription: desc,
+          ogImagePath: DEFAULT_SEO.ogImagePath,
+        };
+      }
+    }
+  }
 
   if (p.startsWith('/industries/') && p !== '/industries') {
-    const parts = p.split('/').filter(Boolean);
-    const slug = parts[1] ?? '';
-    const override = INDUSTRY_SEO_OVERRIDES[slug];
-    if (override) {
+    const slug = p.split('/')[2] ?? '';
+    const row = INDUSTRY_SEO_ROWS[slug];
+    if (row) {
       return {
-        title: override.title,
-        description: override.description,
-        ogTitle: override.title,
-        ogDescription: override.description,
+        title: row.title,
+        description: row.metaDescription,
+        ogTitle: row.title,
+        ogDescription: row.metaDescription,
         ogImagePath: DEFAULT_SEO.ogImagePath,
       };
     }
-    const label = SLUG_INDUSTRY[slug] ?? slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-    return {
-      title: withBrand(`${label} — Industries`),
-      description: `Security, evidence, and AI governance for ${label.toLowerCase()} — APEXLyn industry guidance.`,
-      ogTitle: withBrand(`${label} — Industries`),
-      ogDescription: `Security, evidence, and AI governance for ${label.toLowerCase()} — APEXLyn industry guidance.`,
-      ogImagePath: DEFAULT_SEO.ogImagePath,
-    };
+    const label = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+    const t = pageTitle(`${label} — Industries`);
+    const desc = d(
+      `Security evidence and AI governance for ${label.toLowerCase()} organisations — APEXLyn industry guidance, controls, and assurance patterns for Australia.`,
+    );
+    return { title: t, description: desc, ogTitle: t, ogDescription: desc, ogImagePath: DEFAULT_SEO.ogImagePath };
   }
 
   const row = ROUTES[p];
@@ -359,13 +236,21 @@ export function getSeoForPathname(pathname: string): SeoConfig {
     };
   }
 
+  // §57. / §58.5 — Unknown routes render a 404 page and must not be indexed.
+  const nf = ROUTES['/404'];
   return {
-    title: 'Page Not Found | APEXLyn',
-    description: 'The page you requested could not be found.',
-    ogTitle: 'Page Not Found | APEXLyn',
-    ogDescription: 'The page you requested could not be found.',
+    title: nf.title,
+    description: nf.description,
+    ogTitle: nf.title,
+    ogDescription: nf.description,
     ogImagePath: DEFAULT_SEO.ogImagePath,
   };
+}
+
+export function getCanonicalPath(pathname: string): string {
+  let p = normalizePathname(pathname);
+  p = LEGACY_CANONICAL_PATH[p] ?? p;
+  return p;
 }
 
 export function getAbsoluteUrl(path: string, origin: string, base: string): string {
@@ -375,12 +260,18 @@ export function getAbsoluteUrl(path: string, origin: string, base: string): stri
   return `${origin}${b}${p}`;
 }
 
-export function toSeoConfig(base: SeoConfig): { title: string; description: string; ogTitle: string; ogDescription: string; ogImage: string } {
+export function toSeoConfig(base: SeoConfig): {
+  title: string;
+  description: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+} {
   return {
     title: base.title,
     description: base.description,
     ogTitle: base.ogTitle ?? base.title,
     ogDescription: base.ogDescription ?? base.description,
-    ogImage: base.ogImagePath ?? '/og-default.svg',
+    ogImage: base.ogImagePath ?? '/og/default.png',
   };
 }
