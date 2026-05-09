@@ -25,17 +25,6 @@ const CSS = `
   .cf-network-svg {
     animation: cf-bobFloat 4s ease-in-out infinite;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .cf-network-svg,
-    .cf-cloud-center {
-      animation: none !important;
-    }
-    .cf-network-svg line {
-      animation: none !important;
-      opacity: 0.35 !important;
-      stroke-dashoffset: 0 !important;
-    }
-  }
 `;
 
 const CX = 160,
@@ -232,22 +221,14 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
       <style>{CSS}</style>
       <div
         className={cn(
-          "relative mx-auto flex w-full items-center justify-center",
-          compact
-            ? "h-full min-h-0 max-h-full max-w-full"
-            : "aspect-square max-h-none",
+          "relative mx-auto flex aspect-square w-full items-center justify-center",
           className,
         )}
-        style={
-          compact
-            ? { maxWidth: `min(100%, ${maxSize}px)` }
-            : { maxWidth: maxSize, maxHeight: maxSize }
-        }
+        style={{ maxWidth: maxSize, maxHeight: maxSize }}
       >
         <svg
           className="cf-network-svg h-full w-full"
           viewBox="0 0 320 320"
-          preserveAspectRatio="xMidYMid meet"
           aria-hidden
         >
           <defs>
