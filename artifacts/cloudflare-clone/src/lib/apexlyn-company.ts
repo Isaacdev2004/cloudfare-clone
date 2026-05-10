@@ -11,6 +11,8 @@ export const APEXLN_COMPANY = {
 } as const;
 
 export const FOUNDER_LINKEDIN_URL =
-  (import.meta.env.VITE_FOUNDER_LINKEDIN_URL as string | undefined) || 'https://www.linkedin.com/';
+  (import.meta.env.VITE_PUBLIC_FOUNDER_LINKEDIN_URL as string | undefined) ||
+  (import.meta.env.VITE_FOUNDER_LINKEDIN_URL as string | undefined) ||
+  'https://www.linkedin.com/company/apexlyn';
 
 export const FOUNDER_IMAGE_URL = (import.meta.env.VITE_FOUNDER_IMAGE_URL as string | undefined) || '';

@@ -8,7 +8,7 @@ import { brandLogos } from '@/lib/assets';
 import { subtleLiftHover } from '@/lib/motion';
 
 const CONTACT_SALES_URL = '/enterprise';
-const CASE_STUDIES_URL = '/why-cloudflare';
+const CASE_STUDIES_URL = '/resources';
 
 const CAPABILITIES = [
   {

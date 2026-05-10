@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { Menu, X, ChevronDown, Search, Globe } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ApexlynLogo } from '@/components/ApexlynLogo';
@@ -10,37 +10,20 @@ import { Spinner } from '@/components/ui/spinner';
 import { captureApexPageView, syncPosthogLegalPageMode } from '@/lib/apexlyn-analytics-consent';
 import { initFormAttributionSession, HUBSPOT_FORM_IDS, submitHubSpotForm, validateAnyEmail } from '@/lib/apexlyn-form-shared';
 import { getSeoForPathname } from '@/lib/apexlyn-seo';
+import { APEXLN_COMPANY } from '@/lib/apexlyn-company';
 
 const SIGN_UP_URL = '/pricing';
-const LOGIN_URL = '/pricing';
-const CLOUDFLARE_BLOG_URL = '/resources/blog';
-const CLOUDFLARE_DOCS_URL = '/resources/documentation';
-const CLOUDFLARE_STATUS_URL = '/support/system-status';
-const CLOUDFLARE_COMMUNITY_URL = '/resources/community';
 const COMPANY_CAREERS_HREF = '/company/careers';
-const CLOUDFLARE_PRESS_URL = '/company/press';
-const CLOUDFLARE_INVESTORS_URL = '/company/investors';
-const CLOUDFLARE_TRUST_URL = '/support/trust-hub';
-const CLOUDFLARE_PRIVACY_URL = '/privacy';
-const CLOUDFLARE_TERMS_URL = '/terms';
-const CLOUDFLARE_RADAR_URL = '/resources/case-studies';
-const CLOUDFLARE_SUPPORT_URL = '/support/help-center';
+const LEGAL_PRIVACY_HREF = '/privacy';
+const LEGAL_TERMS_HREF = '/terms';
 
-const NAV_CTA_TEST_SECURITY_HREF = '/test-your-security-state';
-
+/** Internal routes only; legacy placeholder URLs should not remap to non-APEXLyn pages. */
 const normalizeHref = (href: string) => {
   if (href === '#') return '/';
-  if (href.startsWith('http')) {
-    if (href.includes('developers') || href.includes('workers') || href.includes('pages')) return '/developers';
-    if (href.includes('contact')) return '/contact';
-    if (href.includes('enterprise')) return '/enterprise';
-    if (href.includes('plans') || href.includes('pricing') || href.includes('dash.cloudflare.com')) return '/pricing';
-    if (href.includes('zero-trust') || href.includes('sase')) return '/zero-trust';
-    if (href.includes('partners')) return '/solutions';
-    return '/why-cloudflare';
-  }
   return href;
 };
+
+const NAV_CTA_TEST_SECURITY_HREF = '/baseline';
 
 const pathOnly = (path: string) => path.split('?')[0] || '/';
 
@@ -49,7 +32,14 @@ function isRouteInNavGroup(groupName: string, locationPath: string): boolean {
   const p = pathOnly(locationPath);
   switch (groupName) {
     case 'Platforms':
-      return p === '/platforms' || p.startsWith('/platforms/') || p === '/architecture-overview';
+      return (
+        p === '/platforms' ||
+        p.startsWith('/platforms/') ||
+        p === '/architecture-overview' ||
+        p === '/track' ||
+        p === '/lens' ||
+        p === '/architecture'
+      );
     case 'Solutions':
       return p === '/solutions' || p.startsWith('/solutions/');
     case 'Industries':
@@ -57,7 +47,7 @@ function isRouteInNavGroup(groupName: string, locationPath: string): boolean {
     case 'Resources':
       return p === '/resources' || p.startsWith('/resources/');
     case 'Company':
-      return p === '/contact' || p === '/company' || p.startsWith('/company/');
+      return p === '/contact' || p === '/about' || p === '/company' || p.startsWith('/company/');
     default:
       return false;
   }
@@ -72,10 +62,14 @@ function isActiveNavHref(href: string, locationPath: string): boolean {
   return false;
 }
 
-const DESKTOP_DROPDOWN_HOVER_OPEN_MS = 120;
-const DESKTOP_DROPDOWN_HOVER_CLOSE_MS = 150;
+/** §17.3 — hover delays (desktop mega-dropdown). */
+const DESKTOP_DROPDOWN_HOVER_OPEN_MS = 150;
+const DESKTOP_DROPDOWN_HOVER_CLOSE_MS = 300;
 
-/** Section 4 — top nav + dropdowns (master specification). */
+/**
+ * Approved mega-nav structure (founder) with v2.0 routes and descriptions.
+ * §17.3 Solutions + Industries dropdown copy aligns with canonical URLs.
+ */
 const NAV_ITEMS = [
   {
     name: 'Platforms',
@@ -85,9 +79,9 @@ const NAV_ITEMS = [
         {
           title: 'Platforms',
           items: [
-            { label: 'APEXLyn Track Platform', desc: 'Security Evidence Infrastructure', href: '/platforms/track' },
-            { label: 'APEXLyn Lens Platform', desc: 'AI Governance & AI Risk Infrastructure', href: '/platforms/lens' },
-            { label: 'Architecture Overview', desc: 'How Track and Lens fit your stack', href: '/architecture-overview' },
+            { label: 'APEXLyn Track', desc: 'Evidence-led compliance engine', href: '/track' },
+            { label: 'APEXLyn Lens', desc: 'AI security and evidence platform', href: '/lens' },
+            { label: 'Architecture', desc: 'How our evidence infrastructure works', href: '/architecture' },
           ],
         },
       ],
@@ -119,7 +113,7 @@ const NAV_ITEMS = [
           items: [
             { label: 'Healthcare', desc: 'Security and compliance for care delivery', href: '/industries/healthcare' },
             { label: 'Legal', desc: 'Protect matter data and client trust', href: '/industries/legal' },
-            { label: 'Accounting', desc: 'Safeguard financial and client records', href: '/industries/accounting' },
+            { label: 'Accounting & Finance', desc: 'Safeguard financial and client records', href: '/industries/accounting' },
             { label: 'Insurance', desc: 'Resilience for policyholder data', href: '/industries/insurance' },
             { label: 'MSP / Partners', desc: 'Scale security services for customers', href: '/industries/msp-partners' },
             { label: 'Professional Services', desc: 'Confidentiality across client work', href: '/industries/professional-services' },
@@ -146,13 +140,13 @@ const NAV_ITEMS = [
   },
   {
     name: 'Company',
-    href: '/company/about',
+    href: '/about',
     dropdown: {
       columns: [
         {
           title: 'Company',
           items: [
-            { label: 'About', desc: 'Who we are and what we build', href: '/company/about' },
+            { label: 'About', desc: 'Who we are and what we build', href: '/about' },
             { label: 'Careers', desc: 'Join the APEXLyn team', href: COMPANY_CAREERS_HREF },
             { label: 'Contact', desc: 'Speak with our team', href: '/contact' },
           ],
@@ -162,15 +156,14 @@ const NAV_ITEMS = [
   },
 ];
 
-/** Fixed header height for dropdown / main offset — tall enough for a prominent wordmark */
-const HEADER_HEIGHT_PX = 108;
-/** Logo mark height (px); icon + word scale together for visibility */
-const HEADER_LOGO_HEIGHT_PX = 88;
+/** §17.2 — 64px mobile / 72px desktop; logo scaled to fit. */
+const HEADER_LOGO_DESKTOP_PX = 44;
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [headerScrolled, setHeaderScrolled] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterBusy, setNewsletterBusy] = useState(false);
   const [newsletterDone, setNewsletterDone] = useState(false);
@@ -179,6 +172,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openDelayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => setHeaderScrolled(window.scrollY > 100);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -308,17 +308,19 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   return (
     <div className="min-h-screen flex flex-col bg-[#F7F9FC]">
 
-      {/* §8.1 — header stays at top of viewport (fixed = sticky site chrome) on all breakpoints */}
+      {/* §17.2 + approved mega-nav — heights, border, scroll shadow */}
       <header
         ref={headerRef}
-        className="fixed top-0 inset-x-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-sm supports-[backdrop-filter]:bg-white/90 apex-site-header"
-        style={{ height: HEADER_HEIGHT_PX }}
+        className={cn(
+          'fixed top-0 inset-x-0 z-50 w-full border-b border-[#E5E7EB] bg-white apex-site-header',
+          headerScrolled && 'shadow-[0_1px_3px_rgba(0,0,0,0.06)]',
+        )}
       >
-        <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6">
-          <div className="flex min-w-0 flex-1 items-center gap-5 lg:gap-8">
+        <div className="mx-auto flex h-16 min-h-[4rem] w-full max-w-[1200px] items-center justify-between gap-3 px-4 sm:px-6 lg:h-[72px] lg:min-h-[72px]">
+          <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-6">
             <Link
               href="/"
-              className="flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded"
+              className="flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded"
               onClick={dismissDesktopDropdown}
               aria-label="Apexlyn home"
             >
@@ -326,9 +328,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 variant="wordmark"
                 forDarkBackground={false}
                 align="start"
-                height={HEADER_LOGO_HEIGHT_PX}
+                height={HEADER_LOGO_DESKTOP_PX}
                 priority
-                className="w-auto max-w-[min(92vw,560px)] sm:max-w-[min(100%,520px)] lg:max-w-[min(100%,640px)] [&_img]:h-full [&_img]:max-h-[72px] sm:[&_img]:max-h-[80px] lg:[&_img]:max-h-[88px] [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
+                className="w-auto max-w-[min(85vw,420px)] [&_img]:h-full [&_img]:max-h-[36px] [&_img]:w-auto lg:[&_img]:max-h-[44px] [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
               />
             </Link>
 
@@ -347,20 +349,18 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   aria-haspopup="true"
                   aria-label={`${item.name} menu${navItemRoute ? ', current section' : ''}`}
                   className={cn(
-                    'flex items-center gap-0.5 px-2.5 py-2 text-[15px] font-medium transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded xl:px-3',
-                    navItemOpen
-                      ? 'bg-slate-100 text-[#0B1320] ring-1 ring-slate-200/90'
-                      : navItemRoute
-                        ? 'text-[#1E3A8A] font-semibold'
-                        : 'text-slate-800 hover:text-slate-900',
+                    'flex items-center gap-0.5 border-b-2 border-transparent px-2 py-2 text-[15px] font-medium transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2 xl:px-2.5',
+                    navItemOpen || navItemRoute
+                      ? 'border-[#1E3A8A] text-[#0B1320]'
+                      : 'text-[#4B5563] hover:text-[#0B1320]',
                   )}
                 >
                   {item.name}
                   <ChevronDown
                     className={cn(
-                      'h-3.5 w-3.5 text-slate-500 transition-transform duration-200',
+                      'h-3.5 w-3.5 text-[#4B5563] transition-transform duration-200',
                       navItemOpen ? 'rotate-180 text-[#1E3A8A]' : '',
-                      !navItemOpen && navItemRoute ? 'text-[#1E3A8A]/80' : '',
+                      !navItemOpen && navItemRoute ? 'text-[#1E3A8A]' : '',
                     )}
                     aria-hidden
                   />
@@ -368,14 +368,16 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 );
               })}
               <Link
-                href="/trust-center"
+                href="/trust"
                 onClick={dismissDesktopDropdown}
-                aria-current={pathOnly(location) === '/trust-center' ? 'page' : undefined}
+                aria-current={
+                  pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center' ? 'page' : undefined
+                }
                 className={cn(
-                  'px-2.5 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded xl:px-3',
-                  pathOnly(location) === '/trust-center'
-                    ? 'bg-slate-100 font-semibold text-[#0B1320] ring-1 ring-slate-200/90'
-                    : 'text-slate-800 hover:text-slate-900',
+                  'border-b-2 px-2 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2 xl:px-2.5',
+                  pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center'
+                    ? 'border-[#1E3A8A] text-[#0B1320]'
+                    : 'border-transparent text-[#4B5563] hover:text-[#0B1320]',
                 )}
               >
                 Trust Center
@@ -385,91 +387,69 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 onClick={dismissDesktopDropdown}
                 aria-current={pathOnly(location) === '/pricing' ? 'page' : undefined}
                 className={cn(
-                  'px-2.5 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded xl:px-3',
+                  'border-b-2 px-2 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2 xl:px-2.5',
                   pathOnly(location) === '/pricing'
-                    ? 'bg-slate-100 font-semibold text-[#0B1320] ring-1 ring-slate-200/90'
-                    : 'text-slate-800 hover:text-slate-900',
+                    ? 'border-[#1E3A8A] text-[#0B1320]'
+                    : 'border-transparent text-[#4B5563] hover:text-[#0B1320]',
                 )}
               >
                 Pricing
               </Link>
               <Link
+                href="/about"
+                onClick={dismissDesktopDropdown}
+                aria-current={pathOnly(location) === '/about' ? 'page' : undefined}
+                className={cn(
+                  'border-b-2 px-2 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2 xl:px-2.5',
+                  pathOnly(location) === '/about'
+                    ? 'border-[#1E3A8A] text-[#0B1320]'
+                    : 'border-transparent text-[#4B5563] hover:text-[#0B1320]',
+                )}
+              >
+                About
+              </Link>
+              <Link
                 href={NAV_CTA_TEST_SECURITY_HREF}
                 onClick={dismissDesktopDropdown}
                 aria-current={
-                  pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
+                  pathOnly(location) === '/baseline' ||
+                  pathOnly(location) === '/test-your-security-state' ||
+                  pathOnly(location) === '/test-security-state'
                     ? 'page'
                     : undefined
                 }
                 className={cn(
-                  'px-2.5 py-2 text-[15px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded hover:text-[#172554] xl:px-3',
-                  pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
-                    ? 'bg-[#1E3A8A] text-white ring-1 ring-[#1E3A8A] shadow-sm'
-                    : 'text-[#1E3A8A] hover:text-[#172554]',
+                  'mx-0.5 inline-flex items-center rounded-lg border-2 border-[#1E3A8A] px-3 py-2 text-[15px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2',
+                  pathOnly(location) === '/baseline' ||
+                    pathOnly(location) === '/test-your-security-state' ||
+                    pathOnly(location) === '/test-security-state'
+                    ? 'border-[#1E3A8A] bg-[#1E3A8A]/10 text-[#1E3A8A]'
+                    : 'border-[#1E3A8A] bg-transparent text-[#1E3A8A] hover:bg-[#1E3A8A]/5',
                 )}
               >
-                Test Your Security State
+                Test your security state
+              </Link>
+              <Link
+                href="/contact"
+                onClick={dismissDesktopDropdown}
+                className="ml-1 inline-flex items-center rounded-lg bg-[#1E3A8A] px-4 py-2 text-[15px] font-semibold text-white transition-colors hover:bg-[#172E73] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2"
+              >
+                Start a conversation
               </Link>
             </nav>
           </div>
 
-          {/*
-            §7.2 + §8.1 — mobile: logo, compact CTA, menu; header fixed on all viewports.
-            §7.3 + §8.3 — one accordion section at a time; tap toggles (second tap closes).
-          */}
-          <div className="hidden shrink-0 flex-col items-end justify-center gap-1.5 lg:flex">
-            <div className="flex items-center gap-5 text-[13px] font-medium text-slate-700">
-              <Link
-                href="/resources/documentation"
-                className="flex items-center justify-center rounded p-1 text-slate-800 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15"
-                aria-label="Search documentation"
-              >
-                <Search className="h-4 w-4" strokeWidth={2} />
-              </Link>
-              <Link href={CLOUDFLARE_SUPPORT_URL} className="hover:text-black">
-                Support
-              </Link>
-              <span className="hidden text-slate-600 xl:inline">Sales: +1 (888) 555-0199</span>
-              <button
-                type="button"
-                className="flex items-center gap-1 text-slate-800 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded"
-                aria-label="Language"
-              >
-                <Globe className="h-4 w-4" strokeWidth={2} />
-                <ChevronDown className="h-3 w-3 opacity-70" />
-              </button>
-            </div>
-            <div className="flex items-center gap-3">
-              <Link
-                href={LOGIN_URL}
-                className="inline-flex items-center justify-center rounded border border-slate-300 bg-white px-4 py-2 text-[14px] font-semibold text-black transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
-              >
-                Log in
-              </Link>
-            </div>
-          </div>
-
-          <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
-            <Link
-              href={NAV_CTA_TEST_SECURITY_HREF}
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setMobileExpanded(null);
-              }}
-              className="inline-flex max-w-[min(42vw,180px)] items-center justify-center rounded-md bg-[#1E3A8A] px-2.5 py-2 text-center text-[11px] font-semibold leading-tight text-white transition-colors hover:bg-[#172554] sm:px-3 sm:text-xs"
-            >
-              Test security
-            </Link>
+          <div className="flex shrink-0 items-center lg:hidden">
             <button
               type="button"
-              className="-mr-1 shrink-0 p-2 text-slate-900"
+              className="-mr-1 shrink-0 p-2 text-[#0B1320]"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-haspopup="dialog"
               aria-expanded={mobileMenuOpen}
               aria-controls={mobileMenuOpen ? 'site-mobile-nav-panel' : undefined}
             >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {mobileMenuOpen ? <X className="h-6 w-6" strokeWidth={2} /> : <Menu className="h-6 w-6" strokeWidth={2} />}
             </button>
           </div>
         </div>
@@ -484,22 +464,21 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.14, ease: 'easeOut' }}
-            className="fixed left-0 right-0 z-40 border-b border-slate-200 bg-white shadow-[0_24px_48px_-12px_rgba(15,23,42,0.12)]"
-            style={{ top: HEADER_HEIGHT_PX }}
+            className="fixed left-0 right-0 top-16 z-40 border-b border-white/10 bg-[#111827] shadow-[0_8px_24px_rgba(0,0,0,0.15)] lg:top-[72px]"
             onMouseEnter={() => {
               cancelCloseTimer();
               clearOpenDelay();
             }}
             onMouseLeave={startCloseTimer}
           >
-            <div className="max-w-[1280px] mx-auto px-6 py-8">
+            <div className="mx-auto max-w-[1200px] rounded-b-xl px-4 py-4 sm:px-6">
               <div
                 className="grid gap-x-10"
                 style={{ gridTemplateColumns: `repeat(${activeItem.dropdown.columns.length}, 1fr)` }}
               >
                 {activeItem.dropdown.columns.map((col) => (
                   <div key={col.title}>
-                    <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+                    <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-white/50">
                       {col.title}
                     </p>
                     <ul className="space-y-0.5">
@@ -513,24 +492,23 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                             onClick={dismissDesktopDropdown}
                             aria-current={subActive ? 'page' : undefined}
                             className={cn(
-                              'group flex flex-col rounded-md px-2 py-2 transition-colors duration-100',
+                              'group flex flex-col rounded-xl px-3 py-2.5 transition-colors duration-100',
                               subActive
-                                ? 'bg-[#1E3A8A]/8 ring-1 ring-[#1E3A8A]/20'
-                                : 'hover:bg-slate-50',
+                                ? 'bg-white/[0.12] ring-1 ring-white/20'
+                                : 'hover:bg-white/[0.08]',
                             )}
                           >
                             <span
                               className={cn(
-                                'text-[14px] font-medium',
-                                subActive ? 'text-[#1E3A8A]' : 'text-slate-900 group-hover:text-black',
+                                'text-[15px] font-normal',
+                                subActive ? 'text-white' : 'text-white group-hover:text-white',
                               )}
                             >
                               {sub.label}
                             </span>
                             <span
                               className={cn(
-                                'mt-0.5 text-[12px] leading-snug',
-                                subActive ? 'text-slate-700' : 'text-slate-500 group-hover:text-slate-600',
+                                'mt-0.5 text-[13px] leading-snug text-white/60',
                               )}
                             >
                               {sub.desc}
@@ -556,14 +534,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-30 bg-black/20 backdrop-blur-[1px]"
-            style={{ top: HEADER_HEIGHT_PX }}
+            className="fixed inset-0 top-16 z-30 bg-black/20 backdrop-blur-[1px] lg:top-[72px]"
             onClick={dismissDesktopDropdown}
           />
         )}
       </AnimatePresence>
 
-      {/* ── Mobile Menu ── */}
+      {/* ── Mobile Menu — §17.4 Deep Navy drawer (mega-nav content retained) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -571,31 +548,35 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="fixed inset-0 z-[60] overflow-y-auto bg-white lg:hidden"
-            style={{ paddingTop: HEADER_HEIGHT_PX }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="fixed inset-0 z-[60] overflow-y-auto bg-[#0B1320] pt-16 lg:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Site navigation"
           >
-            <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
+            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
               <Link
                 href="/"
-                className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded"
+                className="flex items-center rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Apexlyn home"
               >
                 <ApexlynLogo
                   variant="wordmark"
-                  forDarkBackground={false}
+                  forDarkBackground
                   align="start"
-                  height={72}
+                  height={40}
                   priority
-                  className="h-[72px] w-auto max-w-[min(92vw,520px)] [&_img]:h-full [&_img]:max-h-[72px] [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
+                  className="h-10 w-auto max-w-[min(88vw,400px)] [&_img]:h-full [&_img]:max-h-10 [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
                 />
               </Link>
-              <button type="button" onClick={() => setMobileMenuOpen(false)} className="p-2 text-slate-900" aria-label="Close menu">
-                <X className="h-5 w-5" />
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2 text-white"
+                aria-label="Close menu"
+              >
+                <X className="h-6 w-6" strokeWidth={2} />
               </button>
             </div>
 
@@ -603,18 +584,48 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               {NAV_ITEMS.map((item) => {
                 const sectionOpen = mobileExpanded === item.name;
                 const sectionRoute = isRouteInNavGroup(item.name, location);
+                const flatMenu = item.name === 'Solutions' || item.name === 'Industries';
+
+                if (flatMenu) {
+                  return (
+                    <div key={item.name} className="border-b border-white/10 py-4">
+                      <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-white/50">{item.name}</p>
+                      <div className="flex flex-col gap-1">
+                        {item.dropdown.columns[0].items.map((sub) => {
+                          const mActive = isActiveNavHref(sub.href, location);
+                          return (
+                            <Link
+                              key={sub.label}
+                              href={normalizeHref(sub.href)}
+                              aria-current={mActive ? 'page' : undefined}
+                              className={cn(
+                                'flex flex-col rounded-lg px-2 py-3',
+                                mActive ? 'bg-white/10' : 'hover:bg-white/[0.06]',
+                              )}
+                              onClick={() => {
+                                setMobileMenuOpen(false);
+                                setMobileExpanded(null);
+                              }}
+                            >
+                              <span className="text-[20px] font-medium leading-snug text-white">{sub.label}</span>
+                              {sub.desc ? (
+                                <span className="mt-1 text-[14px] font-normal leading-snug text-white/60">{sub.desc}</span>
+                              ) : null}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                }
+
                 return (
-                  <div key={item.name} className="border-b border-slate-200">
-                    {/* §8.3 — tap opens; second tap on same row closes */}
+                  <div key={item.name} className="border-b border-white/10">
                     <button
                       type="button"
                       className={cn(
-                        'flex w-full items-center justify-between py-4 text-left text-[15px] font-medium',
-                        sectionOpen
-                          ? 'bg-slate-50 text-[#0B1320]'
-                          : sectionRoute
-                            ? 'text-[#1E3A8A] font-semibold'
-                            : 'text-slate-900',
+                        'flex w-full items-center justify-between py-4 text-left text-[20px] font-medium',
+                        sectionOpen ? 'text-white' : sectionRoute ? 'text-[#93C5FD]' : 'text-white',
                       )}
                       onClick={() => setMobileExpanded(mobileExpanded === item.name ? null : item.name)}
                       aria-expanded={sectionOpen}
@@ -623,9 +634,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                       {item.name}
                       <ChevronDown
                         className={cn(
-                          'h-4 w-4 shrink-0 text-slate-500 transition-transform duration-200',
-                          sectionOpen ? 'rotate-180 text-[#1E3A8A]' : '',
-                          !sectionOpen && sectionRoute ? 'text-[#1E3A8A]/80' : '',
+                          'h-5 w-5 shrink-0 text-white/70 transition-transform duration-200',
+                          sectionOpen ? 'rotate-180 text-white' : '',
                         )}
                         aria-hidden
                       />
@@ -640,10 +650,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden"
                         >
-                          <div className="space-y-5 pb-6">
+                          <div className="space-y-4 pb-6">
                             {item.dropdown.columns.map((col) => (
                               <div key={col.title}>
-                                <p className="mb-2 px-1 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+                                <p className="mb-2 px-1 text-[10px] font-semibold uppercase tracking-widest text-white/45">
                                   {col.title}
                                 </p>
                                 {col.items.map((sub) => {
@@ -654,27 +664,18 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                                       href={normalizeHref(sub.href)}
                                       aria-current={mActive ? 'page' : undefined}
                                       className={cn(
-                                        'flex flex-col rounded px-1 py-2',
-                                        mActive
-                                          ? 'bg-[#1E3A8A]/8 ring-1 ring-[#1E3A8A]/15'
-                                          : 'hover:bg-slate-50',
+                                        'flex flex-col rounded-lg px-2 py-2.5',
+                                        mActive ? 'bg-white/10' : 'hover:bg-white/[0.06]',
                                       )}
                                       onClick={() => {
                                         setMobileMenuOpen(false);
                                         setMobileExpanded(null);
                                       }}
                                     >
-                                      <span
-                                        className={cn(
-                                          'text-[14px] font-medium',
-                                          mActive ? 'text-[#1E3A8A]' : 'text-slate-900',
-                                        )}
-                                      >
+                                      <span className={cn('text-[15px] font-medium', mActive ? 'text-white' : 'text-white')}>
                                         {sub.label}
                                       </span>
-                                      <span className={cn('text-[12px]', mActive ? 'text-slate-600' : 'text-slate-500')}>
-                                        {sub.desc}
-                                      </span>
+                                      <span className="mt-0.5 text-[13px] text-white/60">{sub.desc}</span>
                                     </Link>
                                   );
                                 })}
@@ -688,15 +689,15 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 );
               })}
 
-              <div className="mb-1 mt-1 border-b border-slate-200">
+              <div className="mt-1 border-b border-white/10">
                 <Link
-                  href="/trust-center"
-                  aria-current={pathOnly(location) === '/trust-center' ? 'page' : undefined}
+                  href="/trust"
+                  aria-current={
+                    pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center' ? 'page' : undefined
+                  }
                   className={cn(
-                    'block py-3 text-[15px] font-medium',
-                    pathOnly(location) === '/trust-center'
-                      ? 'font-semibold text-[#0B1320] bg-slate-50 -mx-4 px-4 rounded-md'
-                      : 'text-slate-900 hover:text-black',
+                    'block py-4 text-[20px] font-medium text-white',
+                    pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center' ? 'text-[#93C5FD]' : '',
                   )}
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -709,10 +710,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   href="/pricing"
                   aria-current={pathOnly(location) === '/pricing' ? 'page' : undefined}
                   className={cn(
-                    'block py-3 text-[15px] font-medium',
-                    pathOnly(location) === '/pricing'
-                      ? 'font-semibold text-[#0B1320] bg-slate-50 -mx-4 px-4 rounded-md'
-                      : 'text-slate-900 hover:text-black',
+                    'block py-4 text-[20px] font-medium text-white',
+                    pathOnly(location) === '/pricing' ? 'text-[#93C5FD]' : '',
                   )}
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -722,39 +721,57 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   Pricing
                 </Link>
                 <Link
-                  href={NAV_CTA_TEST_SECURITY_HREF}
-                  aria-current={
-                    pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
-                      ? 'page'
-                      : undefined
-                  }
+                  href="/about"
+                  aria-current={pathOnly(location) === '/about' ? 'page' : undefined}
                   className={cn(
-                    'block py-3 text-[15px] font-semibold',
-                    pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
-                      ? 'rounded-md bg-[#1E3A8A] text-white -mx-4 px-4'
-                      : 'text-[#1E3A8A] hover:text-[#172554]',
+                    'block py-4 text-[20px] font-medium text-white',
+                    pathOnly(location) === '/about' ? 'text-[#93C5FD]' : '',
                   )}
                   onClick={() => {
                     setMobileMenuOpen(false);
                     setMobileExpanded(null);
                   }}
                 >
-                  Test Your Security State
+                  About
+                </Link>
+                <Link
+                  href={NAV_CTA_TEST_SECURITY_HREF}
+                  aria-current={
+                    pathOnly(location) === '/baseline' ||
+                    pathOnly(location) === '/test-your-security-state' ||
+                    pathOnly(location) === '/test-security-state'
+                      ? 'page'
+                      : undefined
+                  }
+                  className={cn(
+                    'block border border-white/35 py-4 text-center text-[16px] font-semibold text-white',
+                    pathOnly(location) === '/baseline' ||
+                      pathOnly(location) === '/test-your-security-state' ||
+                      pathOnly(location) === '/test-security-state'
+                      ? 'rounded-lg bg-white/10'
+                      : 'rounded-lg hover:bg-white/[0.06]',
+                  )}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setMobileExpanded(null);
+                  }}
+                >
+                  Test your security state
                 </Link>
               </div>
             </nav>
 
-            <div className="flex flex-col gap-3 px-4 pb-8 pt-4">
+            <div className="flex flex-col gap-4 px-4 pb-10 pt-6">
               <Link
-                href={LOGIN_URL}
-                className="block rounded border border-slate-300 bg-white py-3 text-center text-[14px] font-semibold text-black hover:bg-slate-50"
+                href="/contact"
+                className="block w-full rounded-lg bg-[#1E3A8A] py-3.5 text-center text-[16px] font-semibold text-white transition-colors hover:bg-[#172E73]"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Log in
+                Start a conversation
               </Link>
               <Link
                 href={SIGN_UP_URL}
-                className="block py-3 text-center text-[14px] font-semibold text-[#1E3A8A] hover:underline"
+                className="block py-2 text-center text-[14px] font-medium text-white/70 underline-offset-4 hover:text-white hover:underline"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 View pricing
@@ -765,7 +782,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </AnimatePresence>
 
       {/* ── Main Content ── */}
-      <main className="flex-grow" style={{ paddingTop: HEADER_HEIGHT_PX }}>
+      <main className="flex-grow pt-16 lg:pt-[72px]">
         <GlobalBreadcrumbs className="apex-global-breadcrumbs" />
         {children}
       </main>
@@ -773,15 +790,46 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       <CookieAnalyticsConsent />
 
       {/* ── Footer ── */}
-      <footer className="bg-[#111827] border-t border-white/10 pt-16 pb-8 apex-site-footer">
-        <div className="max-w-[1280px] mx-auto px-6">
+      <footer className="border-t border-white/10 bg-[#0B1320] pt-16 pb-12 apex-site-footer">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-8 mb-12">
             <div className="col-span-2 md:col-span-3 lg:col-span-1 flex flex-col items-start text-left">
               <Link href="/" className="inline-flex items-center justify-start mb-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded w-full" aria-label="Apexlyn home">
                 <ApexlynLogo variant="wordmark" forDarkBackground align="start" height={44} className="h-11 w-auto max-w-full [&_img]:max-w-[min(100%,280px)]" />
               </Link>
-              <p className="text-slate-400 text-sm leading-relaxed">The Evidence-Led Security & AI Governance Infrastructure.</p>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Where Security Becomes Evidence
+                <br />
+                <span className="text-slate-500">Australian cybersecurity and AI governance.</span>
+                <br />
+                <span className="text-slate-500">Two platforms. One evidence standard.</span>
+              </p>
+              <p className="mt-4 text-[13px] text-slate-500 leading-relaxed">
+                ABN: {APEXLN_COMPANY.abn}
+                <br />
+                Email:{' '}
+                <a href={`mailto:${APEXLN_COMPANY.email}`} className="text-slate-400 hover:text-white">
+                  {APEXLN_COMPANY.email}
+                </a>
+                <br />
+                Phone:{' '}
+                {(() => {
+                  const tel = APEXLN_COMPANY.phone.replace(/[^\d+]/g, '');
+                  return tel.length >= 8 ? (
+                    <a href={`tel:${tel}`} className="text-slate-400 hover:text-white">
+                      {APEXLN_COMPANY.phone}
+                    </a>
+                  ) : (
+                    <span className="text-slate-400">{APEXLN_COMPANY.phone}</span>
+                  );
+                })()}
+                <br />
+                Location: Sydney, Australia
+              </p>
               <div className="mt-6 w-full max-w-[320px]">
+                <p className="text-[14px] font-normal leading-relaxed text-slate-300 mb-4">
+                  Stay informed on security evidence and AI governance in Australia.
+                </p>
                 <p className="text-[12px] font-semibold text-white mb-3 uppercase tracking-widest">Newsletter</p>
                 {newsletterDone ? (
                   <p className="text-[13px] text-slate-300 leading-relaxed">
@@ -802,7 +850,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                         setNewsletterEmail(e.target.value);
                         setNewsletterError(null);
                       }}
-                      placeholder="you@company.com"
+                      placeholder="Your work email"
                       className="w-full rounded-md border border-white/15 bg-white/5 px-3 py-2 text-[13px] text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#1E90FF]/40"
                       aria-invalid={newsletterError ? true : undefined}
                       aria-describedby={newsletterError ? 'footer-newsletter-error' : undefined}
@@ -822,7 +870,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                       Subscribe
                     </button>
                     <p className="text-[12px] text-slate-500 leading-relaxed">
-                      Product updates, governance insights, and new resources. Unsubscribe anytime.
+                      We send occasional updates. No spam. Unsubscribe at any time.
                     </p>
                   </form>
                 )}
@@ -833,9 +881,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               {
                 title: 'Platforms',
                 links: [
-                  { label: 'APEXLyn Track Platform', href: '/platforms/track' },
-                  { label: 'APEXLyn Lens Platform', href: '/platforms/lens' },
-                  { label: 'Architecture Overview', href: '/architecture-overview' },
+                  { label: 'Track — Compliance Evidence', href: '/track' },
+                  { label: 'Lens — AI Governance', href: '/lens' },
+                  { label: 'Architecture', href: '/architecture' },
+                  { label: 'Pricing', href: '/pricing' },
+                  { label: 'Trust Center', href: '/trust' },
                 ],
               },
               {
@@ -866,18 +916,17 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 ],
               },
               {
-                title: 'Trust',
-                links: [
-                  { label: 'Trust Center', href: '/trust-center' },
-                  { label: 'Request Security Documentation', href: '/request-security-documentation' },
-                ],
-              },
-              {
                 title: 'Company',
                 links: [
-                  { label: 'About', href: '/company/about' },
+                  { label: 'About', href: '/about' },
                   { label: 'Careers', href: COMPANY_CAREERS_HREF },
                   { label: 'Contact', href: '/contact' },
+                  { label: 'Resources', href: '/resources' },
+                  { label: 'Request Documentation', href: '/documentation' },
+                  { label: 'Privacy Policy', href: '/privacy' },
+                  { label: 'Terms of Use', href: '/terms' },
+                  { label: 'Cookie Policy', href: '/cookies' },
+                  { label: 'Disclaimer', href: '/disclaimer' },
                 ],
               },
             ].map((col) => (
@@ -895,16 +944,28 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           </div>
 
           <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3 text-[13px] text-slate-500">
-            <p>© APEXLyn. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} APEXLyn Pty Ltd. All rights reserved.</p>
             <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
-              <Link href={normalizeHref(CLOUDFLARE_PRIVACY_URL)} className="hover:text-slate-300 transition-colors">
-                Privacy
+              <Link href={LEGAL_PRIVACY_HREF} className="hover:text-slate-300 transition-colors">
+                Privacy Policy
               </Link>
               <span className="text-slate-600" aria-hidden>
                 ·
               </span>
-              <Link href={normalizeHref(CLOUDFLARE_TERMS_URL)} className="hover:text-slate-300 transition-colors">
-                Terms
+              <Link href={LEGAL_TERMS_HREF} className="hover:text-slate-300 transition-colors">
+                Terms of Use
+              </Link>
+              <span className="text-slate-600" aria-hidden>
+                ·
+              </span>
+              <Link href="/cookies" className="hover:text-slate-300 transition-colors">
+                Cookie Policy
+              </Link>
+              <span className="text-slate-600" aria-hidden>
+                ·
+              </span>
+              <Link href="/disclaimer" className="hover:text-slate-300 transition-colors">
+                Disclaimer
               </Link>
             </p>
           </div>
