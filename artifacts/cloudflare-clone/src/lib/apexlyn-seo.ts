@@ -31,9 +31,9 @@ function d(text: string): string {
   return u.slice(0, 160);
 }
 
-/** §27 — Homepage meta (Part 3); ≤160 chars for §20.2 while preserving keywords. */
+/** §27 — Homepage meta (Part 3); verbatim where length allows §20.2. */
 const HOME_META_DESCRIPTION =
-  'Australian cybersecurity and AI governance platforms. Track makes compliance provable. Lens governs AI with forensic proof. From small business to government.';
+  'Australian cybersecurity and AI governance platforms. Track turns compliance into provable evidence. Lens governs AI use with forensic-grade proof. From small business to government.';
 
 export const DEFAULT_SEO: SeoConfig = {
   title: HOME_TITLE,

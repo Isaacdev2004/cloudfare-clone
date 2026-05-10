@@ -10,37 +10,23 @@ import { Spinner } from '@/components/ui/spinner';
 import { captureApexPageView, syncPosthogLegalPageMode } from '@/lib/apexlyn-analytics-consent';
 import { initFormAttributionSession, HUBSPOT_FORM_IDS, submitHubSpotForm, validateAnyEmail } from '@/lib/apexlyn-form-shared';
 import { getSeoForPathname } from '@/lib/apexlyn-seo';
+import { APEXLN_COMPANY } from '@/lib/apexlyn-company';
 
 const SIGN_UP_URL = '/pricing';
 const LOGIN_URL = '/pricing';
-const CLOUDFLARE_BLOG_URL = '/resources/blog';
-const CLOUDFLARE_DOCS_URL = '/resources/documentation';
-const CLOUDFLARE_STATUS_URL = '/support/system-status';
-const CLOUDFLARE_COMMUNITY_URL = '/resources/community';
+const SUPPORT_CONTACT_HREF = '/contact';
+const DOCUMENTATION_HREF = '/resources/documentation';
 const COMPANY_CAREERS_HREF = '/company/careers';
-const CLOUDFLARE_PRESS_URL = '/company/press';
-const CLOUDFLARE_INVESTORS_URL = '/company/investors';
-const CLOUDFLARE_TRUST_URL = '/support/trust-hub';
-const CLOUDFLARE_PRIVACY_URL = '/privacy';
-const CLOUDFLARE_TERMS_URL = '/terms';
-const CLOUDFLARE_RADAR_URL = '/resources/case-studies';
-const CLOUDFLARE_SUPPORT_URL = '/support/help-center';
+const LEGAL_PRIVACY_HREF = '/privacy';
+const LEGAL_TERMS_HREF = '/terms';
 
-const NAV_CTA_TEST_SECURITY_HREF = '/test-your-security-state';
-
+/** Internal routes only; legacy placeholder URLs should not remap to non-APEXLyn pages. */
 const normalizeHref = (href: string) => {
   if (href === '#') return '/';
-  if (href.startsWith('http')) {
-    if (href.includes('developers') || href.includes('workers') || href.includes('pages')) return '/developers';
-    if (href.includes('contact')) return '/contact';
-    if (href.includes('enterprise')) return '/enterprise';
-    if (href.includes('plans') || href.includes('pricing') || href.includes('dash.cloudflare.com')) return '/pricing';
-    if (href.includes('zero-trust') || href.includes('sase')) return '/zero-trust';
-    if (href.includes('partners')) return '/solutions';
-    return '/why-cloudflare';
-  }
   return href;
 };
+
+const NAV_CTA_TEST_SECURITY_HREF = '/baseline';
 
 const pathOnly = (path: string) => path.split('?')[0] || '/';
 
@@ -49,7 +35,14 @@ function isRouteInNavGroup(groupName: string, locationPath: string): boolean {
   const p = pathOnly(locationPath);
   switch (groupName) {
     case 'Platforms':
-      return p === '/platforms' || p.startsWith('/platforms/') || p === '/architecture-overview';
+      return (
+        p === '/platforms' ||
+        p.startsWith('/platforms/') ||
+        p === '/architecture-overview' ||
+        p === '/track' ||
+        p === '/lens' ||
+        p === '/architecture'
+      );
     case 'Solutions':
       return p === '/solutions' || p.startsWith('/solutions/');
     case 'Industries':
@@ -84,10 +77,10 @@ const NAV_ITEMS = [
       columns: [
         {
           title: 'Platforms',
-          items: [
-            { label: 'APEXLyn Track Platform', desc: 'Security Evidence Infrastructure', href: '/platforms/track' },
-            { label: 'APEXLyn Lens Platform', desc: 'AI Governance & AI Risk Infrastructure', href: '/platforms/lens' },
-            { label: 'Architecture Overview', desc: 'How Track and Lens fit your stack', href: '/architecture-overview' },
+            items: [
+            { label: 'APEXLyn Track Platform', desc: 'Evidence-led compliance engine', href: '/track' },
+            { label: 'APEXLyn Lens Platform', desc: 'AI security and evidence platform', href: '/lens' },
+            { label: 'Architecture Overview', desc: 'How our evidence infrastructure works', href: '/architecture' },
           ],
         },
       ],
@@ -314,7 +307,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         className="fixed top-0 inset-x-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-sm supports-[backdrop-filter]:bg-white/90 apex-site-header"
         style={{ height: HEADER_HEIGHT_PX }}
       >
-        <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="mx-auto flex h-full max-w-[1200px] items-center justify-between gap-4 px-4 sm:px-6">
           <div className="flex min-w-0 flex-1 items-center gap-5 lg:gap-8">
             <Link
               href="/"
@@ -368,12 +361,14 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 );
               })}
               <Link
-                href="/trust-center"
+                href="/trust"
                 onClick={dismissDesktopDropdown}
-                aria-current={pathOnly(location) === '/trust-center' ? 'page' : undefined}
+                aria-current={
+                  pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center' ? 'page' : undefined
+                }
                 className={cn(
                   'px-2.5 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded xl:px-3',
-                  pathOnly(location) === '/trust-center'
+                  pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center'
                     ? 'bg-slate-100 font-semibold text-[#0B1320] ring-1 ring-slate-200/90'
                     : 'text-slate-800 hover:text-slate-900',
                 )}
@@ -397,13 +392,17 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 href={NAV_CTA_TEST_SECURITY_HREF}
                 onClick={dismissDesktopDropdown}
                 aria-current={
-                  pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
+                  pathOnly(location) === '/baseline' ||
+                  pathOnly(location) === '/test-your-security-state' ||
+                  pathOnly(location) === '/test-security-state'
                     ? 'page'
                     : undefined
                 }
                 className={cn(
                   'px-2.5 py-2 text-[15px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded hover:text-[#172554] xl:px-3',
-                  pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
+                  pathOnly(location) === '/baseline' ||
+                    pathOnly(location) === '/test-your-security-state' ||
+                    pathOnly(location) === '/test-security-state'
                     ? 'bg-[#1E3A8A] text-white ring-1 ring-[#1E3A8A] shadow-sm'
                     : 'text-[#1E3A8A] hover:text-[#172554]',
                 )}
@@ -420,16 +419,21 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           <div className="hidden shrink-0 flex-col items-end justify-center gap-1.5 lg:flex">
             <div className="flex items-center gap-5 text-[13px] font-medium text-slate-700">
               <Link
-                href="/resources/documentation"
+                href={DOCUMENTATION_HREF}
                 className="flex items-center justify-center rounded p-1 text-slate-800 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15"
                 aria-label="Search documentation"
               >
                 <Search className="h-4 w-4" strokeWidth={2} />
               </Link>
-              <Link href={CLOUDFLARE_SUPPORT_URL} className="hover:text-black">
+              <Link href={SUPPORT_CONTACT_HREF} className="hover:text-black">
                 Support
               </Link>
-              <span className="hidden text-slate-600 xl:inline">Sales: +1 (888) 555-0199</span>
+              <a
+                href={`mailto:${APEXLN_COMPANY.email}`}
+                className="hidden text-slate-600 underline-offset-2 hover:underline xl:inline"
+              >
+                {APEXLN_COMPANY.email}
+              </a>
               <button
                 type="button"
                 className="flex items-center gap-1 text-slate-800 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/15 rounded"
@@ -492,7 +496,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             }}
             onMouseLeave={startCloseTimer}
           >
-            <div className="max-w-[1280px] mx-auto px-6 py-8">
+            <div className="max-w-[1200px] mx-auto px-6 py-8">
               <div
                 className="grid gap-x-10"
                 style={{ gridTemplateColumns: `repeat(${activeItem.dropdown.columns.length}, 1fr)` }}
@@ -690,11 +694,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
               <div className="mb-1 mt-1 border-b border-slate-200">
                 <Link
-                  href="/trust-center"
-                  aria-current={pathOnly(location) === '/trust-center' ? 'page' : undefined}
+                  href="/trust"
+                  aria-current={
+                    pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center' ? 'page' : undefined
+                  }
                   className={cn(
                     'block py-3 text-[15px] font-medium',
-                    pathOnly(location) === '/trust-center'
+                    pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center'
                       ? 'font-semibold text-[#0B1320] bg-slate-50 -mx-4 px-4 rounded-md'
                       : 'text-slate-900 hover:text-black',
                   )}
@@ -724,13 +730,17 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 <Link
                   href={NAV_CTA_TEST_SECURITY_HREF}
                   aria-current={
-                    pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
+                    pathOnly(location) === '/baseline' ||
+                    pathOnly(location) === '/test-your-security-state' ||
+                    pathOnly(location) === '/test-security-state'
                       ? 'page'
                       : undefined
                   }
                   className={cn(
                     'block py-3 text-[15px] font-semibold',
-                    pathOnly(location) === '/test-your-security-state' || pathOnly(location) === '/test-security-state'
+                    pathOnly(location) === '/baseline' ||
+                      pathOnly(location) === '/test-your-security-state' ||
+                      pathOnly(location) === '/test-security-state'
                       ? 'rounded-md bg-[#1E3A8A] text-white -mx-4 px-4'
                       : 'text-[#1E3A8A] hover:text-[#172554]',
                   )}
@@ -774,14 +784,45 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
       {/* ── Footer ── */}
       <footer className="bg-[#111827] border-t border-white/10 pt-16 pb-8 apex-site-footer">
-        <div className="max-w-[1280px] mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-8 mb-12">
             <div className="col-span-2 md:col-span-3 lg:col-span-1 flex flex-col items-start text-left">
               <Link href="/" className="inline-flex items-center justify-start mb-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded w-full" aria-label="Apexlyn home">
                 <ApexlynLogo variant="wordmark" forDarkBackground align="start" height={44} className="h-11 w-auto max-w-full [&_img]:max-w-[min(100%,280px)]" />
               </Link>
-              <p className="text-slate-400 text-sm leading-relaxed">The Evidence-Led Security & AI Governance Infrastructure.</p>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Where Security Becomes Evidence
+                <br />
+                <span className="text-slate-500">Australian cybersecurity and AI governance.</span>
+                <br />
+                <span className="text-slate-500">Two platforms. One evidence standard.</span>
+              </p>
+              <p className="mt-4 text-[13px] text-slate-500 leading-relaxed">
+                ABN: {APEXLN_COMPANY.abn}
+                <br />
+                Email:{' '}
+                <a href={`mailto:${APEXLN_COMPANY.email}`} className="text-slate-400 hover:text-white">
+                  {APEXLN_COMPANY.email}
+                </a>
+                <br />
+                Phone:{' '}
+                {(() => {
+                  const tel = APEXLN_COMPANY.phone.replace(/[^\d+]/g, '');
+                  return tel.length >= 8 ? (
+                    <a href={`tel:${tel}`} className="text-slate-400 hover:text-white">
+                      {APEXLN_COMPANY.phone}
+                    </a>
+                  ) : (
+                    <span className="text-slate-400">{APEXLN_COMPANY.phone}</span>
+                  );
+                })()}
+                <br />
+                Location: Sydney, Australia
+              </p>
               <div className="mt-6 w-full max-w-[320px]">
+                <p className="text-[14px] font-normal leading-relaxed text-slate-300 mb-4">
+                  Stay informed on security evidence and AI governance in Australia.
+                </p>
                 <p className="text-[12px] font-semibold text-white mb-3 uppercase tracking-widest">Newsletter</p>
                 {newsletterDone ? (
                   <p className="text-[13px] text-slate-300 leading-relaxed">
@@ -802,7 +843,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                         setNewsletterEmail(e.target.value);
                         setNewsletterError(null);
                       }}
-                      placeholder="you@company.com"
+                      placeholder="Your work email"
                       className="w-full rounded-md border border-white/15 bg-white/5 px-3 py-2 text-[13px] text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#1E90FF]/40"
                       aria-invalid={newsletterError ? true : undefined}
                       aria-describedby={newsletterError ? 'footer-newsletter-error' : undefined}
@@ -822,7 +863,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                       Subscribe
                     </button>
                     <p className="text-[12px] text-slate-500 leading-relaxed">
-                      Product updates, governance insights, and new resources. Unsubscribe anytime.
+                      We send occasional updates. No spam. Unsubscribe at any time.
                     </p>
                   </form>
                 )}
@@ -833,9 +874,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               {
                 title: 'Platforms',
                 links: [
-                  { label: 'APEXLyn Track Platform', href: '/platforms/track' },
-                  { label: 'APEXLyn Lens Platform', href: '/platforms/lens' },
-                  { label: 'Architecture Overview', href: '/architecture-overview' },
+                  { label: 'Track — Compliance Evidence', href: '/track' },
+                  { label: 'Lens — AI Governance', href: '/lens' },
+                  { label: 'Architecture', href: '/architecture' },
+                  { label: 'Pricing', href: '/pricing' },
+                  { label: 'Trust Center', href: '/trust' },
                 ],
               },
               {
@@ -866,18 +909,17 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 ],
               },
               {
-                title: 'Trust',
-                links: [
-                  { label: 'Trust Center', href: '/trust-center' },
-                  { label: 'Request Security Documentation', href: '/request-security-documentation' },
-                ],
-              },
-              {
                 title: 'Company',
                 links: [
-                  { label: 'About', href: '/company/about' },
+                  { label: 'About', href: '/about' },
                   { label: 'Careers', href: COMPANY_CAREERS_HREF },
                   { label: 'Contact', href: '/contact' },
+                  { label: 'Resources', href: '/resources' },
+                  { label: 'Request Documentation', href: '/documentation' },
+                  { label: 'Privacy Policy', href: '/privacy' },
+                  { label: 'Terms of Use', href: '/terms' },
+                  { label: 'Cookie Policy', href: '/cookies' },
+                  { label: 'Disclaimer', href: '/disclaimer' },
                 ],
               },
             ].map((col) => (
@@ -895,16 +937,28 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           </div>
 
           <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3 text-[13px] text-slate-500">
-            <p>© APEXLyn. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} APEXLyn Pty Ltd. All rights reserved.</p>
             <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
-              <Link href={normalizeHref(CLOUDFLARE_PRIVACY_URL)} className="hover:text-slate-300 transition-colors">
-                Privacy
+              <Link href={LEGAL_PRIVACY_HREF} className="hover:text-slate-300 transition-colors">
+                Privacy Policy
               </Link>
               <span className="text-slate-600" aria-hidden>
                 ·
               </span>
-              <Link href={normalizeHref(CLOUDFLARE_TERMS_URL)} className="hover:text-slate-300 transition-colors">
-                Terms
+              <Link href={LEGAL_TERMS_HREF} className="hover:text-slate-300 transition-colors">
+                Terms of Use
+              </Link>
+              <span className="text-slate-600" aria-hidden>
+                ·
+              </span>
+              <Link href="/cookies" className="hover:text-slate-300 transition-colors">
+                Cookie Policy
+              </Link>
+              <span className="text-slate-600" aria-hidden>
+                ·
+              </span>
+              <Link href="/disclaimer" className="hover:text-slate-300 transition-colors">
+                Disclaimer
               </Link>
             </p>
           </div>

@@ -415,13 +415,18 @@ export function CompanyImpactPage() {
       highlights={['Public-interest programs', 'Digital resilience', 'Security initiatives', 'Community outcomes']}
       quickLinks={[
         { label: 'About Us', href: '/about' },
-        { label: 'Trust Hub', href: '/support/trust-hub' },
+        { label: 'Trust Center', href: '/trust' },
       ]}
       featureCards={[
-        { title: 'Trust Hub', body: 'Review transparency resources tied to security and privacy posture.', href: '/support/trust-hub', cta: 'Open trust hub' },
+        {
+          title: 'Trust Center',
+          body: 'Review transparency resources tied to security and privacy posture.',
+          href: '/trust',
+          cta: 'Open Trust Center',
+        },
       ]}
-      ctaLabel="Visit Why Apexlyn"
-      ctaHref="/why-cloudflare"
+      ctaLabel="About APEXLyn"
+      ctaHref="/about"
     />
   );
 }
