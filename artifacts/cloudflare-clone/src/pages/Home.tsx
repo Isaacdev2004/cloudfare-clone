@@ -10,7 +10,7 @@ import {
   Scale,
   ShieldCheck,
 } from 'lucide-react';
-import { HeroFrameworkOrbitVisual } from '@/components/hero/HeroFrameworkOrbitVisual';
+import { HeroHomePlatformVisual } from '@/components/hero/HeroHomePlatformVisual';
 import {
   TrustChainVisual,
   TrustRegionVisual,
@@ -250,8 +250,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-white">
-      {/* §27.1 Hero — approved orbit visual retained (desktop); Layer 1 copy per spec */}
-      <section className="relative overflow-hidden bg-[#0B1320] text-white">
+      {/* §27.1 Hero — approved Track/Lens visuals (§7.4: visual after CTAs on mobile) */}
+      <section className="relative overflow-x-clip bg-[#0B1320] text-white">
         <div className={cn(container, 'py-16 sm:py-20 lg:py-24')}>
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="min-w-0 lg:col-span-7">
@@ -285,9 +285,9 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <div className="relative hidden min-h-[280px] min-w-0 items-center justify-center lg:col-span-5 lg:flex">
-              <div className="flex h-[min(54vh,460px)] w-full max-w-[520px] items-center justify-center">
-                <HeroFrameworkOrbitVisual />
+            <div className="relative flex min-h-[280px] min-w-0 flex-col items-center justify-center lg:col-span-5">
+              <div className="flex h-[min(72vw,380px)] w-full max-w-[520px] items-center justify-center sm:h-[min(58vh,440px)] lg:h-[min(54vh,460px)]">
+                <HeroHomePlatformVisual className="h-full w-full" />
               </div>
             </div>
           </div>
