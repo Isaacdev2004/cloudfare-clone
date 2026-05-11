@@ -41,4 +41,4 @@
 
 ## Next PDF slice
 
-**HubSpot setup + live form submission testing** (six forms, env in **`.env.example`**, **`pnpm run verify:hubspot`**) alongside **Pricing**, **About**, **Contact**, **Baseline**, **Documentation**, **Resources**, and **Legal** per the v2.0 PDF after Part 8 — not copy/layout-only passes.
+**HubSpot** portal ID + six form GUIDs: **deferred** (client); run **`pnpm run verify:hubspot`** when received. **In progress without HubSpot:** Pricing, About, Contact, Baseline, Documentation, Resources, Legal, and remaining §16 routes per the v2.0 PDF after Part 8.

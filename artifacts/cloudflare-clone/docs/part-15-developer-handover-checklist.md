@@ -2,6 +2,9 @@
 
 This repo is a **Vite + React** implementation of the APEXLyn public website spec. The build spec text references Next.js, but the operational requirements (HubSpot, PostHog, GSC, DNS/SSL, diagrams) are implemented here.
 
+### Blocked on client (HubSpot — only remaining launch item)
+- **HubSpot portal ID** + **six form GUIDs** (contact, baseline, documentation, newsletter, resource interest, PDF download). Client indicated these will follow within ~4 hours of handoff (May 2026). Until then: dev may simulate; production requires live IDs or **`VITE_HUBSPOT_ALLOW_SIMULATED=true`** on staging only.
+
 ### Founder-provided values (must confirm before launch)
 - **Primary site email**: (may differ from `hello@apexlyn.com.au`)
 - **Form notification email(s)**: (may differ from primary email)

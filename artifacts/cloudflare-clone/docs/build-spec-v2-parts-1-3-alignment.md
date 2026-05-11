@@ -86,8 +86,8 @@
 ## What is *not* claimed aligned (yet)
 
 - **Inner pages** beyond homepage **and** beyond **Parts 4–6** (Track, Lens, Architecture): Trust, Pricing, About, Contact, Baseline, Documentation, industries, resource hubs, legal pages, **§16-only** routes still require **verbatim** PDF passes where not already rebuilt.
-- **HubSpot** live CRM: env vars + portal forms + end-to-end QA (**handover checklist**).
+- **HubSpot** live CRM: **deferred** until client supplies portal ID + six form GUIDs (only remaining launch item per client, May 2026). Code + **`.env.example`** + **`pnpm run verify:hubspot`** ready.
 - **Full reduced-motion** audit sitewide (Part 1 §12.3).
 - **§10.x card specs** on remaining pages — home + platform pages follow spec sections; global card utilities not fully centralized everywhere.
 
-**Parts 4–8** are documented in the linked alignment files above. Next suggested build slice: **Pricing** and conversion pages (Contact, Baseline, Documentation) per the PDF section order after Part 8.
+**Parts 4–8** are documented in the linked alignment files above. **Active pass (no HubSpot):** Pricing, About, Contact, Baseline, Documentation, Resources, Legal, and remaining §16 routes per the PDF after Part 8.
