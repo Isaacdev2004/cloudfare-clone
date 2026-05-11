@@ -3,7 +3,7 @@
 **Authoritative source:** *APEXLyn Public Website — Complete Build Specification v2.0* (May 2026).  
 **Purpose:** One place to verify **no cross mixing** between Part 1 (design system), Part 2 (global shell / SEO / legal plumbing), and Part 3 (homepage). Anything outside these parts is **out of scope** for this checklist.
 
-**Follow-on:** Platform and architecture pages (**Parts 4–6**) are tracked in **[build-spec-v2-parts-4-6-alignment.md](./build-spec-v2-parts-4-6-alignment.md)**.
+**Follow-on:** Platform and architecture (**Parts 4–6**) → **[build-spec-v2-parts-4-6-alignment.md](./build-spec-v2-parts-4-6-alignment.md)**. Industry pages (**Part 7**) → **[build-spec-v2-part-7-industries-alignment.md](./build-spec-v2-part-7-industries-alignment.md)**. Trust Center (**Part 8**) → **[build-spec-v2-part-8-trust-alignment.md](./build-spec-v2-part-8-trust-alignment.md)**.
 
 **Stack (documented deviation from §15.1):** The repo ships as **Vite + React + Wouter + TanStack Query**, not Next.js. Behaviour is matched where the spec is framework-agnostic (routing, UI, consent, metadata injection). Features that inherently require Next (e.g. `sitemap.ts` generation) are implemented as **static files** or **client `DocumentSeo`** instead. **Written founder approval** is required per §2.1 if compliance reviews insist on Next.js by name.
 
@@ -90,4 +90,4 @@
 - **Full reduced-motion** audit sitewide (Part 1 §12.3).
 - **§10.x card specs** on remaining pages — home + platform pages follow spec sections; global card utilities not fully centralized everywhere.
 
-**Parts 4–6** are documented in **[build-spec-v2-parts-4-6-alignment.md](./build-spec-v2-parts-4-6-alignment.md)**. Next suggested slice: **Part 7 Trust Center** (`/trust`).
+**Parts 4–8** are documented in the linked alignment files above. Next suggested build slice: **Pricing** and conversion pages (Contact, Baseline, Documentation) per the PDF section order after Part 8.

@@ -68,4 +68,4 @@
 
 ## Recommended next document slice
 
-**PART 7 — Trust Center (`/trust`)** and subsequent parts (Pricing, About, Contact, forms, industries, resources, legal): content largely lives in **`apexlyn-trust-content.ts`** + **`TrustCenterPage.tsx`** for Trust. Add **`build-spec-v2-part-7-trust-alignment.md`** (or a single **Parts 7+** file) when doing a **verbatim copy pass** against the PDF.
+**PART 7 — Industry pages (§31–§38)** and **PART 8 — Trust Center (§39)** — see **[build-spec-v2-part-7-industries-alignment.md](./build-spec-v2-part-7-industries-alignment.md)** and **[build-spec-v2-part-8-trust-alignment.md](./build-spec-v2-part-8-trust-alignment.md)**. Subsequent PDF parts: Pricing, About, Contact, forms, resources, legal.
