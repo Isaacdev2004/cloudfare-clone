@@ -30,12 +30,15 @@ Set these in your hosting environment:
 - `VITE_HUBSPOT_FORM_APEXLYN_PDF_DOWNLOAD`
 
 ### HubSpot setup checklist (developer responsibility)
+- Copy **`.env.example`** → **`.env.local`** (dev) and set the same keys in hosting for production
 - Create HubSpot account + confirm data hosting settings if AU hosting is desired/available
 - Create the 6 forms: contact, baseline, documentation, newsletter, resource interest, PDF download
 - Create the custom contact properties listed in the spec (inquiry type, org type, platform interest, etc.)
 - Create two deal pipelines (Baseline Assessment, Documentation Request) and automation/workflows
 - Configure notification emails and priority routing workflows
-- Test end-to-end submissions for all forms (confirm fields + hidden attribution fields)
+- Run **`pnpm run verify:hubspot`** after IDs are set (live API smoke test for all six forms)
+- Test end-to-end in the browser for all forms (confirm fields + hidden attribution fields)
+- Production builds require live HubSpot IDs unless **`VITE_HUBSPOT_ALLOW_SIMULATED=true`** (dev/staging only)
 
 ---
 

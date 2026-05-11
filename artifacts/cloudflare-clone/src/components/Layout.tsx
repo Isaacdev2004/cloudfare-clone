@@ -8,7 +8,13 @@ import { CookieAnalyticsConsent } from '@/components/CookieAnalyticsConsent';
 import { GlobalBreadcrumbs } from '@/components/GlobalBreadcrumbs';
 import { Spinner } from '@/components/ui/spinner';
 import { captureApexPageView, syncPosthogLegalPageMode } from '@/lib/apexlyn-analytics-consent';
-import { initFormAttributionSession, HUBSPOT_FORM_IDS, submitHubSpotForm, validateAnyEmail } from '@/lib/apexlyn-form-shared';
+import {
+  formatHubSpotSubmitError,
+  HUBSPOT_FORM_IDS,
+  initFormAttributionSession,
+  submitHubSpotForm,
+  validateWorkEmail,
+} from '@/lib/apexlyn-form-shared';
 import { getSeoForPathname } from '@/lib/apexlyn-seo';
 import { APEXLN_COMPANY } from '@/lib/apexlyn-company';
 
@@ -281,7 +287,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       if (newsletterBusy || newsletterDone) return;
 
       const email = newsletterEmail.trim();
-      const v = validateAnyEmail(email);
+      const v = validateWorkEmail(email);
       if (v) {
         setNewsletterError(v);
         return;
@@ -290,14 +296,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       setNewsletterBusy(true);
       setNewsletterError(null);
       try {
-        await submitHubSpotForm({
-          formId: HUBSPOT_FORM_IDS.newsletter,
-          fields: [{ name: 'email', value: email }],
-          options: { includeMarketingFields: true },
-        });
+        await submitHubSpotForm(HUBSPOT_FORM_IDS.apexlyn_newsletter, [{ name: 'email', value: email }]);
         setNewsletterDone(true);
       } catch (err) {
-        setNewsletterError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+        setNewsletterError(formatHubSpotSubmitError(err));
       } finally {
         setNewsletterBusy(false);
       }

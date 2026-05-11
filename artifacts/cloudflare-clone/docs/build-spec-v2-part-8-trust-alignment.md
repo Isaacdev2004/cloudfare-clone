@@ -41,4 +41,4 @@
 
 ## Next PDF slice
 
-Continue with **Pricing**, **About**, **Contact**, **Baseline**, **Documentation**, **Resources**, and **Legal** sections as numbered in the v2.0 PDF after Part 8 (add **`build-spec-v2-part-9-pricing-alignment.md`** or equivalent when that pass starts).
+**HubSpot setup + live form submission testing** (six forms, env in **`.env.example`**, **`pnpm run verify:hubspot`**) alongside **Pricing**, **About**, **Contact**, **Baseline**, **Documentation**, **Resources**, and **Legal** per the v2.0 PDF after Part 8 — not copy/layout-only passes.
