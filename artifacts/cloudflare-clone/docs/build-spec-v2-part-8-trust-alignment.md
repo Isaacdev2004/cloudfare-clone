@@ -41,4 +41,4 @@
 
 ## Next PDF slice
 
-**HubSpot** portal ID + six form GUIDs: **deferred** (client); run **`pnpm run verify:hubspot`** when received. **In progress without HubSpot:** Pricing, About, Contact, Baseline, Documentation, Resources, Legal, and remaining §16 routes per the v2.0 PDF after Part 8.
+**HubSpot** portal ID + six form GUIDs: **deferred** (client); run **`pnpm run verify:hubspot`** when received. **Follow-on:** Pricing (**Part 9**) → **[build-spec-v2-part-9-pricing-alignment.md](./build-spec-v2-part-9-pricing-alignment.md)**. About, Contact, Baseline, Documentation, Resources, Legal, and remaining §16 routes → **[build-spec-v2-parts-10-plus-alignment.md](./build-spec-v2-parts-10-plus-alignment.md)**.

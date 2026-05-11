@@ -794,23 +794,95 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       {/* ── Footer ── */}
       <footer className="border-t border-white/10 bg-[#0B1320] pt-16 pb-12 apex-site-footer">
         <div className="max-w-[1200px] mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-8 mb-12">
-            <div className="col-span-2 md:col-span-3 lg:col-span-1 flex flex-col items-start text-left">
-              <Link href="/" className="inline-flex items-center justify-start mb-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40 rounded w-full" aria-label="Apexlyn home">
+          <motion.div className="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+            <motion.div className="flex flex-col items-start text-left">
+              <Link
+                href="/"
+                className="mb-5 inline-flex w-full items-center justify-start rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E90FF]/40"
+                aria-label="APEXLyn home"
+              >
                 <ApexlynLogo variant="wordmark" forDarkBackground align="start" height={44} className="h-11 w-auto max-w-full [&_img]:max-w-[min(100%,280px)]" />
               </Link>
-              <p className="text-slate-400 text-sm leading-relaxed">
+              <p className="text-[14px] leading-relaxed text-white/70">
                 Where Security Becomes Evidence
                 <br />
-                <span className="text-slate-500">Australian cybersecurity and AI governance.</span>
+                Australian cybersecurity and AI governance.
                 <br />
-                <span className="text-slate-500">Two platforms. One evidence standard.</span>
+                Two platforms. One evidence standard.
               </p>
-              <p className="mt-4 text-[13px] text-slate-500 leading-relaxed">
-                ABN: {APEXLN_COMPANY.abn}
-                <br />
+              <p className="mt-4 text-[14px] leading-relaxed text-white/70">ABN: {APEXLN_COMPANY.abn}</p>
+            </motion.div>
+
+            <div>
+              <h4 className="mb-4 text-[14px] font-medium text-white">Platforms</h4>
+              <ul className="space-y-2.5">
+                {[
+                  { label: 'Track — Compliance Evidence', href: '/track' },
+                  { label: 'Lens — AI Governance', href: '/lens' },
+                  { label: 'Architecture', href: '/architecture' },
+                  { label: 'Pricing', href: '/pricing' },
+                  { label: 'Trust Center', href: '/trust' },
+                ].map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={normalizeHref(link.href)}
+                      className="text-[14px] text-white/70 transition-colors hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-4 text-[14px] font-medium text-white">Industries</h4>
+              <ul className="space-y-2.5">
+                {[
+                  { label: 'Healthcare', href: '/industries/healthcare' },
+                  { label: 'Legal', href: '/industries/legal' },
+                  { label: 'Accounting & Finance', href: '/industries/accounting' },
+                  { label: 'Insurance', href: '/industries/insurance' },
+                  { label: 'Professional Services', href: '/industries/professional-services' },
+                  { label: 'MSP & Partners', href: '/industries/msp-partners' },
+                ].map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={normalizeHref(link.href)}
+                      className="text-[14px] text-white/70 transition-colors hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-4 text-[14px] font-medium text-white">Company</h4>
+              <ul className="space-y-2.5">
+                {[
+                  { label: 'About', href: '/about' },
+                  { label: 'Contact', href: '/contact' },
+                  { label: 'Resources', href: '/resources' },
+                  { label: 'Privacy Policy', href: '/privacy' },
+                  { label: 'Terms of Use', href: '/terms' },
+                  { label: 'Cookie Policy', href: '/cookies' },
+                  { label: 'Disclaimer', href: '/disclaimer' },
+                ].map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={normalizeHref(link.href)}
+                      className="text-[14px] text-white/70 transition-colors hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 text-[14px] leading-relaxed text-white/70">
                 Email:{' '}
-                <a href={`mailto:${APEXLN_COMPANY.email}`} className="text-slate-400 hover:text-white">
+                <a href={`mailto:${APEXLN_COMPANY.email}`} className="text-white/70 hover:text-white">
                   {APEXLN_COMPANY.email}
                 </a>
                 <br />
@@ -818,155 +890,90 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 {(() => {
                   const tel = APEXLN_COMPANY.phone.replace(/[^\d+]/g, '');
                   return tel.length >= 8 ? (
-                    <a href={`tel:${tel}`} className="text-slate-400 hover:text-white">
+                    <a href={`tel:${tel}`} className="text-white/70 hover:text-white">
                       {APEXLN_COMPANY.phone}
                     </a>
                   ) : (
-                    <span className="text-slate-400">{APEXLN_COMPANY.phone}</span>
+                    <span>{APEXLN_COMPANY.phone}</span>
                   );
                 })()}
                 <br />
                 Location: Sydney, Australia
               </p>
-              <div className="mt-6 w-full max-w-[320px]">
-                <p className="text-[14px] font-normal leading-relaxed text-slate-300 mb-4">
-                  Stay informed on security evidence and AI governance in Australia.
-                </p>
-                <p className="text-[12px] font-semibold text-white mb-3 uppercase tracking-widest">Newsletter</p>
-                {newsletterDone ? (
-                  <p className="text-[13px] text-slate-300 leading-relaxed">
-                    Thanks — you’re subscribed.
-                  </p>
-                ) : (
-                  <form onSubmit={onSubmitNewsletter} className="flex flex-col gap-2">
-                    <label className="sr-only" htmlFor="footer-newsletter-email">
-                      Email address
-                    </label>
-                    <input
-                      id="footer-newsletter-email"
-                      type="email"
-                      inputMode="email"
-                      autoComplete="email"
-                      value={newsletterEmail}
-                      onChange={(e) => {
-                        setNewsletterEmail(e.target.value);
-                        setNewsletterError(null);
-                      }}
-                      placeholder="Your work email"
-                      className="w-full rounded-md border border-white/15 bg-white/5 px-3 py-2 text-[13px] text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#1E90FF]/40"
-                      aria-invalid={newsletterError ? true : undefined}
-                      aria-describedby={newsletterError ? 'footer-newsletter-error' : undefined}
-                      disabled={newsletterBusy}
-                    />
-                    {newsletterError ? (
-                      <p id="footer-newsletter-error" className="text-[12px] text-rose-200">
-                        {newsletterError}
-                      </p>
-                    ) : null}
-                    <button
-                      type="submit"
-                      className="inline-flex items-center justify-center gap-2 rounded-md bg-white px-3 py-2 text-[13px] font-semibold text-[#111827] hover:bg-slate-100 disabled:opacity-60"
-                      disabled={newsletterBusy}
-                    >
-                      {newsletterBusy ? <Spinner className="h-4 w-4" /> : null}
-                      Subscribe
-                    </button>
-                    <p className="text-[12px] text-slate-500 leading-relaxed">
-                      We send occasional updates. No spam. Unsubscribe at any time.
-                    </p>
-                  </form>
-                )}
-              </div>
             </div>
+          </motion.div>
 
-            {[
-              {
-                title: 'Platforms',
-                links: [
-                  { label: 'Track — Compliance Evidence', href: '/track' },
-                  { label: 'Lens — AI Governance', href: '/lens' },
-                  { label: 'Architecture', href: '/architecture' },
-                  { label: 'Pricing', href: '/pricing' },
-                  { label: 'Trust Center', href: '/trust' },
-                ],
-              },
-              {
-                title: 'Solutions',
-                links: [
-                  { label: 'Cyber Security Services', href: '/solutions/cyber-security-services' },
-                  { label: 'AI Governance Advisory', href: '/solutions/ai-governance-advisory' },
-                  { label: 'Compliance Operations', href: '/solutions/compliance-operations' },
-                ],
-              },
-              {
-                title: 'Industries',
-                links: [
-                  { label: 'Healthcare', href: '/industries/healthcare' },
-                  { label: 'Legal', href: '/industries/legal' },
-                  { label: 'Accounting', href: '/industries/accounting' },
-                  { label: 'Insurance', href: '/industries/insurance' },
-                  { label: 'MSP / Partners', href: '/industries/msp-partners' },
-                  { label: 'Professional Services', href: '/industries/professional-services' },
-                ],
-              },
-              {
-                title: 'Resources',
-                links: [
-                  { label: 'Whitepapers', href: '/resources/whitepapers' },
-                  { label: 'Framework Guides', href: '/resources/framework-guides' },
-                  { label: 'AI Risk Briefs', href: '/resources/ai-risk-briefs' },
-                ],
-              },
-              {
-                title: 'Company',
-                links: [
-                  { label: 'About', href: '/about' },
-                  { label: 'Careers', href: COMPANY_CAREERS_HREF },
-                  { label: 'Contact', href: '/contact' },
-                  { label: 'Resources', href: '/resources' },
-                  { label: 'Request Documentation', href: '/documentation' },
-                  { label: 'Privacy Policy', href: '/privacy' },
-                  { label: 'Terms of Use', href: '/terms' },
-                  { label: 'Cookie Policy', href: '/cookies' },
-                  { label: 'Disclaimer', href: '/disclaimer' },
-                ],
-              },
-            ].map((col) => (
-              <div key={col.title}>
-                <h4 className="text-[12px] font-semibold text-white mb-4 uppercase tracking-widest">{col.title}</h4>
-                <ul className="space-y-2.5">
-                  {col.links.map((link) => (
-                    <li key={link.label}>
-                      <Link href={normalizeHref(link.href)} className="text-[13px] text-slate-400 hover:text-white transition-colors">{link.label}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          <div className="mb-8 border-t border-white/10 pt-8">
+            <p className="mb-4 text-[14px] leading-relaxed text-white/70">
+              Stay informed on security evidence and AI governance in Australia.
+            </p>
+            {newsletterDone ? (
+              <p className="text-[14px] text-white/70">Thanks — you&apos;re subscribed.</p>
+            ) : (
+              <form onSubmit={onSubmitNewsletter} className="max-w-[640px]">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
+                  <label className="sr-only" htmlFor="footer-newsletter-email">
+                    Email address
+                  </label>
+                  <input
+                    id="footer-newsletter-email"
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    value={newsletterEmail}
+                    onChange={(e) => {
+                      setNewsletterEmail(e.target.value);
+                      setNewsletterError(null);
+                    }}
+                    placeholder="Your work email"
+                    className="min-h-[44px] flex-1 rounded-lg border border-white/20 bg-white/5 px-4 text-[16px] text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]/40"
+                    aria-invalid={newsletterError ? true : undefined}
+                    aria-describedby={newsletterError ? 'footer-newsletter-error' : undefined}
+                    disabled={newsletterBusy}
+                  />
+                  <button
+                    type="submit"
+                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-white/40 bg-transparent px-6 text-[16px] font-semibold text-white transition-colors hover:bg-white/10 disabled:opacity-60"
+                    disabled={newsletterBusy}
+                  >
+                    {newsletterBusy ? <Spinner className="h-4 w-4" /> : null}
+                    Subscribe
+                  </button>
+                </div>
+                {newsletterError ? (
+                  <p id="footer-newsletter-error" className="mt-2 text-[12px] text-rose-200">
+                    {newsletterError}
+                  </p>
+                ) : null}
+                <p className="mt-3 text-[12px] leading-relaxed text-white/50">
+                  We send occasional updates. No spam. Unsubscribe at any time.
+                </p>
+              </form>
+            )}
           </div>
 
-          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3 text-[13px] text-slate-500">
+          <div className="flex flex-col gap-3 border-t border-white/10 pt-8 text-[13px] text-white/50 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <p>© {new Date().getFullYear()} APEXLyn Pty Ltd. All rights reserved.</p>
             <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
-              <Link href={LEGAL_PRIVACY_HREF} className="hover:text-slate-300 transition-colors">
+              <Link href={LEGAL_PRIVACY_HREF} className="transition-colors hover:text-white/80">
                 Privacy Policy
               </Link>
               <span className="text-slate-600" aria-hidden>
                 ·
               </span>
-              <Link href={LEGAL_TERMS_HREF} className="hover:text-slate-300 transition-colors">
+              <Link href={LEGAL_TERMS_HREF} className="transition-colors hover:text-white/80">
                 Terms of Use
               </Link>
               <span className="text-slate-600" aria-hidden>
                 ·
               </span>
-              <Link href="/cookies" className="hover:text-slate-300 transition-colors">
+              <Link href="/cookies" className="transition-colors hover:text-white/80">
                 Cookie Policy
               </Link>
               <span className="text-slate-600" aria-hidden>
                 ·
               </span>
-              <Link href="/disclaimer" className="hover:text-slate-300 transition-colors">
+              <Link href="/disclaimer" className="transition-colors hover:text-white/80">
                 Disclaimer
               </Link>
             </p>
