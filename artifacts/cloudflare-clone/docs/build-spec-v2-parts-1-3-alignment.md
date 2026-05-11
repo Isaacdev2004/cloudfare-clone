@@ -83,11 +83,13 @@
 
 ---
 
-## What is *not* claimed aligned (yet)
+## Launch remaining (Parts 1–3 scope only)
 
-- **Inner pages** beyond homepage **and** beyond **Parts 4–6** (Track, Lens, Architecture): Trust, Pricing, About, Contact, Baseline, Documentation, industries, resource hubs, legal pages, **§16-only** routes still require **verbatim** PDF passes where not already rebuilt.
-- **HubSpot** live CRM: **deferred** until client supplies portal ID + six form GUIDs (only remaining launch item per client, May 2026). Code + **`.env.example`** + **`pnpm run verify:hubspot`** ready.
-- **Full reduced-motion** audit sitewide (Part 1 §12.3).
-- **§10.x card specs** on remaining pages — home + platform pages follow spec sections; global card utilities not fully centralized everywhere.
+Parts **4–9** and **10+** are tracked in the linked alignment files above. For **this** slice (design system, global shell, homepage), what is still open before production sign-off:
 
-**Parts 4–8** are documented in the linked alignment files above. **Active pass (no HubSpot):** Pricing, About, Contact, Baseline, Documentation, Resources, Legal, and remaining §16 routes per the PDF after Part 8.
+- **§12.3 reduced motion** — partial outside the home hero; sitewide audit still to tighten.
+- **§10.x card utilities** — not fully centralized on every inner page.
+- **§15.5 HubSpot** — code + **`.env.example`** + **`pnpm run verify:hubspot`** ready; live portal + six form GUIDs are **client-supplied** (see **`part-15-developer-handover-checklist.md`**).
+- **§15 deployment** — DNS/SSL, GSC, production PostHog verification (hosting + env; not enforced in repo).
+
+**Founder / company values** (ABN, phone, notification emails, LinkedIn) are **client-confirmed** before launch; placeholders remain in **`apexlyn-company.ts`** until received.

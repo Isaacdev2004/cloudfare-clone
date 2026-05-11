@@ -56,4 +56,4 @@ Wired in **`IndustryTemplate.tsx`** via **`config.posthogPrefix`**.
 
 ## Next PDF slice
 
-**PART 8 — Trust Center (`/trust`)** → [`build-spec-v2-part-8-trust-alignment.md`](./build-spec-v2-part-8-trust-alignment.md).
+**Part 8** Trust → [`build-spec-v2-part-8-trust-alignment.md`](./build-spec-v2-part-8-trust-alignment.md). **Part 9** Pricing → [`build-spec-v2-part-9-pricing-alignment.md`](./build-spec-v2-part-9-pricing-alignment.md). **Parts 10+** → [`build-spec-v2-parts-10-plus-alignment.md`](./build-spec-v2-parts-10-plus-alignment.md).

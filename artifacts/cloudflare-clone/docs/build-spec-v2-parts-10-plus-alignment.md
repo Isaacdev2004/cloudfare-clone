@@ -71,9 +71,10 @@ See **[`part-15-developer-handover-checklist.md`](./part-15-developer-handover-c
 
 ## Cross-cutting gaps (Parts 10+)
 
-| Topic | Status |
-|-------|--------|
-| Founder values | ABN, phone, email, LinkedIn — placeholders until client confirms |
-| §12.3 reduced motion | Partial sitewide; audit non-home motion when tightening |
-| §16 legacy routes | Some legacy `/solutions/*` and Cloudflare-clone pages remain with redirects; audit before launch |
-| HubSpot E2E | Blocked on portal ID + six GUIDs |
+| Topic | Owner | Status |
+|-------|-------|--------|
+| Founder values | **Client** → dev wires | ABN, phone, email, LinkedIn — placeholders in **`apexlyn-company.ts`** until confirmed |
+| HubSpot E2E | **Client** → dev verifies | Portal ID + six GUIDs; then **`pnpm run verify:hubspot`** + browser pass |
+| PostHog / DNS / GSC | **Client** hosting + env → dev verifies | Part 15 checklist |
+| §12.3 reduced motion | **Dev** | Partial sitewide; tighten non-home motion |
+| §16 legacy routes | **Dev** (founder sign-off) | Legacy `/solutions/*` + template clone URLs still routable; audit before launch |
