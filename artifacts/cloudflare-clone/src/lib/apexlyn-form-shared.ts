@@ -163,9 +163,59 @@ export function isHoneypotTriggered(honeypotValue: string): boolean {
 
 export type HubSpotField = { name: string; value: string };
 
+export const HUBSPOT_ENV_KEYS = [
+  'VITE_HUBSPOT_PORTAL_ID',
+  'VITE_HUBSPOT_FORM_APEXLYN_CONTACT',
+  'VITE_HUBSPOT_FORM_APEXLYN_BASELINE',
+  'VITE_HUBSPOT_FORM_APEXLYN_DOCUMENTATION',
+  'VITE_HUBSPOT_FORM_APEXLYN_NEWSLETTER',
+  'VITE_HUBSPOT_FORM_APEXLYN_RESOURCE_INTEREST',
+  'VITE_HUBSPOT_FORM_APEXLYN_PDF_DOWNLOAD',
+] as const;
+
+export const HUBSPOT_FORM_IDS = {
+  apexlyn_contact: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_CONTACT as string | undefined,
+  apexlyn_baseline: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_BASELINE as string | undefined,
+  apexlyn_documentation: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_DOCUMENTATION as string | undefined,
+  apexlyn_newsletter: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_NEWSLETTER as string | undefined,
+  /** §47.3–47.5 — Interest capture; map `resource_interest_tag` in HubSpot. */
+  apexlyn_resource_interest: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_RESOURCE_INTEREST as string | undefined,
+  apexlyn_pdf_download: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_PDF_DOWNLOAD as string | undefined,
+} as const;
+
+export function isHubSpotConfigured(): boolean {
+  const portalId = import.meta.env.VITE_HUBSPOT_PORTAL_ID as string | undefined;
+  if (!portalId?.trim()) return false;
+  return Object.values(HUBSPOT_FORM_IDS).some((id) => Boolean(id?.trim()));
+}
+
+export function getMissingHubSpotEnvKeys(): string[] {
+  return HUBSPOT_ENV_KEYS.filter((key) => {
+    const value = import.meta.env[key as keyof ImportMetaEnv] as string | undefined;
+    return !value?.trim();
+  });
+}
+
+export function formatHubSpotSubmitError(err: unknown): string {
+  if (err instanceof Error) {
+    if (err.message === 'hubspot_not_configured') {
+      return 'Form submissions are not available right now. Please email us directly.';
+    }
+    if (err.message === 'simulated_failure' || err.message.startsWith('hubspot_')) {
+      return S9.submitFailed;
+    }
+  }
+  return S9.submitFailed;
+}
+
+function hubSpotSimulatedSubmitAllowed(): boolean {
+  if (import.meta.env.VITE_HUBSPOT_ALLOW_SIMULATED === 'true') return true;
+  return Boolean(import.meta.env.DEV);
+}
+
 /**
  * HubSpot Forms API v3 — configure VITE_HUBSPOT_PORTAL_ID and per-form GUID env vars.
- * Without env, simulates success (after delay) unless ?simulateSubmit=fail.
+ * Without env, dev may simulate success; production requires live IDs unless VITE_HUBSPOT_ALLOW_SIMULATED=true.
  */
 export async function submitHubSpotForm(
   formGuid: string | undefined,
@@ -176,7 +226,10 @@ export async function submitHubSpotForm(
   const includeMarketingFields = opts?.includeMarketingFields ?? true;
   const allFields = includeMarketingFields ? [...fields, ...buildMarketingHiddenFields()] : [...fields];
 
-  if (!portalId || !formGuid) {
+  if (!portalId?.trim() || !formGuid?.trim()) {
+    if (!hubSpotSimulatedSubmitAllowed()) {
+      throw new Error('hubspot_not_configured');
+    }
     await new Promise((r) => setTimeout(r, 650));
     if (shouldSimulateSubmitFailure()) throw new Error('simulated_failure');
     return;
@@ -202,16 +255,6 @@ export async function submitHubSpotForm(
     throw new Error(`hubspot_${res.status}:${text.slice(0, 120)}`);
   }
 }
-
-export const HUBSPOT_FORM_IDS = {
-  apexlyn_contact: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_CONTACT as string | undefined,
-  apexlyn_baseline: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_BASELINE as string | undefined,
-  apexlyn_documentation: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_DOCUMENTATION as string | undefined,
-  apexlyn_newsletter: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_NEWSLETTER as string | undefined,
-  /** §47.3–47.5 — Interest capture; map `resource_interest_tag` in HubSpot. */
-  apexlyn_resource_interest: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_RESOURCE_INTEREST as string | undefined,
-  apexlyn_pdf_download: import.meta.env.VITE_HUBSPOT_FORM_APEXLYN_PDF_DOWNLOAD as string | undefined,
-} as const;
 
 /** §45.4 — Honeypot: visually hidden, not display:none */
 export const honeypotInputClass =

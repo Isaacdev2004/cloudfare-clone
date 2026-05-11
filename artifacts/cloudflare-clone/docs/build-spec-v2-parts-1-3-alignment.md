@@ -3,6 +3,8 @@
 **Authoritative source:** *APEXLyn Public Website — Complete Build Specification v2.0* (May 2026).  
 **Purpose:** One place to verify **no cross mixing** between Part 1 (design system), Part 2 (global shell / SEO / legal plumbing), and Part 3 (homepage). Anything outside these parts is **out of scope** for this checklist.
 
+**Follow-on:** Platform and architecture (**Parts 4–6**) → **[build-spec-v2-parts-4-6-alignment.md](./build-spec-v2-parts-4-6-alignment.md)**. Industry pages (**Part 7**) → **[build-spec-v2-part-7-industries-alignment.md](./build-spec-v2-part-7-industries-alignment.md)**. Trust Center (**Part 8**) → **[build-spec-v2-part-8-trust-alignment.md](./build-spec-v2-part-8-trust-alignment.md)**. Pricing (**Part 9**) → **[build-spec-v2-part-9-pricing-alignment.md](./build-spec-v2-part-9-pricing-alignment.md)**. About, forms, resources, legal, launch (**Parts 10+**) → **[build-spec-v2-parts-10-plus-alignment.md](./build-spec-v2-parts-10-plus-alignment.md)**.
+
 **Stack (documented deviation from §15.1):** The repo ships as **Vite + React + Wouter + TanStack Query**, not Next.js. Behaviour is matched where the spec is framework-agnostic (routing, UI, consent, metadata injection). Features that inherently require Next (e.g. `sitemap.ts` generation) are implemented as **static files** or **client `DocumentSeo`** instead. **Written founder approval** is required per §2.1 if compliance reviews insist on Next.js by name.
 
 ---
@@ -23,7 +25,7 @@
 
 - §12.3 **Floating / decorative motion** on non-home components (e.g. orbit / network) — may still animate; Reduced-motion policy is **partial** outside Part 3 hero.
 - §12.3 **whileInView** on other pages — audit when those pages are rebuilt to v2 copy.
-- §15.5 **HubSpot** — not wired; placeholder note in `index.html`.
+- §15.5 **HubSpot** — forms submit via **HubSpot Forms API v3** in code (`apexlyn-form-shared.ts`); production needs portal + form IDs in env (see **`part-15-developer-handover-checklist.md`**).
 - §15 deployment — not enforced in repo.
 
 ---
@@ -83,9 +85,9 @@
 
 ## What is *not* claimed aligned (yet)
 
-- **Inner pages** beyond homepage: still may use **pre–Part 3** copy/layout (e.g. industry titles, solutions pages).
-- **HubSpot** forms / tracking snippet.
+- **Inner pages** beyond homepage **and** beyond **Parts 4–6** (Track, Lens, Architecture): Trust, Pricing, About, Contact, Baseline, Documentation, industries, resource hubs, legal pages, **§16-only** routes still require **verbatim** PDF passes where not already rebuilt.
+- **HubSpot** live CRM: **deferred** until client supplies portal ID + six form GUIDs (only remaining launch item per client, May 2026). Code + **`.env.example`** + **`pnpm run verify:hubspot`** ready.
 - **Full reduced-motion** audit sitewide (Part 1 §12.3).
-- **§10.x card specs** on non-home pages — home follows §27 card descriptions; global card utilities not fully centralized.
+- **§10.x card specs** on remaining pages — home + platform pages follow spec sections; global card utilities not fully centralized everywhere.
 
-When you paste **Part 4+**, extend this file or add `part-4-alignment.md` and link it here so scope stays explicit.
+**Parts 4–8** are documented in the linked alignment files above. **Active pass (no HubSpot):** Pricing, About, Contact, Baseline, Documentation, Resources, Legal, and remaining §16 routes per the PDF after Part 8.
