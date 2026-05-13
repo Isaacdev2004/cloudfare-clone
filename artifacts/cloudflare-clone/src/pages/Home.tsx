@@ -254,7 +254,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-white">
-      {/* §27.1 — PDF: visual desktop/tablet only; founder-approved: show Track/Lens hero on mobile too. */}
+      {/* §27.1 — PDF: visual desktop/tablet only; founder-approved: show hero on mobile too. Hero = Global (frameworks) + Track (evidence) + Lens (cloud) visuals; default Global. */}
       <section className="relative overflow-x-clip bg-[#0B1320] text-white">
         <div className={cn(container, 'pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-20')}>
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
