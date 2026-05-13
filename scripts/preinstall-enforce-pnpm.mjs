@@ -24,7 +24,8 @@ function isPnpmInstaller() {
   if (/pnpm/i.test(ua)) return true;
 
   const execPath = process.env.npm_execpath ?? "";
-  if (/pnpm/i.test(execPath)) return true;
+  // Require `pnpm` as a path segment (avoid matching ".../notpnpm/...").
+  if (/[/\\]pnpm(\.cjs|\.js|\.mjs)?$/i.test(execPath.replace(/\\/g, "/"))) return true;
   // Definitive npm CLI — do not treat as pnpm even if UA is missing (edge CI).
   if (/npm-cli\.js/i.test(execPath) || /[/\\]npm(?:\.cmd)?$/i.test(execPath)) return false;
 
