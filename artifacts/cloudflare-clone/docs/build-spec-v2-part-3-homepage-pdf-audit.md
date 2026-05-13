@@ -10,7 +10,7 @@
 
 | PDF rule | Spec text | Current behaviour | Notes |
 |----------|------------|-------------------|--------|
-| §27.1 hero visual | “Right column … **desktop only**, hidden on mobile and tablet”; **one** abstract interconnected visual (optional 2s line sequence, reduced-motion respected) | **Single** `HeroFrameworkOrbitVisual` in right column; column **`hidden` below `lg`** so copy is full-width on phone/tablet per PDF. **No** in-hero Track/Lens/Global tabs (not in spec). | Matches §27.1 structure. If founder again wants hero art on **mobile/tablet**, that reverts a literal PDF line — needs **written approval** per §2.1. |
+| §27.1 hero visual | PDF: “Right column … **desktop only**, hidden on mobile and tablet”; **one** abstract interconnected visual (optional 2s line sequence, reduced-motion respected) | **Single** `HeroFrameworkOrbitVisual` in the hero’s second grid column; **visible on all breakpoints** — stacks under hero copy on small screens with a mobile `min-height` so the globe has room. **No** in-hero Track/Lens/Global tabs (not in spec). | **Deviation:** literal §27.1 “hidden on mobile/tablet” overridden **May 2026** — founder requested the **global** hero art on mobile too. Track/Lens card art stays **§27.3** only (`HomePlatformCardVisuals.tsx`), not duplicated in the hero. |
 | §17.1 nav | Flat: Track, Lens, Solutions, Industries, Pricing, Trust, About | Mega-nav **Platforms / Solutions / Industries / Resources / Company** | Previously client-approved; not the §17.1 flat list. |
 
 ---

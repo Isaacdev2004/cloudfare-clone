@@ -254,10 +254,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-white">
-      {/* §27.1 — Single hero visual (right column); hidden below lg per PDF. Track/Lens art: §27.3 cards. */}
+      {/* §27.1 — Global hero visual (`HeroFrameworkOrbitVisual`). PDF: desktop-only column; founder-approved: visible on mobile too (client May 2026). Track/Lens: §27.3 cards. */}
       <section className="relative overflow-x-clip bg-[#0B1320] text-white">
         <div className={cn(container, 'pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-20')}>
-          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="min-w-0 lg:col-span-7">
               <p className="mb-4 text-[14px] font-medium uppercase tracking-[0.5px] text-[#93C5FD]">
                 Australian Cybersecurity &amp; AI Governance
@@ -289,8 +289,8 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <div className="relative hidden min-h-0 min-w-0 flex-col items-center justify-center lg:col-span-5 lg:flex lg:min-h-[min(54vh,460px)]">
-              <div className="flex h-full w-full max-w-[520px] flex-1 items-center justify-center">
+            <div className="relative flex min-h-[min(52vh,380px)] w-full min-w-0 flex-col items-center justify-center sm:min-h-[min(48vh,420px)] lg:col-span-5 lg:min-h-[min(54vh,460px)]">
+              <div className="flex h-full w-full max-w-[min(100%,520px)] flex-1 items-center justify-center px-1 sm:px-0">
                 <HeroHomePlatformVisual className="h-full w-full" />
               </div>
             </div>
