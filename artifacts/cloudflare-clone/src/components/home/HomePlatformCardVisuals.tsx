@@ -1,10 +1,10 @@
 import React from 'react';
 import { HeroCloudNetworkVisual } from '@/components/hero/HeroCloudNetworkVisual';
-import { HomeHeroEvidenceVisual } from '@/components/home/HomeHeroEvidenceVisual';
+import { HeroGaugeVisual } from '@/components/hero/HeroGaugeVisual';
 
 /**
- * §27.3 — Platform cards use the **same** Track / Lens art as the original hero toggle (not the global globe):
- * - **Track card:** `HomeHeroEvidenceVisual` (abstract evidence network + line motion).
+ * §27.3 — Platform cards (not the global hero globe):
+ * - **Track card:** `HeroGaugeVisual` (speedometer / security posture gauge — founder-preferred Track art).
  * - **Lens card:** `HeroCloudNetworkVisual` compact (cloud / enforcement mesh).
  * Global framework globe stays **only** in the hero (`HeroHomePlatformVisual` → `HeroFrameworkOrbitVisual`).
  */
@@ -14,13 +14,15 @@ const cardTray =
 
 export function HomeTrackPlatformCardVisual({ className = '' }: { className?: string }) {
   return (
-    <div className={`${cardTray} h-[200px] sm:h-[220px] lg:h-[240px] ${className}`}>
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none" inert>
-        <div
-          className="origin-center scale-[0.48] sm:scale-[0.52] lg:scale-[0.55]"
-          style={{ width: 400, height: 400 }}
-        >
-          <HomeHeroEvidenceVisual className="mx-0 !max-w-none h-full w-full" />
+    <div
+      className={`${cardTray} flex h-[200px] min-h-[200px] items-center justify-center sm:h-[220px] sm:min-h-[220px] lg:h-[240px] lg:min-h-[240px] ${className}`}
+    >
+      <div
+        className="pointer-events-none flex w-full max-w-[min(100%,360px)] items-center justify-center px-2 select-none"
+        inert
+      >
+        <div className="origin-center scale-[0.82] sm:scale-[0.9] lg:scale-95" style={{ transformOrigin: 'center center' }}>
+          <HeroGaugeVisual compact className="mx-auto max-h-[190px] sm:max-h-[210px] lg:max-h-[230px]" />
         </div>
       </div>
     </div>
