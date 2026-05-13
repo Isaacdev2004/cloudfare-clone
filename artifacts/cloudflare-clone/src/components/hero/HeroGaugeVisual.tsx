@@ -22,6 +22,10 @@ const styles = `
   .hg-outer-gauge-pulse {
     animation: hg-outerGaugePulse 2.5s ease-in-out infinite;
   }
+  @media (prefers-reduced-motion: reduce) {
+    .hg-needle-group { animation: none !important; }
+    .hg-outer-gauge-pulse { animation: none !important; }
+  }
 `;
 
 const RED_TICKS = [-58, -47, -36, -25, -14, -3];
