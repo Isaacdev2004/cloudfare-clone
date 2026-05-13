@@ -1,12 +1,12 @@
 import React from 'react';
 import { HeroCloudNetworkVisual } from '@/components/hero/HeroCloudNetworkVisual';
-import { HeroFrameworkOrbitVisual } from '@/components/hero/HeroFrameworkOrbitVisual';
+import { HomeHeroEvidenceVisual } from '@/components/home/HomeHeroEvidenceVisual';
 
 /**
- * §27.3 — Same approved hero visuals as the original Track/Lens hero toggle:
- * - Track: `HeroFrameworkOrbitVisual` (framework globe + cloud).
- * - Lens: `HeroCloudNetworkVisual` compact (cloud network).
- * Embedded in cards with scale + `inert` so orbit controls are not interactive inside the article.
+ * §27.3 — Platform cards use the **same** Track / Lens art as the original hero toggle (not the global globe):
+ * - **Track card:** `HomeHeroEvidenceVisual` (abstract evidence network + line motion).
+ * - **Lens card:** `HeroCloudNetworkVisual` compact (cloud / enforcement mesh).
+ * Global framework globe stays **only** in the hero (`HeroHomePlatformVisual` → `HeroFrameworkOrbitVisual`).
  */
 
 const cardTray =
@@ -17,10 +17,10 @@ export function HomeTrackPlatformCardVisual({ className = '' }: { className?: st
     <div className={`${cardTray} h-[200px] sm:h-[220px] lg:h-[240px] ${className}`}>
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none" inert>
         <div
-          className="origin-center scale-[0.30] sm:scale-[0.33] lg:scale-[0.36]"
-          style={{ width: 680, height: 680 }}
+          className="origin-center scale-[0.48] sm:scale-[0.52] lg:scale-[0.55]"
+          style={{ width: 400, height: 400 }}
         >
-          <HeroFrameworkOrbitVisual className="!max-w-[680px] w-[680px]" />
+          <HomeHeroEvidenceVisual className="mx-0 !max-w-none h-full w-full" />
         </div>
       </div>
     </div>
