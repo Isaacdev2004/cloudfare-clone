@@ -165,15 +165,17 @@ const NAV_ITEMS = [
 /** §17.2 — 64px mobile / 72px desktop; logo scaled to fit. */
 const HEADER_LOGO_DESKTOP_PX = 44;
 
-/** Standard marketing nav: quiet links + pill hover; brand blue for primary CTA only. */
+/** Standard marketing nav: quiet links + pill hover; tighter at lg so one row avoids overlap. */
 const desktopNavTrigger = cn(
-  'inline-flex items-center gap-1 rounded-lg px-3 py-2 text-[15px] font-medium transition-colors duration-150',
+  'inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap rounded-lg px-2 py-1.5 text-sm font-medium transition-colors duration-150',
+  'xl:gap-1 xl:px-3 xl:py-2 xl:text-[15px]',
   'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/35 focus-visible:ring-offset-2',
 );
 const desktopNavTriggerActive = 'bg-slate-100 text-slate-900 shadow-sm';
 const desktopNavLink = cn(
-  'rounded-lg px-3 py-2 text-[15px] font-medium transition-colors duration-150',
+  'shrink-0 whitespace-nowrap rounded-lg px-2 py-1.5 text-sm font-medium transition-colors duration-150',
+  'xl:px-3 xl:py-2 xl:text-[15px]',
   'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/35 focus-visible:ring-offset-2',
 );
@@ -332,11 +334,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           headerScrolled && 'shadow-sm shadow-slate-900/5',
         )}
       >
-        <div className="mx-auto flex h-16 min-h-[4rem] w-full max-w-[1200px] items-center gap-4 px-4 sm:gap-6 sm:px-6 lg:h-[72px] lg:min-h-[72px]">
-          <div className="flex min-w-0 shrink-0 items-center">
+        <div className="mx-auto grid h-16 min-h-[4rem] w-full max-w-[1280px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-3 sm:gap-3 sm:px-5 lg:h-[72px] lg:min-h-[72px] lg:gap-4 lg:px-6">
+          <div className="flex min-w-0 items-center justify-self-start">
             <Link
               href="/"
-              className="flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/35 focus-visible:ring-offset-2"
+              className="flex max-w-[min(52vw,220px)] items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/35 focus-visible:ring-offset-2 sm:max-w-[min(60vw,280px)] lg:max-w-[min(42vw,260px)] xl:max-w-[min(72vw,380px)]"
               onClick={dismissDesktopDropdown}
               aria-label="APEXLyn home"
             >
@@ -346,15 +348,17 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 align="start"
                 height={HEADER_LOGO_DESKTOP_PX}
                 priority
-                className="w-auto max-w-[min(72vw,380px)] [&_img]:h-full [&_img]:max-h-[34px] [&_img]:w-auto lg:[&_img]:max-h-[44px] [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
+                className="w-auto min-w-0 [&_img]:h-full [&_img]:max-h-[34px] [&_img]:w-auto lg:[&_img]:max-h-[44px] [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
               />
             </Link>
           </div>
 
           <nav
-            className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 lg:flex xl:gap-1"
+            className="hidden min-w-0 justify-self-stretch overflow-x-auto overflow-y-visible [-ms-overflow-style:none] [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden"
             aria-label="Primary"
           >
+            <div className="flex min-w-full justify-center py-0.5">
+              <div className="inline-flex flex-nowrap items-center gap-0 pr-0.5 xl:gap-0.5">
             {NAV_ITEMS.map((item) => {
               const navItemOpen = activeDropdown === item.name;
               const navItemRoute = isRouteInNavGroup(item.name, location);
@@ -395,7 +399,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 (pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center') && desktopNavLinkActive,
               )}
             >
-              Trust Center
+              <span className="xl:hidden">Trust</span>
+              <span className="hidden xl:inline">Trust Center</span>
             </Link>
             <Link
               href="/pricing"
@@ -413,12 +418,15 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             >
               About
             </Link>
+              </div>
+            </div>
           </nav>
 
-          <div className="ml-auto flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center justify-self-end gap-1.5 sm:gap-2">
             <Link
               href={NAV_CTA_TEST_SECURITY_HREF}
               onClick={dismissDesktopDropdown}
+              aria-label="Test your security state"
               aria-current={
                 pathOnly(location) === '/baseline' ||
                 pathOnly(location) === '/test-your-security-state' ||
@@ -427,21 +435,24 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   : undefined
               }
               className={cn(
-                'hidden min-h-[44px] items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-[14px] font-semibold text-slate-800 transition-colors hover:border-slate-400 hover:bg-slate-50 lg:inline-flex',
+                'hidden min-h-[44px] items-center justify-center whitespace-nowrap rounded-lg border border-slate-300 bg-white px-2.5 py-2 text-xs font-semibold text-slate-800 transition-colors hover:border-slate-400 hover:bg-slate-50 lg:inline-flex xl:px-3.5 xl:text-[14px]',
                 (pathOnly(location) === '/baseline' ||
                   pathOnly(location) === '/test-your-security-state' ||
                   pathOnly(location) === '/test-security-state') &&
                   'border-[#1E3A8A] bg-[#1E3A8A]/[0.06] text-[#1E3A8A]',
               )}
             >
-              Test your security state
+              <span className="xl:hidden">Security check</span>
+              <span className="hidden xl:inline">Test your security state</span>
             </Link>
             <Link
               href="/contact"
               onClick={dismissDesktopDropdown}
-              className="hidden min-h-[44px] items-center justify-center rounded-lg bg-[#1E3A8A] px-4 py-2 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-[#172E73] lg:inline-flex"
+              aria-label="Start a conversation with APEXLyn"
+              className="hidden min-h-[44px] items-center justify-center whitespace-nowrap rounded-lg bg-[#1E3A8A] px-3 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[#172E73] lg:inline-flex xl:px-4 xl:text-[14px]"
             >
-              Start a conversation
+              <span className="xl:hidden">Contact us</span>
+              <span className="hidden xl:inline">Start a conversation</span>
             </Link>
             <button
               type="button"
@@ -474,7 +485,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             }}
             onMouseLeave={startCloseTimer}
           >
-            <div className="mx-auto max-w-[1200px] px-4 py-6 sm:px-6">
+            <div className="mx-auto max-w-[1280px] px-3 py-6 sm:px-5 lg:px-6">
               <div
                 className="grid gap-8 lg:gap-12"
                 style={{ gridTemplateColumns: `repeat(${activeItem.dropdown.columns.length}, minmax(0, 1fr))` }}
