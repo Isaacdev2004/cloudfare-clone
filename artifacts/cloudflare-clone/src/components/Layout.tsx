@@ -334,11 +334,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           headerScrolled && 'shadow-sm shadow-slate-900/5',
         )}
       >
-        <div className="mx-auto grid h-16 min-h-[4rem] w-full max-w-[1280px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-3 sm:gap-3 sm:px-5 lg:h-[72px] lg:min-h-[72px] lg:gap-4 lg:px-6">
-          <div className="flex min-w-0 items-center justify-self-start">
+        <div className="mx-auto grid h-16 min-h-[4rem] w-full max-w-[1280px] grid-cols-[minmax(0,auto)_minmax(0,1fr)_auto] items-center gap-2 px-3 sm:gap-3 sm:px-5 lg:h-[72px] lg:min-h-[72px] lg:gap-4 lg:px-6">
+          <div className="relative z-0 flex min-w-0 max-w-[min(46vw,200px)] items-center justify-self-start overflow-hidden sm:max-w-[220px] lg:max-w-[240px] xl:max-w-[280px] 2xl:max-w-[min(72vw,320px)]">
             <Link
               href="/"
-              className="flex max-w-[min(52vw,220px)] items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/35 focus-visible:ring-offset-2 sm:max-w-[min(60vw,280px)] lg:max-w-[min(42vw,260px)] xl:max-w-[min(72vw,380px)]"
+              className="flex min-w-0 max-w-full items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/35 focus-visible:ring-offset-2"
               onClick={dismissDesktopDropdown}
               aria-label="APEXLyn home"
             >
@@ -348,13 +348,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 align="start"
                 height={HEADER_LOGO_DESKTOP_PX}
                 priority
-                className="w-auto min-w-0 [&_img]:h-full [&_img]:max-h-[34px] [&_img]:w-auto lg:[&_img]:max-h-[44px] [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
+                className="w-full min-w-0 max-w-full [&_img]:h-full [&_img]:max-h-[34px] [&_img]:w-auto [&_img]:max-w-full lg:[&_img]:max-h-[44px] [&_img]:object-contain [&_img]:object-left"
               />
             </Link>
           </div>
 
           <nav
-            className="hidden min-w-0 justify-self-stretch overflow-x-auto overflow-y-visible [-ms-overflow-style:none] [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden"
+            className="relative z-10 hidden min-w-0 justify-self-stretch overflow-x-auto overflow-y-visible [-ms-overflow-style:none] [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden"
             aria-label="Primary"
           >
             <div className="flex min-w-full justify-center py-0.5">
@@ -410,19 +410,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             >
               Pricing
             </Link>
-            <Link
-              href="/about"
-              onClick={dismissDesktopDropdown}
-              aria-current={pathOnly(location) === '/about' ? 'page' : undefined}
-              className={cn(desktopNavLink, pathOnly(location) === '/about' && desktopNavLinkActive)}
-            >
-              About
-            </Link>
               </div>
             </div>
           </nav>
 
-          <div className="flex shrink-0 items-center justify-self-end gap-1.5 sm:gap-2">
+          <div className="relative z-10 flex shrink-0 items-center justify-self-end gap-1.5 sm:gap-2">
             <Link
               href={NAV_CTA_TEST_SECURITY_HREF}
               onClick={dismissDesktopDropdown}
@@ -474,11 +466,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         {activeDropdown && activeItem && (
           <motion.div
             key={activeDropdown}
-            initial={{ opacity: 0, y: -6 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
+            exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed left-0 right-0 top-16 z-40 border-b border-slate-200 bg-white shadow-[0_16px_48px_-12px_rgba(15,23,42,0.12)] lg:top-[72px]"
+            className="fixed left-0 right-0 top-16 z-[45] border-b border-slate-200 bg-white shadow-[0_16px_48px_-12px_rgba(15,23,42,0.12)] lg:top-[72px]"
             onMouseEnter={() => {
               cancelCloseTimer();
               clearOpenDelay();
@@ -532,7 +524,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 top-16 z-30 bg-slate-900/[0.08] backdrop-blur-[1px] lg:top-[72px]"
+            className="fixed inset-0 top-16 z-[40] bg-slate-900/[0.08] backdrop-blur-[1px] lg:top-[72px]"
             onClick={dismissDesktopDropdown}
             aria-hidden
           />
@@ -718,20 +710,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   }}
                 >
                   Pricing
-                </Link>
-                <Link
-                  href="/about"
-                  aria-current={pathOnly(location) === '/about' ? 'page' : undefined}
-                  className={cn(
-                    'block rounded-lg px-2 py-3.5 text-[16px] font-medium text-slate-900 hover:bg-slate-50',
-                    pathOnly(location) === '/about' && 'bg-slate-100 text-[#1E3A8A]',
-                  )}
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setMobileExpanded(null);
-                  }}
-                >
-                  About
                 </Link>
                 <Link
                   href={NAV_CTA_TEST_SECURITY_HREF}
