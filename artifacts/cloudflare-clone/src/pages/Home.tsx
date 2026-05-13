@@ -254,7 +254,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-white">
-      {/* §27.1 — PDF: visual desktop/tablet only; founder-approved: show hero on mobile too. Hero = Global (frameworks) + Track (evidence) + Lens (cloud) visuals; default Global. */}
+      {/* §27.1 — Single hero visual (right column); hidden below lg per PDF. Track/Lens art: §27.3 cards. */}
       <section className="relative overflow-x-clip bg-[#0B1320] text-white">
         <div className={cn(container, 'pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-20')}>
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
@@ -289,8 +289,8 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <div className="relative flex min-h-[280px] min-w-0 flex-col items-center justify-center lg:col-span-5">
-              <div className="flex h-[min(72vw,380px)] w-full max-w-[520px] items-center justify-center sm:h-[min(58vh,440px)] lg:h-[min(54vh,460px)]">
+            <div className="relative hidden min-h-0 min-w-0 flex-col items-center justify-center lg:col-span-5 lg:flex lg:min-h-[min(54vh,460px)]">
+              <div className="flex h-full w-full max-w-[520px] flex-1 items-center justify-center">
                 <HeroHomePlatformVisual className="h-full w-full" />
               </div>
             </div>

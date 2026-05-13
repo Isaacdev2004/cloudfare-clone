@@ -10,7 +10,7 @@
 
 | PDF rule | Spec text | Current behaviour | Notes |
 |----------|------------|-------------------|--------|
-| §27.1 hero visual | “Right column … **hidden on mobile and tablet**” | Visual **shown** on all breakpoints; **three** toggles — **Global** (framework globe, default), **Track** (evidence network), **Lens** (cloud network) | Client asked for approved visuals on phone; literal PDF hides hero on small screens. **Written founder approval** per §2.1 if strict PDF compliance is required. |
+| §27.1 hero visual | “Right column … **desktop only**, hidden on mobile and tablet”; **one** abstract interconnected visual (optional 2s line sequence, reduced-motion respected) | **Single** `HeroFrameworkOrbitVisual` in right column; column **`hidden` below `lg`** so copy is full-width on phone/tablet per PDF. **No** in-hero Track/Lens/Global tabs (not in spec). | Matches §27.1 structure. If founder again wants hero art on **mobile/tablet**, that reverts a literal PDF line — needs **written approval** per §2.1. |
 | §17.1 nav | Flat: Track, Lens, Solutions, Industries, Pricing, Trust, About | Mega-nav **Platforms / Solutions / Industries / Resources / Company** | Previously client-approved; not the §17.1 flat list. |
 
 ---
