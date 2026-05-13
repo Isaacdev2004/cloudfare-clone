@@ -121,7 +121,7 @@ const NAV_ITEMS = [
             { label: 'Legal', desc: 'Protect matter data and client trust', href: '/industries/legal' },
             { label: 'Accounting & Finance', desc: 'Safeguard financial and client records', href: '/industries/accounting' },
             { label: 'Insurance', desc: 'Resilience for policyholder data', href: '/industries/insurance' },
-            { label: 'MSP / Partners', desc: 'Scale security services for customers', href: '/industries/msp-partners' },
+            { label: 'MSP & Partners', desc: 'Scale security services for customers', href: '/industries/msp-partners' },
             { label: 'Professional Services', desc: 'Confidentiality across client work', href: '/industries/professional-services' },
           ],
         },
@@ -164,6 +164,20 @@ const NAV_ITEMS = [
 
 /** §17.2 — 64px mobile / 72px desktop; logo scaled to fit. */
 const HEADER_LOGO_DESKTOP_PX = 44;
+
+/** Standard marketing nav: quiet links + pill hover; brand blue for primary CTA only. */
+const desktopNavTrigger = cn(
+  'inline-flex items-center gap-1 rounded-lg px-3 py-2 text-[15px] font-medium transition-colors duration-150',
+  'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/35 focus-visible:ring-offset-2',
+);
+const desktopNavTriggerActive = 'bg-slate-100 text-slate-900 shadow-sm';
+const desktopNavLink = cn(
+  'rounded-lg px-3 py-2 text-[15px] font-medium transition-colors duration-150',
+  'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/35 focus-visible:ring-offset-2',
+);
+const desktopNavLinkActive = 'bg-slate-100 text-slate-900';
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -310,21 +324,21 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   return (
     <div className="min-h-screen flex flex-col bg-[#F7F9FC]">
 
-      {/* §17.2 + approved mega-nav — heights, border, scroll shadow */}
+      {/* §17.2 — standard SaaS-style bar: white, subtle border, centered nav, light dropdowns */}
       <header
         ref={headerRef}
         className={cn(
-          'fixed top-0 inset-x-0 z-50 w-full border-b border-[#E5E7EB] bg-white apex-site-header',
-          headerScrolled && 'shadow-[0_1px_3px_rgba(0,0,0,0.06)]',
+          'fixed top-0 inset-x-0 z-50 w-full border-b border-slate-200/90 bg-white apex-site-header',
+          headerScrolled && 'shadow-sm shadow-slate-900/5',
         )}
       >
-        <div className="mx-auto flex h-16 min-h-[4rem] w-full max-w-[1200px] items-center justify-between gap-3 px-4 sm:px-6 lg:h-[72px] lg:min-h-[72px]">
-          <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-6">
+        <div className="mx-auto flex h-16 min-h-[4rem] w-full max-w-[1200px] items-center gap-4 px-4 sm:gap-6 sm:px-6 lg:h-[72px] lg:min-h-[72px]">
+          <div className="flex min-w-0 shrink-0 items-center">
             <Link
               href="/"
-              className="flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/30 rounded"
+              className="flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/35 focus-visible:ring-offset-2"
               onClick={dismissDesktopDropdown}
-              aria-label="Apexlyn home"
+              aria-label="APEXLyn home"
             >
               <ApexlynLogo
                 variant="wordmark"
@@ -332,15 +346,19 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 align="start"
                 height={HEADER_LOGO_DESKTOP_PX}
                 priority
-                className="w-auto max-w-[min(85vw,420px)] [&_img]:h-full [&_img]:max-h-[36px] [&_img]:w-auto lg:[&_img]:max-h-[44px] [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
+                className="w-auto max-w-[min(72vw,380px)] [&_img]:h-full [&_img]:max-h-[34px] [&_img]:w-auto lg:[&_img]:max-h-[44px] [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
               />
             </Link>
+          </div>
 
-            <nav className="hidden min-w-0 flex-wrap items-center justify-end gap-x-0.5 gap-y-1 lg:flex" aria-label="Primary">
-              {NAV_ITEMS.map((item) => {
-                const navItemOpen = activeDropdown === item.name;
-                const navItemRoute = isRouteInNavGroup(item.name, location);
-                return (
+          <nav
+            className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 lg:flex xl:gap-1"
+            aria-label="Primary"
+          >
+            {NAV_ITEMS.map((item) => {
+              const navItemOpen = activeDropdown === item.name;
+              const navItemRoute = isRouteInNavGroup(item.name, location);
+              return (
                 <button
                   key={item.name}
                   type="button"
@@ -351,100 +369,83 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   aria-haspopup="true"
                   aria-label={`${item.name} menu${navItemRoute ? ', current section' : ''}`}
                   className={cn(
-                    'flex items-center gap-0.5 border-b-2 border-transparent px-2 py-2 text-[15px] font-medium transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2 xl:px-2.5',
-                    navItemOpen || navItemRoute
-                      ? 'border-[#1E3A8A] text-[#0B1320]'
-                      : 'text-[#4B5563] hover:text-[#0B1320]',
+                    desktopNavTrigger,
+                    (navItemOpen || navItemRoute) && desktopNavTriggerActive,
                   )}
                 >
                   {item.name}
                   <ChevronDown
                     className={cn(
-                      'h-3.5 w-3.5 text-[#4B5563] transition-transform duration-200',
-                      navItemOpen ? 'rotate-180 text-[#1E3A8A]' : '',
-                      !navItemOpen && navItemRoute ? 'text-[#1E3A8A]' : '',
+                      'h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200',
+                      navItemOpen && 'rotate-180 text-slate-600',
                     )}
                     aria-hidden
                   />
                 </button>
-                );
-              })}
-              <Link
-                href="/trust"
-                onClick={dismissDesktopDropdown}
-                aria-current={
-                  pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center' ? 'page' : undefined
-                }
-                className={cn(
-                  'border-b-2 px-2 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2 xl:px-2.5',
-                  pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center'
-                    ? 'border-[#1E3A8A] text-[#0B1320]'
-                    : 'border-transparent text-[#4B5563] hover:text-[#0B1320]',
-                )}
-              >
-                Trust Center
-              </Link>
-              <Link
-                href="/pricing"
-                onClick={dismissDesktopDropdown}
-                aria-current={pathOnly(location) === '/pricing' ? 'page' : undefined}
-                className={cn(
-                  'border-b-2 px-2 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2 xl:px-2.5',
-                  pathOnly(location) === '/pricing'
-                    ? 'border-[#1E3A8A] text-[#0B1320]'
-                    : 'border-transparent text-[#4B5563] hover:text-[#0B1320]',
-                )}
-              >
-                Pricing
-              </Link>
-              <Link
-                href="/about"
-                onClick={dismissDesktopDropdown}
-                aria-current={pathOnly(location) === '/about' ? 'page' : undefined}
-                className={cn(
-                  'border-b-2 px-2 py-2 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2 xl:px-2.5',
-                  pathOnly(location) === '/about'
-                    ? 'border-[#1E3A8A] text-[#0B1320]'
-                    : 'border-transparent text-[#4B5563] hover:text-[#0B1320]',
-                )}
-              >
-                About
-              </Link>
-              <Link
-                href={NAV_CTA_TEST_SECURITY_HREF}
-                onClick={dismissDesktopDropdown}
-                aria-current={
-                  pathOnly(location) === '/baseline' ||
-                  pathOnly(location) === '/test-your-security-state' ||
-                  pathOnly(location) === '/test-security-state'
-                    ? 'page'
-                    : undefined
-                }
-                className={cn(
-                  'mx-0.5 inline-flex items-center rounded-lg border-2 border-[#1E3A8A] px-3 py-2 text-[15px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2',
-                  pathOnly(location) === '/baseline' ||
-                    pathOnly(location) === '/test-your-security-state' ||
-                    pathOnly(location) === '/test-security-state'
-                    ? 'border-[#1E3A8A] bg-[#1E3A8A]/10 text-[#1E3A8A]'
-                    : 'border-[#1E3A8A] bg-transparent text-[#1E3A8A] hover:bg-[#1E3A8A]/5',
-                )}
-              >
-                Test your security state
-              </Link>
-              <Link
-                href="/contact"
-                onClick={dismissDesktopDropdown}
-                className="ml-1 inline-flex items-center rounded-lg bg-[#1E3A8A] px-4 py-2 text-[15px] font-semibold text-white transition-colors hover:bg-[#172E73] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] focus-visible:ring-offset-2"
-              >
-                Start a conversation
-              </Link>
-            </nav>
-          </div>
+              );
+            })}
+            <Link
+              href="/trust"
+              onClick={dismissDesktopDropdown}
+              aria-current={
+                pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center' ? 'page' : undefined
+              }
+              className={cn(
+                desktopNavLink,
+                (pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center') && desktopNavLinkActive,
+              )}
+            >
+              Trust Center
+            </Link>
+            <Link
+              href="/pricing"
+              onClick={dismissDesktopDropdown}
+              aria-current={pathOnly(location) === '/pricing' ? 'page' : undefined}
+              className={cn(desktopNavLink, pathOnly(location) === '/pricing' && desktopNavLinkActive)}
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/about"
+              onClick={dismissDesktopDropdown}
+              aria-current={pathOnly(location) === '/about' ? 'page' : undefined}
+              className={cn(desktopNavLink, pathOnly(location) === '/about' && desktopNavLinkActive)}
+            >
+              About
+            </Link>
+          </nav>
 
-          <div className="flex shrink-0 items-center lg:hidden">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+            <Link
+              href={NAV_CTA_TEST_SECURITY_HREF}
+              onClick={dismissDesktopDropdown}
+              aria-current={
+                pathOnly(location) === '/baseline' ||
+                pathOnly(location) === '/test-your-security-state' ||
+                pathOnly(location) === '/test-security-state'
+                  ? 'page'
+                  : undefined
+              }
+              className={cn(
+                'hidden min-h-[44px] items-center justify-center rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-[14px] font-semibold text-slate-800 transition-colors hover:border-slate-400 hover:bg-slate-50 lg:inline-flex',
+                (pathOnly(location) === '/baseline' ||
+                  pathOnly(location) === '/test-your-security-state' ||
+                  pathOnly(location) === '/test-security-state') &&
+                  'border-[#1E3A8A] bg-[#1E3A8A]/[0.06] text-[#1E3A8A]',
+              )}
+            >
+              Test your security state
+            </Link>
+            <Link
+              href="/contact"
+              onClick={dismissDesktopDropdown}
+              className="hidden min-h-[44px] items-center justify-center rounded-lg bg-[#1E3A8A] px-4 py-2 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-[#172E73] lg:inline-flex"
+            >
+              Start a conversation
+            </Link>
             <button
               type="button"
-              className="-mr-1 shrink-0 p-2 text-[#0B1320]"
+              className="-mr-1 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-slate-800 hover:bg-slate-100 lg:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-haspopup="dialog"
@@ -457,66 +458,51 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </div>
       </header>
 
-      {/* ── Full-width Mega Dropdown ── */}
+      {/* Light dropdown panel — standard product-site pattern */}
       <AnimatePresence>
         {activeDropdown && activeItem && (
           <motion.div
             key={activeDropdown}
-            initial={{ opacity: 0, y: -4 }}
+            initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.14, ease: 'easeOut' }}
-            className="fixed left-0 right-0 top-16 z-40 border-b border-white/10 bg-[#111827] shadow-[0_8px_24px_rgba(0,0,0,0.15)] lg:top-[72px]"
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed left-0 right-0 top-16 z-40 border-b border-slate-200 bg-white shadow-[0_16px_48px_-12px_rgba(15,23,42,0.12)] lg:top-[72px]"
             onMouseEnter={() => {
               cancelCloseTimer();
               clearOpenDelay();
             }}
             onMouseLeave={startCloseTimer}
           >
-            <div className="mx-auto max-w-[1200px] rounded-b-xl px-4 py-4 sm:px-6">
+            <div className="mx-auto max-w-[1200px] px-4 py-6 sm:px-6">
               <div
-                className="grid gap-x-10"
-                style={{ gridTemplateColumns: `repeat(${activeItem.dropdown.columns.length}, 1fr)` }}
+                className="grid gap-8 lg:gap-12"
+                style={{ gridTemplateColumns: `repeat(${activeItem.dropdown.columns.length}, minmax(0, 1fr))` }}
               >
                 {activeItem.dropdown.columns.map((col) => (
                   <div key={col.title}>
-                    <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-white/50">
+                    <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
                       {col.title}
                     </p>
-                    <ul className="space-y-0.5">
+                    <ul className="space-y-1">
                       {col.items.map((sub) => {
                         const subHref = normalizeHref(sub.href || '#');
                         const subActive = isActiveNavHref(sub.href || '#', location);
                         return (
-                        <li key={sub.label}>
-                          <Link
-                            href={subHref}
-                            onClick={dismissDesktopDropdown}
-                            aria-current={subActive ? 'page' : undefined}
-                            className={cn(
-                              'group flex flex-col rounded-xl px-3 py-2.5 transition-colors duration-100',
-                              subActive
-                                ? 'bg-white/[0.12] ring-1 ring-white/20'
-                                : 'hover:bg-white/[0.08]',
-                            )}
-                          >
-                            <span
+                          <li key={sub.label}>
+                            <Link
+                              href={subHref}
+                              onClick={dismissDesktopDropdown}
+                              aria-current={subActive ? 'page' : undefined}
                               className={cn(
-                                'text-[15px] font-normal',
-                                subActive ? 'text-white' : 'text-white group-hover:text-white',
+                                'group flex flex-col rounded-lg px-3 py-2.5 transition-colors',
+                                subActive ? 'bg-slate-100 ring-1 ring-slate-200/80' : 'hover:bg-slate-50',
                               )}
                             >
-                              {sub.label}
-                            </span>
-                            <span
-                              className={cn(
-                                'mt-0.5 text-[13px] leading-snug text-white/60',
-                              )}
-                            >
-                              {sub.desc}
-                            </span>
-                          </Link>
-                        </li>
+                              <span className="text-[15px] font-medium text-slate-900">{sub.label}</span>
+                              <span className="mt-0.5 text-[13px] leading-snug text-slate-500">{sub.desc}</span>
+                            </Link>
+                          </li>
                         );
                       })}
                     </ul>
@@ -528,21 +514,21 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         )}
       </AnimatePresence>
 
-      {/* Backdrop overlay when dropdown is open (dims page content) */}
       <AnimatePresence>
         {activeDropdown && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-16 z-30 bg-black/20 backdrop-blur-[1px] lg:top-[72px]"
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 top-16 z-30 bg-slate-900/[0.08] backdrop-blur-[1px] lg:top-[72px]"
             onClick={dismissDesktopDropdown}
+            aria-hidden
           />
         )}
       </AnimatePresence>
 
-      {/* ── Mobile Menu — §17.4 Deep Navy drawer (mega-nav content retained) */}
+      {/* Mobile — white drawer, standard app pattern */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -550,39 +536,39 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed inset-0 z-[60] overflow-y-auto bg-[#0B1320] pt-16 lg:hidden"
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-y-0 right-0 z-[60] flex w-[min(100%,400px)] flex-col border-l border-slate-200 bg-white shadow-2xl lg:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Site navigation"
           >
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+            <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-200 px-4">
               <Link
                 href="/"
-                className="flex items-center rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                className="flex min-w-0 items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A]/35 focus-visible:ring-offset-2"
                 onClick={() => setMobileMenuOpen(false)}
-                aria-label="Apexlyn home"
+                aria-label="APEXLyn home"
               >
                 <ApexlynLogo
                   variant="wordmark"
-                  forDarkBackground
+                  forDarkBackground={false}
                   align="start"
-                  height={40}
+                  height={36}
                   priority
-                  className="h-10 w-auto max-w-[min(88vw,400px)] [&_img]:h-full [&_img]:max-h-10 [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
+                  className="h-9 w-auto max-w-[min(70vw,280px)] [&_img]:h-full [&_img]:max-h-9 [&_img]:w-auto [&_img]:max-w-full [&_img]:object-contain [&_img]:object-left"
                 />
               </Link>
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2 text-white"
+                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100"
                 aria-label="Close menu"
               >
                 <X className="h-6 w-6" strokeWidth={2} />
               </button>
             </div>
 
-            <nav className="px-4 py-2" aria-label="Primary mobile">
+            <nav className="min-h-0 flex-1 overflow-y-auto px-4 py-2" aria-label="Primary mobile">
               {NAV_ITEMS.map((item) => {
                 const sectionOpen = mobileExpanded === item.name;
                 const sectionRoute = isRouteInNavGroup(item.name, location);
@@ -590,9 +576,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
                 if (flatMenu) {
                   return (
-                    <div key={item.name} className="border-b border-white/10 py-4">
-                      <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-white/50">{item.name}</p>
-                      <div className="flex flex-col gap-1">
+                    <div key={item.name} className="border-b border-slate-100 py-4">
+                      <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+                        {item.name}
+                      </p>
+                      <div className="flex flex-col gap-0.5">
                         {item.dropdown.columns[0].items.map((sub) => {
                           const mActive = isActiveNavHref(sub.href, location);
                           return (
@@ -601,17 +589,17 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                               href={normalizeHref(sub.href)}
                               aria-current={mActive ? 'page' : undefined}
                               className={cn(
-                                'flex flex-col rounded-lg px-2 py-3',
-                                mActive ? 'bg-white/10' : 'hover:bg-white/[0.06]',
+                                'flex flex-col rounded-lg px-3 py-3',
+                                mActive ? 'bg-slate-100' : 'hover:bg-slate-50',
                               )}
                               onClick={() => {
                                 setMobileMenuOpen(false);
                                 setMobileExpanded(null);
                               }}
                             >
-                              <span className="text-[20px] font-medium leading-snug text-white">{sub.label}</span>
+                              <span className="text-[16px] font-medium leading-snug text-slate-900">{sub.label}</span>
                               {sub.desc ? (
-                                <span className="mt-1 text-[14px] font-normal leading-snug text-white/60">{sub.desc}</span>
+                                <span className="mt-1 text-[14px] font-normal leading-snug text-slate-500">{sub.desc}</span>
                               ) : null}
                             </Link>
                           );
@@ -622,12 +610,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 }
 
                 return (
-                  <div key={item.name} className="border-b border-white/10">
+                  <div key={item.name} className="border-b border-slate-100">
                     <button
                       type="button"
                       className={cn(
-                        'flex w-full items-center justify-between py-4 text-left text-[20px] font-medium',
-                        sectionOpen ? 'text-white' : sectionRoute ? 'text-[#93C5FD]' : 'text-white',
+                        'flex w-full items-center justify-between rounded-lg px-1 py-3.5 text-left text-[16px] font-medium text-slate-900',
+                        sectionRoute && 'text-[#1E3A8A]',
                       )}
                       onClick={() => setMobileExpanded(mobileExpanded === item.name ? null : item.name)}
                       aria-expanded={sectionOpen}
@@ -636,8 +624,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                       {item.name}
                       <ChevronDown
                         className={cn(
-                          'h-5 w-5 shrink-0 text-white/70 transition-transform duration-200',
-                          sectionOpen ? 'rotate-180 text-white' : '',
+                          'h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200',
+                          sectionOpen && 'rotate-180 text-slate-600',
                         )}
                         aria-hidden
                       />
@@ -652,10 +640,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden"
                         >
-                          <div className="space-y-4 pb-6">
+                          <div className="space-y-1 pb-4 pl-1">
                             {item.dropdown.columns.map((col) => (
                               <div key={col.title}>
-                                <p className="mb-2 px-1 text-[10px] font-semibold uppercase tracking-widest text-white/45">
+                                <p className="mb-1.5 px-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
                                   {col.title}
                                 </p>
                                 {col.items.map((sub) => {
@@ -667,17 +655,15 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                                       aria-current={mActive ? 'page' : undefined}
                                       className={cn(
                                         'flex flex-col rounded-lg px-2 py-2.5',
-                                        mActive ? 'bg-white/10' : 'hover:bg-white/[0.06]',
+                                        mActive ? 'bg-slate-100' : 'hover:bg-slate-50',
                                       )}
                                       onClick={() => {
                                         setMobileMenuOpen(false);
                                         setMobileExpanded(null);
                                       }}
                                     >
-                                      <span className={cn('text-[15px] font-medium', mActive ? 'text-white' : 'text-white')}>
-                                        {sub.label}
-                                      </span>
-                                      <span className="mt-0.5 text-[13px] text-white/60">{sub.desc}</span>
+                                      <span className="text-[15px] font-medium text-slate-900">{sub.label}</span>
+                                      <span className="mt-0.5 text-[13px] text-slate-500">{sub.desc}</span>
                                     </Link>
                                   );
                                 })}
@@ -691,15 +677,15 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 );
               })}
 
-              <div className="mt-1 border-b border-white/10">
+              <div className="border-b border-slate-100 py-1">
                 <Link
                   href="/trust"
                   aria-current={
                     pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center' ? 'page' : undefined
                   }
                   className={cn(
-                    'block py-4 text-[20px] font-medium text-white',
-                    pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center' ? 'text-[#93C5FD]' : '',
+                    'block rounded-lg px-2 py-3.5 text-[16px] font-medium text-slate-900 hover:bg-slate-50',
+                    (pathOnly(location) === '/trust' || pathOnly(location) === '/trust-center') && 'bg-slate-100 text-[#1E3A8A]',
                   )}
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -712,8 +698,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   href="/pricing"
                   aria-current={pathOnly(location) === '/pricing' ? 'page' : undefined}
                   className={cn(
-                    'block py-4 text-[20px] font-medium text-white',
-                    pathOnly(location) === '/pricing' ? 'text-[#93C5FD]' : '',
+                    'block rounded-lg px-2 py-3.5 text-[16px] font-medium text-slate-900 hover:bg-slate-50',
+                    pathOnly(location) === '/pricing' && 'bg-slate-100 text-[#1E3A8A]',
                   )}
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -726,8 +712,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   href="/about"
                   aria-current={pathOnly(location) === '/about' ? 'page' : undefined}
                   className={cn(
-                    'block py-4 text-[20px] font-medium text-white',
-                    pathOnly(location) === '/about' ? 'text-[#93C5FD]' : '',
+                    'block rounded-lg px-2 py-3.5 text-[16px] font-medium text-slate-900 hover:bg-slate-50',
+                    pathOnly(location) === '/about' && 'bg-slate-100 text-[#1E3A8A]',
                   )}
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -746,12 +732,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                       : undefined
                   }
                   className={cn(
-                    'block border border-white/35 py-4 text-center text-[16px] font-semibold text-white',
-                    pathOnly(location) === '/baseline' ||
+                    'mx-2 mb-2 mt-1 block rounded-lg border border-slate-300 py-3 text-center text-[15px] font-semibold text-slate-800 transition-colors hover:bg-slate-50',
+                    (pathOnly(location) === '/baseline' ||
                       pathOnly(location) === '/test-your-security-state' ||
-                      pathOnly(location) === '/test-security-state'
-                      ? 'rounded-lg bg-white/10'
-                      : 'rounded-lg hover:bg-white/[0.06]',
+                      pathOnly(location) === '/test-security-state') &&
+                      'border-[#1E3A8A] bg-[#1E3A8A]/[0.06] text-[#1E3A8A]',
                   )}
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -763,23 +748,39 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               </div>
             </nav>
 
-            <div className="flex flex-col gap-4 px-4 pb-10 pt-6">
+            <div className="shrink-0 space-y-3 border-t border-slate-200 bg-slate-50/80 p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
               <Link
                 href="/contact"
-                className="block w-full rounded-lg bg-[#1E3A8A] py-3.5 text-center text-[16px] font-semibold text-white transition-colors hover:bg-[#172E73]"
+                className="flex min-h-[48px] w-full items-center justify-center rounded-lg bg-[#1E3A8A] text-[16px] font-semibold text-white shadow-sm transition-colors hover:bg-[#172E73]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Start a conversation
               </Link>
               <Link
                 href={SIGN_UP_URL}
-                className="block py-2 text-center text-[14px] font-medium text-white/70 underline-offset-4 hover:text-white hover:underline"
+                className="block py-2 text-center text-[14px] font-medium text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 View pricing
               </Link>
             </div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile overlay behind drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.button
+            type="button"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[55] bg-slate-900/25 lg:hidden"
+            aria-label="Close menu"
+            onClick={() => setMobileMenuOpen(false)}
+          />
         )}
       </AnimatePresence>
 
