@@ -10,7 +10,7 @@
 
 | PDF rule | Spec text | Current behaviour | Notes |
 |----------|------------|-------------------|--------|
-| §27.1 hero visual | “Right column … **hidden on mobile and tablet**” | Visual **shown** on all breakpoints with `HeroHomePlatformVisual` | Client asked for approved visuals on phone; contradicts literal PDF. **Written founder approval** per §2.1 if strict PDF compliance is required. |
+| §27.1 hero visual | “Right column … **hidden on mobile and tablet**” | Visual **shown** on all breakpoints; **three** toggles — **Global** (framework globe, default), **Track** (evidence network), **Lens** (cloud network) | Client asked for approved visuals on phone; literal PDF hides hero on small screens. **Written founder approval** per §2.1 if strict PDF compliance is required. |
 | §17.1 nav | Flat: Track, Lens, Solutions, Industries, Pricing, Trust, About | Mega-nav **Platforms / Solutions / Industries / Resources / Company** | Previously client-approved; not the §17.1 flat list. |
 
 ---
