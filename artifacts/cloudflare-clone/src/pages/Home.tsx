@@ -12,6 +12,10 @@ import {
 } from 'lucide-react';
 import { HeroHomePlatformVisual } from '@/components/hero/HeroHomePlatformVisual';
 import {
+  HomeLensPlatformCardVisual,
+  HomeTrackPlatformCardVisual,
+} from '@/components/home/HomePlatformCardVisuals';
+import {
   TrustChainVisual,
   TrustRegionVisual,
   TrustStackVisual,
@@ -250,9 +254,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-white">
-      {/* §27.1 Hero — approved Track/Lens visuals (§7.4: visual after CTAs on mobile) */}
+      {/* §27.1 — PDF: visual desktop/tablet only; founder-approved: show Track/Lens hero on mobile too. */}
       <section className="relative overflow-x-clip bg-[#0B1320] text-white">
-        <div className={cn(container, 'py-16 sm:py-20 lg:py-24')}>
+        <div className={cn(container, 'pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-20')}>
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="min-w-0 lg:col-span-7">
               <p className="mb-4 text-[14px] font-medium uppercase tracking-[0.5px] text-[#93C5FD]">
@@ -313,8 +317,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* §27.3 Two platforms */}
-      <section className="border-t border-[#E5E7EB] bg-[#F7F9FC] py-16 md:py-24">
+      {/* §27.3 — padding 96px vertical per PDF */}
+      <section className="border-t border-[#E5E7EB] bg-[#F7F9FC] py-24">
         <div className={container}>
           <div className="mx-auto mb-12 max-w-[720px] text-center">
             <h2 className="mb-5 text-[26px] font-bold leading-[1.25] text-[#111827] md:text-[36px]">
@@ -327,7 +331,8 @@ export default function Home() {
             </p>
           </div>
           <div className="grid gap-8 lg:grid-cols-2">
-            <article className="flex flex-col rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] lg:p-8 border-l-[3px] border-l-[#1E3A8A]">
+            <article className="group flex flex-col rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] motion-reduce:hover:translate-y-0 lg:p-8 border-l-[3px] border-l-[#1E3A8A]">
+              <HomeTrackPlatformCardVisual />
               <h3 className="text-[24px] font-semibold text-[#0B1320]">APEXLyn Track</h3>
               <p className="mt-2 text-[15px] text-[#1E3A8A]">Evidence-Led Compliance Engine</p>
               <p className="mt-4 flex-1 text-[15px] leading-[1.7] text-[#4B5563]">
@@ -343,7 +348,8 @@ export default function Home() {
                 Explore Track →
               </Link>
             </article>
-            <article className="flex flex-col rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] lg:p-8 border-l-[3px] border-l-[#1E90FF]">
+            <article className="group flex flex-col rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] motion-reduce:hover:translate-y-0 lg:p-8 border-l-[3px] border-l-[#1E90FF]">
+              <HomeLensPlatformCardVisual />
               <h3 className="text-[24px] font-semibold text-[#0B1320]">APEXLyn Lens</h3>
               <p className="mt-2 text-[15px] text-[#1E3A8A]">AI Security &amp; Evidence Platform</p>
               <p className="mt-4 flex-1 text-[15px] leading-[1.7] text-[#4B5563]">

@@ -187,6 +187,11 @@ const heroCss = `
   .hero-cloud-bump-mask1 { width: 29.545%; aspect-ratio: 1; bottom: 33.846%; left: 15.455%; }
   .hero-cloud-bump-mask2 { width: 38.636%; aspect-ratio: 1; bottom: 33.846%; left: 35.909%; }
   .hero-cloud-bump-mask3 { width: 22.727%; aspect-ratio: 1; bottom: 33.846%; right: 14.545%; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-fw-node {
+      animation: none !important;
+    }
+  }
 `;
 
 function HorizontalMeshLines() {
