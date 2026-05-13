@@ -2,17 +2,16 @@
 
 This repo is a **Vite + React** implementation of the APEXLyn public website spec. The build spec text references Next.js, but the operational requirements (HubSpot, PostHog, GSC, DNS/SSL, diagrams) are implemented here.
 
-### Blocked on client (HubSpot — only remaining launch item)
-- **HubSpot portal ID** + **six form GUIDs** (contact, baseline, documentation, newsletter, resource interest, PDF download). Client indicated these will follow within ~4 hours of handoff (May 2026). Until then: dev may simulate; production requires live IDs or **`VITE_HUBSPOT_ALLOW_SIMULATED=true`** on staging only.
+### Client provides (two inputs — then dev wires + verifies)
 
-### Founder-provided values (must confirm before launch)
-- **Primary site email**: (may differ from `hello@apexlyn.com.au`)
-- **Form notification email(s)**: (may differ from primary email)
-- **Phone number**: displayed on site + used in form success text
-- **ABN**: displayed on site + injected into legal pages
-- **Founder LinkedIn URL**: used on About page
+1. **HubSpot** — portal ID + **six** form GUIDs (contact, baseline, documentation, newsletter, resource interest, PDF download). Until received: dev may simulate locally; production needs live IDs (or **`VITE_HUBSPOT_ALLOW_SIMULATED=true`** on staging only).
+2. **Founder / company values** — confirm **ABN**, **phone**, **primary site email** (if not `hello@apexlyn.com.au`), **form notification email(s)**, and **founder LinkedIn URL** for About. Update **`src/lib/apexlyn-company.ts`** and env as applicable.
 
-Update these in `src/lib/apexlyn-company.ts` and env vars as applicable.
+### Dev completes after client input
+
+- Set HubSpot env from **`.env.example`**; run **`pnpm run verify:hubspot`**; browser E2E on all six forms.
+- Replace **`[ABN NUMBER]`** / **`[PHONE NUMBER]`** sitewide via **`apexlyn-company.ts`** + legal placeholder injection.
+- Production **PostHog** key/host, **DNS/SSL** (apex → www, HTTPS), and **Google Search Console** + sitemap submit (see sections below).
 
 ---
 

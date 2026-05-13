@@ -25,6 +25,17 @@ const CSS = `
   .cf-network-svg {
     animation: cf-bobFloat 4s ease-in-out infinite;
   }
+  @media (prefers-reduced-motion: reduce) {
+    .cf-cloud-center,
+    .cf-network-svg {
+      animation: none !important;
+    }
+    .cf-spoke-line {
+      animation: none !important;
+      stroke-dashoffset: 0 !important;
+      opacity: 0.35 !important;
+    }
+  }
 `;
 
 const CX = 160,
@@ -248,6 +259,7 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
           {SPOKES.map((s, i) => (
             <line
               key={i}
+              className="cf-spoke-line"
               x1={s.x1}
               y1={s.y1}
               x2={s.x2}
