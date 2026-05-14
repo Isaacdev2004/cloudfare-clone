@@ -34,10 +34,10 @@ function SvgShell({
 export function TrustChainVisual({ className = '' }: { className?: string }) {
   const id = useId().replace(/:/g, '');
   const blocks = [
-    { x: 32, y: 88, w: 56, h: 60, rx: 11, op: 0.5 },
-    { x: 108, y: 78, w: 64, h: 72, rx: 13, op: 0.62 },
-    { x: 192, y: 70, w: 72, h: 82, rx: 14, op: 0.72 },
-    { x: 286, y: 82, w: 58, h: 66, rx: 12, op: 0.55 },
+    { x: 32, y: 88, w: 56, h: 60, rx: 11 },
+    { x: 108, y: 78, w: 64, h: 72, rx: 13 },
+    { x: 192, y: 70, w: 72, h: 82, rx: 14 },
+    { x: 286, y: 82, w: 58, h: 66, rx: 12 },
   ];
 
   return (
