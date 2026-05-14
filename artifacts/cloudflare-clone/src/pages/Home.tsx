@@ -317,7 +317,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* §27.3 — padding 96px vertical per PDF */}
+      {/* §27.3 — padding 96px vertical per PDF; Track / Lens stacked with alternating split layouts */}
       <section className="border-t border-[#E5E7EB] bg-[#F7F9FC] py-24">
         <div className={container}>
           <div className="mx-auto mb-12 max-w-[720px] text-center">
@@ -330,49 +330,57 @@ export default function Home() {
               auditors, regulators, and boards can trust.
             </p>
           </div>
-          <div className="grid gap-8 lg:grid-cols-2">
-            <article className="group flex flex-col rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] motion-reduce:hover:translate-y-0 lg:p-8 border-l-[3px] border-l-[#1E3A8A]">
-              <HomeTrackPlatformCardVisual />
-              <h3 className="text-[24px] font-semibold text-[#0B1320]">APEXLyn Track</h3>
-              <p className="mt-2 text-[15px] text-[#1E3A8A]">Evidence-Led Compliance Engine</p>
-              <p className="mt-4 flex-1 text-[15px] leading-[1.7] text-[#4B5563]">
-                Your security evidence is collected automatically from your existing systems, committed to tamper-proof
-                storage, and mapped to the compliance frameworks your insurer and auditor actually ask for. Evidence is
-                locked the moment it is collected. No one can alter it, delete it, or dispute it — not even us.
-              </p>
-              <Link
-                href="/track"
-                className="mt-6 inline-flex text-[15px] font-medium text-[#1E3A8A] hover:underline"
-                onClick={() => capturePosthogEvent('homepage_platform_card_clicked', { platform: 'track' })}
-              >
-                Explore Track →
-              </Link>
+          <div className="mx-auto flex max-w-[960px] flex-col gap-10 lg:gap-14">
+            <article className="group grid grid-cols-1 items-center gap-8 rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] motion-reduce:hover:translate-y-0 sm:p-8 lg:grid-cols-2 lg:gap-10 lg:p-10 border-l-[3px] border-l-[#1E3A8A]">
+              <div className="flex min-w-0 flex-col lg:pr-4">
+                <h3 className="text-[24px] font-semibold text-[#0B1320] sm:text-[26px]">APEXLyn Track</h3>
+                <p className="mt-2 text-[15px] font-medium text-[#1E3A8A]">Evidence-Led Compliance Engine</p>
+                <p className="mt-4 text-[15px] leading-[1.75] text-[#4B5563] sm:text-[16px]">
+                  Your security evidence is collected automatically from your existing systems, committed to tamper-proof
+                  storage, and mapped to the compliance frameworks your insurer and auditor actually ask for. Evidence is
+                  locked the moment it is collected. No one can alter it, delete it, or dispute it — not even us.
+                </p>
+                <Link
+                  href="/track"
+                  className="mt-6 inline-flex text-[15px] font-medium text-[#1E3A8A] hover:underline"
+                  onClick={() => capturePosthogEvent('homepage_platform_card_clicked', { platform: 'track' })}
+                >
+                  Explore Track →
+                </Link>
+              </div>
+              <div className="flex min-w-0 justify-center lg:justify-end">
+                <HomeTrackPlatformCardVisual className="mb-0 w-full max-w-[420px] lg:max-w-none" />
+              </div>
             </article>
-            <article className="group flex flex-col rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] motion-reduce:hover:translate-y-0 lg:p-8 border-l-[3px] border-l-[#1E90FF]">
-              <HomeLensPlatformCardVisual />
-              <h3 className="text-[24px] font-semibold text-[#0B1320]">APEXLyn Lens</h3>
-              <p className="mt-2 text-[15px] text-[#1E3A8A]">AI Security &amp; Evidence Platform</p>
-              <p className="mt-4 flex-1 text-[15px] leading-[1.7] text-[#4B5563]">
-                Know what your people are putting into AI tools — and control it before it becomes a breach. Lens watches
-                every way AI gets used across your business, applies your rules automatically, and records every action as
-                forensic-grade evidence. Works alongside your existing security tools, not instead of them.
-              </p>
-              <Link
-                href="/lens"
-                className="mt-6 inline-flex text-[15px] font-medium text-[#1E3A8A] hover:underline"
-                onClick={() => capturePosthogEvent('homepage_platform_card_clicked', { platform: 'lens' })}
-              >
-                Explore Lens →
-              </Link>
+            <article className="group grid grid-cols-1 items-center gap-8 rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] motion-reduce:hover:translate-y-0 sm:p-8 lg:grid-cols-2 lg:gap-10 lg:p-10 border-l-[3px] border-l-[#1E90FF]">
+              <div className="flex min-w-0 justify-center lg:order-1 lg:justify-start">
+                <HomeLensPlatformCardVisual className="mb-0 w-full max-w-[420px] lg:max-w-none" />
+              </div>
+              <div className="flex min-w-0 flex-col lg:order-2 lg:pl-4">
+                <h3 className="text-[24px] font-semibold text-[#0B1320] sm:text-[26px]">APEXLyn Lens</h3>
+                <p className="mt-2 text-[15px] font-medium text-[#1E3A8A]">AI Security &amp; Evidence Platform</p>
+                <p className="mt-4 text-[15px] leading-[1.75] text-[#4B5563] sm:text-[16px]">
+                  Know what your people are putting into AI tools — and control it before it becomes a breach. Lens watches
+                  every way AI gets used across your business, applies your rules automatically, and records every action as
+                  forensic-grade evidence. Works alongside your existing security tools, not instead of them.
+                </p>
+                <Link
+                  href="/lens"
+                  className="mt-6 inline-flex text-[15px] font-medium text-[#1E3A8A] hover:underline"
+                  onClick={() => capturePosthogEvent('homepage_platform_card_clicked', { platform: 'lens' })}
+                >
+                  Explore Lens →
+                </Link>
+              </div>
             </article>
           </div>
         </div>
       </section>
 
-      {/* §27.4 How evidence infrastructure works */}
+      {/* §27.4 How evidence infrastructure works — wider grid, larger cards, clearer typography */}
       <section className="border-t border-[#E5E7EB] bg-white py-16 md:py-24">
-        <div className={container}>
-          <div className="mx-auto mb-12 max-w-[680px] text-center">
+        <div className="mx-auto max-w-[1320px] px-6 sm:px-8">
+          <div className="mx-auto mb-12 max-w-[720px] text-center">
             <h2 className="mb-5 text-[26px] font-bold leading-[1.25] text-[#111827] md:text-[36px]">
               How evidence infrastructure works
             </h2>
@@ -381,23 +389,16 @@ export default function Home() {
               matters, and make it independently verifiable.
             </p>
           </div>
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:justify-between lg:gap-2">
-            {HOW_STEPS.map((step, idx) => (
-              <React.Fragment key={step.n}>
-                <div className="flex flex-1 flex-col rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
-                  <p className="text-[14px] font-bold text-[#1E3A8A]">{step.n}</p>
-                  <h4 className="mt-2 text-[18px] font-semibold text-[#0B1320]">{step.title}</h4>
-                  <p className="mt-3 flex-1 text-[14px] leading-[1.6] text-[#4B5563]">{step.body}</p>
-                </div>
-                {idx < HOW_STEPS.length - 1 && (
-                  <div
-                    className="hidden flex-none items-center justify-center text-[#CBD5E1] lg:flex"
-                    aria-hidden
-                  >
-                    <span className="text-xl">→</span>
-                  </div>
-                )}
-              </React.Fragment>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 xl:grid-cols-5 xl:gap-6">
+            {HOW_STEPS.map((step) => (
+              <div
+                key={step.n}
+                className="flex min-h-0 flex-col rounded-xl border border-[#E5E7EB] bg-white p-7 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:p-8 xl:min-h-[228px]"
+              >
+                <p className="text-[15px] font-bold tracking-wide text-[#1E3A8A]">{step.n}</p>
+                <h4 className="mt-3 text-[19px] font-semibold leading-snug text-[#0B1320] sm:text-[20px]">{step.title}</h4>
+                <p className="mt-4 flex-1 text-[15px] leading-[1.7] text-[#4B5563]">{step.body}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -473,17 +474,17 @@ export default function Home() {
       </section>
 
       {/* §27.7 Trust signals */}
-      <section className="border-t border-[#E5E7EB] bg-[#F7F9FC] py-16 md:py-20">
+      <section className="border-t border-[#E5E7EB] bg-[#F7F9FC] py-16 md:py-24">
         <div className={container}>
-          <h2 className="mb-12 text-center text-[26px] font-bold text-[#111827] md:text-[36px]">
+          <h2 className="mb-14 text-center text-[26px] font-bold text-[#111827] md:mb-16 md:text-[36px]">
             What makes APEXLyn different
           </h2>
-          <div className="space-y-16">
+          <div className="space-y-20 md:space-y-24">
             {TRUST_ROWS.map((row) => (
-              <div key={row.key} className="grid gap-10 md:grid-cols-2 md:items-center">
-                <div className={row.visualLeft ? 'md:order-2' : undefined}>
-                  <h3 className="text-[24px] font-semibold text-[#0B1320]">{row.h3}</h3>
-                  <p className="mt-4 text-[17px] leading-[1.7] text-[#4B5563]">{row.layer1}</p>
+              <div key={row.key} className="grid gap-10 md:grid-cols-2 md:items-center md:gap-12 lg:gap-16">
+                <div className={cn('flex min-w-0 flex-col', row.visualLeft ? 'md:order-2' : undefined)}>
+                  <h3 className="text-[24px] font-semibold leading-snug text-[#0B1320] md:text-[26px]">{row.h3}</h3>
+                  <p className="mt-5 text-[17px] leading-[1.75] text-[#4B5563]">{row.layer1}</p>
                   <button
                     type="button"
                     className="mt-4 inline-flex items-center gap-1 text-left text-[15px] font-medium text-[#1E3A8A] hover:underline"
@@ -504,7 +505,7 @@ export default function Home() {
                 </div>
                 <div
                   className={cn(
-                    'flex justify-center rounded-xl border border-[#E5E7EB] bg-white p-6',
+                    'flex min-h-[240px] justify-center rounded-2xl border border-[#E5E7EB] bg-white p-8 shadow-[0_4px_24px_rgba(15,23,42,0.06)] md:min-h-[260px] md:p-10',
                     row.visualLeft ? 'md:order-1' : 'md:order-2',
                   )}
                 >
