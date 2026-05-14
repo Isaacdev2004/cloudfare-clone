@@ -232,7 +232,7 @@ export const HeroCloudNetworkVisual: React.FC<{ className?: string; compact?: bo
       <style>{CSS}</style>
       <div
         className={cn(
-          "relative mx-auto flex aspect-square w-full items-center justify-center",
+          "relative mx-auto flex aspect-square w-full items-center justify-center overflow-visible",
           className,
         )}
         style={{ maxWidth: maxSize, maxHeight: maxSize }}
